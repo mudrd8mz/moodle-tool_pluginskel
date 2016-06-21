@@ -1,0 +1,19 @@
+{{!
+    settings.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin administration pages are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ extratags }}
+ * @category    admin
+{{/extratags}}
+{{/ common/boilerplate_php }}
+
+if ($ADMIN->fulltree) {
+   // TODO: Define the plugin settings page.
+   // https://docs.moodle.org/dev/Admin_settings
+}

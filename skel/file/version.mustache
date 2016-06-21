@@ -1,0 +1,30 @@
+{{!
+    version.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin version and other meta-data are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{{ copyright }}}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+$plugin->component = '{{ component }}';
+{{# release }}
+$plugin->release = '{{ . }}';
+{{/ release }}
+$plugin->version = '{{ version }}';
+{{# requires }}
+$plugin->requires = {{ . }};
+{{/ requires }}
+{{# maturity }}
+$plugin->maturity = {{ . }};
+{{/ maturity }}
+{{# has_dependencies }}
+$plugin->dependencies = [
+{{# dependencies }}
+    '{{ plugin }}' => {{ version }},
+{{/ dependencies }}
+];
+{{/ has_dependencies }}

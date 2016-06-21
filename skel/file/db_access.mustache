@@ -1,0 +1,40 @@
+{{!
+    db/access.php
+
+    * component
+    * copyright
+    * capabilities
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin capabilities are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ extratags }}
+ * @category    access
+{{/extratags}}
+{{/ common/boilerplate_php }}
+
+$capabilities = [
+    {{# capabilities}}
+
+    '{{component_type}}/{{component_name}}:{{name}}' => [
+        {{# riskbitmask}}
+        'riskbitmask' => {{ . }},
+        {{/ riskbitmask}}
+        {{# captype }}
+        'captype' => '{{ . }}',
+        {{/ captype }}
+        {{# contextlevel }}
+        'contextlevel' => {{ . }},
+        {{/ contextlevel }}
+        'archetypes' => [
+            {{# archetypes}}
+            '{{role}}' => {{permission}},
+            {{/ archetypes}}
+        ],
+        {{# clonepermissionsfrom}}
+        'clonepermissionsfrom => '{{ . }}',
+        {{/ clonepermissionsfrom}}
+    ],
+    {{/ capabilities}}
+];

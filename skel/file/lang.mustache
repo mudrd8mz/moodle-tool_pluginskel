@@ -1,0 +1,19 @@
+{{!
+    lang/en/component.php
+
+    * component
+    * copyright
+    * strings
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin strings are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ extratags }}
+ * @category    string
+{{/extratags}}
+{{/ common/boilerplate_php }}
+
+{{# strings }}
+$string['{{ id }}'] = '{{ text }}';
+{{/ strings }}
