@@ -95,8 +95,25 @@ class manager {
         }
 
         $this->logger->notice('Done');
+    }
 
-        print_object($this->files['version.php']->content);
+    /**
+     * Return a list of the files and their contents.
+     *
+     * @return string[] The list of files.
+     */
+    public function get_file_content() {
+        if (empty($this->files)) {
+            $this->logger->notice('Requesting empty files');
+            return array();
+        }
+
+        $files = array();
+        foreach ($this->files as $filename => $file) {
+            $files[$filename] = $file->content;
+        }
+
+        return $files;
     }
 
     /**
