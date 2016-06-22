@@ -52,3 +52,5 @@ $manager = manager::instance($logger);
 $manager->load_recipe($recipe);
 $manager->make();
 // $manager->write_files($tmpmoodleroot);
+
+print_r($manager->get_file_content());
