@@ -23,7 +23,7 @@
  */
 
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\NullHandler;
 use tool_pluginskel\local\util\manager;
 
 defined('MOODLE_INTERNAL') || die();
@@ -57,7 +57,7 @@ class tool_pluginskel_readme_testcase extends advanced_testcase {
      */
     public function test_readme() {
         $logger = new Logger('demo');
-        $logger->pushHandler(new StreamHandler('php://stdout', Logger::EMERGENCY));
+        $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
