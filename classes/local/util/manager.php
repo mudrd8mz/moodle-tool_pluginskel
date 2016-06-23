@@ -147,6 +147,13 @@ class manager {
         if ($this->should_have('uninstall')) {
             $this->prepare_file_skeleton('db/uninstall.php', 'php_internal_file', 'uninstall');
         }
+
+        if ($this->should_have('upgrade')) {
+            $this->prepare_file_skeleton('db/upgrade.php', 'php_internal_file', 'db_upgrade');
+            if ($this->should_have('upgradelib')) {
+                $this->prepare_file_skeleton('db/upgradelib.php', 'php_internal_file', 'db_upgradelib');
+            }
+        }
     }
 
     /**
@@ -200,6 +207,10 @@ class manager {
 
         if ($feature === 'capabilities') {
             return !empty($this->recipe['capabilities']);
+        }
+
+        if ($feature === 'upgradelib') {
+            return !empty($this->recipe['upgrade']['upgradelib']);
         }
 
         return false;
