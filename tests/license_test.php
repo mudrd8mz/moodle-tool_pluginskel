@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * File containing tests for the 'readme' feature.
+ * File containing tests for the 'license' feature.
  *
  * @package     tool_pluginskel
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
@@ -33,31 +33,31 @@ require_once($CFG->libdir . '/setuplib.php');
 require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autoload.php');
 
 /**
- * Readme test class.
+ * License test class.
  *
  * @package     tool_pluginskel
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_readme_testcase extends advanced_testcase {
+class tool_pluginskel_license_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'readmetest',
-        'name'      => 'Readme test',
+        'component' => 'licensetest',
+        'name'      => 'License test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
             'all' => false,
-            'readme' => true
+            'license' => true
         )
     );
 
     /**
-     * Test creating the README.md file.
+     * Test creating the LICENSE.md file.
      */
-    public function test_readme() {
-        $logger = new Logger('demo');
-        $logger->pushHandler(new NullHandler);
+    public function test_license() {
+        $logger = new Logger('licensetest');
+        $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
@@ -65,8 +65,7 @@ class tool_pluginskel_readme_testcase extends advanced_testcase {
         $manager->make();
 
         $files = $manager->get_files_content();
-        $this->assertArrayHasKey('README.md', $files);
-        $this->assertContains($recipe['name'], $files['README.md']);
-        $this->assertContains($recipe['copyright'], $files['README.md']);
+        $this->assertArrayHasKey('LICENSE.md', $files);
+        $this->assertNotEmpty($files['LICENSE.md']);
     }
 }

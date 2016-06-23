@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * File containing tests for the 'readme' feature.
+ * File containing tests for the 'settings' feature.
  *
  * @package     tool_pluginskel
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
@@ -33,31 +33,31 @@ require_once($CFG->libdir . '/setuplib.php');
 require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autoload.php');
 
 /**
- * Readme test class.
+ * Settings test class.
  *
  * @package     tool_pluginskel
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_readme_testcase extends advanced_testcase {
+class tool_pluginskel_settings_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'readmetest',
-        'name'      => 'Readme test',
+        'component' => 'settingstest',
+        'name'      => 'Settings test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
             'all' => false,
-            'readme' => true
+            'settings' => true
         )
     );
 
     /**
-     * Test creating the README.md file.
+     * Test creating the settings.php file.
      */
-    public function test_readme() {
-        $logger = new Logger('demo');
-        $logger->pushHandler(new NullHandler);
+    public function test_settings() {
+        $logger = new Logger('settingstest');
+        $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
@@ -65,8 +65,9 @@ class tool_pluginskel_readme_testcase extends advanced_testcase {
         $manager->make();
 
         $files = $manager->get_files_content();
-        $this->assertArrayHasKey('README.md', $files);
-        $this->assertContains($recipe['name'], $files['README.md']);
-        $this->assertContains($recipe['copyright'], $files['README.md']);
+        $this->assertArrayHasKey('settings.php', $files);
+        $settingsfile = $files['settings.php'];
+        $this->assertContains('Plugin administration pages are defined here.', $settingsfile);
+        $this->assertRegExp('/\* @category\s+admin/', $settingsfile);
     }
 }
