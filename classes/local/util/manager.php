@@ -140,6 +140,10 @@ class manager {
             $this->prepare_file_skeleton('settings.php', 'php_internal_file', 'settings');
         }
 
+        if ($this->should_have('install')) {
+            $this->prepare_file_skeleton('db/install.php', 'php_internal_file', 'db_install');
+        }
+
         if ($this->should_have('uninstall')) {
             $this->prepare_file_skeleton('db/uninstall.php', 'php_internal_file', 'uninstall');
         }
