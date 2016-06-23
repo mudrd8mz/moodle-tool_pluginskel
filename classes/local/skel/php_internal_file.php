@@ -46,6 +46,6 @@ class php_internal_file extends base {
     public function set_data(array $data) {
 
         parent::set_data($data);
-        $this->data['is_moodle_internal'] = false;
+        $this->data['is_moodle_internal'] = true;
     }
 }
