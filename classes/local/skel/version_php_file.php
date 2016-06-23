@@ -48,6 +48,10 @@ class version_php_file extends php_internal_file {
 
         if (empty($this->data['version'])) {
             $this->data['version'] = date('Ymd').'00';
+        } else {
+            if (!preg_match('/^2[0-9]{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])[0-9]{2}$/', $this->data['version'])) {
+                throw new exception('Invalid version number: '.$this->data['version']);
+            }
         }
 
         if (!empty($this->data['dependencies'])) {
