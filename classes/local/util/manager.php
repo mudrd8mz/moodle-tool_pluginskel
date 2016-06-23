@@ -122,7 +122,7 @@ class manager {
     protected function prepare_files_skeletons() {
 
         $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
-        $this->prepare_file_skeleton('lang/en/component.php', 'lang_file', 'lang');
+        $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
 
         if ($this->should_have('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
