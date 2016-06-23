@@ -139,6 +139,10 @@ class manager {
         if ($this->should_have('settings')) {
             $this->prepare_file_skeleton('settings.php', 'php_internal_file', 'settings');
         }
+
+        if ($this->should_have('install')) {
+            $this->prepare_file_skeleton('db/install.php', 'php_internal_file', 'db_install');
+        }
     }
 
     /**

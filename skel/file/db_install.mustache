@@ -1,0 +1,20 @@
+{{!
+    db/install.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Code to be executed after the plugin's database scheme has been installed is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+/**
+ * Custom code to be run on installing the plugin.
+ *
+ */
+function xmldb_{{component}}_install() {
+
+    return true;
+}
