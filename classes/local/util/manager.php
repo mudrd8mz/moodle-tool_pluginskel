@@ -141,11 +141,11 @@ class manager {
         }
 
         if ($this->should_have('install')) {
-            $this->prepare_file_skeleton('db/install.php', 'php_internal_file', 'db_install');
+            $this->prepare_file_skeleton('db/install.php', 'php_file', 'db_install');
         }
 
         if ($this->should_have('uninstall')) {
-            $this->prepare_file_skeleton('db/uninstall.php', 'php_internal_file', 'uninstall');
+            $this->prepare_file_skeleton('db/uninstall.php', 'php_file', 'uninstall');
         }
 
         if ($this->should_have('upgrade')) {
