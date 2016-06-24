@@ -84,6 +84,9 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         $this->assertContains('Plugin capabilities are defined here.', $dbaccessfile);
         $this->assertRegExp('/\* @category\s+access/', $dbaccessfile);
 
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
+        $this->assertContains($moodleinternal, $dbaccessfile);
+
         // Verify if the capability has been generated correctly.
         $this->assertContains('mod/capabilitiestest:view', $dbaccessfile);
         $this->assertContains("'riskbitmask' => RISK_XSS", $dbaccessfile);

@@ -71,6 +71,10 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
 
         $description = 'Plugin upgrade steps are defined here.';
         $this->assertContains($description, $upgradefile);
+
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
+        $this->assertContains($moodleinternal, $upgradefile);
+
         $this->assertNotContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
         $this->assertContains('function xmldb_'.$recipe['component'].'_upgrade($oldversion)', $upgradefile);
     }
@@ -92,6 +96,9 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         $this->assertArrayHasKey('db/upgradelib.php', $files);
         $upgradefile = $files['db/upgrade.php'];
         $upgradelibfile = $files['db/upgradelib.php'];
+
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
+        $this->assertContains($moodleinternal, $upgradelibfile);
 
         $this->assertContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
 

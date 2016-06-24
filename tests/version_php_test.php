@@ -77,6 +77,9 @@ class tool_pluginskel_version_php_testcase extends advanced_testcase {
 
         $this->assertContains('Plugin version and other meta-data are defined here.', $versionfile);
 
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
+        $this->assertContains($moodleinternal, $versionfile);
+
         $this->assertContains("\$plugin->component = '".$recipe['component']."'", $versionfile);
         $this->assertContains("\$plugin->release = '".$recipe['release']."'", $versionfile);
         $this->assertContains("\$plugin->version = ".$recipe['version'], $versionfile);
