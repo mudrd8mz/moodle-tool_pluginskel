@@ -194,6 +194,74 @@ class manager {
         if ($this->should_have('message_providers')) {
             $this->prepare_file_skeleton('db/messages.php', 'php_internal_file', 'db_messages');
         }
+
+        if ($this->should_have('observers')) {
+            $this->prepare_file_skeleton('db/events.php', 'php_internal_file', 'db_events');
+            $this->prepare_observers();
+        }
+    }
+
+    /**
+     * Prepares the observer class files.
+     */
+    protected function prepare_observers() {
+
+        foreach ($this->recipe['observers'] as $observer) {
+            if (empty($observer['eventname'])) {
+                throw new exception('Missing eventname from observers');
+            }
+
+            if (empty($observer['callback'])) {
+                throw new exception('Missing callback from observers');
+            }
+
+            $observerrecipe = $this->recipe;
+            $observerrecipe['observer'] = $observer;
+
+            $isclass = strpos($observer['callback'], '::');
+
+            // Adding observer class.
+            if ($isclass !== false) {
+
+                $isinsidenamespace = strpos($observer['callback'], '\\');
+                if ($isinsidenamespace !== false) {
+                    $observernamespace = explode('\\', $observer['callback']);
+                    $namecallback = end($observernamespace);
+
+                    list($observername, $callback) = explode('::', $namecallback);
+
+                    $namespace = substr($observer['callback'], 0, strrpos($observer['callback'], '\\'));
+                    $namespace = trim($namespace, '\\');
+                } else {
+                    list($observername, $callback) = explode('::', $observer['callback']);
+                }
+
+                if (strpos($observername, $this->recipe['component']) !== false) {
+                    $observername = substr($observername, strlen($this->recipe['component'].'_'));
+                }
+
+                $observerfile = 'classes/'.$observername.'.php';
+
+                if (empty($this->files[$observerfile])) {
+                    $this->prepare_file_skeleton($observerfile, 'observer_file', 'classes_observer', $observerrecipe);
+                    $this->files[$observerfile]->set_observer_name($observername);
+                }
+
+                $this->files[$observerfile]->add_event_callback($callback, $observer['eventname']);
+
+                if ($isinsidenamespace !== false) {
+                    $this->files[$observerfile]->set_file_namespace($namespace);
+                }
+            } else {
+
+                // Functions specific to the plugin are defined in the locallib.php file.
+                if (empty($this->files['locallib.php'])) {
+                    $this->prepare_file_skeleton('locallib.php', 'locallib_php_file', 'locallib');
+                }
+
+                $this->files['locallib.php']->add_function($observer['callback']);
+            }
+        }
     }
 
     /**
@@ -202,8 +270,9 @@ class manager {
      * @param string $filename
      * @param string $skeltype
      * @param string $template
+     * @param string[] $recipe Recipe to be used in generating the file instead of the global recipe.
      */
-    protected function prepare_file_skeleton($filename, $skeltype, $template) {
+    protected function prepare_file_skeleton($filename, $skeltype, $template, $recipe = null) {
 
         if (strpos($template, 'file/') !== 0) {
             $template = 'file/'.$template;
@@ -220,8 +289,12 @@ class manager {
         $skel = new $skelclass();
         $skel->set_template($template);
 
-        // Skeletons have access to the whole recipe.
-        $data = $this->recipe;
+        if (is_null($recipe)) {
+            // Skeleton will have access to the whole recipe.
+            $data = $this->recipe;
+        } else {
+            $data = $recipe;
+        }
 
         // Populate some additional properties
         $data['self']['filename'] = $filename;
@@ -255,6 +328,10 @@ class manager {
 
         if ($feature === 'message_providers') {
             return !empty($this->recipe['message_providers']);
+        }
+
+        if ($feature === 'observers') {
+            return !empty($this->recipe['observers']);
         }
 
         return false;

@@ -1,0 +1,44 @@
+{{!
+    classes/<observerclass>.php
+
+    * component
+    * copyright
+    * observers
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin observer classes are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @category    event
+{{/ extratags }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ namespace }}{{{ observer.namespace }}}{{/ namespace }}
+{{/ common/boilerplate_php }}
+
+/**
+ * Event observer class.
+ *
+ * @package    {{ component }}
+ * @copyright  {{ copyright }}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+{{# observer }}
+class {{ observer_name }} {
+    {{# .callbacks }}
+
+    /**
+     * Triggered via $event.
+     *
+     * @param {{{ .event }}} $event The event.
+     * @return bool True on success.
+     */
+    public static function {{ .callback }}($event) {
+
+        // For more information about the Events API, please visit:
+        // https://docs.moodle.org/dev/Event_2
+
+        return true;
+    }
+    {{/ .callbacks }}
+}
+{{/ observer }}
