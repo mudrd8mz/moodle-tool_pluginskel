@@ -1,0 +1,30 @@
+{{!
+    lib.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Library of interface functions and constants.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+{{# has_supported_features }}
+
+/**
+ * Return if the plugin supports $feature.
+ *
+ * @param string $feature Constant representing the feature.
+ * @return true | null True if the feature is supported, null otherwise.
+ */
+function {{ component }}_supports($feature) {
+    switch ($feature) {
+        {{# supported_features }}
+        case {{ . }}:
+            return true;
+        {{/ supported_features }}
+        default:
+            return null;
+    }
+}
+{{/ has_supported_features }}

@@ -154,6 +154,10 @@ class manager {
                 $this->prepare_file_skeleton('db/upgradelib.php', 'php_internal_file', 'db_upgradelib');
             }
         }
+
+        if ($this->should_have('supported_features')) {
+            $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'lib');
+        }
     }
 
     /**
@@ -211,6 +215,10 @@ class manager {
 
         if ($feature === 'upgradelib') {
             return !empty($this->recipe['upgrade']['upgradelib']);
+        }
+
+        if ($feature === 'supported_features') {
+            return !empty($this->recipe['supported_features']);
         }
 
         return false;
