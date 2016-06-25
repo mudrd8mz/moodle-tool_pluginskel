@@ -1,0 +1,21 @@
+{{!
+    db/messages.php
+
+    * component
+    * copyright
+    * message_providers
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin message providers are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+$messageproviders = [
+    {{# message_providers }}
+
+    '{{ name }}' => array({{# capability }}
+        'capability' => '{{ . }}'{{/ capability }}
+    ),
+    {{/ message_providers }}
+];
