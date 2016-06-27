@@ -154,6 +154,10 @@ class manager {
                 $this->prepare_file_skeleton('db/upgradelib.php', 'php_internal_file', 'db_upgradelib');
             }
         }
+
+        if ($this->should_have('cli_script')) {
+            $this->prepare_file_skeleton('cli/'.$this->recipe['component'].'.php', 'cli_script_file', 'cli');
+        }
     }
 
     /**
@@ -211,6 +215,10 @@ class manager {
 
         if ($feature === 'upgradelib') {
             return !empty($this->recipe['upgrade']['upgradelib']);
+        }
+
+        if ($feature === 'cli_script') {
+            return !empty($this->recipe['cli_script']);
         }
 
         return false;

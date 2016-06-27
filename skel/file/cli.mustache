@@ -1,0 +1,57 @@
+{{!
+    cli/<component_name>.php
+
+    * component
+    * copyright
+    * cli_script
+}}
+{{< common/boilerplate_php }}
+{{$ description }}CLI script for {{ component }}.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+{{!
+    TODO: this should be defined in the boilerplate template.
+}}
+define('CLI_SCRIPT', true);
+
+require({{{ self.pathtoconfig }}});
+require($CFG->libdir.'/clilib.php');
+
+// Get the cli options.
+list($options, $unrecognized) = cli_get_params(array(
+    {{# cli_script.options }}
+    '{{ name }}' => '{{ default_value }}',
+    {{/ cli_script.options }}
+    {{^ has_help_option }}
+    'help' => false
+    {{/ has_help_option }}
+),
+array(
+    {{# cli_script.options}}
+    {{# shorthand }}
+    '{{ . }}' => '{{ name }}',
+    {{/ shorthand }}
+    {{/ cli_script.options}}
+));
+
+$help =
+"
+Help message for {{ component }} cli script.
+
+Please include a list of options and associated actions.
+
+Please include an example of usage.
+
+";
+
+if ($unrecognized) {
+    $unrecognized = implode("\n\t", $unrecognized);
+    cli_error(get_string('cliunknownoption', 'admin', $unrecognized);
+}
+
+if ($options['help']) {
+    echo $help;
+    die();
+}
