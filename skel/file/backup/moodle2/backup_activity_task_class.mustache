@@ -1,0 +1,64 @@
+{{!
+    backup/moodle2/backup_activity_task.class.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}The task that provides all the steps to perform a complete backup is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ extratags }}
+ * @subpackage  backup-moodle2
+{{/extratags}}
+{{/ common/boilerplate_php }}
+
+require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_stepslib.php');
+{{# backup_moodle2.settingslib }}
+require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_settingslib.php');
+{{/ backup_moodle2.settingslib }}
+
+// For more information about the backup and restore process, please visit:
+// https://docs.moodle.org/dev/Backup_2.0_for_developers
+// https://docs.moodle.org/dev/Restore_2.0_for_developers
+
+/**
+ * The class provides all the settings and steps to perform one complete backup
+ * of {{ component }}.
+ */
+class backup_{{ component_name }}_activity_task extends backup_activity_task {
+
+    /**
+     * Defines particular settings for the plugin.
+     */
+    protected function define_my_settings() {
+        return;
+    }
+
+    /**
+     * Defines particular steps for the backup process.
+     */
+    protected function define_my_steps() {
+        $this->add_step(new backup_{{ component_name }}_activity_structure_step('{{ component_name }}_structure', '{{ component_name }}.xml');
+    }
+
+    /**
+     * Codes the transformations to perform in the activity in order to get
+     * transportable (encoded) links.
+     */
+    static public function encode_content_links($content) {
+        global $CFG;
+
+        $base = preg_quote($CFG->wwwroot,"/");
+
+        // Link to the list of choices
+        $search="/(".$base."\/{{ component_root }}\/{{ component_name }}\/index.php\?id\=)([0-9]+)/";
+        $content= preg_replace($search, '$@{{ component_name_all_caps }}INDEX*$2@$', $content);
+
+        // Link to choice view by moduleid
+        $search="/(".$base."\/{{ component_root }}\/{{ component_name }}\/view.php\?id\=)([0-9]+)/";
+        $content= preg_replace($search, '$@{{ component_name_all_caps }}VIEWBYID*$2@$', $content);
+
+        return $content;
+    }
+}
