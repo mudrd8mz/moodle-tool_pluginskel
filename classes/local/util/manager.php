@@ -154,6 +154,10 @@ class manager {
                 $this->prepare_file_skeleton('db/upgradelib.php', 'php_internal_file', 'db_upgradelib');
             }
         }
+
+        if ($this->should_have('message_providers')) {
+            $this->prepare_file_skeleton('db/messages.php', 'php_internal_file', 'db_messages');
+        }
     }
 
     /**
@@ -211,6 +215,10 @@ class manager {
 
         if ($feature === 'upgradelib') {
             return !empty($this->recipe['upgrade']['upgradelib']);
+        }
+
+        if ($feature === 'message_providers') {
+            return !empty($this->recipe['message_providers']);
         }
 
         return false;
