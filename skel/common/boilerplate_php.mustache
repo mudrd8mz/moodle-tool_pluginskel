@@ -42,7 +42,7 @@
 {{# use }}use {{ . }};{{/ use }}
 
 {{# is_moodle_internal }}defined('MOODLE_INTERNAL') || die();{{/ is_moodle_internal }}
-{{# is_web_file }}require({{$ path_to_config }}__DIR__.'/../../config.php'{{/ path_to_config}});{{/ is_web_file }}
+{{# is_web_file }}require({{{$ self.pathtoconfig }}});{{/ is_web_file }}
 {{# is_cli_file }}
 define('CLI_SCRIPT', true);
 
