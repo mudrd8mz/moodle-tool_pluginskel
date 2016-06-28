@@ -38,24 +38,27 @@ require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/vendor/autoload.php
 list($options, $unrecognized) = cli_get_params(array(
     'recipe' => '',
     'loglevel' => 'WARNING',
-    'help' => '',
+    'help' => false,
 ),
 array(
-    'r' => 'recipe',
-    'v' => 'loglevel',
     'h' => 'help'
 ));
+
+$loglevels = Logger::getLevels();
+$loglevelnames = implode(', ', array_keys($loglevels));
 
 $help =
 "\nGenerate a Moodle plugin skeleton.
 
 Options:
--r, --recipe               Recipe file location
--v, --loglevel             Set the verbosity of the logs
+    --recipe               Recipe file location
+    --loglevel             Set the verbosity of the logs. The default is WARNING.
 -h, --help                 Display the help message
 
+Valid log levels are: $loglevelnames.
+
 Example:
-\$php generate.php --recipe=example_recipe.yaml
+\$php generate.php --recipe=example_recipe.yaml --loglevel=INFO
 
 ";
 
@@ -90,7 +93,6 @@ if ($recipefile === false) {
     die();
 }
 
-$loglevels = Logger::getLevels();
 $loglevel = $options['loglevel'];
 if (!array_key_exists($loglevel, $loglevels)) {
     echo("\nInvalid log level!\n");
@@ -110,4 +112,4 @@ $manager = manager::instance($logger);
 $manager->load_recipe($recipe);
 $manager->make();
 
-//print_r($manager->get_files_content());
+print_r($manager->get_files_content());
