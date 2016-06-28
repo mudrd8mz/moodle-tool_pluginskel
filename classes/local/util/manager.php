@@ -145,7 +145,7 @@ class manager {
         }
 
         if ($this->should_have('uninstall')) {
-            $this->prepare_file_skeleton('db/uninstall.php', 'php_internal_file', 'uninstall');
+            $this->prepare_file_skeleton('db/uninstall.php', 'php_internal_file', 'db_uninstall');
         }
 
         if ($this->should_have('upgrade')) {
