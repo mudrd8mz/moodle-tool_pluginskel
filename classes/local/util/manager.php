@@ -98,6 +98,42 @@ class manager {
     }
 
     /**
+     * Create the plugin files at $targetdir.
+     *
+     * @param string $targetdir The target directory for the files.
+     */
+    public function write_files($targetdir) {
+
+        if (empty($this->files)) {
+            throw new exception('There are no files to write');
+        }
+
+        $result = mkdir($targetdir, 0755, true);
+        if ($result === false) {
+            throw new exception('Error creating target directory: '.$targetdir);
+        }
+
+        foreach ($this->files as $filename => $file) {
+
+            $filepath = $targetdir.'/'.$filename;
+            $dirpath = dirname($filepath);
+
+            if (!file_exists($dirpath)) {
+                $result = mkdir($dirpath, 0755, true);
+                if ($result === false) {
+                    throw new exception('Error creating directory: '.$dirpath);
+                }
+            }
+
+            $result = file_put_contents($filepath, $file->content);
+            if ($result === false) {
+                throw new exception('Error writing to file: '.$filepath);
+            }
+        }
+    }
+
+
+    /**
      * Return a list of the files and their contents.
      *
      * @return string[] The list of files.
