@@ -46,6 +46,6 @@
 {{# is_cli_file }}
 define('CLI_SCRIPT', true);
 
-require({{$ path_to_config }}__DIR__.'/../../config.php'{{/ path_to_config}});
+require({{{$ self.pathtoconfig }}});
 require_once($CFG->libdir.'/clilib.php');
 {{/ is_cli_file }}
