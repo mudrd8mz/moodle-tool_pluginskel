@@ -41,6 +41,11 @@
 {{! Import classes from other namespaces. }}
 {{# use }}use {{ . }};{{/ use }}
 
-{{! Every PHP file is either included as a library or must require config.php }}
 {{# is_moodle_internal }}defined('MOODLE_INTERNAL') || die();{{/ is_moodle_internal }}
-{{^ is_moodle_internal }}require({{$ path_to_config }}__DIR__.'/../../config.php'{{/ path_to_config}});{{/ is_moodle_internal }}
+{{# is_web_file }}require({{{$ self.pathtoconfig }}});{{/ is_web_file }}
+{{# is_cli_file }}
+define('CLI_SCRIPT', true);
+
+require({{{$ self.pathtoconfig }}});
+require_once($CFG->libdir.'/clilib.php');
+{{/ is_cli_file }}
