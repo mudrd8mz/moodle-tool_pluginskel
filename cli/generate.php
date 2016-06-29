@@ -33,30 +33,35 @@ define('CLI_SCRIPT', true);
 require(__DIR__.'/../../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
 require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/vendor/autoload.php');
+require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/locallib.php');
 
 // Get cli options.
 list($options, $unrecognized) = cli_get_params(array(
     'recipe' => '',
     'loglevel' => 'WARNING',
-    'help' => '',
+    'target-moodle' => '',
+    'target-dir' => '',
+    'help' => false,
 ),
 array(
-    'r' => 'recipe',
-    'v' => 'loglevel',
     'h' => 'help'
 ));
+
+$loglevels = Logger::getLevels();
+$loglevelnames = implode(', ', array_keys($loglevels));
 
 $help =
 "\nGenerate a Moodle plugin skeleton.
 
 Options:
--r, --recipe               Recipe file location
--v, --loglevel             Set the verbosity of the logs
+    --recipe               Recipe file location
+    --loglevel             Set the verbosity of the logs. The default is WARNING.
 -h, --help                 Display the help message
 
-Example:
-\$php generate.php --recipe=example_recipe.yaml
+Valid log levels are: $loglevelnames.
 
+Example:
+\$php generate.php --recipe=example_recipe.yaml --loglevel=INFO
 ";
 
 if ($unrecognized) {
@@ -65,36 +70,114 @@ if ($unrecognized) {
 }
 
 if ($options['help']) {
-    echo $help;
+    cli_writeln($help);
     die();
 }
 
 if (empty($options['recipe'])) {
-    echo("\nRecipe not specified!\n");
-    echo $help;
+    cli_writeln("\nRecipe not specified!");
+    cli_writeln($help);
     die();
 }
 
 $recipefile = $options['recipe'];
 
-// Expanding '~' on Unix-like OS'es.
-if ($recipefile[0] === '~') {
-    $homedir = getenv('HOME');
-    $recipefile = $homedir.substr($recipefile, 1);
-}
-
-$recipefile = realpath($recipefile);
+$recipefile = tool_pluginskel_expand_path($recipefile);
 if ($recipefile === false) {
-    echo("\nInvalid recipe file!\n");
-    echo $help;
+    cli_writeln("\nInvalid recipe file!");
+    cli_writeln($help);
     die();
 }
 
-$loglevels = Logger::getLevels();
+if (!is_readable($recipefile)) {
+    cli_writeln("\nRecipe file not readable!");
+    cli_writeln($help);
+    die();
+}
+
+// Load the recipe from file.
+$recipe = yaml::decode_file($recipefile);
+
+if (empty($recipe['component'])) {
+    cli_writeln("\nThe recipe does not provide the component for the plugin!");
+    cli_writeln($help);
+    die();
+}
+
+list($plugintype, $pluginname) = \core_component::normalize_component($recipe['component']);
+
+if ($plugintype === 'core') {
+    cli_writeln("\nCore components not supported!");
+    cli_writeln($help);
+    die();
+}
+
+if (!empty($options['target-dir']) && !empty($options['target-moodle'])) {
+    cli_writeln("\nSpecify one of 'target-dir' or 'target-moodle'!");
+    cli_writeln($help);
+    die();
+}
+
+if (!empty($options['target-dir'])) {
+
+    $targetdir = $options['target-dir'];
+    $targetdir = tool_pluginskel_expand_path($targetdir);
+    if ($targetdir === false) {
+        cli_writeln("\nInvalid target directory!");
+        cli_writeln($help);
+        die();
+    }
+
+    if (!is_writable($targetdir)) {
+        cli_writeln("\nTarget plugin location is not writable!");
+        cli_writeln($help);
+        die();
+    }
+
+    $targetdir = $targetdir.'/'.$pluginname;
+
+} else {
+
+    if (empty($options['target-moodle'])) {
+        $targetdir = $CFG->dirroot;
+    } else {
+        $targetdir = $options['target-moodle'];
+        $targetdir = tool_pluginskel_expand_path($targetdir);
+        if ($targetdir === false) {
+            cli_writeln("\nInvalid target directory!");
+            cli_writeln($help);
+            die();
+        }
+    }
+
+    if (!is_writable($targetdir)) {
+        cli_writeln("\nTarget plugin location is not writable!");
+        cli_writeln($help);
+        die();
+    }
+
+    $plugintypes = \core_component::get_plugin_types();
+
+    if (empty($plugintypes[$plugintype])) {
+        cli_writeln("\nUnknown plugin type '$plugintype'!");
+        cli_writeln($help);
+        die();
+    }
+
+    $targetdir = $targetdir.substr($plugintypes[$plugintype], strlen($CFG->dirroot));
+    $targetdir = $targetdir.'/'.$pluginname;
+}
+
+if (file_exists($targetdir)) {
+    cli_writeln("\nTarget plugin location exists!");
+    cli_writeln($help);
+    die();
+}
+
 $loglevel = $options['loglevel'];
 if (!array_key_exists($loglevel, $loglevels)) {
-    echo("\nInvalid log level!\n");
-    echo $help;
+    cli_writeln("\nInvalid log level!");
+    cli_writeln($help);
     die();
 }
 
@@ -103,11 +186,9 @@ $logger = new Logger('tool_pluginskel');
 $logger->pushHandler(new StreamHandler('php://stdout', constant('\Monolog\Logger::'.$loglevel)));
 $logger->debug('Logger initialised');
 
-// Load the recipe from file.
-$recipe = yaml::decode_file($recipefile);
-
 $manager = manager::instance($logger);
 $manager->load_recipe($recipe);
 $manager->make();
+$manager->write_files($targetdir);
 
 //print_r($manager->get_files_content());
