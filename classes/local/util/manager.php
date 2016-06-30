@@ -195,6 +195,10 @@ class manager {
             $this->prepare_file_skeleton('db/messages.php', 'php_internal_file', 'db_messages');
         }
 
+        if ($this->should_have('mobile_addons')) {
+            $this->prepare_file_skeleton('db/mobile.php', 'mobile_php_file', 'db_mobile');
+        }
+
         if ($this->should_have('observers')) {
             $this->prepare_file_skeleton('db/events.php', 'php_internal_file', 'db_events');
             $this->prepare_observers();
@@ -332,6 +336,10 @@ class manager {
 
         if ($feature === 'observers') {
             return !empty($this->recipe['observers']);
+        }
+
+        if ($feature === 'mobile_addons') {
+            return !empty($this->recipe['mobile_addons']);
         }
 
         return false;
