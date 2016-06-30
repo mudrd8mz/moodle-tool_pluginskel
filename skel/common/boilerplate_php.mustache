@@ -42,10 +42,10 @@
 {{# use }}use {{ . }};{{/ use }}
 
 {{# is_moodle_internal }}defined('MOODLE_INTERNAL') || die();{{/ is_moodle_internal }}
-{{# is_web_file }}require({{{$ self.pathtoconfig }}});{{/ is_web_file }}
+{{# is_web_file }}require({{{ self.pathtoconfig }}});{{/ is_web_file }}
 {{# is_cli_file }}
 define('CLI_SCRIPT', true);
 
-require({{{$ self.pathtoconfig }}});
+require({{{ self.pathtoconfig }}});
 require_once($CFG->libdir.'/clilib.php');
 {{/ is_cli_file }}
