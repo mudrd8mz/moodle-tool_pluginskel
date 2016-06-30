@@ -56,7 +56,7 @@ class mustache {
         $default = [
             'loader' => new Mustache_Loader_FilesystemLoader($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/skel'),
             'cache' => make_localcache_directory('tool_pluginskel/mustache/'),
-            'pragmas' => [Mustache_Engine::PRAGMA_BLOCKS],
+            'pragmas' => [Mustache_Engine::PRAGMA_BLOCKS, Mustache_Engine::PRAGMA_ANCHORED_DOT],
             'escape' => 'addslashes',
         ];
 

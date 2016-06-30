@@ -7,6 +7,9 @@
 {{< common/boilerplate_php }}
 {{$ description }}Plugin upgrade steps are defined here.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @category    upgrade
+{{/ extratags }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
 {{# upgrade.upgradelib}}
@@ -15,12 +18,12 @@ require_once(__DIR__.'/upgradelib.php');
 {{/ upgrade.upgradelib}}
 
 /**
- * Execute {{component}} upgrade from the given old version.
+ * Execute {{ component }} upgrade from the given old version.
  *
  * @param int $oldversion
  * @return bool
  */
-function xmldb_{{component}}_upgrade($oldversion) {
+function xmldb_{{ component }}_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();

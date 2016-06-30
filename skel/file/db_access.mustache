@@ -17,8 +17,8 @@
 $capabilities = [
     {{# capabilities}}
 
-    '{{component_type}}/{{component_name}}:{{name}}' => [
-        {{# riskbitmask}}
+    '{{ component_type }}/{{ component_name }}:{{ .name }}' => [
+        {{# riskbitmask }}
         'riskbitmask' => {{ . }},
         {{/ riskbitmask}}
         {{# captype }}
@@ -29,7 +29,7 @@ $capabilities = [
         {{/ contextlevel }}
         'archetypes' => [
             {{# archetypes}}
-            '{{role}}' => {{permission}},
+            '{{ .role }}' => {{ .permission }},
             {{/ archetypes}}
         ],
         {{# clonepermissionsfrom}}
