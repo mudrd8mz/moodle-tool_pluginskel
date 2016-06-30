@@ -47,7 +47,6 @@ class tool_pluginskel_uninstall_testcase extends advanced_testcase {
         'name'      => 'Uninstall test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
-            'all' => false,
             'uninstall' => true
         )
     );

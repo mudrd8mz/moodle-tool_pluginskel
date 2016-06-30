@@ -46,9 +46,6 @@ class tool_pluginskel_message_providers_testcase extends advanced_testcase {
         'component' => 'messageproviderstest',
         'name'      => 'Message_providers test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'all' => false
-        ),
         'message_providers' => array(
             array(
                 'name' => 'submission',

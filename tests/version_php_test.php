@@ -54,9 +54,6 @@ class tool_pluginskel_version_php_testcase extends advanced_testcase {
             array('plugin' => 'mod_forum', 'version' => 'ANY_VERSION'),
             array('plugin' => 'tool_another', 'version' => '2015121200')
         ),
-        'features'  => array(
-            'all' => false,
-        )
     );
 
     /**
