@@ -1,0 +1,91 @@
+## Every recipe file must provide at least the component property.
+## Based on the plugin type plugin specific files files will be generated.
+component: local_test
+
+## Human readable name of the plugin.
+name: Example plugin
+
+## Human readable release number.
+release: "0.1.0"
+
+## Plugin version number, e.g. 2016062100. Will be set to current date if left empty.
+#version: 2016121200
+
+## Required Moodle version, e.g. 2015051100 or "2.9".
+requires: "2.9"
+
+## Plugin maturity level. Possible options are MATURIY_ALPHA, MATURITY_BETA,
+## MATURITY_RC or MATURIY_STABLE.
+maturity: MATURITY_BETA
+
+## Copyright holder(s) of the generated files and classes.
+copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
+
+## If the plugin depends on other plugins, declare the dependencies.
+dependencies:
+  - plugin: mod_forum
+    version: ANY_VERSION
+  - plugin: tool_another
+    version: 2016121200
+
+## Features flags can control generation of optional files/code fragments.
+features:
+  readme: true
+  license: true
+  settings: true
+
+  ## The db/upgrade.php file will be generated. Upgrade steps are defined in
+  ## this file.
+  #upgrade: true
+
+  install: true
+  uninstall: true
+
+## The file db/upgradelib.php will also be generated.
+upgrade:
+    upgradelib: true
+
+## Capabilities defined by the plugin.
+capabilities:
+  - name: viewsomething
+    captype: view
+    contextlevel: CONTEXT_MODULE
+    archetypes:
+      - role: student
+        permission: CAP_ALLOW
+      - role: editingteacher
+        permission: CAP_ALLOW
+    clonepermissionsfrom: moodle/course:view
+  - name: editsomething
+    captype: write
+
+## Message producers to be used with the Message API.
+message_providers:
+    - name: submission
+      capability: mod/quiz:emailnotifysubmission
+    - name: notification
+
+## Creates two cli script files under cli/.
+##
+## Not yet implemented.
+##
+#cli_script:
+#   - firstfilename
+#   - secondfilename
+
+## Explicitly added strings
+strings:
+  - id: mycustomstring
+    text: You can add 'extra' strings via the recipe file.
+  - id: mycustomstring2
+    text: Another string with {$a->some} placeholder.
+
+## Explicitly added contents, such as files not covered by the generator logic.
+##
+## Not yet implemented.
+##
+#extra:
+#  files:
+#    - path: mycustomfile.php
+#      skel: php
+#      description: Explicitly generated PHP file.
