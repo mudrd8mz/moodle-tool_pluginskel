@@ -71,7 +71,7 @@ class tool_pluginskel_message_providers_testcase extends advanced_testcase {
         $messagesfile = $files['db/messages.php'];
 
         // Verify the boilerplate.
-        $description = 'Plugin message providers are defined here.'; 
+        $description = 'Plugin message providers are defined here.';
         $this->assertContains($description, $messagesfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";

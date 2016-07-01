@@ -60,7 +60,7 @@ class mustache {
             'escape' => 'addslashes',
         ];
 
-       $this->engine = new Mustache_Engine(array_replace_recursive($default, $options));
+        $this->engine = new Mustache_Engine(array_replace_recursive($default, $options));
     }
 
     /**

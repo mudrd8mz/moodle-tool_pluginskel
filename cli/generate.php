@@ -50,8 +50,7 @@ array(
 $loglevels = Logger::getLevels();
 $loglevelnames = implode(', ', array_keys($loglevels));
 
-$help =
-"\nGenerate a Moodle plugin skeleton.
+$help = "\nGenerate a Moodle plugin skeleton.
 
 Options:
     --recipe               Recipe file location
@@ -190,5 +189,3 @@ $manager = manager::instance($logger);
 $manager->load_recipe($recipe);
 $manager->make();
 $manager->write_files($targetdir);
-
-//print_r($manager->get_files_content());

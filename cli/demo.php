@@ -51,6 +51,6 @@ $recipe = yaml::decode_file(__DIR__.'/demo.yaml');
 $manager = manager::instance($logger);
 $manager->load_recipe($recipe);
 $manager->make();
-// $manager->write_files($tmpmoodleroot);
+// Here would be something like $manager->write_files($tmpmoodleroot);.
 
-print_r($manager->get_files_content());
+print_object($manager->get_files_content());
