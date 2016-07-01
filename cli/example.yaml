@@ -36,7 +36,7 @@ features:
 
   ## The db/upgrade.php file will be generated. Upgrade steps are defined in
   ## this file.
-  #upgrade: true
+  upgrade: true
 
   install: true
   uninstall: true
@@ -65,13 +65,45 @@ message_providers:
       capability: mod/quiz:emailnotifysubmission
     - name: notification
 
-## Creates two cli script files under cli/.
-##
-## Not yet implemented.
-##
-#cli_script:
-#   - firstfilename
-#   - secondfilename
+## Creates the cli script files cli/firstfilename.php and cli/seconfilename.php.
+cli_script:
+   - firstfilename
+   - secondfilename
+
+## Register observers for events.
+observers:
+  - eventname: \core\event\something_happened
+    ## The callback creates the file classes/observer_one.php. The namespace
+    ## for the file is 'local_test'.
+    callback: \local_test\another\observer_one::something_happened
+    includefile: "/path/to/file/relative/to/moodle/dir/root"
+    priority: 200
+
+  - eventname: \core\event\something_else_happened
+    ## The callback creates the function in locallib.php.
+    callback: local_test_locallib_function
+
+  - eventname: \core\event\something_else_happened
+    ## This callback creates the class 'local_test_observer_two' in the file
+    ## classes/observer_two.php. The class is created in the global namespace.
+    callback: local_test_observer_two::do_something
+
+## Creates event classes. The first class, located at
+## classes/event/first_event.php, will extend the base class
+## \core\event\first_event and the second class will be located at
+## classes/event/second_event.php.
+events:
+    - eventname: first_event
+      extends: \core\event\first_event
+    - eventname: second_event
+
+## Creates a list of mobile remote addons at db/mobile.php.
+mobile_addons:
+    - name: 'my_first_addon'
+      dependencies:
+          - dependency_one
+          - dependency_two
+    - name: 'my_second_mine'
 
 ## Explicitly added strings
 strings:
