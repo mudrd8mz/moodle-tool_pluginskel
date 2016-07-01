@@ -47,7 +47,6 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         'name'      => 'Upgrade test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
-            'all' => false,
             'upgrade' => true
         )
     );

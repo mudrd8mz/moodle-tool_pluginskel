@@ -47,7 +47,6 @@ class tool_pluginskel_settings_testcase extends advanced_testcase {
         'name'      => 'Settings test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
-            'all' => false,
             'settings' => true
         )
     );

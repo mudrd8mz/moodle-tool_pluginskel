@@ -46,9 +46,6 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         'component' => 'capabilitiestest',
         'name'      => 'Capabilities test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'all' => false
-        ),
         'capabilities' => array(
             array(
                 'name' => 'view',

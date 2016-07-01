@@ -47,7 +47,6 @@ class tool_pluginskel_license_testcase extends advanced_testcase {
         'name'      => 'License test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
-            'all' => false,
             'license' => true
         )
     );

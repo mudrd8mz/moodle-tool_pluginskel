@@ -47,7 +47,6 @@ class tool_pluginskel_install_testcase extends advanced_testcase {
         'name'      => 'Install test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
-            'all' => false,
             'install' => true
         )
     );

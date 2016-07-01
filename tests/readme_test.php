@@ -47,7 +47,6 @@ class tool_pluginskel_readme_testcase extends advanced_testcase {
         'name'      => 'Readme test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
-            'all' => false,
             'readme' => true
         )
     );

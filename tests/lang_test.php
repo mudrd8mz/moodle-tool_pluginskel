@@ -49,9 +49,6 @@ class tool_pluginskel_lang_testcase extends advanced_testcase {
         'name'      => 'Lang test',
         'requires'  => '2015051100',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'all' => false,
-        ),
         'strings'   => array(
             array('id' => 'somestring', 'text' => 'Test string')
         )
