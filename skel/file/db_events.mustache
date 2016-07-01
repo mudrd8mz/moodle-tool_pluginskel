@@ -1,0 +1,37 @@
+{{!
+    db/events.php
+
+    * component
+    * copyright
+    * observers
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin event observers are registered here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @category    event
+{{/ extratags }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+// For more information about the Events API, please visit:
+// https://docs.moodle.org/dev/Event_2
+
+$observers = array(
+    {{# observers }}
+
+    array(
+        'eventname' => '{{{ eventname }}}',
+        'callback' => '{{{ callback }}}',
+        {{# includefile }}
+        'includefile' => '{{ . }}',
+        {{/ includefile }}
+        {{# priority }}
+        'priority' => {{ . }},
+        {{/ priority }}
+        {{# internal }}
+        'internal' => {{ . }}
+        {{/ internal }}
+    ),
+    {{/ observers }}
+);
