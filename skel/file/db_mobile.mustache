@@ -1,0 +1,21 @@
+{{!
+    settings.php
+
+    * component
+    * copyright
+    * mobile_addons
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Mobile addons are declared here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+$addons = array(
+    {{# mobile_addons }}
+
+    '{{ .name }}' => array({{# .addon_has_dependencies }}
+        'dependencies' => array({{# dependencies }}'{{ . }}', {{/ dependencies }})
+    {{/ .addon_has_dependencies }}),
+    {{/ mobile_addons }}
+);
