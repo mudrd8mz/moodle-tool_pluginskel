@@ -93,8 +93,6 @@ class manager {
             $this->logger->info('Rendering file skeleton:', ['file' => $filename]);
             $file->render($this->mustache);
         }
-
-        $this->logger->notice('Done');
     }
 
     /**
@@ -103,6 +101,8 @@ class manager {
      * @param string $targetdir The target directory for the files.
      */
     public function write_files($targetdir) {
+
+        $this->logger->info('Writing skeleton files', ['targetdir' => $targetdir]);
 
         if (empty($this->files)) {
             throw new exception('There are no files to write');
