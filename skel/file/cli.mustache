@@ -1,0 +1,41 @@
+{{!
+    cli/filename.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}CLI script for {{ component }}.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @subpackage  cli
+{{/ extratags }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+// Get the cli options.
+list($options, $unrecognized) = cli_get_params(array(
+    'help' => false
+),
+array(
+    'h' => 'help'
+));
+
+$help =
+"
+Help message for {{ component }} cli script.
+
+Please include a list of options and associated actions.
+
+Please include an example of usage.
+";
+
+if ($unrecognized) {
+    $unrecognized = implode("\n\t", $unrecognized);
+    cli_error(get_string('cliunknownoption', 'admin', $unrecognized);
+}
+
+if ($options['help']) {
+    cli_writeln($help);
+    die();
+}

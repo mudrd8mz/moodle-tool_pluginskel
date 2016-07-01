@@ -199,6 +199,10 @@ class manager {
             $this->prepare_file_skeleton('db/events.php', 'php_internal_file', 'db_events');
             $this->prepare_observers();
         }
+
+        if ($this->should_have('cli_script')) {
+            $this->prepare_cli_files();
+        }
     }
 
     /**
@@ -261,6 +265,20 @@ class manager {
 
                 $this->files['locallib.php']->add_function($observer['callback']);
             }
+        }
+    }
+
+    /*
+     * Prepare the file skeletons for the cli_script feature.
+     */
+    protected function prepare_cli_files() {
+
+        if (!is_array($this->recipe['cli_script'])) {
+            throw new exception('No cli_script file names specified');
+        }
+
+        foreach ($this->recipe['cli_script'] as $filename) {
+            $this->prepare_file_skeleton('cli/'.$filename.'.php', 'php_cli_file', 'cli');
         }
     }
 
@@ -332,6 +350,10 @@ class manager {
 
         if ($feature === 'observers') {
             return !empty($this->recipe['observers']);
+        }
+
+        if ($feature === 'cli_script') {
+            return !empty($this->recipe['cli_script']);
         }
 
         return false;
