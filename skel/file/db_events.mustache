@@ -21,17 +21,17 @@ $observers = array(
     {{# observers }}
 
     array(
-        'eventname' => '{{{ eventname }}}',
-        'callback' => '{{{ callback }}}',
-        {{# includefile }}
+        'eventname' => '{{{ .eventname }}}',
+        'callback' => '{{{ .callback }}}',
+        {{# .includefile }}
         'includefile' => '{{ . }}',
-        {{/ includefile }}
-        {{# priority }}
+        {{/ .includefile }}
+        {{# .priority }}
         'priority' => {{ . }},
-        {{/ priority }}
-        {{# internal }}
+        {{/ .priority }}
+        {{# .internal }}
         'internal' => {{ . }}
-        {{/ internal }}
+        {{/ .internal }}
     ),
     {{/ observers }}
 );

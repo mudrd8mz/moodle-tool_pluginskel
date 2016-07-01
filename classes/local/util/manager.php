@@ -199,6 +199,10 @@ class manager {
             $this->prepare_file_skeleton('db/events.php', 'php_internal_file', 'db_events');
             $this->prepare_observers();
         }
+
+        if ($this->should_have('events')) {
+            $this->prepare_events();
+        }
     }
 
     /**
@@ -261,6 +265,28 @@ class manager {
 
                 $this->files['locallib.php']->add_function($observer['callback']);
             }
+        }
+    }
+
+    /*
+     * Prepare the event class files.
+     */
+    protected function prepare_events() {
+
+        foreach ($this->recipe['events'] as $event) {
+            if (empty($event['eventname'])) {
+                throw new exception('Missing event name');
+            }
+
+            $eventrecipe = $this->recipe;
+            $eventrecipe['event'] = $event;
+
+            if (empty($eventrecipe['event']['extends'])) {
+                $eventrecipe['event']['extends'] = '\core\event\base';
+            }
+
+            $eventfile = 'classes/event/'.$eventrecipe['event']['eventname'].'.php';
+            $this->prepare_file_skeleton($eventfile, 'php_internal_file', 'classes_event_event', $eventrecipe);
         }
     }
 
@@ -332,6 +358,10 @@ class manager {
 
         if ($feature === 'observers') {
             return !empty($this->recipe['observers']);
+        }
+
+        if ($feature === 'events') {
+            return !empty($this->recipe['events']);
         }
 
         return false;

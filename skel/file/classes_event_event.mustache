@@ -1,0 +1,27 @@
+{{!
+    settings.php
+
+    * component
+    * copyright
+    * event
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin event classes are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ namespace }}namespace {{ component }};{{/ namespace }}
+{{/ common/boilerplate_php }}
+
+/**
+ * The {{ event.eventname }} event class.
+ *
+ * @package    {{ component }}
+ * @copyright  {{ copyright }}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class {{ event.eventname }} extends {{{ event.extends }}} {
+
+    // For more information about the Events API, please visit:
+    // https://docs.moodle.org/dev/Event_2
+
+}
