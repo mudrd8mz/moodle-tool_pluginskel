@@ -24,7 +24,7 @@ $plugin->maturity = {{ . }};
 {{# has_dependencies }}
 $plugin->dependencies = [
 {{# dependencies }}
-    '{{ plugin }}' => {{ version }},
+    '{{ .plugin }}' => {{ .version }},
 {{/ dependencies }}
 ];
 {{/ has_dependencies }}

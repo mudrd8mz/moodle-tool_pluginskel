@@ -7,13 +7,16 @@
 {{< common/boilerplate_php }}
 {{$ description }}Plugin upgrade helper functions are defined here.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @category    upgrade
+{{/ extratags }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
 
 /**
  * Helper function used by the upgrade.php file.
  */
-function {{component}}_helper_function() {
+function {{ component }}_helper_function() {
     global $DB;
 
     // Please note that you should always be performing any task using raw (low

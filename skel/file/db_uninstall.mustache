@@ -7,13 +7,16 @@
 {{< common/boilerplate_php }}
 {{$ description }}Code that is executed before the tables and data are dropped during the plugin uninstallation.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @category    upgrade
+{{/ extratags }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
 
 /**
  * Custom uninstallation procedure.
  */
-function xmldb_{{component}}_uninstall() {
+function xmldb_{{ component }}_uninstall() {
 
     return true;
 }

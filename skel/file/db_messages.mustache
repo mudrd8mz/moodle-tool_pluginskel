@@ -8,13 +8,16 @@
 {{< common/boilerplate_php }}
 {{$ description }}Plugin message providers are defined here.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @category    message
+{{/ extratags }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
 
 $messageproviders = [
     {{# message_providers }}
 
-    '{{ name }}' => array({{# capability }}
+    '{{ .name }}' => array({{# capability }}
         'capability' => '{{ . }}'{{/ capability }}
     ),
     {{/ message_providers }}
