@@ -64,6 +64,15 @@ class base {
         $this->data = $data;
     }
 
+    public function set_attribute($attribute) {
+
+        if (empty($this->data)) {
+            throw new coding_exception(get_string('skeletondatanotset', 'tool_pluginskel'));
+        }
+
+        $this->data['self'][$attribute] = true;
+    }
+
     /**
      * Render the file contents.
      *

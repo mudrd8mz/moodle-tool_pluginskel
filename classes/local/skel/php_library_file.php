@@ -15,15 +15,41 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides the plugin strings.
+ * Provides tool_pluginskel\local\skel\php_library_file class.
  *
  * @package     tool_pluginskel
- * @category    string
+ * @subpackage  skel
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_pluginskel\local\skel;
+
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Moodle plugin skeleton generator';
-$string['skeletondatanotset'] = 'Skeleton data not set';
+/**
+ * Class representing a Moodle library file.
+ *
+ * Moodle library files contain functions and/or classes.
+ *
+ * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class php_library_file extends php_internal_file {
+
+    /**
+     * Adds an array of functions.
+     *
+     * @param string[] $functions The name of the functions.
+     */
+    public function add_functions($functions) {
+
+        if (empty($this->data)) {
+            throw new coding_exception(get_string('skeletondatanotset', 'tool_pluginskel'));
+        }
+
+        foreach ($functions as $function) {
+            $this->data['self']['functions'][$function] = true;
+        }
+    }
+}
