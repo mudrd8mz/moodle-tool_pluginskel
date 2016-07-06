@@ -79,7 +79,8 @@ class tool_pluginskel_events_testcase extends advanced_testcase {
         $description = 'Plugin event classes are defined here.';
         $this->assertContains($description, $eventfile);
 
-        $this->assertContains('namespace '.$recipe['component'], $eventfile);
+        list($type, $pluginname) = \core_component::normalize_component($recipe['component']);
+        $this->assertContains('namespace '.$type.'_'.$pluginname.'\event', $eventfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $eventfile);
