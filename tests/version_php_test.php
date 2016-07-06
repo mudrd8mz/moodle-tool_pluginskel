@@ -60,6 +60,8 @@ class tool_pluginskel_version_php_testcase extends advanced_testcase {
      * Test creating the version.php file.
      */
     public function test_version_php() {
+        global $CFG;
+
         $logger = new Logger('versionphptest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -72,12 +74,16 @@ class tool_pluginskel_version_php_testcase extends advanced_testcase {
         $this->assertArrayHasKey('version.php', $files);
         $versionfile = $files['version.php'];
 
-        $this->assertContains('Plugin version and other meta-data are defined here.', $versionfile);
+        $description = 'Plugin version and other meta-data are defined here';
+        $this->assertContains($description, $versionfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $versionfile);
 
-        $this->assertContains("\$plugin->component = '".$recipe['component']."'", $versionfile);
+        list($type, $name) = core_component::normalize_component($recipe['component']);
+        $fullcomponent = $type.'_'.$name;
+        $this->assertContains("\$plugin->component = '".$fullcomponent."'", $versionfile);
+
         $this->assertContains("\$plugin->release = '".$recipe['release']."'", $versionfile);
         $this->assertContains("\$plugin->version = ".$recipe['version'], $versionfile);
         $this->assertContains("\$plugin->requires = ".$recipe['requires'], $versionfile);
