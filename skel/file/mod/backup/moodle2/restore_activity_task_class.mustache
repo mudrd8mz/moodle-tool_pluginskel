@@ -1,0 +1,69 @@
+{{!
+    backup/moodle2/restore_<modname>_stepslib.php
+
+    * component
+    * copyright
+}}
+{{< common/restore_php }}
+{{$ description }}The task that provides a complete restore of {{ component }} is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/restore_php }}
+
+require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/restore_{{ component_name }}_stepslib.php');
+
+/**
+ * Restore task for {{ component }}.
+ */
+class restore_{{ component_name }}_activity_task extends restore_activity_task {
+
+    /**
+     * Defines particular settings that this activity can have.
+     */
+    protected function define_my_settings() {
+        return;
+    }
+
+    /**
+     * Defines particular steps that this activity can have.
+     */
+    protected function define_my_steps() {
+        $this->add_step(new restore_{{ component_name }}_activity_structure_step('{{ component_name }}_structure', '{{ component_name }}.xml'));
+    }
+
+    /**
+     * Defines the contents in the activity that must be processed by the link decoder.
+     */
+    static public function define_decode_contents() {
+        $contents = array();
+
+        // Define the contents.
+
+        return $contents;
+    }
+
+    /**
+     * Defines the decoding rules for links belonging to the activity to be
+     * executed by the link decoder.
+     */
+    static public function define_decode_rules() {
+        $rules = array();
+
+        // Define the rules.
+
+        return $rules;
+    }
+
+    /**
+     * Defines the restore log rules that will be applied by the
+     * {@link restore_logs_processor} when restoring {{ component }} logs. It
+     * must return one array of {@link restore_log_rule} objects.
+     */
+    static public function define_restore_log_rules() {
+        $rules = array();
+
+        // Define the rules.
+
+        return $rules;
+    }
+}

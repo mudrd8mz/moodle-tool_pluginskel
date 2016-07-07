@@ -302,14 +302,45 @@ class manager {
             $this->logger->warning('Upgrade feature not defined');
         }
 
-        // TODO: implement the backup_moodle2 feature.
-        if (!$this->should_have('backup_moodle2')) {
+        if ($this->should_have('backup_moodle2')) {
+            $this->prepare_mod_backup_moodle2();
+            $this->files['lib.php']->add_supported_feature('FEATURE_BACKUP_MOODLE2');
+        } else {
             $this->logger->warning('Backup_moodle2 feature not defined');
         }
 
         if ($this->should_have('navigation')) {
             $this->files['lib.php']->set_attribute('has_navigation');
         }
+    }
+
+    /*
+     * Prepares the skeleton files for the 'backup_moodle2' feature for an activity module.
+     */
+    public function prepare_mod_backup_moodle2() {
+
+        $componentname = $this->recipe['component_name'];
+        $hassettingslib = $this->should_have('settingslib');
+
+        $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_activity_task.class.php', 'backup_activity_task_file',
+                                     'mod/backup/moodle2/backup_activity_task_class');
+        if ($hassettingslib) {
+            $this->files['backup/moodle2/backup_'.$componentname.'_activity_task.class.php']->set_attribute('has_settingslib');
+        }
+
+        $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_stepslib.php', 'php_internal_file',
+                                     'mod/backup/moodle2/backup_stepslib');
+
+        if ($hassettingslib) {
+            $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_settingslib.php', 'php_internal_file',
+                                         'mod/backup/moodle2/backup_settingslib');
+        }
+
+        $this->prepare_file_skeleton('backup/moodle2/restore_'.$componentname.'_activity_task.class.php', 'php_internal_file',
+                                     'mod/backup/moodle2/restore_activity_task_class');
+
+        $this->prepare_file_skeleton('backup/moodle2/restore_'.$componentname.'_stepslib.php', 'php_internal_file',
+                                     'mod/backup/moodle2/restore_stepslib');
     }
 
     /**
@@ -491,6 +522,16 @@ class manager {
 
         if ($feature === 'cli_scripts') {
             return !empty($this->recipe['cli_scripts']);
+        }
+        if ($feature === 'backup_moodle2') {
+            return !empty($this->recipe['backup_moodle2']);
+        }
+
+        if ($feature === 'settingslib') {
+            $shouldhavebackup = $this->should_have('backup_moodle2');
+            $notempty = !empty($this->recipe['backup_moodle2']['settingslib']);
+
+            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['settingslib'] === true);
         }
 
         return false;

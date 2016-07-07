@@ -1,0 +1,50 @@
+{{!
+    backup/moodle2/restore_<modname>_stepslib.php
+
+    * component
+    * copyright
+}}
+{{< common/restore_php }}
+{{$ description }}All the steps to restore {{ component }} are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/restore_php }}
+
+/**
+ * Defines the structure step to restore one {{ component }} activity.
+ */
+class restore_{{ component_name }}_activity_structure_step extends restore_activity_structure_step {
+
+    /**
+     * Defines the structure to be restored.
+     */
+    protected function define_structure() {
+        $paths = array();
+        $userinfo = $this->get_setting_value('userinfo');
+
+        {{# backup_moodle2.restore_elements }}
+        $paths[] = new restore_path_element('{{ name }}', '{{ path }}');
+        {{/ backup_moodle2.restore_elements}}
+
+        return $this->prepare_activity_structure($paths);
+    }
+    {{# backup_moodle2.restore_elements}}
+
+    /**
+     * Processes the {{ name }} restore data.
+     */
+    protected function process_{{ name }}($data) {
+        global $DB;
+
+        return $data;
+    }
+    {{/ backup_moodle2.restore_elements}}
+
+    /**
+     * Defines post-execution actions.
+     */
+    protected function after_execute() {
+
+        return;
+    }
+}

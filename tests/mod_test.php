@@ -114,8 +114,36 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
                 ),
                 'clonepermissionsfrom' => 'moodle/course:manageactivities'
             )
+        ),
+        'backup_moodle2' => array(
+            'settingslib' => true,
+            'backup_elements' => array('node'),
+            'restore_elements' => array(
+                array('name' => 'node', 'path' => '/path/to/file')
+            )
         )
     );
+
+    /** @var string The plugin files path relative the Moodle root. */
+    static protected $relpath;
+
+    /** @var string The plugin name, without the frankenstyle prefix. */
+    static protected $modname;
+
+    /**
+     * Sets the $relpath and the $modname.
+     */
+    public static function setUpBeforeClass() {
+        global $CFG;
+
+        list($type, $modname) = \core_component::normalize_component(self::$recipe['component']);
+
+        $plugintypes = \core_component::get_plugin_types();
+        $root = substr($plugintypes[$type], strlen($CFG->dirroot));
+
+        self::$modname = $modname;
+        self::$relpath = $root.'/'.$modname;
+    }
 
     /**
      * Tests creating the basic files.
@@ -371,4 +399,197 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $extendsettings = 'function '.$recipe['component'].'_extend_settings_navigation('.$extendsettingsargs.')';
         $this->assertContains($extendsettings, $libfile);
     }
+
+    /**
+     * Tests creating the backup/moodle2/backup_<modname>_activity_task.class.php file.
+     */
+    public function test_backup_feature_activity_task_class() {
+        $logger = new Logger('modtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+        $recipe['backup_moodle2']['settingslib'] = false;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $modname = self::$modname;
+
+        $files = $manager->get_files_content();
+
+        $filename = 'backup/moodle2/backup_'.$modname.'_activity_task.class.php';
+        $this->assertArrayHasKey($filename, $files);
+        $taskfile = $files[$filename];
+
+        // Verify the boilerplate.
+        $description = 'The task that provides all the steps to perform a complete backup is defined here.';
+        $this->assertContains($description, $taskfile);
+
+        $this->assertRegExp('/\* @category\s+backup/', $taskfile);
+
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
+        $this->assertContains($moodleinternal, $taskfile);
+
+        $settingslibpath = self::$relpath.'/backup/moodle2/backup_'.$modname.'_settingslib.php';
+        $this->assertNotContains('require_once($CFG->dirroot.'.'\'/'.$settingslibpath.'\')', $taskfile);
+
+        $stepslibpath = self::$relpath.'/backup/moodle2/backup_'.$modname.'_stepslib.php';
+        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $taskfile);
+
+        $classdefinition = 'class backup_'.$modname.'_activity_task extends backup_activity_task';
+        $this->assertContains($classdefinition, $taskfile);
+
+        $stepdefinition = "\$this->add_step(new backup_".$modname."_activity_structure_step('".$modname."_structure', '".$modname.".xml')";
+        $this->assertContains($stepdefinition, $taskfile);
+    }
+
+    /**
+     * Tests creating the backup/moodle2/backup_<modname>_settingslib.php file.
+     */
+    public function test_backup_feature_settingslib() {
+        $logger = new Logger('modtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+        $recipe['backup_moodle2']['settingslib'] = true;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $modname = self::$modname;
+
+        $files = $manager->get_files_content();
+        $filename = 'backup/moodle2/backup_'.$modname.'_settingslib.php';
+        $this->assertArrayHasKey($filename, $files);
+        $settingslibfile = $files[$filename];
+
+        // Verify the boilerplate.
+        $description = 'Plugin custom settings are defined here.';
+        $this->assertContains($description, $settingslibfile);
+        $this->assertRegExp('/\* @category\s+backup/', $settingslibfile);
+
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
+        $this->assertContains($moodleinternal, $settingslibfile);
+
+        $filename = 'backup/moodle2/backup_'.$modname.'_activity_task.class.php';
+        $taskfile = $files[$filename];
+
+        $settingslibpath = self::$relpath.'/backup/moodle2/backup_'.$modname.'_settingslib.php';
+        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$settingslibpath.'\')', $taskfile);
+    }
+
+    /**
+     * Tests creating the backup/moodle2/backup_<modname>_stepslib.php file.
+     */
+    public function test_backup_feature_stepslib() {
+        $logger = new Logger('modtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $modname = self::$modname;
+
+        $files = $manager->get_files_content();
+        $filename = 'backup/moodle2/backup_'.$modname.'_stepslib.php';
+        $this->assertArrayHasKey($filename, $files);
+        $stepslibfile = $files[$filename];
+
+        // Verify the boilerplate.
+        $description = 'Backup steps for '.$recipe['component'].' are defined here.';
+        $this->assertContains($description, $stepslibfile);
+
+        $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
+
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
+        $this->assertContains($moodleinternal, $stepslibfile);
+
+        $classdefinition = 'class backup_'.$modname.'_activity_structure_step extends backup_activity_structure_step';
+        $this->assertContains($classdefinition, $stepslibfile);
+
+        $element = $recipe['backup_moodle2']['backup_elements'][0];
+        $nestedelement = '$'.$element.' = new backup_nested_element(\''.$element.'\', $attributes, $final_elements)';
+        $this->assertContains($nestedelement, $stepslibfile);
+    }
+
+    /**
+     * Tests creating the backup/moodle2/restore_<modname>_activity_task.class.php file.
+     */
+    public function test_backup_feature_restore_activity_task() {
+        $logger = new Logger('modtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $modname = self::$modname;
+
+        $files = $manager->get_files_content();
+        $filename = 'backup/moodle2/restore_'.$modname.'_activity_task.class.php';
+        $this->assertArrayHasKey($filename, $files);
+        $restorefile = $files[$filename];
+
+        // Verify the boilerplate.
+        $description = 'The task that provides a complete restore of '.$recipe['component'].' is defined here.';
+        $this->assertContains($description, $restorefile);
+
+        $this->assertRegExp('/\* @category\s+restore/', $restorefile);
+
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
+        $this->assertContains($moodleinternal, $restorefile);
+
+        $stepslibpath = self::$relpath.'/backup/moodle2/restore_'.$modname.'_stepslib.php';
+        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $restorefile);
+
+        $classdefinition = 'class restore_'.$modname.'_activity_task extends restore_activity_task';
+        $this->assertContains($classdefinition, $restorefile);
+
+        $stepdefinition = "\$this->add_step(new restore_".$modname."_activity_structure_step('".$modname."_structure', '".$modname.".xml')";
+        $this->assertContains($stepdefinition, $restorefile);
+    }
+
+    /**
+     * Tests creating the backup/moodle2/restore_stepslib.php file.
+     */
+    public function test_restore_stepslib() {
+        $logger = new Logger('modtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $modname = self::$modname;
+
+        $files = $manager->get_files_content();
+        $filename = 'backup/moodle2/restore_'.$modname.'_stepslib.php';
+        $this->assertArrayHasKey($filename, $files);
+        $stepslibfile = $files[$filename];
+
+        // Verify the boilerplate.
+        $description = 'All the steps to restore '.$recipe['component'].' are defined here.';
+        $this->assertContains($description, $stepslibfile);
+
+        $this->assertRegExp('/\* @category\s+restore/', $stepslibfile);
+
+        $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
+        $this->assertContains($moodleinternal, $stepslibfile);
+
+        $classdefinition = 'class restore_'.$modname.'_activity_structure_step extends restore_activity_structure_step';
+        $this->assertContains($classdefinition, $stepslibfile);
+
+        $element = $recipe['backup_moodle2']['restore_elements'][0]['name'];
+        $path = $recipe['backup_moodle2']['restore_elements'][0]['path'];
+        $elementpath = "\$paths[] = new restore_path_element('".$element."', '".$path."')";
+        $this->assertContains($elementpath, $stepslibfile);
+
+        $processfunction = 'protected function process_'.$element.'($data)';
+        $this->assertContains($processfunction, $stepslibfile);
+    }
+
 }
