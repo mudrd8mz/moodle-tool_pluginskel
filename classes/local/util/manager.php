@@ -160,6 +160,12 @@ class manager {
         $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
         $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
 
+        $plugintype = $this->recipe['component_type'];
+
+        if ($plugintype === 'mod') {
+            $this->prepare_mod_files();
+        }
+
         if ($this->should_have('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -210,6 +216,99 @@ class manager {
 
         if ($this->should_have('cli_scripts')) {
             $this->prepare_cli_files();
+        }
+    }
+
+    /**
+     * Prepares the files for an activity module plugin.
+     */
+    protected function prepare_mod_files() {
+
+        $componentname = $this->recipe['component_name'];
+
+        $stringids = array(
+            $componentname.'name',
+            $componentname.'name_help',
+            $componentname.'settings',
+            $componentname.'fieldset',
+            'missingidandcmid',
+            'modulename',
+            'modulename_help',
+            'modulenameplural',
+            'nonewmodules',
+            'pluginadministration',
+            'view'
+        );
+
+        foreach ($stringids as $stringid) {
+
+            $found = false;
+            if (!empty($this->recipe['strings'])) {
+                foreach ($this->recipe['strings'] as $string) {
+                    if ($string['id'] === $stringid) {
+                        $found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!$found) {
+                $this->logger->warning("String id '$stringid' not set");
+            }
+        }
+
+        $this->prepare_file_skeleton('index.php', 'php_web_file', 'mod/index');
+        $this->prepare_file_skeleton('view.php', 'view_php_file', 'mod/view');
+        $this->prepare_file_skeleton('mod_form.php', 'php_internal_file', 'mod/mod_form');
+        $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'mod/lib');
+
+        if ($this->should_have('gradebook')) {
+            $gradebookfunctions = array(
+                'scale_used',
+                'scale_used_anywhere',
+                'grade_item_update',
+                'grade_item_delete',
+                'update_grades'
+            );
+            $this->files['lib.php']->add_functions($gradebookfunctions);
+
+            $this->files['lib.php']->add_supported_feature('FEATURE_GRADE_HAS_GRADE');
+            $this->prepare_file_skeleton('grade.php', 'php_web_file', 'mod/grade');
+
+            $this->files['mod_form.php']->set_attribute('has_gradebook');
+        }
+
+        if ($this->should_have('file_area')) {
+            $fileareafunctions = array(
+                'get_file_areas',
+                'get_file_info',
+                'pluginfile'
+            );
+            $this->files['lib.php']->add_functions($fileareafunctions);
+        }
+
+        $this->files['lib.php']->add_supported_feature('FEATURE_MOD_INTRO');
+
+        // 'mod/<modname>:addinstance' and 'mod/<modname>:view' capabilities are recommended.
+        if (!$this->should_have('capabilities')) {
+            $this->logger->warning('Capabilities not defined');
+        }
+
+        if (!$this->should_have('observers')) {
+            $this->logger->warning('Observers not defined');
+        }
+
+        if (!$this->should_have('upgrade')) {
+            $this->logger->warning('Upgrade feature not defined');
+        }
+
+        // TODO: implement the backup_moodle2 feature.
+        if (!$this->should_have('backup_moodle2')) {
+            $this->logger->warning('Backup_moodle2 feature not defined');
+        }
+
+        if ($this->should_have('navigation')) {
+            $this->files['lib.php']->set_attribute('has_navigation');
         }
     }
 
