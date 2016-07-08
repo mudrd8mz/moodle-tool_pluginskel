@@ -6,6 +6,8 @@
 }}
 {{< common/backup_php }}
 {{$ description}}The task that provides all the steps to perform a complete backup is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/backup_php }}
 
 require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_stepslib.php');
@@ -14,8 +16,7 @@ require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/mo
 {{/ self.has_settingslib }}
 
 /**
- * The class provides all the settings and steps to perform one complete backup
- * of {{ component }}.
+ * The class provides all the settings and steps to perform one complete backup of {{ component }}.
  */
 class backup_{{ component_name }}_activity_task extends backup_activity_task {
 
@@ -34,8 +35,10 @@ class backup_{{ component_name }}_activity_task extends backup_activity_task {
     }
 
     /**
-     * Codes the transformations to perform in the activity in order to get
-     * transportable (encoded) links.
+     * Codes the transformations to perform in the activity in order to get transportable (encoded) links.
+     *
+     * @param string $content.
+     * @return string.
      */
     static public function encode_content_links($content) {
         global $CFG;

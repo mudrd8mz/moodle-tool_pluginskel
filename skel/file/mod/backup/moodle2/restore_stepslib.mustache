@@ -17,13 +17,15 @@ class restore_{{ component_name }}_activity_structure_step extends restore_activ
 
     /**
      * Defines the structure to be restored.
+     *
+     * @return restore_path_element[].
      */
     protected function define_structure() {
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
 
         {{# backup_moodle2.restore_elements }}
-        $paths[] = new restore_path_element('{{ name }}', '{{ path }}');
+        $paths[] = new restore_path_element('{{ .name }}', '{{ .path }}');
         {{/ backup_moodle2.restore_elements}}
 
         return $this->prepare_activity_structure($paths);
@@ -31,12 +33,12 @@ class restore_{{ component_name }}_activity_structure_step extends restore_activ
     {{# backup_moodle2.restore_elements}}
 
     /**
-     * Processes the {{ name }} restore data.
+     * Processes the {{ .name }} restore data.
+     *
+     * @param array $data Parsed element data.
      */
-    protected function process_{{ name }}($data) {
-        global $DB;
-
-        return $data;
+    protected function process_{{ .name }}($data) {
+        return;
     }
     {{/ backup_moodle2.restore_elements}}
 
@@ -44,7 +46,6 @@ class restore_{{ component_name }}_activity_structure_step extends restore_activ
      * Defines post-execution actions.
      */
     protected function after_execute() {
-
         return;
     }
 }

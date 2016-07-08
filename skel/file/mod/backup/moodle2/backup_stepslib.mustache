@@ -6,6 +6,8 @@
 }}
 {{< common/backup_php }}
 {{$ description }}Backup steps for {{ component }} are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/backup_php }}
 
 /**
@@ -15,6 +17,8 @@ class backup_{{ component_name }}_activity_structure_step extends backup_activit
 
     /**
      * Defines the structure of the resulting xml file.
+     *
+     * @return backup_nested_element The structure wrapped by the common 'activity' element.
      */
     protected function define_structure() {
         $userinfo = $this->get_setting_value('userinfo');
