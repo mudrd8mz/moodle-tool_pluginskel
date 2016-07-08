@@ -207,6 +207,10 @@ class manager {
         if ($this->should_have('events')) {
             $this->prepare_events();
         }
+
+        if ($this->should_have('cli_scripts')) {
+            $this->prepare_cli_files();
+        }
     }
 
     /**
@@ -294,6 +298,20 @@ class manager {
         }
     }
 
+    /*
+     * Prepare the file skeletons for the cli_scripts feature.
+     */
+    protected function prepare_cli_files() {
+
+        if (!is_array($this->recipe['cli_scripts'])) {
+            throw new exception('No cli_script file names specified');
+        }
+
+        foreach ($this->recipe['cli_scripts'] as $filename) {
+            $this->prepare_file_skeleton('cli/'.$filename.'.php', 'php_cli_file', 'cli');
+        }
+    }
+
     /**
      * Registers a new file skeleton
      *
@@ -370,6 +388,10 @@ class manager {
 
         if ($feature === 'mobile_addons') {
             return !empty($this->recipe['mobile_addons']);
+        }
+
+        if ($feature === 'cli_scripts') {
+            return !empty($this->recipe['cli_scripts']);
         }
 
         return false;
