@@ -289,19 +289,6 @@ class manager {
 
         $this->files['lib.php']->add_supported_feature('FEATURE_MOD_INTRO');
 
-        // 'mod/<modname>:addinstance' and 'mod/<modname>:view' capabilities are recommended.
-        if (!$this->should_have('capabilities')) {
-            $this->logger->warning('Capabilities not defined');
-        }
-
-        if (!$this->should_have('observers')) {
-            $this->logger->warning('Observers not defined');
-        }
-
-        if (!$this->should_have('upgrade')) {
-            $this->logger->warning('Upgrade feature not defined');
-        }
-
         if ($this->should_have('backup_moodle2')) {
             $this->prepare_mod_backup_moodle2();
             $this->files['lib.php']->add_supported_feature('FEATURE_BACKUP_MOODLE2');
