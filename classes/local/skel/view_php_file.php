@@ -15,15 +15,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides the plugin strings.
+ * Provides tool_pluginskel\local\skel\view_php_file class.
  *
  * @package     tool_pluginskel
- * @category    string
+ * @subpackage  skel
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_pluginskel\local\skel;
+
+use tool_pluginskel\local\util\exception;
+
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Moodle plugin skeleton generator';
-$string['skeletondatanotset'] = 'Skeleton data not set';
+/**
+ * Class representing the view.php file.
+ *
+ * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class view_php_file extends php_web_file {
+
+    /**
+     * Set the data to be eventually rendered.
+     *
+     * @param array $data
+     */
+    public function set_data(array $data) {
+
+        parent::set_data($data);
+
+        $firstcharacter = substr($this->data['component_name'], 0, 1);
+        $this->data['self']['component_name_first_character'] = $firstcharacter;
+    }
+}
