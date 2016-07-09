@@ -166,6 +166,10 @@ class manager {
             $this->prepare_mod_files();
         }
 
+        if ($plugintype === 'block') {
+            $this->prepare_block_files();
+        }
+
         if ($this->should_have('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -220,6 +224,47 @@ class manager {
     }
 
     /**
+     * Prepares the files for a block plugin.
+     */
+    protected function prepare_block_files() {
+
+        if (!$this->should_have('capabilities')) {
+            // 'block/<blockname>:addinstance' is required.
+            // 'block/<blockname>:myaddinstance' is also required if applicable format 'my' is set to true.
+            $this->logger->warning('Capabilities not defined');
+        }
+
+        $blockrecipe = $this->recipe;
+
+        // Convert boolean to string.
+        if ($this->should_have('applicable_formats')) {
+            foreach ($blockrecipe['applicable_formats'] as $key => $value) {
+                if (is_bool($value['allowed'])) {
+                    if ($value['allowed'] === false) {
+                        $blockrecipe['applicable_formats'][$key]['allowed'] = 'false';
+                    } else {
+                        $blockrecipe['applicable_formats'][$key]['allowed'] = 'true';
+                    }
+                }
+            }
+        }
+
+        $this->prepare_file_skeleton($this->recipe['component'].'.php', 'base', 'block/block', $blockrecipe);
+
+        if ($this->should_have('edit_form')) {
+            $this->prepare_file_skeleton('edit_form.php', 'base', 'block/edit_form');
+        }
+
+        if ($this->should_have('instance_allow_multiple')) {
+            $this->files[$this->recipe['component'].'.php']->set_attribute('has_instance_allow_multiple');
+        }
+
+        if ($this->should_have('settings')) {
+            $this->files[$this->recipe['component'].'.php']->set_attribute('has_config');
+        }
+    }
+
+    /**
      * Prepares the files for an activity module plugin.
      */
     protected function prepare_mod_files() {
@@ -241,7 +286,6 @@ class manager {
         );
 
         foreach ($stringids as $stringid) {
-
             $found = false;
             if (!empty($this->recipe['strings'])) {
                 foreach ($this->recipe['strings'] as $string) {
@@ -253,7 +297,7 @@ class manager {
             }
 
             if (!$found) {
-                $this->logger->warning("String id '$stringid' not set");
+                $this->logger->warning("Missing string id '$stringid'");
             }
         }
 
@@ -491,6 +535,10 @@ class manager {
 
         if ($feature === 'cli_scripts') {
             return !empty($this->recipe['cli_scripts']);
+        }
+
+        if ($feature === 'applicable_formats') {
+            return !empty($this->recipe['applicable_formats']);
         }
 
         return false;
