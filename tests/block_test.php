@@ -90,7 +90,6 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $manager->load_recipe($recipe);
         $manager->make();
 
-
         $files = $manager->get_files_content();
 
         $filename = $recipe['component'].'.php';
@@ -150,7 +149,6 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $recipe = self::$recipe;
         $manager->load_recipe($recipe);
         $manager->make();
-
 
         $files = $manager->get_files_content();
 
