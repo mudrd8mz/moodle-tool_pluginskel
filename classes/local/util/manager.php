@@ -270,6 +270,47 @@ class manager {
         if ($this->should_have('settings')) {
             $this->files[$this->recipe['component'].'.php']->set_attribute('has_config');
         }
+
+        if ($this->should_have('backup_moodle2')) {
+            $this->prepare_block_backup_moodle2();
+        }
+    }
+
+    /**
+     * Prepares the backup files for a block plugin.
+     */
+    protected function prepare_block_backup_moodle2() {
+
+        $componentname = $this->recipe['component_name'];
+        $hassettingslib = $this->should_have('settingslib');
+        $hasbackupstepslib = $this->should_have('backup_stepslib');
+        $hasrestorestepslib = $this->should_have('restore_stepslib');
+
+        $backuptaskfile = 'backup/moodle2/backup_'.$componentname.'_block_task.class.php';
+        $this->prepare_file_skeleton($backuptaskfile, 'php_internal_file', 'block/backup/moodle2/backup_block_task_class');
+
+        if ($hassettingslib) {
+            $settingslibfile = 'backup/moodle2/backup_'.$componentname.'_settingslib.php';
+            $this->prepare_file_skeleton($settingslibfile, 'php_internal_file', 'block/backup/moodle2/backup_settingslib');
+            $this->files[$backuptaskfile]->set_attribute('has_settingslib');
+        }
+
+        if ($hasbackupstepslib) {
+            $stepslibfile = 'backup/moodle2/backup_'.$componentname.'_stepslib.php';
+            $this->prepare_file_skeleton($stepslibfile, 'php_internal_file', 'block/backup/moodle2/backup_stepslib');
+            $this->files[$backuptaskfile]->set_attribute('has_stepslib');
+        }
+
+        if ($this->should_have('restore_task')) {
+            $restoretaskfile = 'backup/moodle2/restore_'.$componentname.'_block_task.class.php';
+            $this->prepare_file_skeleton($restoretaskfile, 'php_internal_file', 'block/backup/moodle2/restore_block_task_class');
+
+            if ($hasrestorestepslib) {
+                $stepslibfile = 'backup/moodle2/restore_'.$componentname.'_stepslib.php';
+                $this->prepare_file_skeleton($stepslibfile, 'php_internal_file', 'block/backup/moodle2/restore_stepslib');
+                $this->files[$restoretaskfile]->set_attribute('has_stepslib');
+            }
+        }
     }
 
     /**
@@ -662,6 +703,38 @@ class manager {
             $notempty = !empty($this->recipe['backup_moodle2']['settingslib']);
 
             return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['settingslib'] === true);
+        }
+
+        if ($feature === 'backup_moodle2') {
+            return !empty($this->recipe['backup_moodle2']);
+        }
+
+        if ($feature == 'restore_task') {
+            $shouldhavebackup = $this->should_have('backup_moodle2');
+            $notempty = !empty($this->recipe['backup_moodle2']['restore_task']);
+
+            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['restore_task'] === true);
+        }
+
+        if ($feature === 'settingslib') {
+            $shouldhavebackup = $this->should_have('backup_moodle2');
+            $notempty = !empty($this->recipe['backup_moodle2']['settingslib']);
+
+            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['settingslib'] === true);
+        }
+
+        if ($feature === 'backup_stepslib') {
+            $shouldhavebackup = $this->should_have('backup_moodle2');
+            $notempty = !empty($this->recipe['backup_moodle2']['backup_stepslib']);
+
+            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['backup_stepslib'] === true);
+        }
+
+        if ($feature === 'restore_stepslib') {
+            $shouldhavebackup = $this->should_have('backup_moodle2');
+            $notempty = !empty($this->recipe['backup_moodle2']['restore_stepslib']);
+
+            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['restore_stepslib'] === true);
         }
 
         if ($feature === 'applicable_formats') {
