@@ -166,6 +166,10 @@ class manager {
             $this->prepare_mod_files();
         }
 
+        if ($plugintype === 'theme') {
+            $this->prepare_theme_files();
+        }
+
         if ($this->should_have('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -216,6 +220,76 @@ class manager {
 
         if ($this->should_have('cli_scripts')) {
             $this->prepare_cli_files();
+        }
+    }
+
+    /**
+     * Prepares the files for a theme.
+     */
+    protected function prepare_theme_files() {
+
+        $stringids = array('choosereadme');
+        $this->verify_strings_exist($stringids);
+
+        $this->prepare_file_skeleton('config.php', 'base', 'theme/config');
+
+        // HTML5 is the default Moodle doctype.
+        $ishtml5 = true;
+
+        if (!empty($this->recipe['doctype'])) {
+            $this->files['config.php']->set_attribute('has_doctype');
+            if ($this->recipe['doctype'] != 'html5') {
+                $ishtml5 = false;
+            }
+        }
+
+        if (!empty($this->recipe['parents'])) {
+            $this->files['config.php']->set_attribute('has_parents');
+        }
+
+        if ($this->should_have('stylesheets')) {
+            $this->files['config.php']->set_attribute('has_stylesheets');
+
+            foreach ($this->recipe['stylesheets'] as $stylesheet) {
+                $this->prepare_file_skeleton('styles/'.$stylesheet.'.css', 'base', 'theme/stylesheet');
+            }
+        }
+
+        if ($this->should_have('layouts')) {
+            $this->files['config.php']->set_attribute('has_layouts');
+
+            if (!empty($this->recipe['layouts'])) {
+                foreach ($this->recipe['layouts'] as $layout) {
+                    $layoutfile = 'layout/'.$layout.'.php';
+                    $this->prepare_file_skeleton($layoutfile, 'base', 'theme/layout');
+
+                    if ($ishtml5) {
+                        $this->files[$layoutfile]->set_attribute('is_html5');
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Verifies that the string ids are present in the recipe.
+     */
+    protected function verify_strings_exist($stringids) {
+
+        foreach ($stringids as $stringid) {
+            $found = false;
+            if (!empty($this->recipe['strings'])) {
+                foreach ($this->recipe['strings'] as $string) {
+                    if ($string['id'] === $stringid) {
+                        $found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!$found) {
+                $this->logger->warning("String id '$stringid' not set");
+            }
         }
     }
 
@@ -491,6 +565,14 @@ class manager {
 
         if ($feature === 'cli_scripts') {
             return !empty($this->recipe['cli_scripts']);
+        }
+
+        if ($feature === 'stylesheets') {
+            return !empty($this->recipe['stylesheets']);
+        }
+
+        if ($feature === 'layouts') {
+            return !empty($this->recipe['layouts']);
         }
 
         return false;
