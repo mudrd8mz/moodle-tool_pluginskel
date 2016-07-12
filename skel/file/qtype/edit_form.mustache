@@ -1,0 +1,29 @@
+{{!
+    edit_<qtypename>_form.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}The editing form for {{ component_name }} question type is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+/**
+ * {{ component_name }} question editing form defition.
+ *
+ * You should override functions as necessary from the parent class located at
+ * /question/type/edit_question_form.php.
+ */
+class {{ component }}_edit_form extends question_edit_form {
+
+    /**
+     * Returns the question type name.
+     *
+     * @return string The question type name.
+     */
+    public function qtype() {
+        return '{{ component_name }}';
+    }
+}
