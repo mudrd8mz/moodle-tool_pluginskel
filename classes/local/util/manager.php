@@ -162,6 +162,10 @@ class manager {
 
         $plugintype = $this->recipe['component_type'];
 
+        if ($plugintype === 'qtype') {
+            $this->prepare_qtype_files();
+        }
+
         if ($plugintype === 'mod') {
             $this->prepare_mod_files();
         }
@@ -317,10 +321,31 @@ class manager {
     }
 
     /**
-     * Verifies that the string ids are present in the recipe.
+     * Prepares the files for a question types plugin.
      */
-    protected function verify_strings_exist($stringids) {
+    protected function prepare_qtype_files() {
 
+        $stringids = array(
+            'pluginnamesummary',
+            'pluginnameadding',
+            'pluginnameediting',
+            'pluginname_help'
+        );
+
+        $this->verify_strings_exist($stringids);
+
+        $this->prepare_file_skeleton('question.php', 'php_internal_file', 'qtype/question');
+        $this->prepare_file_skeleton('questiontype.php', 'php_internal_file', 'qtype/questiontype');
+        $this->prepare_file_skeleton('renderer.php', 'php_internal_file', 'qtype/renderer');
+
+        $editform = 'edit_'.$this->recipe['component_name'].'_form.php';
+        $this->prepare_file_skeleton($editform, 'php_internal_file', 'qtype/edit_form');
+    }
+
+     /**
+      * Verifies that the string ids are present in the recipe.
+      */
+    protected function verify_strings_exist($stringids) {
         foreach ($stringids as $stringid) {
             $found = false;
             if (!empty($this->recipe['strings'])) {
