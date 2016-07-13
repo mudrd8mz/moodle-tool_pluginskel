@@ -1,0 +1,28 @@
+{{!
+    layout/<filename>.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Layout {{ self.filename }} is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{{ copyright }}}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+echo $OUTPUT->doctype(); ?>
+<html <?php echo $OUTPUT->htmlattributes(); ?>>
+<head>
+    <title><?php echo $OUTPUT->page_title(); ?></title>
+    <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>" />
+    <?php echo $OUTPUT->standard_head_html() ?>
+    {{# self.is_html5 }}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{/ self.is_html5 }}
+</head>
+
+<body>
+
+<?php echo $OUTPUT->standard_end_of_body_html() ?>
+</body>
+</html>
