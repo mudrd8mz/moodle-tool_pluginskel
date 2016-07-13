@@ -1,0 +1,48 @@
+{{!
+    backup/moodle2/backup_<modname>_stepslib.php
+
+    * component
+    * copyright
+}}
+{{< common/backup_php }}
+{{$ description }}Backup steps for {{ component }} are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/backup_php }}
+
+/**
+ * Define the complete structure for backup, with file and id annotations.
+ */
+class backup_{{ component_name }}_activity_structure_step extends backup_activity_structure_step {
+
+    /**
+     * Defines the structure of the resulting xml file.
+     *
+     * @return backup_nested_element The structure wrapped by the common 'activity' element.
+     */
+    protected function define_structure() {
+        $userinfo = $this->get_setting_value('userinfo');
+
+        // Replace with the attributes and final elements that the element will handle.
+        $attributes = null;
+        $final_elements = null;
+        $root = new backup_nested_element('{{ component }}', $attributes, $final_elements);
+        {{# backup_moodle2.backup_elements}}
+
+        // Replace with the attributes and final elements that the element will handle.
+        $attributes = null;
+        $final_elements = null;
+        ${{ . }} = new backup_nested_element('{{ . }}', $attributes, $final_elements);
+        {{/ backup_moodle2.backup_elements}}
+
+        // Build the tree with these elements with $root as the root of the backup tree.
+
+        // Define the source tables for the elements.
+
+        // Define id annotations.
+
+        // Define file annotations.
+
+        return $this->prepare_activity_structure($root);
+    }
+}
