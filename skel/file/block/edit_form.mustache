@@ -1,0 +1,33 @@
+{{!
+    edit_form.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Form for editing {{ component_name }} block instances.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+/**
+ * Form for editing {{ component }} block instances.
+ *
+ * @package    {{ component }}
+ * @copyright  {{ copyright }}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class {{ component }}_edit_form extends block_edit_form {
+
+    /**
+     * Extends the configuration form for {{ component }}.
+     */
+    protected function specific_definition($mform) {
+
+        // Section header title.
+        $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
+
+        // Please keep in mind that all elements defined here must start with 'config_'.
+
+    }
+}

@@ -1,0 +1,70 @@
+## Every recipe file must provide at least the component property.
+## Based on the plugin type plugin specific files files will be generated.
+component: block_test
+
+## Human readable name of the plugin.
+name: Block plugin
+
+## Human readable release number.
+release: "0.1.0"
+
+## Plugin version number, e.g. 2016062100. Will be set to current date if left empty.
+#version: 2016121200
+
+## Required Moodle version, e.g. 2015051100 or "2.9".
+requires: "2.9"
+
+## Plugin maturity level. Possible options are MATURIY_ALPHA, MATURITY_BETA,
+## MATURITY_RC or MATURIY_STABLE.
+maturity: MATURITY_BETA
+
+## Copyright holder(s) of the generated files and classes.
+copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
+
+## Features flags can control generation of optional files/code fragments.
+features:
+  readme: true
+  license: true
+
+  ## Creates the file settings.php. The function has_config() in
+  ## block_<blockname>.php will return true.
+  #settings: true
+
+  ## Creates the file edit_form.php
+  edit_form: true
+
+  ## Allows multiple instances of the block on the same course.
+  instance_allow_multiple: false
+
+## Capabilities defined by the plugin.
+capabilities:
+
+  - name: addinstance
+    captype: write
+    riskbitmask: RISK_SPAM | RISK_XSS
+    contextlevel: CONTEXT_BLOCK
+    archetypes:
+      - role: student
+        permission: CAP_ALLOW
+      - role: editingteacher
+        permission: CAP_ALLOW
+    clonepermissionsfrom: moodle/site:manageblocks
+
+  ## Required if the block can appear on a page that starts with 'my'.
+  - name: myaddinstance
+    captype: write
+    contextlevel: CONTEXT_BLOCK
+    archetypes:
+      - role: manager
+        permission: CAP_ALLOW
+      - role: editingteacher
+        permission: CAP_ALLOW
+
+## Choose where to display the block.
+applicable_formats:
+    - page: all
+      allowed: false
+    - page: course-view
+      allowed: true
+    - page: course-view-social
+      allowed: false
