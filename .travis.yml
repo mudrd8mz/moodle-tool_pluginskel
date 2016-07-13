@@ -13,7 +13,7 @@ php:
 env:
  global:
   - MOODLE_BRANCH=MOODLE_31_STABLE
-  - IGNORE_PATHS=amd/build/,vendor/
+  - IGNORE_PATHS=amd/build/,vendor/,tests/
 
  matrix:
   - DB=pgsql
