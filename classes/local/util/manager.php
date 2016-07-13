@@ -385,6 +385,8 @@ class manager {
 
      /**
       * Verifies that the string ids are present in the recipe.
+      *
+      * @param string[] $stringids Sequence of string ids.
       */
     protected function verify_strings_exist($stringids) {
         foreach ($stringids as $stringid) {
@@ -425,21 +427,7 @@ class manager {
             'view'
         );
 
-        foreach ($stringids as $stringid) {
-            $found = false;
-            if (!empty($this->recipe['strings'])) {
-                foreach ($this->recipe['strings'] as $string) {
-                    if ($string['id'] === $stringid) {
-                        $found = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!$found) {
-                $this->logger->warning("Missing string id '$stringid'");
-            }
-        }
+        $this->verify_strings_exist($stringids);
 
         $this->prepare_file_skeleton('index.php', 'php_web_file', 'mod/index');
         $this->prepare_file_skeleton('view.php', 'view_php_file', 'mod/view');
@@ -488,7 +476,7 @@ class manager {
     /*
      * Prepares the skeleton files for the 'backup_moodle2' feature for an activity module.
      */
-    public function prepare_mod_backup_moodle2() {
+    protected function prepare_mod_backup_moodle2() {
 
         $componentname = $this->recipe['component_name'];
         $hassettingslib = $this->should_have('settingslib');
