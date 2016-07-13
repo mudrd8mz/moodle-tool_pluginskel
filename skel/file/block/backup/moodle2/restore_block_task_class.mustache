@@ -1,0 +1,79 @@
+{{!
+    backup/moodle2/restore_<blockname>_block_task.class.php
+
+    * component
+    * copyright
+}}
+{{< common/restore_php }}
+{{$ description }}The task that provides a complete restore of {{ component }} is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/restore_php }}
+
+{{# self.has_stepslib }}
+require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/restore_{{ component_name }}_stepslib.php');
+{{/ self.has_stepslib }}
+
+/**
+ * Restore task for {{ component }}.
+ */
+class restore_{{ component_name }}_block_task extends restore_block_task {
+
+    /**
+     * Defines particular settings that the block can have.
+     */
+    protected function define_my_settings() {
+        return;
+    }
+
+    /**
+     * Defines particular steps that the block can have.
+     */
+    protected function define_my_steps() {
+        return;
+    }
+
+    /**
+     * Returns the fileareas belonging to the block.
+     *
+     * @return array.
+     */
+    public function get_fileareas() {
+        return array();
+    }
+
+    /**
+     * Returns the encoded configuration attributes.
+     *
+     * @return array;
+     */
+    public function get_configdata_encoded_attributes() {
+        return array();
+    }
+
+    /**
+     * Defines the contents in the block that must be processed by the link decoder.
+     *
+     * @return array.
+     */
+    static public function define_decode_contents() {
+        $contents = array();
+
+        // Define the contents.
+
+        return $contents;
+    }
+
+    /**
+     * Defines the decoding rules for links belonging to the block to be executed by the link decoder.
+     *
+     * @return array.
+     */
+    static public function define_decode_rules() {
+        $rules = array();
+
+        // Define the rules, if any.
+
+        return $rules;
+    }
+}

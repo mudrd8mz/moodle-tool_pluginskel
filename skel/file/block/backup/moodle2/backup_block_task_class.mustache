@@ -1,0 +1,67 @@
+{{!
+    backup/moodle2/backup_<blockname>_block_task.class.php
+
+    * component
+    * copyright
+}}
+{{< common/backup_php }}
+{{$ description}}The task that provides all the steps to perform a complete backup is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/backup_php }}
+
+{{# self.has_stepslib }}
+require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_stepslib.php');
+{{/ self.has_stepslib }}
+{{# self.has_settingslib }}
+require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_settingslib.php');
+{{/ self.has_settingslib }}
+
+/**
+ * The class provides all the settings and steps to perform one complete backup
+ * of {{ component }}.
+ */
+class backup_{{ component_name }}_block_task extends backup_block_task {
+
+    /**
+     * Defines particular settings for the plugin.
+     */
+    protected function define_my_settings() {
+        return;
+    }
+
+    /**
+     * Defines particular steps for the backup process.
+     */
+    protected function define_my_steps() {
+        return;
+    }
+
+    /**
+     * Returns the array of file area names within the block context.
+     *
+     * @return string[] File area names.
+     */
+    public function get_fileareas() {
+        return array();
+    }
+
+    /**
+     * Returns the config elements that must be processed before they are stored for backup.
+     *
+     * @return string[] Config elements.
+     */
+    public function get_configdata_encoded_attributes() {
+        return array();
+    }
+
+    /**
+     * Codes the transformations to perform in the block in order to get transportable (encoded) links.
+     *
+     * @param string $content.
+     * @return string.
+     */
+    static public function encode_content_links($content) {
+        return $content;
+    }
+}

@@ -60,6 +60,17 @@ capabilities:
       - role: editingteacher
         permission: CAP_ALLOW
 
+backup_moodle2:
+    restore_task: true
+    restore_stepslib: true
+    backup_stepslib: true
+    settingslib: true
+    backup_elements:
+        - elt
+    restore_elements:
+        - name: elt
+          path: /path/to/file
+
 ## Choose where to display the block.
 applicable_formats:
     - page: all
