@@ -1,0 +1,28 @@
+{{!
+    questiontype.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Question type class for {{ component_name }} is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+require_once($CFG->libdir.'/questionlib.php');
+
+/**
+ * Class that represents a {{ component_name }} question type.
+ *
+ * The class loads, saves and deletes questions of the type {{ component_name }}
+ * to and from the database and provides methods to help with editing questions
+ * of this type. It can also provide the implementation for import and export
+ * in various formats.
+ */
+class {{ component }} extends question_type {
+
+    // Override functions as necessary from the parent class located at
+    // /question/type/questiontype.php.
+
+}
