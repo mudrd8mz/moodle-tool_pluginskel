@@ -178,6 +178,10 @@ class manager {
             $this->prepare_theme_files();
         }
 
+        if ($plugintype === 'auth') {
+            $this->prepare_auth_files();
+        }
+
         if ($this->should_have('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -228,6 +232,24 @@ class manager {
 
         if ($this->should_have('cli_scripts')) {
             $this->prepare_cli_files();
+        }
+    }
+
+    /**
+     * Prepares the files for an authentication plugin.
+     */
+    protected function prepare_auth_files() {
+
+        $this->prepare_file_skeleton('auth.php', 'auth_php_file', 'auth/auth');
+
+        $stringids = array(
+            'auth_description'
+        );
+        $this->verify_strings_exist($stringids);
+
+        if ($this->should_have('config_ui')) {
+            $this->files['auth.php']->set_attribute('has_config_form');
+            $this->files['auth.php']->set_attribute('has_process_config');
         }
     }
 
