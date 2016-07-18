@@ -1,0 +1,47 @@
+## Every recipe file must provide at least the component property.
+## Based on the plugin type plugin specific files files will be generated.
+component: atto_test
+
+## Human readable name of the plugin.
+name: Example atto plugin
+
+## Human readable release number.
+release: "0.1.0"
+
+## Plugin version number, e.g. 2016062100. Will be set to current date if left empty.
+#version: 2016121200
+
+## Required Moodle version, e.g. 2015051100 or "2.9".
+requires: "2.9"
+
+## Plugin maturity level. Possible options are MATURIY_ALPHA, MATURITY_BETA,
+## MATURITY_RC or MATURIY_STABLE.
+maturity: MATURITY_BETA
+
+## Copyright holder(s) of the generated files and classes.
+copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>
+
+## Features flags can control generation of optional files/code fragments.
+features:
+    readme: true
+    license: true
+
+## Adds strings to be initialized in the plugin's user interface.
+## The strings' text must also be added to the list of explicitly added strings.
+strings_for_js:
+    - stringone
+    - stringtwo
+
+## Adds parameters to be passed in the javascript init function.
+params_for_js:
+    - name: param
+      value: value
+      ## The default value for the ATTRS property.
+      default: ''
+
+## Explicitly added strings
+strings:
+    - id: stringone
+      text: String one
+    - id: stringtwo
+      text: String two
