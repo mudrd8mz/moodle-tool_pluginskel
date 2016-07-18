@@ -1,0 +1,46 @@
+{{!
+    lib.php
+
+    * component
+    * copyright
+}}
+{{< common/lib }}
+{{/ common/lib }}
+{{# self.has_strings_for_js }}
+
+/**
+ * Initializes the js strings required for this module.
+ *
+ * This allows the plugin to initialize the strings that it will use in its user interface.
+ * The plugin name is loaded automatically.
+ */
+function {{ component }}_strings_for_js() {
+    global $PAGE;
+
+    $PAGE->requires_strings_for_js(array(
+        {{# strings_for_js }}
+        '{{ . }}',
+        {{/ strings_for_js }}
+    ));
+}
+{{/ self.has_strings_for_js }}
+{{# self.has_params_for_js }}
+
+/**
+ * Returns the javascript parameters required for this module.
+ *
+ * These parameters are passed to the javascript init function for {{ component_name }}.
+ *
+ * @param string $elementid The id of the element.
+ * @param stdClass $options The options for the editor, including the context.
+ * @param stdClass $foptions.
+ * @return array().
+ */
+function {{ component }}_params_for_js($elementid, $options, $foptions) {
+    return array(
+        {{# params_for_js }}
+        '{{ .name }}' => '{{ .value }}',
+        {{/ params_for_js }}
+    );
+}
+{{/ self.has_params_for_js }}
