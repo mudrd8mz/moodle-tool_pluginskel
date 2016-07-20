@@ -106,7 +106,7 @@ class base {
     }
 
     /**
-     * Make final corrections of rendered file content
+     * Make final corrections of rendered file content.
      *
      * Mustache templating engine is optimised for rendering HTML so it
      * sometimes leaves running empty lines. We get rid of them here.
@@ -116,5 +116,18 @@ class base {
      */
     protected function normalize($content) {
         return preg_replace('/^\h*\v{2,}/m', PHP_EOL, $content);
+    }
+
+    /**
+     * Returns the variables needed for rendering the template.
+     *
+     * The $plugintype parameter is needed if the skel class is used by different plugintypes
+     * (possibly with different template files), and each plugin type requires different variables.
+     *
+     * @param string $plugintype.
+     * @return string[].
+     */
+    static public function get_template_variables($plugintype = null) {
+        return array();
     }
 }
