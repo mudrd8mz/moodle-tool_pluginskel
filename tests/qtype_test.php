@@ -85,7 +85,7 @@ class tool_pluginskel_qtype_testcase extends advanced_testcase {
 
         $this->assertArrayHasKey('question.php', $files);
         $this->assertArrayHasKey('questiontype.php', $files);
-        $this->assertArrayHasKey('renderer.php', $files);
+        $this->assertArrayHasKey('classes/output/renderer.php', $files);
 
         $editform = 'edit_'.self::$qtypename.'_form.php';
         $this->assertArrayHasKey($editform, $files);
@@ -157,8 +157,8 @@ class tool_pluginskel_qtype_testcase extends advanced_testcase {
         $manager->make();
 
         $files = $manager->get_files_content();
-        $this->assertArrayHasKey('renderer.php', $files);
-        $rendererfile = $files['renderer.php'];
+        $this->assertArrayHasKey('classes/output/renderer.php', $files);
+        $rendererfile = $files['classes/output/renderer.php'];
 
         $description = 'The '.self::$qtypename.' question renderer class is defined here.';
         $this->assertContains($description, $rendererfile);

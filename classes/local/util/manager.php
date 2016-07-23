@@ -377,7 +377,7 @@ class manager {
 
         $this->prepare_file_skeleton('question.php', 'php_internal_file', 'qtype/question');
         $this->prepare_file_skeleton('questiontype.php', 'php_internal_file', 'qtype/questiontype');
-        $this->prepare_file_skeleton('renderer.php', 'php_internal_file', 'qtype/renderer');
+        $this->prepare_file_skeleton('classes/output/renderer.php', 'php_internal_file', 'qtype/renderer');
 
         $editform = 'edit_'.$this->recipe['component_name'].'_form.php';
         $this->prepare_file_skeleton($editform, 'php_internal_file', 'qtype/edit_form');
