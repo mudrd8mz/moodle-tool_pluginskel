@@ -45,7 +45,7 @@ class yaml {
      * @param string $yaml
      * @return array
      */
-    public static function decode_string($yaml) {
+    public static function decode_string($string) {
         return Spyc::YAMLLoadString($string);
     }
 

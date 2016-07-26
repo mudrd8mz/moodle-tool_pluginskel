@@ -67,9 +67,42 @@ class manager {
     }
 
     /**
+     * Returns a list of (component => name) values.
+     *
+     * @return string[].
+     */
+    public static function get_plugintype_names() {
+
+        $pluginman = \core_plugin_manager::instance();
+        $plugintypes = $pluginman->get_plugin_types();
+
+        // Replacing the directory with the plugin name.
+        foreach ($plugintypes as $type => $dir) {
+            $plugintypes[$type] = $pluginman->plugintype_name($type);
+        }
+
+        return $plugintypes;
+    }
+
+    /**
+     * Returns a list of variables needed by the plugin templates.
+     *
+     * @param string $component.
+     * @return string[].
+     */
+    public static function get_component_variables($component) {
+        $versionvars = \tool_pluginskel\local\skel\version_php_file::get_template_variables();
+        $langvars = \tool_pluginskel\local\skel\lang_file::get_template_variables();
+
+        $templatevars = array_merge($versionvars, $langvars);
+
+        return $templatevars;
+    }
+
+    /**
      * Validate and initialize the plugin generation recipe.
      *
-     * @param arrayu $recipe
+     * @param array $recipe
      */
     public function load_recipe(array $recipe) {
         $this->init_recipe($recipe);
@@ -947,7 +980,7 @@ class manager {
         $this->init_file('lang/en/'.$this->recipe['component'].'.php', 'lang', [
             'strings' => [
                 'id' => 'pluginname',
-                'text' => $this->recipe['name'],
+                'text' => $this->recipe['pluginname'],
             ]
         ]);
     }
