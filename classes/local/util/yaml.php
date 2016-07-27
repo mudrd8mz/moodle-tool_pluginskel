@@ -42,7 +42,7 @@ class yaml {
     /**
      * Parse given YAML string
      *
-     * @param string $yaml
+     * @param string $string
      * @return array
      */
     public static function decode_string($string) {

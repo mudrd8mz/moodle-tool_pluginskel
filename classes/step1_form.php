@@ -45,17 +45,52 @@ class tool_pluginskel_step1_form extends moodleform {
         $recipe = $this->_customdata['recipe'];
         $component = $recipe['component'];
         $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
+        $features = tool_pluginskel\local\util\manager::get_features_variables();
 
         $mform->addElement('header', 'pluginhdr', get_string('pluginhdr', 'tool_pluginskel'));
         $mform->setExpanded('pluginhdr', true);
 
         foreach ($templatevars as $variable) {
-            if (empty($variable['hint']) || $variable['hint'] != 'multiple') {
-                if (!empty($variable['values'])) {
-                    $this->add_select($variable, $recipe);
-                } else {
-                    $this->add_text($variable, $recipe);
-                }
+
+            // The default element for a template variable is a text input.
+            if (empty($variable['hint']) || $variable['hint'] == 'text') {
+                $this->add_text($variable, $recipe);
+                continue;
+            }
+
+            // Template variables that are arrays will be added at the bottom of the page.
+            if ($variable['hint'] == 'multiple') {
+                continue;
+            }
+
+            if ($variable['hint'] == 'boolean') {
+                $this->add_advcheckbox($variable, $recipe, true);
+            }
+
+            if (!empty($variable['values'])) {
+                $this->add_select($variable, $recipe);
+            }
+        }
+
+        foreach ($features as $variable) {
+
+            // The default element for a template variable is a text input.
+            if (empty($variable['hint']) || $variable['hint'] == 'text') {
+                $this->add_text($variable, $recipe);
+                continue;
+            }
+
+            // Template variables that are arrays will be added at the bottom of the page.
+            if ($variable['hint'] == 'multiple') {
+                continue;
+            }
+
+            if ($variable['hint'] == 'boolean') {
+                $this->add_advcheckbox($variable, $recipe, true);
+            }
+
+            if (!empty($variable['values'])) {
+                $this->add_select($variable, $recipe);
             }
         }
 
@@ -110,6 +145,35 @@ class tool_pluginskel_step1_form extends moodleform {
 
         if (!empty($templatevar['required'])) {
             $mform->addRule($selectname, null, 'required', null, 'client', false, true);
+        }
+    }
+
+    /**
+     * Adds an advcheckbox element to the form.
+     *
+     * @param string[] $templatevar The template variable
+     * @param string[] $recipe The recipe.
+     * @param bool $isfeature If the variable is part of 'features'.
+     */
+    protected function add_advcheckbox($templatevar, $recipe, $isfeature = false) {
+
+        $mform =& $this->_form;
+        $varname = $templatevar['name'];
+        $elementname = $isfeature ? 'features['.$templatevar['name'].']' : $varname;
+        $values = array('false', 'true');
+
+        $mform->addElement('advcheckbox', $elementname, get_string('skel'.$varname, 'tool_pluginskel'), '', null, $values);
+
+        if (!empty($recipe[$varname]) && !empty($values[$recipe[$varname]])) {
+            $mform->getElement($elementname)->setChecked(true);
+        }
+
+        if ($isfeature && !empty($recipe['features'][$varname])) {
+            $mform->getElement($elementname)->setChecked(true);
+        }
+
+        if (!empty($templatevar['required'])) {
+            $mform->addRule($elementname, null, 'required', null, 'client', false, true);
         }
     }
 

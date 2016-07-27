@@ -100,6 +100,28 @@ class manager {
     }
 
     /**
+     * Returns a list of variables needed by the features' templates.
+     *
+     * @param string $component.
+     * @return string[].
+     */
+    public static function get_features_variables() {
+
+        $featurevars = array();
+
+        // Adding strings.
+        $featurevars[] = array('name' => 'strings', 'hint' => 'multiple', 'values' => array('id', 'text'));
+
+        // Adding install feature variable.
+        $featurevars[] = array('name' => 'install', 'hint' => 'boolean');
+
+        // Adding uninstall feature variable.
+        $featurevars[] = array('name' => 'uninstall', 'hint' => 'boolean');
+
+        return $featurevars;
+    }
+
+    /**
      * Validate and initialize the plugin generation recipe.
      *
      * @param array $recipe

@@ -93,6 +93,8 @@ if ($step == 0) {
     $data = array('recipe' => $recipestub);
     $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
 
+    var_dump($templatevars);
+
     foreach ($templatevars as $var) {
         if ($var['hint'] == 'multiple') {
             $formvariable = $var['name'].'count';
@@ -115,6 +117,15 @@ if ($step == 0) {
                 }
             } else {
                 $recipe[$var['name']] = $formdata[$var['name']];
+            }
+        }
+    }
+
+    if (!empty($formdata['features'])) {
+        $recipe['features'] = array();
+        foreach ($formdata['features'] as $feature => $value) {
+            if ($value === 'true') {
+                $recipe['features'][$feature] = true;
             }
         }
     }
