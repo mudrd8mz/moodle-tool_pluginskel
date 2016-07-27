@@ -1,0 +1,57 @@
+## Every recipe file must provide at least the component property.
+## Based on the plugin type plugin specific files files will be generated.
+component: auth_test
+
+## Human readable name of the plugin.
+name: Generated authentication plugin
+
+## Human readable release number.
+release: "0.1.0"
+
+## Plugin version number, e.g. 2016062100. Will be set to current date if left empty.
+#version: 2016121200
+
+## Required Moodle version, e.g. 2015051100 or "2.9".
+requires: "2.9"
+
+## Plugin maturity level. Possible options are MATURIY_ALPHA, MATURITY_BETA,
+## MATURITY_RC or MATURIY_STABLE.
+maturity: MATURITY_BETA
+
+## Copyright holder(s) of the generated files and classes.
+copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
+
+## Features flags can control generation of optional files/code fragments.
+features:
+  readme: true
+  license: true
+
+  ## The plugin can be configured throught the Moodle UI.
+  config_ui: true
+
+## Can the auth plugin change the user's password?
+can_change_password: 'false'
+
+## Can the auth plugin edit the user's password?
+can_edit_profile: false
+
+## Is the plugin internal?
+is_internal: true
+
+## Should password hashes be stored in the local moodle database?
+prevent_local_passwords: false
+
+## Should moodle update internal user records with data from external sources?
+is_synchronised_with_external: false
+
+## Can the plugin reset the password?
+can_reset_password: true
+
+## Allow signup and user creation?
+can_signup: true
+
+## Allow confirming of new users?
+can_confirm: true
+
+## Can the plugin be manually set for users?
+can_be_manually_set: false
