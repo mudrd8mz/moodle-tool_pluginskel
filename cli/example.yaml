@@ -1,5 +1,3 @@
-## Every recipe file must provide at least the component property.
-## Based on the plugin type plugin specific files files will be generated.
 component: local_test
 
 ## Human readable name of the plugin.
@@ -44,6 +42,16 @@ features:
 ## The file db/upgradelib.php will also be generated.
 upgrade:
     upgradelib: true
+
+## PHPUnit test classes.
+phpunit_tests:
+    ## The class will be defined in the file tests/firstclass_test.php
+    ## The full class name will be local_test_firstclass_testcase.
+    - firstclass
+    - secondclass
+
+    ## This is valid too.
+    - local_test_thirdclass_testcase
 
 ## Capabilities defined by the plugin.
 capabilities:
