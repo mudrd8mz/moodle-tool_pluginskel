@@ -1,0 +1,37 @@
+{{!
+    yui/src/button/js/button.js
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}The Atto plugin {{ component_name }} is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+/**
+ * Atto {{ component_name }} plugin.
+ *
+ * @namespace M.{{ component }}.
+ * @class button.
+ * @extends M.editor_atto.EditorPlugin.
+ */
+Y.namespace('M.{{ component }}').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
+    initializer: function() {
+        this.addButton({
+            // Add properties here as necessary.
+        });
+    },
+{{# self.has_params_for_js }}
+    {
+        ATTRS: {
+            {{# params_for_js }}
+            {{ .name }}: {
+                value: '{{ .default }}'
+            },
+            {{/ params_for_js }}
+        }
+    }
+{{/ self.has_params_for_js }}
+});

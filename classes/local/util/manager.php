@@ -182,6 +182,10 @@ class manager {
             $this->prepare_auth_files();
         }
 
+        if ($plugintype === 'atto') {
+            $this->prepare_atto_files();
+        }
+
         if ($this->should_have('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -250,6 +254,56 @@ class manager {
         if ($this->should_have('config_ui')) {
             $this->files['auth.php']->set_attribute('has_config_form');
             $this->files['auth.php']->set_attribute('has_process_config');
+        }
+    }
+
+    /*
+     * Prepares the files for an atto plugin.
+     */
+    protected function prepare_atto_files() {
+
+        $buttonjsfile = 'yui/src/button/js/button.js';
+        $this->prepare_file_skeleton($buttonjsfile, 'base', 'atto/button_js');
+
+        $buttonjsonfile = 'yui/src/button/meta/button.json';
+        $this->prepare_file_skeleton($buttonjsonfile, 'base', 'atto/button_json');
+
+        $buildjsonfile = 'yui/src/button/build.json';
+        $this->prepare_file_skeleton($buildjsonfile, 'base', 'atto/build');
+
+        if ($this->should_have('strings_for_js')) {
+            $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
+            $this->files['lib.php']->set_attribute('has_strings_for_js');
+
+            $jsstrings = array();
+            if (!empty($this->recipe['strings'])) {
+                foreach ($this->recipe['strings_for_js'] as $stringid) {
+                    $jsstrings[] = $stringid;
+
+                    $found = false;
+                    foreach ($this->recipe['strings'] as $idtext) {
+                        if ($idtext['id'] == $stringid) {
+                            $found = true;
+                            break;
+                        }
+                    }
+
+                    if (!$found) {
+                        $this->logger->warning('Missing string id: '.$stringid);
+                    }
+                }
+            }
+
+            $this->files['lib.php']->add_strings_for_js($jsstrings);
+        }
+
+        if ($this->should_have('params_for_js')) {
+            if (empty($this->files['lib.php'])) {
+                $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
+            }
+
+            $this->files['lib.php']->set_attribute('has_params_for_js');
+            $this->files[$buttonjsfile]->set_attribute('has_params_for_js');
         }
     }
 
@@ -757,6 +811,14 @@ class manager {
 
         if ($feature === 'layouts') {
             return !empty($this->recipe['layouts']);
+        }
+
+        if ($feature === 'params_for_js') {
+            return !empty($this->recipe['params_for_js']);
+        }
+
+        if ($feature === 'strings_for_js') {
+            return !empty($this->recipe['strings_for_js']);
         }
 
         return false;
