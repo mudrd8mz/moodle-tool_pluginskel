@@ -1,0 +1,34 @@
+{{!
+    tests/<classname>_test.php
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}File containing tests for {{ self.classname }}.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+// For installation and usage of PHPUnit within Moodle please read:
+// https://docs.moodle.org/dev/PHPUnit
+//
+// Documentation for writing PHPUnit tests for Moodle can be found here:
+// https://docs.moodle.org/dev/PHPUnit_integration
+// https://docs.moodle.org/dev/Writing_PHPUnit_tests
+//
+// The official PHPUnit homepage is at:
+// https://phpunit.de
+
+/**
+ * The {{ self.classname }} test class.
+ *
+ * @package    {{ component }}
+ * @copyright  {{ copyright }}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class {{ component }}_{{ self.classname }}_testcase extends advanced_testcase {
+
+    // Write the tests here as public funcions.
+
+}

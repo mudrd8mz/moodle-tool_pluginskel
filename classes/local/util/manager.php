@@ -237,6 +237,34 @@ class manager {
         if ($this->should_have('cli_scripts')) {
             $this->prepare_cli_files();
         }
+
+        if ($this->should_have('phpunit_tests')) {
+            $this->prepare_phpunit_tests();
+        }
+    }
+
+    /**
+     * Prepares the PHPUnit test files.
+     */
+    protected function prepare_phpunit_tests() {
+
+        foreach ($this->recipe['phpunit_tests'] as $class) {
+
+            $classname = $class;
+
+            if (strpos($classname, $this->recipe['component']) !== false) {
+                $classname = substr($classname, strlen($this->recipe['component']) + 1);
+            }
+
+            if (strpos($classname, '_testcase') !== false) {
+                $classname = substr($classname, 0, strlen($classname) - strlen('_testcase'));
+            }
+
+            $filename = 'tests/'.$classname.'_test.php';
+            $this->prepare_file_skeleton($filename, 'phpunit_test_file', 'phpunit');
+
+            $this->files[$filename]->set_classname($classname);
+        }
     }
 
     /**
@@ -350,6 +378,7 @@ class manager {
         if ($this->should_have('backup_moodle2')) {
             $this->prepare_block_backup_moodle2();
         }
+
     }
 
     /**
@@ -819,6 +848,10 @@ class manager {
 
         if ($feature === 'strings_for_js') {
             return !empty($this->recipe['strings_for_js']);
+        }
+
+        if ($feature === 'phpunit_tests') {
+            return !empty($this->recipe['phpunit_tests']);
         }
 
         return false;
