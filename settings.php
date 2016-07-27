@@ -24,10 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-// Entry in Site administration -> Plugins -> Generate plugin skeleton.
+// Entry in Site administration -> Development -> Generate plugin skeleton.
 if ($hassiteconfig) {
     $ADMIN->add(
-        'modules',
+        'development',
         new admin_externalpage(
             'tool_pluginskel', get_string('generateskel', 'tool_pluginskel'),
             "$CFG->wwwroot/$CFG->admin/tool/pluginskel/index.php"
