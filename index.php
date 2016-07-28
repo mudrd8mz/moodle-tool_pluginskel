@@ -37,6 +37,7 @@ $PAGE->set_url($url);
 $PAGE->set_title(get_string('generateskel', 'tool_pluginskel'));
 $PAGE->set_heading(get_string('generateskel', 'tool_pluginskel'));
 
+
 $step = optional_param('step', '0', PARAM_INT);
 $component = optional_param('component1', '', PARAM_TEXT);
 
@@ -50,6 +51,8 @@ if ($step == 0) {
 
     if (!empty($formdata)) {
         $data = array();
+        $recipe = array();
+        $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
 
         if (empty($recipefile)) {
             if (empty($formdata->componentname)) {
@@ -58,7 +61,6 @@ if ($step == 0) {
             $recipe['component'] = $formdata->componenttype.'_'.$formdata->componentname;
         } else {
             $recipe = tool_pluginskel\local\util\yaml::decode_string($recipefile);
-            $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
 
             foreach ($templatevars as $var) {
                 if ($var['hint'] == 'multiple') {
@@ -76,6 +78,8 @@ if ($step == 0) {
         $data['recipe'] = $recipe;
         $mform1 = new tool_pluginskel_step1_form(null, $data);
 
+        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore', array($templatevars));
+
         echo $OUTPUT->header();
         $mform1->display();
         echo $OUTPUT->footer();
@@ -92,8 +96,6 @@ if ($step == 0) {
     $recipestub = array('component' => $component);
     $data = array('recipe' => $recipestub);
     $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
-
-    var_dump($templatevars);
 
     foreach ($templatevars as $var) {
         if ($var['hint'] == 'multiple') {
@@ -162,7 +164,6 @@ if ($step == 0) {
         header('Pragma: public');
         header('Content-Length: '.filesize($archivefile));
         readfile($archivefile);
-
         unlink($targetdir);
 
     } else if (!empty($formdata['buttonsaverecipe'])) {

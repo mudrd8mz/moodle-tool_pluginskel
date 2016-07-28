@@ -275,7 +275,7 @@ class tool_pluginskel_step1_form extends moodleform {
             $currentcount = $currentcount + 1;
         }
 
-        $mform->addElement('submit', 'addmore_'.$name, get_string('addmore', 'tool_pluginskel'));
+        $mform->addElement('button', 'addmore_'.$name, get_string('addmore', 'tool_pluginskel'));
 
         $mform->addElement('hidden', $name.'count', $count);
         $mform->setType($name.'count', PARAM_INT);
