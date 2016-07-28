@@ -99,7 +99,7 @@ class version_php_file extends php_internal_file {
             array('name' => 'requires', 'hint' => 'multiple-options', 'required' => true,
                   'values' => self::$moodleversions),
             array('name' => 'dependencies', 'hint' => 'array', 'required' => false, 'values' => array(
-                  array('name' => 'plugin'),
+                  array('name' => 'plugin', 'hint' => 'text'),
                   array('name' => 'version'))),
         );
 

@@ -71,9 +71,9 @@ if ($step == 0) {
             }
 
             $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
-            $data = get_variable_count_from_recipe($templatevars, $recipe);
         }
 
+        $data = get_variable_count_from_recipe($templatevars, $recipe);
         $data['recipe'] = $recipe;
         $mform1 = new tool_pluginskel_step1_form(null, $data);
 
@@ -97,7 +97,7 @@ if ($step == 0) {
     $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
 
     foreach ($templatevars as $var) {
-        if ($var['hint'] == 'multiple') {
+        if (!empty($var['hint']) && $var['hint'] == 'array') {
             $formvariable = $var['name'].'count';
             $count = (int) optional_param($formvariable, '1', PARAM_INT);
             $data[$formvariable] = $count;
@@ -111,11 +111,43 @@ if ($step == 0) {
     $recipe = array();
     foreach ($templatevars as $var) {
         if (!empty($formdata[$var['name']])) {
-            if ($var['hint'] == 'multiple') {
+            if (!empty($var['hint']) && $var['hint'] == 'array') {
                 $recipe[$var['name']] = array();
-                foreach ($formdata[$var['name']] as $value) {
-                    $recipe[$var['name']][] = $value;
+
+                foreach ($formdata[$var['name']] as $v) {
+                    $isempty = true;
+                    $recipevalue = array();
+
+                    foreach ($v as $formfield => $value) {
+
+                        // Finding the corresponding template variable for the form field.
+                        $templatevariable = array();
+                        foreach ($var['values'] as $variable) {
+                            if ($variable['name'] === $formfield) {
+                                $templatevariable = $variable;
+                                break;
+                            }
+                        }
+
+                        // No corresponding template variable found, do not save.
+                        if (empty($templatevariable)) {
+                            $isempty = true;
+                            break;
+                        }
+
+                        if (!empty($value)) {
+                            $isempty = false;
+                            $recipevalue[$formfield] = $value;
+                        }
+                    }
+
+                    if ($isempty) {
+                        unset($recipe[$var['name']]);
+                    } else {
+                        $recipe[$var['name']][] = $recipevalue;
+                    }
                 }
+
             } else {
                 $recipe[$var['name']] = $formdata[$var['name']];
             }
@@ -184,7 +216,7 @@ function get_variable_count_from_recipe($templatevars, $recipe) {
     $variablecount = array();
 
     foreach ($templatevars as $variable) {
-        if (!empty($variable['hint']) && $variable['hint'] == 'multiple') {
+        if (!empty($variable['hint']) && $variable['hint'] == 'array') {
             $formvariable = $variable['name'].'count';
 
             if (empty($recipe[$variable['name']])) {

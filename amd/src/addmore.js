@@ -27,15 +27,27 @@ define(['jquery'], function($) {
                     var prevElementClasses = $('#fitem_'+prevElementId).attr('class');
 
                     var prevElementHtml = $('#fitem_'+prevElementId).html();
-                    prevElementHtml = prevElementHtml.replace(prevElementId, elementId);
-                    prevElementHtml = prevElementHtml.replace(prevElementName, elementName);
 
+                    // Replace all occurrences of previous name.
+                    // Using a RegExp class with replace doesn't seem to be working.
+                    while (prevElementHtml.indexOf(prevElementName) != -1) {
+                        prevElementHtml = prevElementHtml.replace(prevElementName, elementName);
+                    }
+
+                    // Replace all occurrences of previous id.
+                    while (prevElementHtml.indexOf(prevElementId) != -1) {
+                        prevElementHtml = prevElementHtml.replace(prevElementId, elementId);
+                    }
+
+                    // Add the new elements inside a div similar to the original.
                     newElements += '<div id="fitem_'+elementId+'" class="'+prevElementClasses+'">';
                     newElements += prevElementHtml;
                     newElements += '</div>';
                 }
+
                 $('#fitem_id_addmore_'+variableName).before(newElements);
 
+                // Increment the number of variable elements.
                 $("[name='"+variableName+"count']").val(variableCount + 1);
             });
         }
