@@ -53,57 +53,60 @@ class tool_pluginskel_step1_form extends moodleform {
         foreach ($templatevars as $variable) {
 
             // The default element for a template variable is a text input.
-            if (empty($variable['hint']) || $variable['hint'] == 'text') {
+            if (empty($variable['hint']) || $variable['hint'] == 'text' || $variable['hint'] == 'int') {
                 $this->add_text($variable, $recipe);
                 continue;
             }
 
             // Template variables that are arrays will be added at the bottom of the page.
-            if ($variable['hint'] == 'multiple') {
+            if ($variable['hint'] == 'array') {
                 continue;
             }
 
             if ($variable['hint'] == 'boolean') {
-                $this->add_advcheckbox($variable, $recipe, true);
+                $this->add_advcheckbox($variable, $recipe);
             }
 
-            if (!empty($variable['values'])) {
+            if ($variable['hint'] == 'multiple-options') {
                 $this->add_select($variable, $recipe);
             }
         }
 
         foreach ($features as $variable) {
 
-            // The default element for a template variable is a text input.
-            if (empty($variable['hint']) || $variable['hint'] == 'text') {
+            if (empty($variable['hint']) || $variable['hint'] == 'text' || $variable['hint'] == 'int') {
                 $this->add_text($variable, $recipe);
                 continue;
             }
 
             // Template variables that are arrays will be added at the bottom of the page.
-            if ($variable['hint'] == 'multiple') {
+            if ($variable['hint'] == 'array') {
                 continue;
             }
 
             if ($variable['hint'] == 'boolean') {
-                $this->add_advcheckbox($variable, $recipe, true);
+                // Features that are only true or false are in the 'features' part of the recipe.
+                $eltformname = 'features['.$variable['name'].']';
+                $features = empty($recipe['features']) ? array() : $recipe['features'];
+
+                $this->add_advcheckbox($variable, $features, $eltformname);
             }
 
-            if (!empty($variable['values'])) {
+            if ($variable['hint'] == 'multiple-options') {
                 $this->add_select($variable, $recipe);
             }
         }
 
         // Adding required array variables first because the fieldsets will be expanded.
         foreach ($templatevars as $variable) {
-            if (!empty($variable['hint']) && $variable['hint'] == 'multiple' && !empty($variable['required'])) {
+            if (!empty($variable['hint']) && $variable['hint'] == 'array' && !empty($variable['required'])) {
                 $this->add_fieldset($variable, $recipe);
             }
         }
 
         // Adding optional array variables last because the fieldsets will not be expanded.
         foreach ($templatevars as $variable) {
-            if (!empty($variable['hint']) && $variable['hint'] == 'multiple' && empty($variable['required'])) {
+            if (!empty($variable['hint']) && $variable['hint'] == 'array' && empty($variable['required'])) {
                 $this->add_fieldset($variable, $recipe);
             }
         }
@@ -130,17 +133,19 @@ class tool_pluginskel_step1_form extends moodleform {
      *
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
+     * @param string $eltformname Element form name, used when adding the text element as part of an array.
      */
-    protected function add_select($templatevar, $recipe) {
+    protected function add_select($templatevar, $recipe, $eltformname = null) {
 
         $mform =& $this->_form;
-        $selectname = $templatevar['name'];
+        $variablename = $templatevar['name'];
+        $selectname = empty($eltformname) ? $variablename : $eltformname;
         $selectvalues = $templatevar['values'];
 
-        $mform->addElement('select', $selectname, get_string('skel'.$selectname, 'tool_pluginskel'), $selectvalues);
+        $mform->addElement('select', $selectname, get_string('skel'.$variablename, 'tool_pluginskel'), $selectvalues);
 
-        if (!empty($recipe[$selectname]) && !empty($selectvalues[$recipe[$selectname]])) {
-            $mform->getElement($selectname)->setSelected($recipe[$selectname]);
+        if (!empty($recipe[$variablename]) && !empty($selectvalues[$recipe[$variablename]])) {
+            $mform->getElement($selectname)->setSelected($recipe[$variablename]);
         }
 
         if (!empty($templatevar['required'])) {
@@ -153,22 +158,22 @@ class tool_pluginskel_step1_form extends moodleform {
      *
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
-     * @param bool $isfeature If the variable is part of 'features'.
+     * @param string $eltformname Element form name, used when adding the text element as part of an array.
      */
-    protected function add_advcheckbox($templatevar, $recipe, $isfeature = false) {
+    protected function add_advcheckbox($templatevar, $recipe, $eltforname = null) {
 
         $mform =& $this->_form;
-        $varname = $templatevar['name'];
-        $elementname = $isfeature ? 'features['.$templatevar['name'].']' : $varname;
+        $variablename = $templatevar['name'];
+        $elementname = empty($eltformname) ? $variablename : $eltformname;
         $values = array('false', 'true');
 
-        $mform->addElement('advcheckbox', $elementname, get_string('skel'.$varname, 'tool_pluginskel'), '', null, $values);
+        $mform->addElement('advcheckbox', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'), '', null, $values);
 
-        if (!empty($recipe[$varname]) && !empty($values[$recipe[$varname]])) {
+        if (!empty($recipe[$variablename]) && !empty($values[$recipe[$variablename]])) {
             $mform->getElement($elementname)->setChecked(true);
         }
 
-        if ($isfeature && !empty($recipe['features'][$varname])) {
+        if (!empty($recipe[$variablename])) {
             $mform->getElement($elementname)->setChecked(true);
         }
 
@@ -182,13 +187,15 @@ class tool_pluginskel_step1_form extends moodleform {
      *
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
+     * @param string $eltformname Text element form name, used when adding the text element as part of an array.
      */
-    protected function add_text($templatevar, $recipe) {
+    protected function add_text($templatevar, $recipe, $eltformname = null) {
 
         $mform =& $this->_form;
-        $textname = $templatevar['name'];
+        $textname = empty($eltformname) ? $templatevar['name'] : $eltformname;
+        $variablename = $templatevar['name'];
 
-        $mform->addElement('text', $textname, get_string('skel'.$textname, 'tool_pluginskel'));
+        $mform->addElement('text', $textname, get_string('skel'.$variablename, 'tool_pluginskel'));
 
         if (!empty($templatevar['hint']) && $templatevar['hint'] == 'int') {
             $mform->setType($textname, PARAM_INT);
@@ -196,8 +203,8 @@ class tool_pluginskel_step1_form extends moodleform {
             $mform->setType($textname, PARAM_TEXT);
         }
 
-        if (!empty($recipe[$textname])) {
-            $mform->getElement($textname)->setValue($recipe[$textname]);
+        if (!empty($recipe[$variablename])) {
+            $mform->getElement($textname)->setValue($recipe[$variablename]);
         }
 
         if (!empty($templatevar['required'])) {
@@ -224,15 +231,15 @@ class tool_pluginskel_step1_form extends moodleform {
             $count = (int) $this->_customdata[$name.'count'];
         }
 
-        $recipevalues = array();
         // Keeping only the recipe values that are part of the template variable.
+        $recipevalues = array();
         if (!empty($recipe[$name]) && is_array($recipe[$name])) {
             foreach ($recipe[$name] as $recipevalue) {
-
                 $currentvalue = array();
                 foreach ($elements as $element) {
-                    if (isset($recipevalue[$element])) {
-                        $currentvalue[$element] = $recipevalue[$element];
+                    $elementname = $element['name'];
+                    if (isset($recipevalue[$elementname])) {
+                        $currentvalue[$elementname] = $recipevalue[$elementname];
                     }
                 }
 
@@ -253,13 +260,15 @@ class tool_pluginskel_step1_form extends moodleform {
         if (!empty($recipevalues)) {
             foreach ($recipevalues as $index => $value) {
                 foreach ($elements as $element) {
-                    $elementname = $name.'['.$index.']['.$element.']';
-                    $mform->addElement('text', $elementname, get_string('skel'.$element, 'tool_pluginskel'));
-                    $mform->setType($elementname, PARAM_TEXT);
-
-                    if (!empty($value[$element])) {
-                        $mform->getElement($elementname)->setValue($value[$element]);
+                    if (empty($element['hint']) || $element['hint'] == 'text' || $element['hint'] == 'int') {
+                        $eltformname = $name.'['.$index.']['.$element['name'].']';
+                        $this->add_text($element, $value, $eltformname);
                     }
+                }
+
+                // Add a newline between array values.
+                if ($index < count($recipevalues) - 1) {
+                    $mform->addElement('html', '<br/>');
                 }
             }
         }
@@ -268,11 +277,16 @@ class tool_pluginskel_step1_form extends moodleform {
 
         while ($currentcount < $count) {
             foreach ($elements as $element) {
-                $elementname = $name.'['.$currentcount.']['.$element.']';
-                $mform->addElement('text', $elementname, get_string('skel'.$element, 'tool_pluginskel'));
-                $mform->setType($elementname, PARAM_TEXT);
+                $eltformname = $name.'['.$currentcount.']['.$element['name'].']';
+                $this->add_text($element, array(), $eltformname);
             }
+
             $currentcount = $currentcount + 1;
+
+            // Add a newline between arrays.
+            if ($currentcount < $count) {
+                $mform->addElement('html', '<br/>');
+            }
         }
 
         $mform->addElement('button', 'addmore_'.$name, get_string('addmore', 'tool_pluginskel'));

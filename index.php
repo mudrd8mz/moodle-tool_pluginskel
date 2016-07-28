@@ -37,7 +37,6 @@ $PAGE->set_url($url);
 $PAGE->set_title(get_string('generateskel', 'tool_pluginskel'));
 $PAGE->set_heading(get_string('generateskel', 'tool_pluginskel'));
 
-
 $step = optional_param('step', '0', PARAM_INT);
 $component = optional_param('component1', '', PARAM_TEXT);
 
@@ -47,32 +46,32 @@ if ($step == 0) {
 
     $mform0 = new tool_pluginskel_step0_form();
     $formdata = $mform0->get_data();
-    $recipefile = $mform0->get_file_content('recipefile');
 
     if (!empty($formdata)) {
+
         $data = array();
         $recipe = array();
         $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
 
-        if (empty($recipefile)) {
+        if (!empty($formdata->proceedmanually)) {
             if (empty($formdata->componentname)) {
                 throw new moodle_exception('emptypluginname', 'tool_pluginskel', $returnurl);
             }
+
             $recipe['component'] = $formdata->componenttype.'_'.$formdata->componentname;
         } else {
-            $recipe = tool_pluginskel\local\util\yaml::decode_string($recipefile);
-
-            foreach ($templatevars as $var) {
-                if ($var['hint'] == 'multiple') {
-                    $formvariable = $var['name'].'count';
-                    if (empty($recipe[$var['name']])) {
-                        $count = 1;
-                    } else {
-                        $count = count($recipe[$var['name']]);
-                    }
-                    $data[$formvariable] = $count;
-                }
+            if (!empty($formdata->proceedrecipefile)) {
+                $recipestring = $mform0->get_file_content('recipefile');
+            } else if (!empty($formdata->proceedrecipecontent)) {
+                $recipestring = $formdata->recipecontent;
             }
+
+            if (empty($recipestring)) {
+                throw new moodle_exception('emptyrecipecontent', 'tool_pluginskel', $returnurl);
+            }
+
+            $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
+            $data = get_variable_count_from_recipe($templatevars, $recipe);
         }
 
         $data['recipe'] = $recipe;
@@ -179,4 +178,24 @@ if ($step == 0) {
         header('Content-Length: '.strlen($recipefile));
         echo($recipefile);
     }
+}
+
+function get_variable_count_from_recipe($templatevars, $recipe) {
+    $variablecount = array();
+
+    foreach ($templatevars as $variable) {
+        if (!empty($variable['hint']) && $variable['hint'] == 'multiple') {
+            $formvariable = $variable['name'].'count';
+
+            if (empty($recipe[$variable['name']])) {
+                $count = 1;
+            } else {
+                $count = count($recipe[$variable['name']]);
+            }
+
+            $variablecount[$formvariable] = $count;
+        }
+    }
+
+    return $variablecount;
 }

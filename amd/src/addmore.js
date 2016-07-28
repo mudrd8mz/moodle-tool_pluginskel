@@ -17,12 +17,13 @@ define(['jquery'], function($) {
 
                 var newElements = '<br/>';
                 for (i in templateVariable.values) {
-                    var elementName = variableName+'['+variableCount+']['+templateVariable.values[i]+']';
-                    var elementId = 'id_'+variableName+'_'+variableCount+'_'+templateVariable.values[i];
+                    var variable = templateVariable.values[i];
+                    var elementName = variableName+'['+variableCount+']['+variable.name+']';
+                    var elementId = 'id_'+variableName+'_'+variableCount+'_'+variable.name;
 
                     var prevIndex = variableCount-1;
-                    var prevElementName = variableName+'['+prevIndex+']['+templateVariable.values[i]+']';
-                    var prevElementId = 'id_'+variableName+'_'+prevIndex+'_'+templateVariable.values[i];
+                    var prevElementName = variableName+'['+prevIndex+']['+variable.name+']';
+                    var prevElementId = 'id_'+variableName+'_'+prevIndex+'_'+variable.name;
                     var prevElementClasses = $('#fitem_'+prevElementId).attr('class');
 
                     var prevElementHtml = $('#fitem_'+prevElementId).html();

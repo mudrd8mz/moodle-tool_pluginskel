@@ -93,12 +93,14 @@ class version_php_file extends php_internal_file {
     static public function get_template_variables($plugintype = null) {
 
         $templatevars = array(
-            array('name' => 'component', 'hint' => '', 'required' => true, 'values' => array()),
-            array('name' => 'release', 'hint' => '', 'required' => false, 'values' => array()),
-            array('name' => 'version', 'hint' => 'int', 'required' => false, 'values' => array()),
-            array('name' => 'requires', 'hint' => '', 'required' => true, 'values' => self::$moodleversions),
-            array('name' => 'dependencies', 'hint' => 'multiple', 'required' => false,
-                  'values' => array('plugin' => 'plugin', 'version' => 'version')),
+            array('name' => 'component', 'required' => true),
+            array('name' => 'release'),
+            array('name' => 'version', 'hint' => 'int'),
+            array('name' => 'requires', 'hint' => 'multiple-options', 'required' => true,
+                  'values' => self::$moodleversions),
+            array('name' => 'dependencies', 'hint' => 'array', 'required' => false, 'values' => array(
+                  array('name' => 'plugin'),
+                  array('name' => 'version'))),
         );
 
         $maturities = array(
