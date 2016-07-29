@@ -104,13 +104,14 @@ class version_php_file extends php_internal_file {
         );
 
         $maturities = array(
+            'none' => get_string('none', 'tool_pluginskel'),
             'MATURITY_ALPHA' => 'MATURITY_ALPHA',
             'MATURITY_BETA' => 'MATURITY_BETA',
             'MATURITY_RC' => 'MATURITY_RC',
             'MATURITY_STABLE' => 'MATURITY_STABLE'
         );
 
-        $templatevars[] = array('name' => 'maturity', 'hint' => '', 'required' => false, 'values' => $maturities);
+        $templatevars[] = array('name' => 'maturity', 'hint' => 'multiple-options', 'values' => $maturities);
 
         return $templatevars;
     }

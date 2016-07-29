@@ -65,15 +65,13 @@ define(['jquery'], function($) {
                         continue;
                     }
 
-                    /*
                     if (fieldVariable.hint == 'multiple-options') {
                         for (i in fieldVariable.values) {
-                            if (i == 'notpresent') {
-                                $('#'+newElementId).val('Not present').change();
+                            if (i == 'none') {
+                                $('#'+newElementId).val('none').change();
                             }
                         }
                     }
-                    */
                 }
 
                 // Increment the number of variable elements.

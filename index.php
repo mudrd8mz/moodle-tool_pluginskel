@@ -111,9 +111,11 @@ if ($step == 0) {
     $recipe = array();
     foreach ($templatevars as $var) {
         if (!empty($formdata[$var['name']])) {
-            if (!empty($var['hint']) && $var['hint'] == 'array') {
-                $recipe[$var['name']] = array();
 
+            $hint = empty($var['hint']) ? '' : $var['hint'];
+
+            if ($hint == 'array') {
+                $recipe[$var['name']] = array();
                 foreach ($formdata[$var['name']] as $v) {
                     $isempty = true;
                     $recipevalue = array();
@@ -147,7 +149,10 @@ if ($step == 0) {
                         $recipe[$var['name']][] = $recipevalue;
                     }
                 }
-
+            } else if ($hint === 'multiple-options') {
+                if ($formdata[$var['name']] !== 'none') {
+                    $recipe[$var['name']] = $formdata[$var['name']];
+                }
             } else {
                 $recipe[$var['name']] = $formdata[$var['name']];
             }

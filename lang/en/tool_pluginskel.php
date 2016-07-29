@@ -58,3 +58,4 @@ $string['emptypluginname'] = 'Plugin name not specified';
 $string['emptyrecipecontent'] = 'Empty recipe';
 $string['pluginhdr'] = 'Plugin';
 $string['addmore'] = 'Add more';
+$string['none'] = 'None';
