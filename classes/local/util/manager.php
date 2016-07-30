@@ -112,14 +112,6 @@ class manager {
 
         $featuresvars = array();
 
-        // Adding strings.
-        /*
-        $featuresvars[] = array('name' => 'strings', 'hint' => 'array', 'values' => array(
-            array('name' => 'id'),
-            array('name' => 'text'))
-        );
-         */
-
         // Adding install feature variable.
         $featuresvars[] = array('name' => 'install', 'hint' => 'boolean');
 

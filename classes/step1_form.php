@@ -191,10 +191,6 @@ class tool_pluginskel_step1_form extends moodleform {
         if (!empty($recipe[$variablename]) && !empty($selectvalues[$recipe[$variablename]])) {
             $mform->getElement($elementname)->setSelected($recipe[$variablename]);
         }
-
-        if (!empty($templatevar['required'])) {
-            $mform->addRule($elementname, null, 'required', null, 'client', false, true);
-        }
     }
 
     /**

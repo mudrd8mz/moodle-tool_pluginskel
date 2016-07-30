@@ -54,6 +54,7 @@ if ($step == 0) {
 
         $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
         $featuresvars = tool_pluginskel\local\util\manager::get_features_variables($component);
+
         $templatevars = array_merge($componentvars, $featuresvars);
 
         if (!empty($formdata->proceedmanually)) {
@@ -106,7 +107,7 @@ if ($step == 0) {
     foreach ($templatevars as $var) {
         if (!empty($var['hint']) && $var['hint'] == 'array') {
             $formvariable = $var['name'].'count';
-            $count = (int) optional_param($formvariable, '1', PARAM_INT);
+            $count = (int) optional_param($formvariable, 1, PARAM_INT);
             $data[$formvariable] = $count;
         }
     }
