@@ -44,69 +44,90 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $recipe = $this->_customdata['recipe'];
         $component = $recipe['component'];
-        $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
-        $features = tool_pluginskel\local\util\manager::get_features_variables();
+        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
+        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
+
+        $componentvars = $this->add_missing_hint($componentvars);
+        $featuresvars = $this->add_missing_hint($featuresvars);
 
         $mform->addElement('header', 'pluginhdr', get_string('pluginhdr', 'tool_pluginskel'));
         $mform->setExpanded('pluginhdr', true);
 
-        foreach ($templatevars as $variable) {
+        foreach ($componentvars as $variable) {
 
-            // The default element for a template variable is a text input.
-            if (empty($variable['hint']) || $variable['hint'] == 'text' || $variable['hint'] == 'int') {
-                $this->add_text($variable, $recipe);
-                continue;
-            }
+            $hint = $variable['hint'];
+            $elementname = $variable['name'];
 
             // Template variables that are arrays will be added at the bottom of the page.
-            if ($variable['hint'] == 'array') {
+            if ($hint == 'array') {
                 continue;
             }
 
-            if ($variable['hint'] == 'boolean') {
-                $this->add_advcheckbox($variable, $recipe);
+            if ($hint == 'text' || $hint == 'int') {
+                $this->add_text_element($elementname, $variable, $recipe);
             }
 
-            if ($variable['hint'] == 'multiple-options') {
-                $this->add_select($variable, $recipe);
+            if ($hint == 'boolean') {
+                $this->add_advcheckbox_element($elementname, $variable, $recipe);
+            }
+
+            if ($hint == 'multiple-options') {
+                $this->add_select_element($elementname, $variable, $recipe);
             }
         }
 
-        foreach ($features as $variable) {
+        foreach ($featuresvars as $variable) {
 
-            if (empty($variable['hint']) || $variable['hint'] == 'text' || $variable['hint'] == 'int') {
-                $this->add_text($variable, $recipe);
+            $hint = $variable['hint'];
+
+            // Array variables will be added at the bottom of the page.
+            if ($hint == 'array') {
                 continue;
             }
 
-            // Template variables that are arrays will be added at the bottom of the page.
-            if ($variable['hint'] == 'array') {
-                continue;
+            // Features that are not arrays are always under 'features' in the recipe.
+            $elementname = 'features['.$variable['name'].']';
+            $recipefeatures = empty($recipe['features']) ? array() : $recipe['features'];
+
+            if ($hint == 'text' || $hint == 'int') {
+                $this->add_text_element($elementname, $variable, $recipefeatures);
             }
 
-            if ($variable['hint'] == 'boolean') {
-                // Features that are only true or false are in the 'features' part of the recipe.
-                $eltformname = 'features['.$variable['name'].']';
-                $features = empty($recipe['features']) ? array() : $recipe['features'];
-
-                $this->add_advcheckbox($variable, $features, $eltformname);
+            if ($hint == 'boolean') {
+                $this->add_advcheckbox_element($elementname, $variable, $recipefeatures);
             }
 
-            if ($variable['hint'] == 'multiple-options') {
-                $this->add_select($variable, $recipe);
+            if ($hint == 'multiple-options') {
+                $this->add_select_element($elementname, $variable, $recipefeatures);
             }
         }
 
         // Adding required array variables first because the fieldsets will be expanded.
-        foreach ($templatevars as $variable) {
-            if (!empty($variable['hint']) && $variable['hint'] == 'array' && !empty($variable['required'])) {
+        foreach ($componentvars as $variable) {
+
+            $hint = $variable['hint'];
+
+            if ($hint == 'array' && !empty($variable['required'])) {
                 $this->add_fieldset($variable, $recipe);
             }
         }
 
         // Adding optional array variables last because the fieldsets will not be expanded.
-        foreach ($templatevars as $variable) {
-            if (!empty($variable['hint']) && $variable['hint'] == 'array' && empty($variable['required'])) {
+        foreach ($componentvars as $variable) {
+
+            $hint = $variable['hint'];
+
+            if ($hint == 'array' && empty($variable['required'])) {
+                $this->add_fieldset($variable, $recipe);
+            }
+        }
+
+        // Adding array features.
+        foreach ($featuresvars as $variable) {
+
+            $hint = $variable['hint'];
+
+            if ($hint == 'array') {
                 $this->add_fieldset($variable, $recipe);
             }
         }
@@ -116,8 +137,9 @@ class tool_pluginskel_step1_form extends moodleform {
         $mform->addElement('html', '<hr>');
 
         $buttonarr = array();
-        $buttonarr[] =& $mform->createElement('submit', 'buttongenerate', get_string('generate', 'tool_pluginskel'));
-        $buttonarr[] =& $mform->createElement('submit', 'buttonsaverecipe', get_string('saverecipe', 'tool_pluginskel'));
+        $buttonarr[] =& $mform->createElement('submit', 'buttondownloadskel', get_string('downloadskel', 'tool_pluginskel'));
+        $buttonarr[] =& $mform->createElement('submit', 'buttondownloadrecipe', get_string('downloadrecipe', 'tool_pluginskel'));
+        $buttonarr[] =& $mform->createElement('submit', 'buttonviewrecipe', get_string('viewrecipe', 'tool_pluginskel'));
         $mform->addGroup($buttonarr, 'buttonarr', '', array(' '), false);
         $mform->closeHeaderBefore('buttonarr');
 
@@ -129,42 +151,63 @@ class tool_pluginskel_step1_form extends moodleform {
     }
 
     /**
+     * Adds the 'text' hint if the hint key is missing.
+     *
+     * @param string[] $variables The template variables.
+     * @return string[] The modified template variables.
+     */
+    protected function add_missing_hint($variables) {
+
+        foreach ($variables as $key => $variable) {
+            if (!isset($variable['hint'])) {
+                $variables[$key]['hint'] = 'text';
+            }
+        }
+
+        return $variables;
+    }
+
+    /**
      * Adds a select element to the form.
      *
+     * @param string $elementname Element form name.
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
-     * @param string $eltformname Element form name, used when adding the text element as part of an array.
      */
-    protected function add_select($templatevar, $recipe, $eltformname = null) {
+    protected function add_select_element($elementname, $templatevar, $recipe) {
 
         $mform =& $this->_form;
         $variablename = $templatevar['name'];
-        $selectname = empty($eltformname) ? $variablename : $eltformname;
         $selectvalues = $templatevar['values'];
 
-        $mform->addElement('select', $selectname, get_string('skel'.$variablename, 'tool_pluginskel'), $selectvalues);
+        // Adding 'none' option to select element for optional template variable.
+        if (empty($templatevar['required'])) {
+            $none = array('none' => get_string('none', 'tool_pluginskel'));
+            $selectvalues = array_merge($none, $selectvalues);
+        }
+
+        $mform->addElement('select', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'), $selectvalues);
 
         if (!empty($recipe[$variablename]) && !empty($selectvalues[$recipe[$variablename]])) {
-            $mform->getElement($selectname)->setSelected($recipe[$variablename]);
+            $mform->getElement($elementname)->setSelected($recipe[$variablename]);
         }
 
         if (!empty($templatevar['required'])) {
-            $mform->addRule($selectname, null, 'required', null, 'client', false, true);
+            $mform->addRule($elementname, null, 'required', null, 'client', false, true);
         }
     }
 
     /**
      * Adds an advcheckbox element to the form.
      *
+     * @param string $elementname Element form name.
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
-     * @param string $eltformname Element form name, used when adding the text element as part of an array.
      */
-    protected function add_advcheckbox($templatevar, $recipe, $eltforname = null) {
+    protected function add_advcheckbox_element($elementname, $templatevar, $recipe) {
 
         $mform =& $this->_form;
         $variablename = $templatevar['name'];
-        $elementname = empty($eltformname) ? $variablename : $eltformname;
         $values = array('false', 'true');
 
         $mform->addElement('advcheckbox', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'), '', null, $values);
@@ -185,30 +228,29 @@ class tool_pluginskel_step1_form extends moodleform {
     /**
      * Adds a text element to the form.
      *
+     * @param string $elementname Element form name.
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
-     * @param string $eltformname Text element form name, used when adding the text element as part of an array.
      */
-    protected function add_text($templatevar, $recipe, $eltformname = null) {
+    protected function add_text_element($elementname, $templatevar, $recipe) {
 
         $mform =& $this->_form;
-        $textname = empty($eltformname) ? $templatevar['name'] : $eltformname;
         $variablename = $templatevar['name'];
 
-        $mform->addElement('text', $textname, get_string('skel'.$variablename, 'tool_pluginskel'));
+        $mform->addElement('text', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'));
 
         if (!empty($templatevar['hint']) && $templatevar['hint'] == 'int') {
-            $mform->setType($textname, PARAM_INT);
+            $mform->setType($elementname, PARAM_INT);
         } else {
-            $mform->setType($textname, PARAM_TEXT);
+            $mform->setType($elementname, PARAM_RAW);
         }
 
         if (!empty($recipe[$variablename])) {
-            $mform->getElement($textname)->setValue($recipe[$variablename]);
+            $mform->getElement($elementname)->setValue($recipe[$variablename]);
         }
 
         if (!empty($templatevar['required'])) {
-            $mform->addRule($textname, null, 'required', null, 'client', false, true);
+            $mform->addRule($elementname, null, 'required', null, 'client', false, true);
         }
     }
 
@@ -229,6 +271,7 @@ class tool_pluginskel_step1_form extends moodleform {
             $count = 1;
         } else {
             $count = (int) $this->_customdata[$name.'count'];
+
         }
 
         // Keeping only the recipe values that are part of the template variable.
@@ -261,8 +304,8 @@ class tool_pluginskel_step1_form extends moodleform {
             foreach ($recipevalues as $index => $value) {
                 foreach ($elements as $element) {
                     if (empty($element['hint']) || $element['hint'] == 'text' || $element['hint'] == 'int') {
-                        $eltformname = $name.'['.$index.']['.$element['name'].']';
-                        $this->add_text($element, $value, $eltformname);
+                        $elementname= $name.'['.$index.']['.$element['name'].']';
+                        $this->add_text_element($elementname, $element, $value);
                     }
                 }
 
@@ -277,8 +320,8 @@ class tool_pluginskel_step1_form extends moodleform {
 
         while ($currentcount < $count) {
             foreach ($elements as $element) {
-                $eltformname = $name.'['.$currentcount.']['.$element['name'].']';
-                $this->add_text($element, array(), $eltformname);
+                $elementname = $name.'['.$currentcount.']['.$element['name'].']';
+                $this->add_text_element($elementname, $element, array());
             }
 
             $currentcount = $currentcount + 1;
@@ -295,4 +338,102 @@ class tool_pluginskel_step1_form extends moodleform {
         $mform->setType($name.'count', PARAM_INT);
     }
 
+    /**
+     * Constructs the recipe from the form data.
+     *
+     * @return string[] The recipe.
+     */
+    public function get_recipe() {
+
+        $recipe = array();
+
+        $formdata = (array) $this->get_data();
+        $component = $this->_customdata['recipe']['component'];
+
+        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
+        $componentvars = $this->add_missing_hint($componentvars);
+
+        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables($component);
+        $featuresvars = $this->add_missing_hint($featuresvars);
+
+        foreach ($componentvars as $variable) {
+
+            $variablename = $variable['name'];
+            $hint = $variable['hint'];
+
+            if (!empty($formdata[$variablename])) {
+                if ($hint == 'array') {
+
+                    $value = $this->get_array_variable($formdata[$variablename]);
+                    if (!empty($value)) {
+                        $recipe[$variablename] = $value;
+                    }
+                } else if ($hint === 'multiple-options') {
+
+                    // Ignoring 'none' select options.
+                    if ($formdata[$variablename] !== 'none') {
+                        $recipe[$variablename] = $formdata[$variablename];
+                    }
+                } else {
+                    $recipe[$variablename] = $formdata[$variablename];
+                }
+            }
+        }
+
+        foreach ($featuresvars as $variable) {
+
+            $variablename = $variable['name'];
+            $hint = $variable['hint'];
+
+            // Only array features are at the root of the recipe.
+            if (!empty($formdata[$variablename]) && $hint == 'array') {
+                $value = $this->get_array_variable($formdata[$variablename]);
+                if (!empty($value)) {
+                    $recipe[$variablename] = $value;
+                }
+            }
+        }
+
+        if (!empty($formdata['features'])) {
+
+            $recipe['features'] = array();
+            foreach ($formdata['features'] as $feature => $value) {
+
+                if ($value === 'true') {
+                    $recipe['features'][$feature] = true;
+                } else if ($value === 'false') {
+                    $recipe['features'][$feature] = false;
+                }
+            }
+        }
+
+        $recipe['component'] = $component;
+
+        return $recipe;
+    }
+
+    /**
+     * Returns the form value of an array template variable.
+     *
+     * @param string[] $formvalue
+     * @return string[]
+     */
+    protected function get_array_variable($formvalue) {
+
+        $value = array();
+        foreach ($formvalue as $arrformval) {
+            $currentvalue = array();
+            foreach ($arrformval as $formfield => $formvalue) {
+                if (!empty($formvalue)) {
+                    $currentvalue[$formfield] = $formvalue;
+                }
+            }
+
+            if (!empty($currentvalue)) {
+                $value[] = $currentvalue;
+            }
+        }
+
+        return $value;
+    }
 }

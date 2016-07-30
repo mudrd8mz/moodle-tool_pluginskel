@@ -62,11 +62,11 @@ class tool_pluginskel_step0_form extends moodleform {
                            null, array('maxbytes' => 50000, 'accepted_types' => '*'));
         $mform->addElement('submit', 'proceedrecipefile', get_string('proceedrecipefile', 'tool_pluginskel'));
 
-        $mform->addElement('header', 'recipecontenthdr', get_string('recipecontenthdr', 'tool_pluginskel'));
-        $mform->setExpanded('recipecontenthdr', true);
-        $mform->addElement('textarea', 'recipecontent', get_string('recipecontent', 'tool_pluginskel'),
+        $mform->addElement('header', 'recipehdr', get_string('recipehdr', 'tool_pluginskel'));
+        $mform->setExpanded('recipehdr', true);
+        $mform->addElement('textarea', 'recipe', get_string('recipe', 'tool_pluginskel'),
                            array('wrap' => 'virtual',  'rows' => '20', 'cols' => '50'));
-        $mform->addElement('submit', 'proceedrecipecontent', get_string('proceedrecipecontent', 'tool_pluginskel'));
+        $mform->addElement('submit', 'proceedrecipe', get_string('proceedrecipe', 'tool_pluginskel'));
 
         $mform->addElement('hidden', 'step', 0);
         $mform->setType('step', PARAM_INT);

@@ -51,7 +51,10 @@ if ($step == 0) {
 
         $data = array();
         $recipe = array();
-        $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
+
+        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
+        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables($component);
+        $templatevars = array_merge($componentvars, $featuresvars);
 
         if (!empty($formdata->proceedmanually)) {
             if (empty($formdata->componentname)) {
@@ -62,8 +65,8 @@ if ($step == 0) {
         } else {
             if (!empty($formdata->proceedrecipefile)) {
                 $recipestring = $mform0->get_file_content('recipefile');
-            } else if (!empty($formdata->proceedrecipecontent)) {
-                $recipestring = $formdata->recipecontent;
+            } else if (!empty($formdata->proceedrecipe)) {
+                $recipestring = $formdata->recipe;
             }
 
             if (empty($recipestring)) {
@@ -88,14 +91,18 @@ if ($step == 0) {
         $mform0->display();
         echo $OUTPUT->footer();
     }
-
 } else if ($step == 1) {
 
     // Reconstructing the form elements.
     $recipestub = array('component' => $component);
     $data = array('recipe' => $recipestub);
-    $templatevars = tool_pluginskel\local\util\manager::get_component_variables($component);
 
+    $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
+    $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
+
+    $templatevars = array_merge($componentvars, $featuresvars);
+
+    // Getting the number of elements for array variables.
     foreach ($templatevars as $var) {
         if (!empty($var['hint']) && $var['hint'] == 'array') {
             $formvariable = $var['name'].'count';
@@ -105,70 +112,12 @@ if ($step == 0) {
     }
 
     $mform1 = new tool_pluginskel_step1_form(null, $data);
+
     $formdata = (array) $mform1->get_data();
+    $recipe = $mform1->get_recipe();
 
-    // Constructing the recipe.
-    $recipe = array();
-    foreach ($templatevars as $var) {
-        if (!empty($formdata[$var['name']])) {
+    if (!empty($formdata['buttondownloadskel'])) {
 
-            $hint = empty($var['hint']) ? '' : $var['hint'];
-
-            if ($hint == 'array') {
-                $recipe[$var['name']] = array();
-                foreach ($formdata[$var['name']] as $v) {
-                    $isempty = true;
-                    $recipevalue = array();
-
-                    foreach ($v as $formfield => $value) {
-
-                        // Finding the corresponding template variable for the form field.
-                        $templatevariable = array();
-                        foreach ($var['values'] as $variable) {
-                            if ($variable['name'] === $formfield) {
-                                $templatevariable = $variable;
-                                break;
-                            }
-                        }
-
-                        // No corresponding template variable found, do not save.
-                        if (empty($templatevariable)) {
-                            $isempty = true;
-                            break;
-                        }
-
-                        if (!empty($value)) {
-                            $isempty = false;
-                            $recipevalue[$formfield] = $value;
-                        }
-                    }
-
-                    if ($isempty) {
-                        unset($recipe[$var['name']]);
-                    } else {
-                        $recipe[$var['name']][] = $recipevalue;
-                    }
-                }
-            } else if ($hint === 'multiple-options') {
-                if ($formdata[$var['name']] !== 'none') {
-                    $recipe[$var['name']] = $formdata[$var['name']];
-                }
-            } else {
-                $recipe[$var['name']] = $formdata[$var['name']];
-            }
-        }
-    }
-
-    if (!empty($formdata['features'])) {
-        $recipe['features'] = array();
-        foreach ($formdata['features'] as $feature => $value) {
-            if ($value === 'true') {
-                $recipe['features'][$feature] = true;
-            }
-        }
-    }
-
-    if (!empty($formdata['buttongenerate'])) {
         $logger = new Logger('tool_pluginskel');
         $logger->pushHandler(new BrowserConsoleHandler(Logger::WARNING));
 
@@ -180,54 +129,50 @@ if ($step == 0) {
         $targetdir = $targetdir.'/pluginskel';
         $manager->write_files($targetdir);
 
-        $files = $manager->get_files_content();
+        $generatedfiles = $manager->get_files_content();
 
         list($componenttype, $componentname) = core_component::normalize_component($component);
         $zipfiles = array();
-        foreach ($files as $filename => $notused) {
+        foreach ($generatedfiles as $filename => $notused) {
             $zipfiles[$componentname.'/'.$filename] = $targetdir.'/'.$filename;
         }
 
         $packer = get_file_packer('application/zip');
         $archivefile = $targetdir.'/'.$component.'_'.time().'.zip';
-        $file = $packer->archive_to_pathname($zipfiles, $archivefile);
+        $packer->archive_to_pathname($zipfiles, $archivefile);
 
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="'.basename($archivefile).'"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: '.filesize($archivefile));
+        $filename = basename($archivefile);
+        $contentlength = filesize($archivefile);
+
+        generate_download_header($filename, $contentlength);
         readfile($archivefile);
         unlink($targetdir);
 
-    } else if (!empty($formdata['buttonsaverecipe'])) {
+    } else if (!empty($formdata['buttondownloadrecipe'])) {
 
         $recipefile = tool_pluginskel\local\util\yaml::encode($recipe);
+        $filename = 'recipe_'.time().'.yaml';
+        $contentlength = strlen($recipefile);
 
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="recipe_'.time().'.yaml"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: '.strlen($recipefile));
+        generate_download_header($filename, $contentlength);
         echo($recipefile);
     }
 }
 
 function get_variable_count_from_recipe($templatevars, $recipe) {
+
     $variablecount = array();
 
     foreach ($templatevars as $variable) {
         if (!empty($variable['hint']) && $variable['hint'] == 'array') {
-            $formvariable = $variable['name'].'count';
 
-            if (empty($recipe[$variable['name']])) {
+            $variablename = $variable['name'];
+            $formvariable = $variablename.'count';
+
+            if (empty($recipe[$variablename])) {
                 $count = 1;
             } else {
-                $count = count($recipe[$variable['name']]);
+                $count = count($recipe[$variablename]);
             }
 
             $variablecount[$formvariable] = $count;
@@ -235,4 +180,14 @@ function get_variable_count_from_recipe($templatevars, $recipe) {
     }
 
     return $variablecount;
+}
+
+function generate_download_header($filename, $contentlength) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.$filename.'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: '.$contentlength);
 }

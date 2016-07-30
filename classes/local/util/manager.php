@@ -91,10 +91,13 @@ class manager {
      * @return string[].
      */
     public static function get_component_variables($component) {
+        $copyright = array(
+            array('name' => 'copyright', 'required' => true)
+        );
         $versionvars = \tool_pluginskel\local\skel\version_php_file::get_template_variables();
         $langvars = \tool_pluginskel\local\skel\lang_file::get_template_variables();
 
-        $templatevars = array_merge($versionvars, $langvars);
+        $templatevars = array_merge($copyright, $versionvars, $langvars);
 
         return $templatevars;
     }
@@ -107,18 +110,26 @@ class manager {
      */
     public static function get_features_variables() {
 
-        $featurevars = array();
+        $featuresvars = array();
 
         // Adding strings.
-        $featurevars[] = array('name' => 'strings', 'hint' => 'multiple', 'values' => array('id', 'text'));
+        /*
+        $featuresvars[] = array('name' => 'strings', 'hint' => 'array', 'values' => array(
+            array('name' => 'id'),
+            array('name' => 'text'))
+        );
+         */
 
         // Adding install feature variable.
-        $featurevars[] = array('name' => 'install', 'hint' => 'boolean');
+        $featuresvars[] = array('name' => 'install', 'hint' => 'boolean');
 
         // Adding uninstall feature variable.
-        $featurevars[] = array('name' => 'uninstall', 'hint' => 'boolean');
+        $featuresvars[] = array('name' => 'uninstall', 'hint' => 'boolean');
 
-        return $featurevars;
+        // Adding settings feature variable.
+        $featuresvars[] = array('name' => 'settings', 'hint' => 'boolean');
+
+        return $featuresvars;
     }
 
     /**

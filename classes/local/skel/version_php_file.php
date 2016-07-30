@@ -96,15 +96,13 @@ class version_php_file extends php_internal_file {
             array('name' => 'component', 'required' => true),
             array('name' => 'release'),
             array('name' => 'version', 'hint' => 'int'),
-            array('name' => 'requires', 'hint' => 'multiple-options', 'required' => true,
-                  'values' => self::$moodleversions),
-            array('name' => 'dependencies', 'hint' => 'array', 'required' => false, 'values' => array(
+            array('name' => 'requires', 'hint' => 'multiple-options', 'required' => true, 'values' => self::$moodleversions),
+            array('name' => 'dependencies', 'hint' => 'array', 'values' => array(
                   array('name' => 'plugin', 'hint' => 'text'),
                   array('name' => 'version'))),
         );
 
         $maturities = array(
-            'none' => get_string('none', 'tool_pluginskel'),
             'MATURITY_ALPHA' => 'MATURITY_ALPHA',
             'MATURITY_BETA' => 'MATURITY_BETA',
             'MATURITY_RC' => 'MATURITY_RC',

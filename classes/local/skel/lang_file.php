@@ -58,7 +58,7 @@ class lang_file extends php_internal_file {
     static public function get_template_variables($plugintype = null) {
 
         $templatevars = array(
-            array('name' => 'name', 'hint' => '', 'required' => true, 'values' => array())
+            array('name' => 'name', 'required' => true)
         );
 
         return $templatevars;
