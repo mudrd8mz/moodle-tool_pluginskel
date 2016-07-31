@@ -47,9 +47,6 @@ class tool_pluginskel_step1_form extends moodleform {
         $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
         $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
 
-        $componentvars = $this->add_missing_hint($componentvars);
-        $featuresvars = $this->add_missing_hint($featuresvars);
-
         $mform->addElement('header', 'pluginhdr', get_string('pluginhdr', 'tool_pluginskel'));
         $mform->setExpanded('pluginhdr', true);
 
@@ -148,23 +145,6 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $mform->addElement('hidden', 'component1', $component);
         $mform->setType('component1', PARAM_TEXT);
-    }
-
-    /**
-     * Adds the 'text' hint if the hint key is missing.
-     *
-     * @param string[] $variables The template variables.
-     * @return string[] The modified template variables.
-     */
-    protected function add_missing_hint($variables) {
-
-        foreach ($variables as $key => $variable) {
-            if (!isset($variable['hint'])) {
-                $variables[$key]['hint'] = 'text';
-            }
-        }
-
-        return $variables;
     }
 
     /**
@@ -347,10 +327,7 @@ class tool_pluginskel_step1_form extends moodleform {
         $component = $this->_customdata['recipe']['component'];
 
         $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
-        $componentvars = $this->add_missing_hint($componentvars);
-
         $featuresvars = tool_pluginskel\local\util\manager::get_features_variables($component);
-        $featuresvars = $this->add_missing_hint($featuresvars);
 
         foreach ($componentvars as $variable) {
 

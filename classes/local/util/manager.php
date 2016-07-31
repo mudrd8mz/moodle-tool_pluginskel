@@ -91,8 +91,9 @@ class manager {
      * @return string[].
      */
     public static function get_component_variables($component) {
+
         $copyright = array(
-            array('name' => 'copyright', 'required' => true)
+            array('name' => 'copyright', 'hint' => 'text', 'required' => true)
         );
         $versionvars = \tool_pluginskel\local\skel\version_php_file::get_template_variables();
         $langvars = \tool_pluginskel\local\skel\lang_file::get_template_variables();
