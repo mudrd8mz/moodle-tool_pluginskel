@@ -92,6 +92,7 @@ if ($step == 0) {
         $mform0->display();
         echo $OUTPUT->footer();
     }
+
 } else if ($step == 1) {
 
     // Reconstructing the form elements.
@@ -118,45 +119,49 @@ if ($step == 0) {
     $recipe = $mform1->get_recipe();
 
     if (!empty($formdata['buttondownloadskel'])) {
-
-        $logger = new Logger('tool_pluginskel');
-        $logger->pushHandler(new BrowserConsoleHandler(Logger::WARNING));
-
-        $manager = tool_pluginskel\local\util\manager::instance($logger);
-        $manager->load_recipe($recipe);
-        $manager->make();
-
-        $targetdir = make_request_directory();
-        $targetdir = $targetdir.'/pluginskel';
-        $manager->write_files($targetdir);
-
-        $generatedfiles = $manager->get_files_content();
-
-        list($componenttype, $componentname) = core_component::normalize_component($component);
-        $zipfiles = array();
-        foreach ($generatedfiles as $filename => $notused) {
-            $zipfiles[$componentname.'/'.$filename] = $targetdir.'/'.$filename;
-        }
-
-        $packer = get_file_packer('application/zip');
-        $archivefile = $targetdir.'/'.$component.'_'.time().'.zip';
-        $packer->archive_to_pathname($zipfiles, $archivefile);
-
-        $filename = basename($archivefile);
-        $contentlength = filesize($archivefile);
-
-        generate_download_header($filename, $contentlength);
-        readfile($archivefile);
-        unlink($targetdir);
-
+        download_plugin_skeleton($recipe);
     } else if (!empty($formdata['buttondownloadrecipe'])) {
+        $recipestring = tool_pluginskel\local\util\yaml::encode($recipe);
+        download_recipe($recipestring);
+    } else if (!empty($formdata['buttonviewrecipe'])) {
 
-        $recipefile = tool_pluginskel\local\util\yaml::encode($recipe);
-        $filename = 'recipe_'.time().'.yaml';
-        $contentlength = strlen($recipefile);
+        $data = array('recipe' => $recipe);
+        $mform2 = new tool_pluginskel_step2_form(null, $data);
 
-        generate_download_header($filename, $contentlength);
-        echo($recipefile);
+        echo $OUTPUT->header();
+        $mform2->display();
+        echo $OUTPUT->footer();
+    }
+
+} else if ($step == 2) {
+
+    $mform2 = new tool_pluginskel_step2_form();
+    $formdata = (array) $mform2->get_data();
+
+    $recipestring = $formdata['recipe'];
+
+    if (!empty($formdata['buttondownloadrecipe'])) {
+        download_recipe($recipestring);
+    } else if (!empty($formdata['buttondownloadskel'])) {
+        $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
+        download_plugin_skeleton($recipe);
+    } else if (!empty($formdata['buttonback'])) {
+
+        $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
+
+        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
+        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables($component);
+        $templatevars = array_merge($componentvars, $featuresvars);
+
+        $data = get_variable_count_from_recipe($templatevars, $recipe);
+        $data['recipe'] = $recipe;
+        $mform1 = new tool_pluginskel_step1_form(null, $data);
+
+        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore', array($templatevars));
+
+        echo $OUTPUT->header();
+        $mform1->display();
+        echo $OUTPUT->footer();
     }
 }
 
@@ -191,4 +196,47 @@ function generate_download_header($filename, $contentlength) {
     header('Cache-Control: must-revalidate');
     header('Pragma: public');
     header('Content-Length: '.$contentlength);
+}
+
+function download_recipe($recipestring) {
+
+        $filename = 'recipe_'.time().'.yaml';
+        $contentlength = strlen($recipestring);
+
+        generate_download_header($filename, $contentlength);
+        echo($recipestring);
+}
+
+function download_plugin_skeleton($recipe) {
+
+    $logger = new Logger('tool_pluginskel');
+    $logger->pushHandler(new BrowserConsoleHandler(Logger::WARNING));
+
+    $manager = tool_pluginskel\local\util\manager::instance($logger);
+    $manager->load_recipe($recipe);
+    $manager->make();
+
+    $targetdir = make_request_directory();
+    $targetdir = $targetdir.'/pluginskel';
+    $manager->write_files($targetdir);
+
+    $generatedfiles = $manager->get_files_content();
+
+    $component = $recipe['component'];
+    list($componenttype, $componentname) = core_component::normalize_component($component);
+    $zipfiles = array();
+    foreach ($generatedfiles as $filename => $notused) {
+        $zipfiles[$componentname.'/'.$filename] = $targetdir.'/'.$filename;
+    }
+
+    $packer = get_file_packer('application/zip');
+    $archivefile = $targetdir.'/'.$component.'_'.time().'.zip';
+    $packer->archive_to_pathname($zipfiles, $archivefile);
+
+    $filename = basename($archivefile);
+    $contentlength = filesize($archivefile);
+
+    generate_download_header($filename, $contentlength);
+    readfile($archivefile);
+    unlink($targetdir);
 }

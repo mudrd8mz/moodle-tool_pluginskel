@@ -26,9 +26,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Moodle plugin skeleton generator';
+$string['back'] = 'Back';
 $string['skeletondatanotset'] = 'Skeleton data not set';
 $string['generateskel'] = 'Generate plugin skeleton';
-$string['downloadskel'] = 'Download skeleton';
+$string['downloadskel'] = 'Download plugin skeleton';
 $string['downloadrecipe'] = 'Download recipe';
 $string['viewrecipe'] = 'View recipe';
 $string['proceedmanually'] = 'Proceed with manual generation';
@@ -38,6 +39,7 @@ $string['recipefile'] = 'Recipe file';
 $string['recipe'] = 'Recipe';
 $string['recipefilehdr'] = 'Generate the plugin from recipe file';
 $string['recipehdr'] = 'Generate the plugin from recipe';
+$string['showrecipehdr'] = 'Recipe';
 $string['manualhdr'] = 'Generate the plugin manually';
 $string['helpmechoose'] = 'Help me choose';
 $string['skeldependencies'] = 'Dependencies';
