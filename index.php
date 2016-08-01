@@ -79,9 +79,11 @@ if ($step == 0) {
 
         $data = get_variable_count_from_recipe($templatevars, $recipe);
         $data['recipe'] = $recipe;
+
         $mform1 = new tool_pluginskel_step1_form(null, $data);
 
-        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore', array($templatevars));
+        $arrayvariables = get_array_template_variables($templatevars);
+        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore', $arrayvariables);
 
         echo $OUTPUT->header();
         $mform1->display();
@@ -96,25 +98,16 @@ if ($step == 0) {
 } else if ($step == 1) {
 
     // Reconstructing the form elements.
-    $recipestub = array('component' => $component);
-    $data = array('recipe' => $recipestub);
-
     $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
     $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
 
     $templatevars = array_merge($componentvars, $featuresvars);
 
     // Getting the number of elements for array variables.
-    foreach ($templatevars as $var) {
-        if (!empty($var['hint']) && $var['hint'] == 'array') {
-            $formvariable = $var['name'].'count';
-            $count = (int) optional_param($formvariable, 1, PARAM_INT);
-            $data[$formvariable] = $count;
-        }
-    }
+    $data = get_variable_count_from_form($templatevars);
+    $data['recipe'] = array('component' => $component);
 
     $mform1 = new tool_pluginskel_step1_form(null, $data);
-
     $formdata = (array) $mform1->get_data();
     $recipe = $mform1->get_recipe();
 
@@ -157,7 +150,8 @@ if ($step == 0) {
         $data['recipe'] = $recipe;
         $mform1 = new tool_pluginskel_step1_form(null, $data);
 
-        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore', array($templatevars));
+        $arrayvars = get_array_template_variables($templatevars);
+        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore', $arrayvars);
 
         echo $OUTPUT->header();
         $mform1->display();
@@ -165,15 +159,40 @@ if ($step == 0) {
     }
 }
 
+/**
+ * Returns only those template variables which are arrays.
+ *
+ * @param string[] $templatevars All of the template variables.
+ * @return string[] Only those variables which are arrays.
+ */
+function get_array_template_variables($templatevars) {
+
+    $arrayvars = array();
+    foreach ($templatevars as $variable) {
+        if ($variable['hint'] == 'array') {
+            $arrayvars[] = $variable;
+        }
+    }
+
+    return array($arrayvars);
+}
+
+/**
+ * Returns the number of values for each variable array by examining the recipe.
+ *
+ * @param string[] $templatevars The template variables.
+ * @param string[] $recipe
+ * @return string[]
+ */
 function get_variable_count_from_recipe($templatevars, $recipe) {
 
     $variablecount = array();
 
     foreach ($templatevars as $variable) {
-        if (!empty($variable['hint']) && $variable['hint'] == 'array') {
+        if ($variable['hint'] == 'array') {
 
             $variablename = $variable['name'];
-            $formvariable = $variablename.'count';
+            $variablecountvar = $variablename.'count';
 
             if (empty($recipe[$variablename])) {
                 $count = 1;
@@ -181,13 +200,69 @@ function get_variable_count_from_recipe($templatevars, $recipe) {
                 $count = count($recipe[$variablename]);
             }
 
-            $variablecount[$formvariable] = $count;
+            $variablecount[$variablecountvar] = $count;
+
+            foreach ($variable['values'] as $nestedvariable) {
+                if ($nestedvariable['hint'] == 'array') {
+                    for ($i = 0; $i < $count; $i += 1) {
+                        $nestedvariablecount = get_variable_count_from_recipe($variable['values'], $recipe[$variablename][$i]);
+                        $nestedvariablecountvar = $variablename.'_'.$i.'_'.$nestedvariable['name'].'count';
+                        $variablecount[$nestedvariablecountvar] = $nestedvariablecount[$nestedvariable['name'].'count'];
+                    }
+                }
+            }
         }
     }
 
     return $variablecount;
 }
 
+/**
+ * Returns the number of values for each variable array by examining the form.
+ *
+ * @param string[] $templatevars The template variables.
+ * @param string $prefix The prefix used for nested arrays.
+ * @return string[]
+ */
+function get_variable_count_from_form($templatevars, $prefix = null) {
+
+    $variablecount = array();
+
+    foreach ($templatevars as $variable) {
+        if ($variable['hint'] == 'array') {
+
+            $variablename = $variable['name'];
+            $variablecountvar = $variablename.'count';
+            if (!is_null($prefix)) {
+                $variablecountvar = $prefix.$variablecountvar;
+            }
+
+            $count = (int) optional_param($variablecountvar, 1, PARAM_INT);
+            $variablecount[$variablecountvar] = $count;
+
+            foreach ($variable['values'] as $nestedvariable) {
+                if ($nestedvariable['hint'] == 'array') {
+                    for ($i = 0; $i < $count; $i += 1) {
+                        $prefix = $variablename.'_'.$i.'_';
+                        $nestedvariablecount = get_variable_count_from_form($variable['values'], $prefix);
+                        $nestedvariablecountvar = $prefix.$nestedvariable['name'].'count';
+                        $variablecount[$nestedvariablecountvar] = $nestedvariablecount[$nestedvariablecountvar];
+                    }
+                }
+            }
+        }
+    }
+
+    return $variablecount;
+}
+
+
+/**
+ * Generates the download header.
+ *
+ * @param string $filename
+ * @param int $contentlength
+ */
 function generate_download_header($filename, $contentlength) {
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
@@ -198,6 +273,11 @@ function generate_download_header($filename, $contentlength) {
     header('Content-Length: '.$contentlength);
 }
 
+/**
+ * Downloads the recipe.
+ *
+ * @param string $recipestring The recipe is a YAML string.
+ */
 function download_recipe($recipestring) {
 
         $filename = 'recipe_'.time().'.yaml';
@@ -207,6 +287,11 @@ function download_recipe($recipestring) {
         echo($recipestring);
 }
 
+/**
+ * Downloads the plugin skeleton as a zip file.
+ *
+ * @param string[] $recipe
+ */
 function download_plugin_skeleton($recipe) {
 
     $logger = new Logger('tool_pluginskel');

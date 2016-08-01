@@ -122,6 +122,22 @@ class manager {
         // Adding settings feature variable.
         $featuresvars[] = array('name' => 'settings', 'hint' => 'boolean');
 
+        $capabilities = array(
+            array('name' => 'capabilities', 'hint' => 'array', 'values' => array(
+                  array('name' => 'name', 'hint' => 'text'),
+                  array('name' => 'riskbitmask', 'hint' => 'text'),
+                  array('name' => 'captype', 'hint' => 'multiple-options',
+                        'values' => array('view' => 'view', 'write' => 'write')),
+                  array('name' => 'contextlevel', 'hint' => 'text'),
+                  array('name' => 'archetypes', 'hint' => 'array', 'values' => array(
+                        array('name' => 'role', 'hint' => 'text'),
+                        array('name' => 'permission', 'hint' => 'multiple-options',
+                              'values' => array('CAP_ALLOW' => 'CAP_ALLOW', 'CAP_PREVENT' => 'CAP_PREVENT')))),
+                  array('name' => 'clonepermissionsfrom', 'hint' => 'text'))),
+        );
+
+        $featuresvars = array_merge($featuresvars, $capabilities);
+
         return $featuresvars;
     }
 

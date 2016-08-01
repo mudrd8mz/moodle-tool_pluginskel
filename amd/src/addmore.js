@@ -60,16 +60,16 @@ define(['jquery'], function($) {
                     fieldVariable = templateVariable.values[i];
                     newElementId = 'id_'+variableName+'_'+variableCount+'_'+fieldVariable.name;
 
-                    if (!('hint' in fieldVariable) || fieldVariable.hint == 'text' || fieldVariable.hint == 'int') {
+                    if (fieldVariable.hint == 'text' || fieldVariable.hint == 'int') {
                         $('#'+newElementId).removeAttr('value');
                         continue;
                     }
 
                     if (fieldVariable.hint == 'multiple-options') {
-                        for (i in fieldVariable.values) {
-                            if (i == 'none') {
-                                $('#'+newElementId).val('none').change();
-                            }
+                        var isRequired = ('required' in fieldVariable) && fieldVariable.required === true;
+
+                        if (!isRequired) {
+                            $('#'+newElementId+' option[value="none"]').prop('selected', true).change();
                         }
                     }
                 }

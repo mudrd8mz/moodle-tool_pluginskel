@@ -65,7 +65,14 @@ class tool_pluginskel_step1_form extends moodleform {
             }
 
             if ($hint == 'boolean') {
-                $this->add_advcheckbox_element($elementname, $variable, $recipe);
+                // Non-required boolean variable can also be missing from the recipe.
+                // The select element adds an extra field 'none' to discard it from the recipe.
+                if (empty($variable['required'])) {
+                    $variable['values'] = array('true' => 'true', 'false' => 'false');
+                    $this->add_select_element($elementname, $variable, $recipe);
+                } else {
+                    $this->add_advcheckbox_element($elementname, $variable, $recipe);
+                }
             }
 
             if ($hint == 'multiple-options') {
@@ -215,7 +222,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $mform->addElement('text', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'));
 
-        if (!empty($templatevar['hint']) && $templatevar['hint'] == 'int') {
+        if ($templatevar['hint'] == 'int') {
             $mform->setType($elementname, PARAM_INT);
         } else {
             $mform->setType($elementname, PARAM_RAW);
@@ -239,49 +246,111 @@ class tool_pluginskel_step1_form extends moodleform {
     protected function add_fieldset($templatevar, $recipe) {
 
         $mform =& $this->_form;
-        $name = $templatevar['name'];
-        $elements = $templatevar['values'];
+        $fieldsetname = $templatevar['name'];
+        $templatevalues = $templatevar['values'];
 
-        if (empty($this->_customdata[$name.'count'])) {
+        if (empty($this->_customdata[$fieldsetname.'count'])) {
             // Create only one entry in the fieldset if more haven't been specified.
             $count = 1;
         } else {
-            $count = (int) $this->_customdata[$name.'count'];
-
+            $count = (int) $this->_customdata[$fieldsetname.'count'];
         }
 
-        // Keeping only the recipe values that are part of the template variable.
+        // Constructing the fieldset field values from the recipe.
         $recipevalues = array();
-        if (!empty($recipe[$name]) && is_array($recipe[$name])) {
-            foreach ($recipe[$name] as $recipevalue) {
-                $currentvalue = array();
-                foreach ($elements as $element) {
-                    $elementname = $element['name'];
-                    if (isset($recipevalue[$elementname])) {
-                        $currentvalue[$elementname] = $recipevalue[$elementname];
-                    }
-                }
+        if (!empty($recipe[$fieldsetname]) && is_array($recipe[$fieldsetname])) {
+            $recipevalues = $this->get_fieldset_values_from_recipe($fieldsetname, $templatevalues,
+                                                                   $recipe[$fieldsetname]);
+        }
 
-                if (!empty($currentvalue)) {
-                    $recipevalues[] = $currentvalue;
+        $mform->addElement('header', $fieldsetname, get_string('skel'.$fieldsetname, 'tool_pluginskel'));
+        if (!empty($templatevar['required']) || !empty($recipevalues)) {
+            $mform->setExpanded($fieldsetname, true);
+        } else {
+            $mform->setExpanded($fieldsetname, false);
+        }
+
+        $this->add_fieldset_elements($fieldsetname, $templatevalues, $recipevalues, $count);
+
+        $mform->addElement('button', 'addmore_'.$fieldsetname, get_string('addmore_'.$fieldsetname, 'tool_pluginskel'));
+
+        $mform->addElement('hidden', $fieldsetname.'count', $count);
+        $mform->setType($fieldsetname.'count', PARAM_INT);
+    }
+
+    /**
+     * Returns the values of all the the elements of a fieldset.
+     *
+     * @param string $fieldsetname The name of the fieldset.
+     * @param string $templatefieldset The template variables associated with the fieldset.
+     * @param string[] $fieldsetrecipe The part of the recipe that contains the values for the fieldset.
+     * @param string[]
+     */
+    protected function get_fieldset_values_from_recipe($fieldsetname, $templatefieldset, $fieldsetrecipe) {
+
+        $ret = array();
+
+        foreach ($fieldsetrecipe as $fieldsetvalues) {
+            $currentvalue = array();
+            foreach ($templatefieldset as $field) {
+                $fieldname = $field['name'];
+
+                // Use only the recipe fields that are part of the template.
+                if (isset($fieldsetvalues[$fieldname])) {
+                    $currentvalue[$fieldname] = $fieldsetvalues[$fieldname];
                 }
+            }
+
+            if (!empty($currentvalue)) {
+                $ret[] = $currentvalue;
             }
         }
 
-        $mform->addElement('header', $name, get_string('skel'.$name, 'tool_pluginskel'));
+        return $ret;
+    }
 
-        if (!empty($templatevar['required']) || !empty($recipevalues)) {
-            $mform->setExpanded($name, true);
-        } else {
-            $mform->setExpanded($name, false);
+    /**
+     * Adds an element to a fieldset.
+     *
+     * @param string $elementname
+     * @param string $variable The template variable the element represents.
+     * @param string[] $fieldsetvalues The values for all the fieldset elements.
+     */
+    protected function add_fieldset_element($elementname, $variable, $fieldsetvalues) {
+
+        $hint = $variable['hint'];
+
+        if ($hint == 'text' || $hint == 'int') {
+            $this->add_text_element($elementname, $variable, $fieldsetvalues);
+        } else if ($hint == 'multiple-options') {
+            $this->add_select_element($elementname, $variable, $fieldsetvalues);
         }
+    }
 
+    /**
+     * Adds the elements of a fieldset based on the template variables and the recipe.
+     *
+     * @param string $fieldsetname The name of the fieldset.
+     * @param string[] $templatevars The template variables to add.
+     * @param string[] $recipevalues The values for the elements taken from recipe.
+     * @param int $count The number of elements to add.
+     * @param bool $isnested If the fieldset is nested inside another fieldset.
+     */
+    protected function add_fieldset_elements($fieldsetname, $templatevars, $recipevalues, $count) {
+
+        $mform =& $this->_form;
+
+        // Adding elements which have values specified in the recipe.
         if (!empty($recipevalues)) {
-            foreach ($recipevalues as $index => $value) {
-                foreach ($elements as $element) {
-                    if (empty($element['hint']) || $element['hint'] == 'text' || $element['hint'] == 'int') {
-                        $elementname= $name.'['.$index.']['.$element['name'].']';
-                        $this->add_text_element($elementname, $element, $value);
+            foreach ($recipevalues as $index => $fieldsetvalues) {
+
+                foreach ($templatevars as $variable) {
+
+                    if ($variable['hint'] == 'array') {
+                        $this->add_nested_array_variable($fieldsetname, $index, $variable, $fieldsetvalues);
+                    } else {
+                        $elementname= $fieldsetname.'['.$index.']['.$variable['name'].']';
+                        $this->add_fieldset_element($elementname, $variable, $fieldsetvalues);
                     }
                 }
 
@@ -292,26 +361,65 @@ class tool_pluginskel_step1_form extends moodleform {
             }
         }
 
+        // Adding empty elements until we have the required number of elements in the fieldset.
         $currentcount = count($recipevalues);
-
         while ($currentcount < $count) {
-            foreach ($elements as $element) {
-                $elementname = $name.'['.$currentcount.']['.$element['name'].']';
-                $this->add_text_element($elementname, $element, array());
+            foreach ($templatevars as $variable) {
+
+                if ($variable['hint'] == 'array') {
+                    $this->add_nested_array_variable($fieldsetname, $currentcount, $variable, array());
+                } else {
+                    $elementname = $fieldsetname.'['.$currentcount.']['.$variable['name'].']';
+                    $this->add_fieldset_element($elementname, $variable, array());
+                }
             }
 
-            $currentcount = $currentcount + 1;
+            $currentcount += 1;
 
-            // Add a newline between arrays.
+            // Add a newline between groups of elements.
             if ($currentcount < $count) {
                 $mform->addElement('html', '<br/>');
             }
         }
+    }
 
-        $mform->addElement('button', 'addmore_'.$name, get_string('addmore', 'tool_pluginskel'));
+    /**
+     * Adds an array variable nested inside a fieldset.
+     *
+     * @param string $parentfieldset The name of the top level fieldset.
+     * @param int $index The index of the parent variable relative to the parent fieldset.
+     * @param string[] $nestedvariable The variable.
+     * @param string[] $nestedrecipe The recipe for the nested variable.
+     */
+    protected function add_nested_array_variable($parentvariablename, $index, $nestedvariable, $nestedrecipe) {
 
-        $mform->addElement('hidden', $name.'count', $count);
-        $mform->setType($name.'count', PARAM_INT);
+        $mform =& $this->_form;
+        $variablename = $nestedvariable['name'];
+        $variablearrname = $parentvariablename.'['.$index.']'.'['.$variablename.']';
+        $templatevalues = $nestedvariable['values'];
+
+        $variablecountvar = $parentvariablename.'_'.$index.'_'.$variablename.'count';
+        if (empty($this->_customdata[$variablecountvar])) {
+            // Create only one entry in the fieldset if more haven't been specified.
+            $count = 1;
+        } else {
+            $count = (int) $this->_customdata[$variablecountvar];
+        }
+
+        $mform->addElement('static', $variablearrname, get_string('skel'.$variablename, 'tool_pluginskel').':');
+
+        $recipevalues = array();
+        if (!empty($nestedrecipe[$variablename]) && is_array($nestedrecipe[$variablename])) {
+            $recipevalues = $this->get_fieldset_values_from_recipe($variablename, $templatevalues,
+                                                                   $nestedrecipe[$variablename]);
+        }
+
+        $this->add_fieldset_elements($variablearrname, $templatevalues, $recipevalues, $count);
+
+        $mform->addElement('button', 'addmore_'.$variablearrname, get_string('addmore_'.$variablename, 'tool_pluginskel'));
+
+        $mform->addElement('hidden', $variablecountvar, $count);
+        $mform->setType($variablecountvar, PARAM_INT);
     }
 
     /**
@@ -336,13 +444,11 @@ class tool_pluginskel_step1_form extends moodleform {
 
             if (!empty($formdata[$variablename])) {
                 if ($hint == 'array') {
-
-                    $value = $this->get_array_variable($formdata[$variablename]);
+                    $value = $this->get_array_variable($formdata[$variablename], $variable);
                     if (!empty($value)) {
                         $recipe[$variablename] = $value;
                     }
                 } else if ($hint === 'multiple-options') {
-
                     // Ignoring 'none' select options.
                     if ($formdata[$variablename] !== 'none') {
                         $recipe[$variablename] = $formdata[$variablename];
@@ -360,7 +466,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
             // Only array features are at the root of the recipe.
             if (!empty($formdata[$variablename]) && $hint == 'array') {
-                $value = $this->get_array_variable($formdata[$variablename]);
+                $value = $this->get_array_variable($formdata[$variablename], $variable);
                 if (!empty($value)) {
                     $recipe[$variablename] = $value;
                 }
@@ -370,8 +476,8 @@ class tool_pluginskel_step1_form extends moodleform {
         if (!empty($formdata['features'])) {
 
             $recipe['features'] = array();
-            foreach ($formdata['features'] as $feature => $value) {
 
+            foreach ($formdata['features'] as $feature => $value) {
                 if ($value === 'true') {
                     $recipe['features'][$feature] = true;
                 } else if ($value === 'false') {
@@ -386,27 +492,62 @@ class tool_pluginskel_step1_form extends moodleform {
     }
 
     /**
-     * Returns the form value of an array template variable.
+     * Returns the value of an array form variable.
      *
-     * @param string[] $formvalue
+     * @param string[] $formvariable The form value of the array variable.
+     * @param string[] $templatevariable The variable definition from the template.
      * @return string[]
      */
-    protected function get_array_variable($formvalue) {
+    protected function get_array_variable($formvariable, $templatevariable) {
 
-        $value = array();
-        foreach ($formvalue as $arrformval) {
+        $ret = array();
+        foreach ($formvariable as $formvalues) {
+
             $currentvalue = array();
-            foreach ($arrformval as $formfield => $formvalue) {
-                if (!empty($formvalue)) {
-                    $currentvalue[$formfield] = $formvalue;
+
+            foreach ($formvalues as $field => $value) {
+
+                if (!empty($value)) {
+
+                    $ismultipleoptions = false;
+                    $isrequired = false;
+                    $isarray = false;
+
+                    foreach ($templatevariable['values'] as $templatefield) {
+                        if ($templatefield['name'] == $field) {
+
+                            if ($templatefield['hint'] == 'multiple-options') {
+                                $ismultipleoptions = true;
+                                $isrequired = !empty($templatefield['required']);
+                            }
+
+                            if ($templatefield['hint'] == 'array') {
+                                $isarray = true;
+                                $arrvalue = $this->get_array_variable($value, $templatefield);
+                            }
+
+                            break;
+                        }
+                    }
+
+                    if ($isarray) {
+                        if (!empty($arrvalue)) {
+                            $currentvalue[$field] = $arrvalue;
+                        }
+                    } else if ($ismultipleoptions && !$isrequired && $value == 'none') {
+                        // If the field is a select element with the value 'none' then ignore it.
+                        continue;
+                    } else {
+                        $currentvalue[$field] = $value;
+                    }
                 }
             }
 
             if (!empty($currentvalue)) {
-                $value[] = $currentvalue;
+                $ret[] = $currentvalue;
             }
         }
 
-        return $value;
+        return $ret;
     }
 }
