@@ -202,6 +202,10 @@ function get_variable_count_from_recipe($templatevars, $recipe) {
 
             $variablecount[$variablecountvar] = $count;
 
+            if (empty($recipe[$variablename])) {
+                continue;
+            }
+
             foreach ($variable['values'] as $nestedvariable) {
                 if ($nestedvariable['hint'] == 'array') {
                     for ($i = 0; $i < $count; $i += 1) {
