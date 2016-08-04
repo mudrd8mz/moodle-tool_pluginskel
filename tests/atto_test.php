@@ -59,6 +59,22 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         )
     );
 
+    /** @var string The plugin type. */
+    protected static $plugintype;
+
+    /** @var string The plugin name. */
+    protected static $pluginname;
+
+    /**
+     * Sets the the $plugintype.
+     */
+    public static function setUpBeforeClass() {
+        list($type, $name) = \core_component::normalize_component(self::$recipe['component']);
+        self::$plugintype = $type;
+        self::$pluginname = $name;
+    }
+
+
     /**
      * Tests creating the button.js file.
      */
@@ -76,8 +92,7 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $this->assertArrayHasKey('yui/src/button/js/button.js', $files);
         $buttonjsfile = $files['yui/src/button/js/button.js'];
 
-        list($type, $attoname) = \core_component::normalize_component($recipe['component']);
-        $description = 'The Atto plugin '.$attoname.' is defined here.';
+        $description = 'The Atto plugin '.self::$pluginname.' is defined here.';
         $this->assertContains($description, $buttonjsfile);
 
         $namespace = "Y.namespace('M.".$recipe['component']."').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin";

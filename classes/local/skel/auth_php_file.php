@@ -46,6 +46,7 @@ class auth_php_file extends php_internal_file {
 
         parent::set_data($data);
 
+        /*
         $recipevariables = array(
             'can_change_password',
             'can_edit_profile',
@@ -63,5 +64,6 @@ class auth_php_file extends php_internal_file {
                 $this->set_attribute('has_'.$variable);
             }
         }
+         */
     }
 }

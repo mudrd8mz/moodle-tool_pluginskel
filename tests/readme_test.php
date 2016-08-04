@@ -43,7 +43,7 @@ class tool_pluginskel_readme_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'readmetest',
+        'component' => 'local_readmetest',
         'name'      => 'Readme test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(

@@ -186,59 +186,59 @@ class manager {
             $this->prepare_atto_files();
         }
 
-        if ($this->should_have('readme')) {
+        if ($this->has_common_feature('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
 
-        if ($this->should_have('license')) {
+        if ($this->has_common_feature('license')) {
             $this->prepare_file_skeleton('LICENSE.md', 'txt_file', 'license');
         }
 
-        if ($this->should_have('capabilities')) {
+        if ($this->has_common_feature('capabilities')) {
             $this->prepare_file_skeleton('db/access.php', 'php_internal_file', 'db_access');
         }
 
-        if ($this->should_have('settings')) {
+        if ($this->has_common_feature('settings')) {
             $this->prepare_file_skeleton('settings.php', 'php_internal_file', 'settings');
         }
 
-        if ($this->should_have('install')) {
+        if ($this->has_common_feature('install')) {
             $this->prepare_file_skeleton('db/install.php', 'php_internal_file', 'db_install');
         }
 
-        if ($this->should_have('uninstall')) {
+        if ($this->has_common_feature('uninstall')) {
             $this->prepare_file_skeleton('db/uninstall.php', 'php_internal_file', 'db_uninstall');
         }
 
-        if ($this->should_have('upgrade')) {
+        if ($this->has_common_feature('upgrade')) {
             $this->prepare_file_skeleton('db/upgrade.php', 'php_internal_file', 'db_upgrade');
-            if ($this->should_have('upgradelib')) {
+            if ($this->has_common_feature('upgradelib')) {
                 $this->prepare_file_skeleton('db/upgradelib.php', 'php_internal_file', 'db_upgradelib');
             }
         }
 
-        if ($this->should_have('message_providers')) {
+        if ($this->has_common_feature('message_providers')) {
             $this->prepare_file_skeleton('db/messages.php', 'php_internal_file', 'db_messages');
         }
 
-        if ($this->should_have('mobile_addons')) {
+        if ($this->has_common_feature('mobile_addons')) {
             $this->prepare_file_skeleton('db/mobile.php', 'mobile_php_file', 'db_mobile');
         }
 
-        if ($this->should_have('observers')) {
+        if ($this->has_common_feature('observers')) {
             $this->prepare_file_skeleton('db/events.php', 'php_internal_file', 'db_events');
             $this->prepare_observers();
         }
 
-        if ($this->should_have('events')) {
+        if ($this->has_common_feature('events')) {
             $this->prepare_events();
         }
 
-        if ($this->should_have('cli_scripts')) {
+        if ($this->has_common_feature('cli_scripts')) {
             $this->prepare_cli_files();
         }
 
-        if ($this->should_have('phpunit_tests')) {
+        if ($this->has_common_feature('phpunit_tests')) {
             $this->prepare_phpunit_tests();
         }
     }
@@ -279,9 +279,27 @@ class manager {
         );
         $this->verify_strings_exist($stringids);
 
-        if ($this->should_have('config_ui')) {
+        if ($this->has_component_feature('config_ui')) {
             $this->files['auth.php']->set_attribute('has_config_form');
             $this->files['auth.php']->set_attribute('has_process_config');
+        }
+
+        $recipefeatures = array(
+            'can_change_password',
+            'can_edit_profile',
+            'prevent_local_passwords',
+            'is_synchronised_with_external',
+            'can_reset_password',
+            'can_signup',
+            'can_confirm',
+            'can_be_manually_set',
+            'is_internal'
+        );
+
+        foreach ($recipefeatures as $feature) {
+            if ($this->has_component_feature($feature)) {
+                $this->files['auth.php']->set_attribute('has_'.$feature);
+            }
         }
     }
 
@@ -299,33 +317,16 @@ class manager {
         $buildjsonfile = 'yui/src/button/build.json';
         $this->prepare_file_skeleton($buildjsonfile, 'base', 'atto/build');
 
-        if ($this->should_have('strings_for_js')) {
+        if ($this->has_component_feature('strings_for_js')) {
+
             $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
             $this->files['lib.php']->set_attribute('has_strings_for_js');
 
-            $jsstrings = array();
-            if (!empty($this->recipe['strings'])) {
-                foreach ($this->recipe['strings_for_js'] as $stringid) {
-                    $jsstrings[] = $stringid;
-
-                    $found = false;
-                    foreach ($this->recipe['strings'] as $idtext) {
-                        if ($idtext['id'] == $stringid) {
-                            $found = true;
-                            break;
-                        }
-                    }
-
-                    if (!$found) {
-                        $this->logger->warning('Missing string id: '.$stringid);
-                    }
-                }
-            }
-
-            $this->files['lib.php']->add_strings_for_js($jsstrings);
+            $jsstrings = $this->recipe['strings_for_js'];
+            $this->verify_strings_exist($jsstrings);
         }
 
-        if ($this->should_have('params_for_js')) {
+        if ($this->has_component_feature('params_for_js')) {
             if (empty($this->files['lib.php'])) {
                 $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
             }
@@ -340,7 +341,7 @@ class manager {
      */
     protected function prepare_block_files() {
 
-        if (!$this->should_have('capabilities')) {
+        if (!$this->has_common_feature('capabilities')) {
             // 'block/<blockname>:addinstance' is required.
             // 'block/<blockname>:myaddinstance' is also required if applicable format 'my' is set to true.
             $this->logger->warning('Capabilities not defined');
@@ -349,7 +350,7 @@ class manager {
         $blockrecipe = $this->recipe;
 
         // Convert boolean to string.
-        if ($this->should_have('applicable_formats')) {
+        if ($this->has_component_feature('applicable_formats')) {
             foreach ($blockrecipe['applicable_formats'] as $key => $value) {
                 if (is_bool($value['allowed'])) {
                     if ($value['allowed'] === false) {
@@ -363,19 +364,19 @@ class manager {
 
         $this->prepare_file_skeleton($this->recipe['component'].'.php', 'base', 'block/block', $blockrecipe);
 
-        if ($this->should_have('edit_form')) {
+        if ($this->has_component_feature('edit_form')) {
             $this->prepare_file_skeleton('edit_form.php', 'base', 'block/edit_form');
         }
 
-        if ($this->should_have('instance_allow_multiple')) {
+        if ($this->has_component_feature('instance_allow_multiple')) {
             $this->files[$this->recipe['component'].'.php']->set_attribute('has_instance_allow_multiple');
         }
 
-        if ($this->should_have('settings')) {
+        if ($this->has_common_feature('settings')) {
             $this->files[$this->recipe['component'].'.php']->set_attribute('has_config');
         }
 
-        if ($this->should_have('backup_moodle2')) {
+        if ($this->has_component_feature('backup_moodle2')) {
             $this->prepare_block_backup_moodle2();
         }
 
@@ -387,9 +388,9 @@ class manager {
     protected function prepare_block_backup_moodle2() {
 
         $componentname = $this->recipe['component_name'];
-        $hassettingslib = $this->should_have('settingslib');
-        $hasbackupstepslib = $this->should_have('backup_stepslib');
-        $hasrestorestepslib = $this->should_have('restore_stepslib');
+        $hassettingslib = $this->has_component_feature('settingslib');
+        $hasbackupstepslib = $this->has_component_feature('backup_stepslib');
+        $hasrestorestepslib = $this->has_component_feature('restore_stepslib');
 
         $backuptaskfile = 'backup/moodle2/backup_'.$componentname.'_block_task.class.php';
         $this->prepare_file_skeleton($backuptaskfile, 'php_internal_file', 'block/backup/moodle2/backup_block_task_class');
@@ -406,7 +407,7 @@ class manager {
             $this->files[$backuptaskfile]->set_attribute('has_stepslib');
         }
 
-        if ($this->should_have('restore_task')) {
+        if ($this->has_component_feature('restore_task')) {
             $restoretaskfile = 'backup/moodle2/restore_'.$componentname.'_block_task.class.php';
             $this->prepare_file_skeleton($restoretaskfile, 'php_internal_file', 'block/backup/moodle2/restore_block_task_class');
 
@@ -431,18 +432,18 @@ class manager {
         // HTML5 is the default Moodle doctype.
         $ishtml5 = true;
 
-        if (!empty($this->recipe['doctype'])) {
+        if (!empty($this->recipe['theme_features']['doctype'])) {
             $this->files['config.php']->set_attribute('has_doctype');
-            if ($this->recipe['doctype'] != 'html5') {
+            if ($this->recipe['theme_features']['doctype'] != 'html5') {
                 $ishtml5 = false;
             }
         }
 
-        if (!empty($this->recipe['parents'])) {
+        if ($this->has_component_feature('parents')) {
             $this->files['config.php']->set_attribute('has_parents');
         }
 
-        if ($this->should_have('stylesheets')) {
+        if ($this->has_component_feature('stylesheets')) {
             $this->files['config.php']->set_attribute('has_stylesheets');
 
             foreach ($this->recipe['stylesheets'] as $stylesheet) {
@@ -450,17 +451,17 @@ class manager {
             }
         }
 
-        if ($this->should_have('layouts')) {
-            $this->files['config.php']->set_attribute('has_layouts');
+        if ($this->has_component_feature('all_layouts')) {
+            $this->files['config.php']->set_attribute('has_all_layouts');
+        }
 
-            if (!empty($this->recipe['layouts'])) {
-                foreach ($this->recipe['layouts'] as $layout) {
-                    $layoutfile = 'layout/'.$layout.'.php';
-                    $this->prepare_file_skeleton($layoutfile, 'base', 'theme/layout');
+        if ($this->has_component_feature('layouts')) {
+            foreach ($this->recipe['layouts'] as $layout) {
+                $layoutfile = 'layout/'.$layout.'.php';
+                $this->prepare_file_skeleton($layoutfile, 'base', 'theme/layout');
 
-                    if ($ishtml5) {
-                        $this->files[$layoutfile]->set_attribute('is_html5');
-                    }
+                if ($ishtml5) {
+                    $this->files[$layoutfile]->set_attribute('is_html5');
                 }
             }
         }
@@ -496,7 +497,7 @@ class manager {
     protected function verify_strings_exist($stringids) {
         foreach ($stringids as $stringid) {
             $found = false;
-            if (!empty($this->recipe['strings'])) {
+            if ($this->has_common_feature('strings')) {
                 foreach ($this->recipe['strings'] as $string) {
                     if ($string['id'] === $stringid) {
                         $found = true;
@@ -539,7 +540,7 @@ class manager {
         $this->prepare_file_skeleton('mod_form.php', 'php_internal_file', 'mod/mod_form');
         $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'mod/lib');
 
-        if ($this->should_have('gradebook')) {
+        if ($this->has_component_feature('gradebook')) {
             $gradebookfunctions = array(
                 'scale_used',
                 'scale_used_anywhere',
@@ -555,7 +556,7 @@ class manager {
             $this->files['mod_form.php']->set_attribute('has_gradebook');
         }
 
-        if ($this->should_have('file_area')) {
+        if ($this->has_component_feature('file_area')) {
             $fileareafunctions = array(
                 'get_file_areas',
                 'get_file_info',
@@ -566,14 +567,14 @@ class manager {
 
         $this->files['lib.php']->add_supported_feature('FEATURE_MOD_INTRO');
 
-        if ($this->should_have('backup_moodle2')) {
+        if ($this->has_component_feature('backup_moodle2')) {
             $this->prepare_mod_backup_moodle2();
             $this->files['lib.php']->add_supported_feature('FEATURE_BACKUP_MOODLE2');
         } else {
             $this->logger->warning('Backup_moodle2 feature not defined');
         }
 
-        if ($this->should_have('navigation')) {
+        if ($this->has_component_feature('navigation')) {
             $this->files['lib.php']->set_attribute('has_navigation');
         }
     }
@@ -584,7 +585,7 @@ class manager {
     protected function prepare_mod_backup_moodle2() {
 
         $componentname = $this->recipe['component_name'];
-        $hassettingslib = $this->should_have('settingslib');
+        $hassettingslib = $this->has_component_feature('settingslib');
 
         $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_activity_task.class.php', 'backup_activity_task_file',
                                      'mod/backup/moodle2/backup_activity_task_class');
@@ -749,85 +750,37 @@ class manager {
     }
 
     /**
-     * Should the generated plugin have the given feature?
+     * Does the generated plugin have the given component feature?
      *
      * @param string $feature
      * @return bool
      */
-    protected function should_have($feature) {
+    protected function has_component_feature($feature) {
 
-        if (isset($this->recipe['features'][$feature])) {
-            return (bool) $this->recipe['features'][$feature];
-        }
-
-        if ($feature === 'capabilities') {
-            return !empty($this->recipe['capabilities']);
-        }
-
-        if ($feature === 'upgradelib') {
-            return !empty($this->recipe['upgrade']['upgradelib']);
-        }
-
-        if ($feature === 'message_providers') {
-            return !empty($this->recipe['message_providers']);
-        }
-
-        if ($feature === 'observers') {
-            return !empty($this->recipe['observers']);
-        }
-
-        if ($feature === 'events') {
-            return !empty($this->recipe['events']);
-        }
-
-        if ($feature === 'mobile_addons') {
-            return !empty($this->recipe['mobile_addons']);
-        }
-
-        if ($feature === 'cli_scripts') {
-            return !empty($this->recipe['cli_scripts']);
-        }
-        if ($feature === 'backup_moodle2') {
-            return !empty($this->recipe['backup_moodle2']);
-        }
-
-        if ($feature === 'settingslib') {
-            $shouldhavebackup = $this->should_have('backup_moodle2');
-            $notempty = !empty($this->recipe['backup_moodle2']['settingslib']);
-
-            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['settingslib'] === true);
-        }
+        $componenttype = $this->recipe['component_type'];
 
         if ($feature === 'backup_moodle2') {
             return !empty($this->recipe['backup_moodle2']);
         }
 
-        if ($feature == 'restore_task') {
-            $shouldhavebackup = $this->should_have('backup_moodle2');
-            $notempty = !empty($this->recipe['backup_moodle2']['restore_task']);
-
-            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['restore_task'] === true);
+        if ($feature === 'settingslib') {
+            $hasbackup = $this->has_component_feature('backup_moodle2');
+            return $hasbackup && !empty($this->recipe['backup_moodle2']['settingslib']);
         }
 
-        if ($feature === 'settingslib') {
-            $shouldhavebackup = $this->should_have('backup_moodle2');
-            $notempty = !empty($this->recipe['backup_moodle2']['settingslib']);
-
-            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['settingslib'] === true);
+        if ($feature === 'restore_task') {
+            $hasbackup = $this->has_component_feature('backup_moodle2');
+            return $hasbackup && !empty($this->recipe['backup_moodle2']['restore_task']);
         }
 
         if ($feature === 'backup_stepslib') {
-            $shouldhavebackup = $this->should_have('backup_moodle2');
-            $notempty = !empty($this->recipe['backup_moodle2']['backup_stepslib']);
-
-            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['backup_stepslib'] === true);
+            $hasbackup = $this->has_component_feature('backup_moodle2');
+            return $hasbackup && !empty($this->recipe['backup_moodle2']['backup_stepslib']);
         }
 
         if ($feature === 'restore_stepslib') {
-            $shouldhavebackup = $this->should_have('backup_moodle2');
-            $notempty = !empty($this->recipe['backup_moodle2']['restore_stepslib']);
-
-            return $shouldhavebackup && $notempty && ($this->recipe['backup_moodle2']['restore_stepslib'] === true);
+            $hasbackup = $this->has_component_feature('backup_moodle2');
+            return $hasbackup && !empty($this->recipe['backup_moodle2']['restore_stepslib']);
         }
 
         if ($feature === 'applicable_formats') {
@@ -850,11 +803,89 @@ class manager {
             return !empty($this->recipe['strings_for_js']);
         }
 
+        if ($feature === 'stylesheets') {
+            return !empty($this->recipe['stylesheets']);
+        }
+
+        if ($feature === 'parents') {
+            return !empty($this->recipe['parents']);
+        }
+
+        if ($feature === 'layouts') {
+            return !empty($this->recipe['layouts']);
+        }
+
+        $attofeatures = array(
+            'can_change_password',
+            'can_edit_profile',
+            'prevent_local_passwords',
+            'is_synchronised_with_external',
+            'can_reset_password',
+            'can_signup',
+            'can_confirm',
+            'can_be_manually_set',
+            'is_internal'
+        );
+
+        foreach ($attofeatures as $attofeature) {
+            if ($attofeature === $feature) {
+                return isset($this->recipe[$componenttype.'_features'][$feature]);
+            }
+        }
+
+        return !empty($this->recipe[$componenttype.'_features'][$feature]);
+    }
+
+    /**
+     * Does the generated plugin have the given common feature?
+     *
+     * @param string $feature
+     * @return bool
+     */
+    protected function has_common_feature($feature) {
+
+        if ($feature === 'capabilities') {
+            return !empty($this->recipe['capabilities']);
+        }
+
+        if ($feature === 'message_providers') {
+            return !empty($this->recipe['message_providers']);
+        }
+
+        if ($feature === 'observers') {
+            return !empty($this->recipe['observers']);
+        }
+
+        if ($feature === 'events') {
+            return !empty($this->recipe['events']);
+        }
+
+        if ($feature === 'mobile_addons') {
+            return !empty($this->recipe['mobile_addons']);
+        }
+
+        if ($feature === 'cli_scripts') {
+            return !empty($this->recipe['cli_scripts']);
+        }
+
         if ($feature === 'phpunit_tests') {
             return !empty($this->recipe['phpunit_tests']);
         }
 
-        return false;
+        if ($feature === 'upgrade') {
+            if (isset($this->recipe['features']['upgrade'])) {
+                return (bool) $this->recipe['features']['upgrade'];
+            } else {
+                return !empty($this->recipe['upgrade']);
+            }
+        }
+
+        if ($feature === 'upgradelib') {
+            $hasupgrade = $this->has_common_feature('upgrade');
+            return $hasupgrade && !empty($this->recipe['upgrade']['upgradelib']);
+        }
+
+        return !empty($this->recipe['features'][$feature]);
     }
 
     /**

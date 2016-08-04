@@ -43,7 +43,7 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'upgradetest',
+        'component' => 'local_upgradetest',
         'name'      => 'Upgrade test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(

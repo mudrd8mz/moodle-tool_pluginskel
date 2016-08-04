@@ -48,9 +48,25 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
             'settings' => true,
+        ),
+        'block_features' => array(
             'instance_allow_multiple' => true,
             'edit_form' => true,
-            'settings' => true,
+        ),
+        'applicable_formats' => array(
+            array('page' => 'all', 'allowed' => false),
+            array('page' => 'course-view', 'allowed' => true),
+            array('page' => 'course-view-social', 'allowed' => false)
+        ),
+        'backup_moodle2' => array(
+            'restore_task' => true,
+            'restore_stepslib' => true,
+            'backup_stepslib' => true,
+            'settingslib' => true,
+            'backup_elements' => array('elt'),
+            'restore_elements' => array(
+                array('name' => 'node', 'path' => '/path/to/file')
+            )
         ),
         'capabilities' => array(
             array(
@@ -71,21 +87,6 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
                 'clonepermissionsfrom' => 'moodle/site:manageblocks'
             )
         ),
-        'applicable_formats' => array(
-            array('page' => 'all', 'allowed' => false),
-            array('page' => 'course-view', 'allowed' => true),
-            array('page' => 'course-view-social', 'allowed' => false)
-        ),
-        'backup_moodle2' => array(
-            'restore_task' => true,
-            'restore_stepslib' => true,
-            'backup_stepslib' => true,
-            'settingslib' => true,
-            'backup_elements' => array('elt'),
-            'restore_elements' => array(
-                array('name' => 'node', 'path' => '/path/to/file')
-            )
-        )
     );
 
     /** @var string The plugin files path relative the Moodle root. */

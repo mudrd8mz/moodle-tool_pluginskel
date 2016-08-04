@@ -43,22 +43,19 @@ class tool_pluginskel_observers_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'observerstest',
+        'component' => 'local_observerstest',
         'name'      => 'Observers test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'all' => false,
-        ),
         'observers' => array(
             array(
                 'eventname' => '\core\event\something_happened',
-                'callback' => '\observerstest\event_observer::something_happened',
+                'callback' => '\local_observerstest\event_observer::something_happened',
                 'includefile' => '/path/to/file/relative/to/moodle/dir/root',
                 'priority' => 200
             ),
             array(
                 'eventname' => '\core\event\something_else_happened',
-                'callback' => 'observerstest_another_event_observer::something_else_happened'
+                'callback' => 'local_observerstest_another_event_observer::something_else_happened'
             ),
             array(
                 'eventname' => '\core\event\another_eventname',

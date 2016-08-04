@@ -46,7 +46,9 @@ class tool_pluginskel_qtype_testcase extends advanced_testcase {
         'component' => 'qtype_test',
         'name'      => 'Qtype test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'base_class' => 'question_graded_automatically',
+        'qtype_features' => array(
+            'base_class' => 'question_graded_automatically',
+        ),
         'strings'   => array(
             array('id' => 'pluginnamesummary', 'text' => 'Plugin name summary'),
             array('id' => 'pluginnameadding', 'text' => 'Plugin name when adding'),
@@ -113,7 +115,7 @@ class tool_pluginskel_qtype_testcase extends advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $questionfile);
 
-        $baseclass = $recipe['base_class'];
+        $baseclass = $recipe['qtype_features']['base_class'];
         $questionclass = 'class '.$recipe['component'].'_question extends '.$baseclass;
         $this->assertContains($questionclass, $questionfile);
     }

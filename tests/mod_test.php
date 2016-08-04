@@ -52,6 +52,11 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
             'uninstall' => true,
             'install' => true,
         ),
+        'mod_features' => array(
+            'gradebook' => true,
+            'file_area' => true,
+            'navigation' => true
+        ),
         'events' => array(
             array(
                 'eventname' => 'course_module_instance_list_viewed',
@@ -305,7 +310,6 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
-        $recipe['features']['gradebook'] = true;
         $manager->load_recipe($recipe);
         $manager->make();
 
@@ -354,7 +358,6 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
-        $recipe['features']['file_area'] = true;
         $manager->load_recipe($recipe);
         $manager->make();
 
@@ -382,7 +385,6 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
-        $recipe['features']['navigation'] = true;
         $manager->load_recipe($recipe);
         $manager->make();
 

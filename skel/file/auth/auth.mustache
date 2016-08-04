@@ -53,12 +53,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool
      */
     public function can_change_password() {
-        {{# can_change_password }}
+        {{# auth_features.can_change_password }}
         return true;
-        {{/ can_change_password }}
-        {{^ can_change_password }}
+        {{/ auth_features.can_change_password }}
+        {{^ auth_features.can_change_password }}
         return false;
-        {{/ can_change_password }}
+        {{/ auth_features.can_change_password }}
     }
 {{/ self.has_can_change_password }}
 {{# self.has_can_edit_profile }}
@@ -69,12 +69,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool
      */
     public function can_edit_profile() {
-        {{# can_edit_profile }}
+        {{# auth_features.can_edit_profile }}
         return true;
-        {{/ can_edit_profile }}
-        {{^ can_edit_profile }}
+        {{/ auth_features.can_edit_profile }}
+        {{^ auth_features.can_edit_profile }}
         return false;
-        {{/ can_edit_profile }}
+        {{/ auth_features.can_edit_profile }}
     }
 {{/ self.has_can_edit_profile }}
 {{# self.has_is_internal }}
@@ -87,12 +87,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool
      */
     public function is_internal() {
-        {{# is_internal }}
+        {{# auth_features.is_internal }}
         return true;
-        {{/ is_internal }}
-        {{^ is_internal }}
+        {{/ auth_features.is_internal }}
+        {{^ auth_features.is_internal }}
         return false;
-        {{/ is_internal }}
+        {{/ auth_features.is_internal }}
     }
 {{/ self.has_is_internal }}
 {{# self.has_prevent_local_passwords }}
@@ -103,12 +103,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool True means password hash stored in user table, false means flag 'not_cached' stored there instead.
      */
     public function prevent_local_passwords() {
-        {{# prevent_local_passwords }}
+        {{# auth_features.prevent_local_passwords }}
         return true;
-        {{/ prevent_local_passwords }}
-        {{^ prevent_local_passwords }}
+        {{/ auth_features.prevent_local_passwords }}
+        {{^ auth_features.prevent_local_passwords }}
         return false;
-        {{/ prevent_local_passwords }}
+        {{/ auth_features.prevent_local_passwords }}
     }
 {{/ self.has_prevent_local_passwords }}
 {{# self.has_is_synchronised_with_external }}
@@ -121,12 +121,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool True means automatically copy data from ext to user table.
      */
     public function is_synchronised_with_external() {
-        {{# is_synchronised_with_external }}
+        {{# auth_features.is_synchronised_with_external }}
         return true;
-        {{/ is_synchronised_with_external }}
-        {{^ is_synchronised_with_external }}
+        {{/ auth_features.is_synchronised_with_external }}
+        {{^ auth_features.is_synchronised_with_external }}
         return false;
-        {{/ is_synchronised_with_external }}
+        {{/ auth_features.is_synchronised_with_external }}
     }
 {{/ self.has_is_synchronised_with_external }}
 {{# self.has_can_reset_password }}
@@ -137,12 +137,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool.
      */
     public function can_reset_password() {
-        {{# can_reset_password }}
+        {{# auth_features.can_reset_password }}
         return true;
-        {{/ can_reset_password }}
-        {{^ can_reset_password }}
+        {{/ auth_features.can_reset_password }}
+        {{^ auth_features.can_reset_password }}
         return false;
-        {{/ can_reset_password }}
+        {{/ auth_features.can_reset_password }}
     }
 {{/ self.has_can_reset_password }}
 {{# self.has_can_signup }}
@@ -153,12 +153,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool
      */
     public function can_signup() {
-        {{# can_signup }}
+        {{# auth_features.can_signup }}
         return true;
-        {{/ can_signup }}
-        {{^ can_signup }}
+        {{/ auth_features.can_signup }}
+        {{^ auth_features.can_signup }}
         return false;
-        {{/ can_signup }}
+        {{/ auth_features.can_signup }}
     }
 {{/ self.has_can_signup }}
 {{# self.has_can_confirm }}
@@ -169,12 +169,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool
      */
     public function can_confirm() {
-        {{# can_confirm }}
+        {{# auth_features.can_confirm }}
         return true;
-        {{/ can_confirm }}
-        {{^ can_confirm }}
+        {{/ auth_features.can_confirm }}
+        {{^ auth_features.can_confirm }}
         return false;
-        {{/ can_confirm }}
+        {{/ auth_features.can_confirm }}
     }
 {{/ self.has_can_confirm }}
 {{# self.has_can_be_manually_set }}
@@ -189,12 +189,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      * @return bool
      */
     public function can_be_manually_set() {
-        {{# can_be_manually_set }}
+        {{# auth_features.can_be_manually_set }}
         return true;
-        {{/ can_be_manually_set }}
-        {{^ can_be_manually_set }}
+        {{/ auth_features.can_be_manually_set }}
+        {{^ auth_features.can_be_manually_set }}
         return false;
-        {{/ can_be_manually_set }}
+        {{/ auth_features.can_be_manually_set }}
     }
 {{/ self.has_can_be_manually_set }}
 {{# self.has_config_form }}
