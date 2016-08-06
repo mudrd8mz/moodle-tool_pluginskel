@@ -293,7 +293,12 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $this->add_fieldset_elements($fieldsetname, $templatevalues, $recipevalues, $count);
 
-        $mform->addElement('button', 'addmore_'.$fieldsetname, get_string('addmore_'.$fieldsetname, 'tool_pluginskel'));
+        $buttonarr = array();
+        $buttonarr[] =& $mform->createElement('button', 'addmore_'.$fieldsetname,
+                                              get_string('addmore_'.$fieldsetname, 'tool_pluginskel'));
+        $buttonarr[] =& $mform->createElement('button', 'delete_'.$fieldsetname,
+                                              get_string('delete_'.$fieldsetname, 'tool_pluginskel'));
+        $mform->addGroup($buttonarr, 'buttons_'.$fieldsetname, '', array('    '), false);
 
         $mform->addElement('hidden', $fieldsetname.'count', $count);
         $mform->setType($fieldsetname.'count', PARAM_INT);

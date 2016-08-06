@@ -3,6 +3,71 @@ define(['jquery'], function($) {
     var addElements = {
 
         /**
+         * Deletes a an array template variable value.
+         *
+         * @param {Array} templateVars The template variables.
+         * @param {String} variableName The name of the variable.
+         */
+        deleteElements: function(templateVars, variableName, elt) {
+
+            var variableCount = +$("[name='"+variableName+"count']").val();
+
+            if (variableCount == 1) {
+                return;
+            }
+
+            var templateVariable;
+
+            for (var i in templateVars) {
+                if (templateVars[i].name == variableName) {
+                    templateVariable = templateVars[i];
+                    break;
+                }
+            }
+
+            var lastIndex = variableCount - 1;
+
+            // Removing the newline before the element that will be deleted.
+            $('#id_'+variableName+' br').filter(':last').remove();
+
+            for (i in templateVariable.values) {
+                var fieldVariable = templateVariable.values[i];
+                var lastElementDiv = 'fitem_id_'+variableName+'_'+lastIndex+'_'+fieldVariable.name;
+
+                $('#'+lastElementDiv).remove();
+
+                if (fieldVariable.hint === 'array') {
+
+                    var nestedCountVar = variableName+'_'+lastIndex+'_'+fieldVariable.name+'count';
+                    var nestedCount = +$("[name='"+nestedCountVar+"']").val();
+
+                    // Removing the newlines between the nested array elements.
+                    $('#id_'+variableName+' br').slice(-(nestedCount - 1)).remove();
+
+                    for (var j in fieldVariable.values) {
+
+                        var nestedVariable = fieldVariable.values[j];
+
+                        for (var k = 0; k < nestedCount; k++) {
+                            var nestedDiv = lastElementDiv+'_'+k+'_'+nestedVariable.name;
+                            $('#'+nestedDiv).remove();
+                        }
+                    }
+
+                    // Removing the 'Add more ..' button.
+                    var buttonDivId = 'fitem_id_addmore_'+variableName+'_'+lastIndex+'_'+fieldVariable.name;
+                    $('#'+buttonDivId).remove();
+
+                    // Remove the number of nested variables
+                    $("[name='"+nestedCountVar+"']").remove();
+                }
+            }
+
+            // Decrement the number of variable elements.
+            $("[name='"+variableName+"count']").val(variableCount - 1);
+        },
+
+        /**
          * Adds more elements to a fieldset located at the root of the document.
          *
          * @param {Array} templateVars The template variables.
@@ -82,7 +147,7 @@ define(['jquery'], function($) {
                 }
             }
 
-            $('#fitem_id_addmore_'+variableName).before(newElements);
+            $('#fgroup_id_buttons_'+variableName).before(newElements);
 
             elementIdPrefix = 'id_'+variableName+'_'+variableCount;
             addElements.removeInputFromNewNode(templateVariable, elementIdPrefix);
@@ -244,6 +309,13 @@ define(['jquery'], function($) {
                 } else {
                     addElements.addMoreNestedElements(templateVars, variableName, this);
                 }
+            });
+
+            $("[name*='delete_']").on('click', function() {
+
+                var variableName = $(this).prop('name').replace('delete_', '');
+                addElements.deleteElements(templateVars, variableName, this);
+
             });
         },
     };
