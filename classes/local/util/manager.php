@@ -541,6 +541,7 @@ class manager {
         $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'mod/lib');
 
         if ($this->has_component_feature('gradebook')) {
+
             $gradebookfunctions = array(
                 'scale_used',
                 'scale_used_anywhere',
@@ -548,7 +549,10 @@ class manager {
                 'grade_item_delete',
                 'update_grades'
             );
-            $this->files['lib.php']->add_functions($gradebookfunctions);
+
+            foreach ($gradebookfunctions as $gradebookfunction) {
+                $this->files['lib.php']->set_attribute('has_'.$gradebookfunction);
+            }
 
             $this->files['lib.php']->add_supported_feature('FEATURE_GRADE_HAS_GRADE');
             $this->prepare_file_skeleton('grade.php', 'php_web_file', 'mod/grade');
@@ -557,12 +561,17 @@ class manager {
         }
 
         if ($this->has_component_feature('file_area')) {
+
             $fileareafunctions = array(
                 'get_file_areas',
                 'get_file_info',
                 'pluginfile'
             );
-            $this->files['lib.php']->add_functions($fileareafunctions);
+
+            foreach ($fileareafunctions as $fileareafunction) {
+                $this->files['lib.php']->set_attribute('has_'.$fileareafunction);
+            }
+
         }
 
         $this->files['lib.php']->add_supported_feature('FEATURE_MOD_INTRO');
