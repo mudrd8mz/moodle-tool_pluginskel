@@ -58,12 +58,15 @@ if ($step == 0) {
         $templatevars = array_merge($componentvars, $featuresvars);
 
         if (!empty($formdata->proceedmanually)) {
+
             if (empty($formdata->componentname)) {
                 throw new moodle_exception('emptypluginname', 'tool_pluginskel', $returnurl);
             }
 
             $recipe['component'] = $formdata->componenttype.'_'.$formdata->componentname;
+
         } else {
+
             if (!empty($formdata->proceedrecipefile)) {
                 $recipestring = $mform0->get_file_content('recipefile');
             } else if (!empty($formdata->proceedrecipe)) {
@@ -90,9 +93,11 @@ if ($step == 0) {
         echo $OUTPUT->footer();
 
     } else {
+
         echo $OUTPUT->header();
         $mform0->display();
         echo $OUTPUT->footer();
+
     }
 
 } else if ($step == 1) {
@@ -109,13 +114,18 @@ if ($step == 0) {
 
     $mform1 = new tool_pluginskel_step1_form(null, $data);
     $formdata = (array) $mform1->get_data();
+
     $recipe = $mform1->get_recipe();
 
     if (!empty($formdata['buttondownloadskel'])) {
+
         download_plugin_skeleton($recipe);
+
     } else if (!empty($formdata['buttondownloadrecipe'])) {
+
         $recipestring = tool_pluginskel\local\util\yaml::encode($recipe);
         download_recipe($recipestring);
+
     } else if (!empty($formdata['buttonviewrecipe'])) {
 
         $data = array('recipe' => $recipe);
@@ -134,10 +144,14 @@ if ($step == 0) {
     $recipestring = $formdata['recipe'];
 
     if (!empty($formdata['buttondownloadrecipe'])) {
+
         download_recipe($recipestring);
+
     } else if (!empty($formdata['buttondownloadskel'])) {
+
         $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
         download_plugin_skeleton($recipe);
+
     } else if (!empty($formdata['buttonback'])) {
 
         $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
@@ -228,29 +242,30 @@ function get_variable_count_from_recipe($templatevars, $recipe) {
  * @param string $prefix The prefix used for nested arrays.
  * @return string[]
  */
-function get_variable_count_from_form($templatevars, $prefix = null) {
+function get_variable_count_from_form($templatevars) {
 
     $variablecount = array();
 
     foreach ($templatevars as $variable) {
+
         if ($variable['hint'] == 'array') {
 
-            $variablename = $variable['name'];
-            $variablecountvar = $variablename.'count';
-            if (!is_null($prefix)) {
-                $variablecountvar = $prefix.$variablecountvar;
-            }
-
+            $variablecountvar = $variable['name'].'count';
             $count = (int) optional_param($variablecountvar, 1, PARAM_INT);
             $variablecount[$variablecountvar] = $count;
 
             foreach ($variable['values'] as $nestedvariable) {
+
                 if ($nestedvariable['hint'] == 'array') {
+
                     for ($i = 0; $i < $count; $i += 1) {
-                        $prefix = $variablename.'_'.$i.'_';
-                        $nestedvariablecount = get_variable_count_from_form($variable['values'], $prefix);
-                        $nestedvariablecountvar = $prefix.$nestedvariable['name'].'count';
-                        $variablecount[$nestedvariablecountvar] = $nestedvariablecount[$nestedvariablecountvar];
+
+                        $nestedname = $variable['name'].'_'.$i.'_'.$nestedvariable['name'];
+                        $nestedcountvar = $nestedname.'count';
+
+                        $count = (int) optional_param($nestedcountvar, 1, PARAM_INT);
+
+                        $variablecount[$nestedcountvar] = $count;
                     }
                 }
             }
@@ -284,11 +299,11 @@ function generate_download_header($filename, $contentlength) {
  */
 function download_recipe($recipestring) {
 
-        $filename = 'recipe_'.time().'.yaml';
-        $contentlength = strlen($recipestring);
+    $filename = 'recipe_'.time().'.yaml';
+    $contentlength = strlen($recipestring);
 
-        generate_download_header($filename, $contentlength);
-        echo($recipestring);
+    generate_download_header($filename, $contentlength);
+    echo($recipestring);
 }
 
 /**

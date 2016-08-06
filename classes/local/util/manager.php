@@ -113,14 +113,12 @@ class manager {
 
         $featuresvars = array();
 
-        // Adding install feature variable.
         $featuresvars[] = array('name' => 'install', 'hint' => 'boolean');
-
-        // Adding uninstall feature variable.
         $featuresvars[] = array('name' => 'uninstall', 'hint' => 'boolean');
-
-        // Adding settings feature variable.
         $featuresvars[] = array('name' => 'settings', 'hint' => 'boolean');
+        $featuresvars[] = array('name' => 'readme', 'hint' => 'boolean');
+        $featuresvars[] = array('name' => 'license', 'hint' => 'boolean');
+        $featuresvars[] = array('name' => 'upgrade', 'hint' => 'boolean');
 
         $capabilities = array(
             array('name' => 'capabilities', 'hint' => 'array', 'values' => array(
@@ -132,11 +130,63 @@ class manager {
                   array('name' => 'archetypes', 'hint' => 'array', 'values' => array(
                         array('name' => 'role', 'hint' => 'text'),
                         array('name' => 'permission', 'hint' => 'multiple-options',
-                              'values' => array('CAP_ALLOW' => 'CAP_ALLOW', 'CAP_PREVENT' => 'CAP_PREVENT')))),
-                  array('name' => 'clonepermissionsfrom', 'hint' => 'text'))),
+                              'values' => array('CAP_ALLOW' => 'CAP_ALLOW', 'CAP_PREVENT' => 'CAP_PREVENT')))
+                  ),
+                  array('name' => 'clonepermissionsfrom', 'hint' => 'text'))
+            ),
         );
 
-        $featuresvars = array_merge($featuresvars, $capabilities);
+        $messageproviders = array(
+            array('name' => 'message_providers', 'hint' => 'array', 'values' => array(
+                array('name' => 'name', 'hint' => 'text'),
+                array('name' => 'capability', 'hint' => 'text'))),
+        );
+
+        // TODO: Redo cli_script feature.
+        $cliscript = array(
+            array('name' => 'cli_script', 'hint' => 'array', 'values' => array(
+                array('name' => 'filename', 'hint' => 'text'))
+            ),
+        );
+
+        $observers = array(
+            array('name' => 'observers', 'hint' => 'array', 'values' => array(
+                array('name' => 'eventname', 'hint' => 'text'),
+                array('name' => 'callback', 'hint' => 'text'),
+                array('name' => 'includefile', 'hint' => 'text'),
+                array('name' => 'priority', 'hint' => 'int'))
+            ),
+        );
+
+        $events = array(
+            array('name' => 'events', 'hint' => 'array', 'values' => array(
+                array('name' => 'eventname', 'hint' => 'text'),
+                array('name' => 'extends', 'hint' => 'text'))
+            ),
+        );
+
+        // TODO: Redo mobile_addons feature.
+        $mobileaddons = array(
+            array('name' => 'mobile_addons', 'hint' => 'array', 'values' => array(
+                array('name' => 'name', 'hint' => 'text'),
+                array('name' => 'dependencies', 'hint' => 'array', 'values' => array(
+                    array('name' => 'name', 'hint' => 'text')))
+                ),
+            ),
+        );
+
+        // TODO: Redo phpunit_tests feature.
+        $phpunittests = array(
+            array('name' => 'phpunit_tests', 'hint' => 'array', 'values' => array(
+                array('name' => 'classname', 'hint' => 'text')),
+            ),
+        );
+
+        $featuresvars = array_merge($featuresvars,
+                                    $messageproviders,
+                                    $capabilities,
+                                    $observers,
+                                    $events);
 
         return $featuresvars;
     }
