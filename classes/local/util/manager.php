@@ -85,12 +85,11 @@ class manager {
     }
 
     /**
-     * Returns a list of variables needed by the plugin templates.
+     * Returns a list of general variables needed by the plugin templates.
      *
-     * @param string $component.
      * @return string[].
      */
-    public static function get_component_variables($component) {
+    public static function get_general_variables() {
 
         $copyright = array(
             array('name' => 'copyright', 'hint' => 'text', 'required' => true)
@@ -104,9 +103,71 @@ class manager {
     }
 
     /**
-     * Returns a list of variables needed by the features' templates.
+     * Returns a list of component specific variables needed by the plugin templates.
      *
      * @param string $component.
+     * @return string[].
+     */
+    public static function get_component_variables($component) {
+
+        list($type, $name) = core_component::normalize_component($component);
+
+        $componentvars = array();
+
+        if ($type === 'auth') {
+            $componentvars = array(
+                array('name' => 'config_ui', 'hint' => 'boolean', 'required' => true),
+                array('name' => 'can_change_password', 'hint' => 'boolean'),
+                array('name' => 'can_edit_profile', 'hint' => 'boolean'),
+                array('name' => 'is_internal', 'hint' => 'boolean'),
+                array('name' => 'prevent_local_passwords', 'hint' => 'boolean'),
+                array('name' => 'is_synchronised_with_external', 'hint' => 'boolean'),
+                array('name' => 'can_reset_password', 'hint' => 'boolean'),
+                array('name' => 'can_signup', 'hint' => 'boolean'),
+                array('name' => 'can_confirm', 'hint' => 'boolean'),
+                array('name' => 'can_be_manually_set', 'hint' => 'boolean'),
+            );
+        }
+
+        if ($type === 'block') {
+            $componentvars = array(
+                array('name' => 'edit_form', 'hint' => 'boolean', 'required' => true),
+                array('name' => 'instance_allow_multiple', 'hint' => 'boolean', 'required' => true),
+                array('name' => 'applicable_formats', 'hint' => 'array', 'values' => array(
+                    array('name' => 'page', 'hint' => 'text'),
+                    array('name' => 'allowed', 'hint' => 'boolean', 'required' => true))
+                ),
+            );
+        }
+
+        if ($type === 'mod') {
+            $componentvars = array(
+                array('name' => 'gradebook', 'hint' => 'boolean', 'required' => true),
+                array('name' => 'file_area', 'hint' => 'boolean', 'required' => true),
+                array('name' => 'navigation', 'hint' => 'boolean', 'required' => true),
+            );
+        }
+
+        if ($type === 'qtype') {
+            $componentvars = array(
+                array('name' => 'base_class', 'hint' => 'text', 'required' => true),
+            );
+        }
+
+        // TODO: redo theme so array features have a name.
+        if ($type === 'theme') {
+            $componentvars = array(
+                array('name' => 'all_layouts', 'hint' => 'boolean', 'required' => true),
+                array('name' => 'doctype', 'hint' => 'text'),
+            );
+        }
+
+        return $componentvars;
+    }
+
+    /**
+     * Returns a list of variables needed for the common features.
+     *
      * @return string[].
      */
     public static function get_features_variables() {

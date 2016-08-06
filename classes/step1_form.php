@@ -44,13 +44,15 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $recipe = $this->_customdata['recipe'];
         $component = $recipe['component'];
+
+        $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
         $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
         $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
 
-        $mform->addElement('header', 'pluginhdr', get_string('pluginhdr', 'tool_pluginskel'));
-        $mform->setExpanded('pluginhdr', true);
+        $mform->addElement('header', 'generalhdr', get_string('generalhdr', 'tool_pluginskel'));
+        $mform->setExpanded('generalhdr', true);
 
-        foreach ($componentvars as $variable) {
+        foreach ($generalvars as $variable) {
 
             $hint = $variable['hint'];
             $elementname = $variable['name'];
@@ -106,32 +108,55 @@ class tool_pluginskel_step1_form extends moodleform {
             }
         }
 
-        // Adding required array variables first because the fieldsets will be expanded.
+        $mform->addElement('header', 'componenthdr', get_string('componenthdr', 'tool_pluginskel'));
+        $mform->setExpanded('componenthdr', true);
+
         foreach ($componentvars as $variable) {
 
             $hint = $variable['hint'];
+            $elementname = $variable['name'];
 
-            if ($hint == 'array' && !empty($variable['required'])) {
+            // Template variables that are arrays will be added at the bottom of the page.
+            if ($hint == 'array') {
+                continue;
+            }
+
+            if ($hint == 'text' || $hint == 'int') {
+                $this->add_text_element($elementname, $variable, $recipe);
+            }
+
+            if ($hint == 'boolean') {
+
+                // Non-required boolean variable can also be missing from the recipe.
+                // The select element adds an extra field 'none' to discard it from the recipe.
+                if (empty($variable['required'])) {
+                    $variable['values'] = array('true' => 'true', 'false' => 'false');
+                    $this->add_select_element($elementname, $variable, $recipe);
+                } else {
+                    $this->add_advcheckbox_element($elementname, $variable, $recipe);
+                }
+            }
+
+            if ($hint == 'multiple-options') {
+                $this->add_select_element($elementname, $variable, $recipe);
+            }
+        }
+
+        foreach ($componentvars as $variable) {
+            if ($variable['hint'] == 'array') {
                 $this->add_fieldset($variable, $recipe);
             }
         }
 
-        // Adding optional array variables last because the fieldsets will not be expanded.
-        foreach ($componentvars as $variable) {
-
-            $hint = $variable['hint'];
-
-            if ($hint == 'array' && empty($variable['required'])) {
+        foreach ($generalvars as $variable) {
+            if ($variable['hint'] == 'array') {
                 $this->add_fieldset($variable, $recipe);
             }
         }
 
         // Adding array features.
         foreach ($featuresvars as $variable) {
-
-            $hint = $variable['hint'];
-
-            if ($hint == 'array') {
+            if ($variable['hint'] == 'array') {
                 $this->add_fieldset($variable, $recipe);
             }
         }
@@ -201,10 +226,6 @@ class tool_pluginskel_step1_form extends moodleform {
 
         if (!empty($recipe[$variablename])) {
             $mform->getElement($elementname)->setChecked(true);
-        }
-
-        if (!empty($templatevar['required'])) {
-            $mform->addRule($elementname, null, 'required', null, 'client', false, true);
         }
     }
 
@@ -322,8 +343,19 @@ class tool_pluginskel_step1_form extends moodleform {
 
         if ($hint == 'text' || $hint == 'int') {
             $this->add_text_element($elementname, $variable, $fieldsetvalues);
-        } else if ($hint == 'multiple-options') {
+        }
+
+        if ($hint == 'multiple-options') {
             $this->add_select_element($elementname, $variable, $fieldsetvalues);
+        }
+
+        if ($hint == 'boolean') {
+            if ($variable['required'] === true) {
+                $this->add_advcheckbox_element($elementname, $variable, $fieldsetvalues);
+            } else {
+                $variable['values'] = array('true' => 'true', 'false' => 'false');
+                $this->add_select_element($elementname, $variable, $fieldsetvalues);
+            }
         }
     }
 
@@ -434,15 +466,17 @@ class tool_pluginskel_step1_form extends moodleform {
         $formdata = (array) $this->get_data();
         $component = $this->_customdata['recipe']['component'];
 
+        $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
         $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
-        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables($component);
+        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
 
-        foreach ($componentvars as $variable) {
+        foreach ($generalvars as $variable) {
 
             $variablename = $variable['name'];
             $hint = $variable['hint'];
 
             if (!empty($formdata[$variablename])) {
+
                 if ($hint == 'array') {
                     $value = $this->get_array_variable($formdata[$variablename], $variable);
                     if (!empty($value)) {
@@ -450,6 +484,37 @@ class tool_pluginskel_step1_form extends moodleform {
                     }
                 } else if ($hint === 'multiple-options') {
                     // Ignoring 'none' select options.
+                    if ($formdata[$variablename] !== 'none') {
+                        $recipe[$variablename] = $formdata[$variablename];
+                    }
+                } else if ($hint === 'boolean' && empty($variable['required'])) {
+                    if ($formdata[$variablename] !== 'none') {
+                        $recipe[$variablename] = $formdata[$variablename];
+                    }
+                } else {
+                    $recipe[$variablename] = $formdata[$variablename];
+                }
+            }
+        }
+
+        foreach ($componentvars as $variable) {
+
+            $variablename = $variable['name'];
+            $hint = $variable['hint'];
+
+            if (!empty($formdata[$variablename])) {
+
+                if ($hint == 'array') {
+                    $value = $this->get_array_variable($formdata[$variablename], $variable);
+                    if (!empty($value)) {
+                        $recipe[$variablename] = $value;
+                    }
+                } else if ($hint === 'multiple-options') {
+                    // Ignoring 'none' select options.
+                    if ($formdata[$variablename] !== 'none') {
+                        $recipe[$variablename] = $formdata[$variablename];
+                    }
+                } else if ($hint === 'boolean' && empty($variable['required'])) {
                     if ($formdata[$variablename] !== 'none') {
                         $recipe[$variablename] = $formdata[$variablename];
                     }
@@ -466,7 +531,9 @@ class tool_pluginskel_step1_form extends moodleform {
 
             // Only array features are at the root of the recipe.
             if (!empty($formdata[$variablename]) && $hint == 'array') {
+
                 $value = $this->get_array_variable($formdata[$variablename], $variable);
+
                 if (!empty($value)) {
                     $recipe[$variablename] = $value;
                 }
@@ -514,6 +581,7 @@ class tool_pluginskel_step1_form extends moodleform {
                     $isarray = false;
 
                     foreach ($templatevariable['values'] as $templatefield) {
+
                         if ($templatefield['name'] == $field) {
 
                             if ($templatefield['hint'] == 'multiple-options') {
@@ -521,9 +589,14 @@ class tool_pluginskel_step1_form extends moodleform {
                                 $isrequired = !empty($templatefield['required']);
                             }
 
+                            if ($templatefield['hint'] == 'boolean' && empty($templatefield['required'])) {
+                                $ismultipleoptions = true;
+                                $isrequired = false;
+                            }
+
                             if ($templatefield['hint'] == 'array') {
                                 $isarray = true;
-                                $arrvalue = $this->get_array_variable($value, $templatefield);
+                                $value = $this->get_array_variable($value, $templatefield);
                             }
 
                             break;
@@ -531,8 +604,8 @@ class tool_pluginskel_step1_form extends moodleform {
                     }
 
                     if ($isarray) {
-                        if (!empty($arrvalue)) {
-                            $currentvalue[$field] = $arrvalue;
+                        if (!empty($value)) {
+                            $currentvalue[$field] = $value;
                         }
                     } else if ($ismultipleoptions && !$isrequired && $value == 'none') {
                         // If the field is a select element with the value 'none' then ignore it.

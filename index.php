@@ -52,11 +52,6 @@ if ($step == 0) {
         $data = array();
         $recipe = array();
 
-        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
-        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables($component);
-
-        $templatevars = array_merge($componentvars, $featuresvars);
-
         if (!empty($formdata->proceedmanually)) {
 
             if (empty($formdata->componentname)) {
@@ -79,6 +74,12 @@ if ($step == 0) {
 
             $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
         }
+
+        $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
+        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($recipe['component']);
+        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
+
+        $templatevars = array_merge($generalvars, $componentvars, $featuresvars);
 
         $data = get_variable_count_from_recipe($templatevars, $recipe);
         $data['recipe'] = $recipe;
@@ -103,10 +104,11 @@ if ($step == 0) {
 } else if ($step == 1) {
 
     // Reconstructing the form elements.
+    $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
     $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
     $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
 
-    $templatevars = array_merge($componentvars, $featuresvars);
+    $templatevars = array_merge($generalvars, $componentvars, $featuresvars);
 
     // Getting the number of elements for array variables.
     $data = get_variable_count_from_form($templatevars);
@@ -156,9 +158,11 @@ if ($step == 0) {
 
         $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
 
+        $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
         $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
-        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables($component);
-        $templatevars = array_merge($componentvars, $featuresvars);
+        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
+
+        $templatevars = array_merge($generalvars, $componentvars, $featuresvars);
 
         $data = get_variable_count_from_recipe($templatevars, $recipe);
         $data['recipe'] = $recipe;
