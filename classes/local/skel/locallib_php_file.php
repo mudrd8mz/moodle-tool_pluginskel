@@ -43,16 +43,20 @@ class locallib_php_file extends php_internal_file {
      *
      * @param string $function The function name.
      */
-    public function add_function($function) {
+    public function add_event_callback($callback, $event) {
 
         if (empty($this->data)) {
             throw new exception('Skeleton data not set');
         }
 
-        if (empty($this->data['locallib']['functions'])) {
-            $this->data['locallib']['functions'] = array();
+        if (empty($this->data['self'])) {
+            $this->data['self'] = array();
         }
 
-        $this->data['locallib']['functions'][] = $function;
+        if (empty($this->data['self']['events'])) {
+            $this->data['self']['events'] = array();
+        }
+
+        $this->data['self']['events'][] = array('event' => $event, 'callback' => $callback);
     }
 }

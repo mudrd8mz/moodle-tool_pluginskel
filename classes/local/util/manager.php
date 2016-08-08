@@ -675,7 +675,7 @@ class manager {
                     $this->prepare_file_skeleton('locallib.php', 'locallib_php_file', 'locallib');
                 }
 
-                $this->files['locallib.php']->add_function($observer['callback']);
+                $this->files['locallib.php']->add_event_callback($observer['callback'], $observer['eventname']);
             }
         }
     }

@@ -154,8 +154,11 @@ class tool_pluginskel_observers_testcase extends advanced_testcase {
 
         $locallibfile = $files['locallib.php'];
 
+        $functiondescription = 'Handle the '.$recipe['observers'][2]['eventname'].' event.';
+        $this->assertContains($functiondescription, $locallibfile);
+
         $functionname = $recipe['observers'][2]['callback'];
-        $function = 'function '.$functionname.'($param)';
+        $function = 'function '.$functionname.'($event)';
         $this->assertContains($function, $locallibfile);
     }
 }
