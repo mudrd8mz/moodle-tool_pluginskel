@@ -126,4 +126,4 @@ $string['addmore_cli_script'] = 'Add more cli scripts';
 $string['delete_cli_script'] = 'Delete cli script';
 $string['addmore_applicable_formats'] = 'Add more applicable formats';
 $string['delete_applicable_formats'] = 'Delete applicable format';
-$string['none'] = 'Undefined';
+$string['undefined'] = 'Undefined';

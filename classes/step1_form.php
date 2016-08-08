@@ -68,7 +68,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
             if ($hint == 'boolean') {
                 // Non-required boolean variable can also be missing from the recipe.
-                // The select element adds an extra field 'none' to discard it from the recipe.
+                // The select element adds an extra field 'undefined' to discard it from the recipe.
                 if (empty($variable['required'])) {
                     $variable['values'] = array('true' => 'true', 'false' => 'false');
                     $this->add_select_element($elementname, $variable, $recipe);
@@ -128,7 +128,7 @@ class tool_pluginskel_step1_form extends moodleform {
             if ($hint == 'boolean') {
 
                 // Non-required boolean variable can also be missing from the recipe.
-                // The select element adds an extra field 'none' to discard it from the recipe.
+                // The select element adds an extra field 'undefined' to discard it from the recipe.
                 if (empty($variable['required'])) {
                     $variable['values'] = array('true' => 'true', 'false' => 'false');
                     $this->add_select_element($elementname, $variable, $recipe);
@@ -192,10 +192,10 @@ class tool_pluginskel_step1_form extends moodleform {
         $variablename = $templatevar['name'];
         $selectvalues = $templatevar['values'];
 
-        // Adding 'none' option to select element for optional template variable.
+        // Adding 'undefine' option to select element for optional template variable.
         if (empty($templatevar['required'])) {
-            $none = array('none' => get_string('none', 'tool_pluginskel'));
-            $selectvalues = array_merge($none, $selectvalues);
+            $undefined = array('undefined' => get_string('undefined', 'tool_pluginskel'));
+            $selectvalues = array_merge($undefined, $selectvalues);
         }
 
         $mform->addElement('select', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'), $selectvalues);
@@ -488,12 +488,12 @@ class tool_pluginskel_step1_form extends moodleform {
                         $recipe[$variablename] = $value;
                     }
                 } else if ($hint === 'multiple-options') {
-                    // Ignoring 'none' select options.
-                    if ($formdata[$variablename] !== 'none') {
+                    // Ignoring 'undefined' select options.
+                    if ($formdata[$variablename] !== 'undefined') {
                         $recipe[$variablename] = $formdata[$variablename];
                     }
                 } else if ($hint === 'boolean' && empty($variable['required'])) {
-                    if ($formdata[$variablename] !== 'none') {
+                    if ($formdata[$variablename] !== 'undefined') {
                         $recipe[$variablename] = $formdata[$variablename];
                     }
                 } else {
@@ -515,12 +515,12 @@ class tool_pluginskel_step1_form extends moodleform {
                         $recipe[$variablename] = $value;
                     }
                 } else if ($hint === 'multiple-options') {
-                    // Ignoring 'none' select options.
-                    if ($formdata[$variablename] !== 'none') {
+                    // Ignoring 'undefined' select options.
+                    if ($formdata[$variablename] !== 'undefined') {
                         $recipe[$variablename] = $formdata[$variablename];
                     }
                 } else if ($hint === 'boolean' && empty($variable['required'])) {
-                    if ($formdata[$variablename] !== 'none') {
+                    if ($formdata[$variablename] !== 'undefined') {
                         $recipe[$variablename] = $formdata[$variablename];
                     }
                 } else {
@@ -612,8 +612,8 @@ class tool_pluginskel_step1_form extends moodleform {
                         if (!empty($value)) {
                             $currentvalue[$field] = $value;
                         }
-                    } else if ($ismultipleoptions && !$isrequired && $value == 'none') {
-                        // If the field is a select element with the value 'none' then ignore it.
+                    } else if ($ismultipleoptions && !$isrequired && $value == 'undefined') {
+                        // If the field is a select element with the value 'undefined' then ignore it.
                         continue;
                     } else {
                         $currentvalue[$field] = $value;

@@ -242,7 +242,7 @@ define(['jquery'], function($) {
                 if (fieldVariable.hint == 'multiple-options') {
                     var isRequired = ('required' in fieldVariable) && fieldVariable.required === true;
                     if (!isRequired) {
-                        $('#'+newElementId+' option[value="none"]').prop('selected', true).change();
+                        $('#'+newElementId+' option[value="undefined"]').prop('selected', true).change();
                     }
                 }
 
