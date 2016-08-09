@@ -1,4 +1,4 @@
-component: atto_test
+component: block_test
 
 ## Human readable name of the plugin.
 name: Example plugin
@@ -19,8 +19,20 @@ maturity: MATURITY_BETA
 ## Copyright holder(s) of the generated files and classes.
 copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
 
-auth_features:
+atto_features:
+    ## Adds strings to be initialized in the plugin's user interface.
+    strings_for_js:
+        - stringone
+        - stringtwo
 
+    ## Adds parameters to be passed in the javascript init function.
+    params_for_js:
+        - name: param
+          value: value
+          ## The default value for the ATTRS property.
+          default: ''
+
+auth_features:
     ## The plugin can be configured throught the Moodle UI.
     config_ui: true
 
@@ -52,11 +64,32 @@ auth_features:
     can_be_manually_set: false
 
 block_features:
-  ## Creates the file edit_form.php
-  edit_form: true
+    ## Creates the file edit_form.php
+    edit_form: true
 
-  ## Allows multiple instances of the block on the same course.
-  instance_allow_multiple: false
+    ## Allows multiple instances of the block on the same course.
+    instance_allow_multiple: false
+
+    ## Choose where to display the block.
+    applicable_formats:
+        - page: all
+          allowed: false
+        - page: course-view
+          allowed: true
+        - page: course-view-social
+          allowed: false
+
+    ## Backup the block plugin.
+    backup_moodle2:
+        restore_task: true
+        restore_stepslib: true
+        backup_stepslib: true
+        settingslib: true
+        backup_elements:
+            - name: elt
+        restore_elements:
+            - name: elt
+              path: /path/to/file
 
 mod_features:
     ## Creates the gradebook related functions. Adds FEATURE_GRADE_HAS_GRADE.
@@ -71,56 +104,37 @@ mod_features:
     ## <modulename>_extend_settings_navigation() in lib.php.
     navigation: true
 
+    ## Backup the mod plugin.
+    backup_moodle2:
+        settingslib: true
+        backup_elements:
+            - name: elt
+        restore_elements:
+            - name: elt
+              path: /path/to/file
+
 qtype_features:
     base_class: question_graded_automatically
 
 theme_features:
-
     ## Apply the theme to all layouts.
     all_layouts: true
 
     ## The doctype for the web page.
     doctype: html5
 
-## Parents for the theme. Optional.
-## Theme specific feature.
-parents:
-    - base
+    ## Parents for the theme. Optional.
+    parents:
+        - base
 
-## Stylesheets defined by the plugin. They go in the 'styles' directory.
-## Theme specific feature.
-stylesheets:
-    - sheet
+    ## Stylesheets defined by the plugin. They go in the 'styles' directory.
+    stylesheets:
+        - sheet
 
-## Custom layouts that go in the 'layout' directory. Authomatically generates
-## all the moodle layouts.
-## Theme specific feature.
-layouts:
-    - test
-
-## Choose where to display the block.
-## Block specific feature.
-applicable_formats:
-    - page: all
-      allowed: false
-    - page: course-view
-      allowed: true
-    - page: course-view-social
-      allowed: false
-
-## Adds strings to be initialized in the plugin's user interface.
-## Atto specific feature.
-strings_for_js:
-    - stringone
-    - stringtwo
-
-## Adds parameters to be passed in the javascript init function.
-## Atto specific feature.
-params_for_js:
-    - name: param
-      value: value
-      ## The default value for the ATTRS property.
-      default: ''
+    ## Custom layouts that go in the 'layout' directory. Authomatically generates
+    ## all the moodle layouts.
+    layouts:
+        - test
 
 ## If the plugin depends on other plugins, declare the dependencies.
 dependencies:
@@ -177,7 +191,7 @@ message_providers:
     - name: notification
 
 ## Creates the cli script files cli/firstfilename.php and cli/seconfilename.php.
-cli_script:
+cli_scripts:
    - firstfilename
    - secondfilename
 
@@ -231,7 +245,7 @@ strings:
 
     ## Needed for auth plugins.
     - id: auth_description
-      text: Auth pluing description
+      text: Auth plugin description
 
     ## Needed for mod plugins.
     - id: modulenameplural

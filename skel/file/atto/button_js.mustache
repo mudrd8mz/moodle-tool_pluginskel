@@ -26,11 +26,11 @@ Y.namespace('M.{{ component }}').Button = Y.Base.create('button', Y.M.editor_att
 {{# self.has_params_for_js }}
     {
         ATTRS: {
-            {{# params_for_js }}
+            {{# atto_features.params_for_js }}
             {{ .name }}: {
                 value: '{{ .default }}'
             },
-            {{/ params_for_js }}
+            {{/ atto_features.params_for_js }}
         }
     }
 {{/ self.has_params_for_js }}

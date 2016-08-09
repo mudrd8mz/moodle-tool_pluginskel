@@ -27,13 +27,13 @@ class backup_{{ component_name }}_activity_structure_step extends backup_activit
         $attributes = null;
         $final_elements = null;
         $root = new backup_nested_element('{{ component }}', $attributes, $final_elements);
-        {{# backup_moodle2.backup_elements}}
+        {{# mod_features.backup_moodle2.backup_elements}}
 
         // Replace with the attributes and final elements that the element will handle.
         $attributes = null;
         $final_elements = null;
-        ${{ . }} = new backup_nested_element('{{ . }}', $attributes, $final_elements);
-        {{/ backup_moodle2.backup_elements}}
+        ${{ .name }} = new backup_nested_element('{{ .name }}', $attributes, $final_elements);
+        {{/ mod_features.backup_moodle2.backup_elements}}
 
         // Build the tree with these elements with $root as the root of the backup tree.
 

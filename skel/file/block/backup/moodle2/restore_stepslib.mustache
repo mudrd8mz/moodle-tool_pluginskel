@@ -22,13 +22,13 @@ class restore_{{ component_name }}_block_structure_step extends restore_structur
 
         $paths = array();
 
-        {{# backup_moodle2.restore_elements }}
+        {{# block_features.backup_moodle2.restore_elements }}
         $paths[] = new restore_path_element('{{ .name }}', '{{ .path }}');
-        {{/ backup_moodle2.restore_elements}}
+        {{/ block_features.backup_moodle2.restore_elements}}
 
         return $paths;
     }
-    {{# backup_moodle2.restore_elements}}
+    {{# block_features.backup_moodle2.restore_elements}}
 
     /**
      * Processes the {{ .name }} restore data.
@@ -38,7 +38,7 @@ class restore_{{ component_name }}_block_structure_step extends restore_structur
 
         return $data;
     }
-    {{/ backup_moodle2.restore_elements}}
+    {{/ block_features.backup_moodle2.restore_elements}}
 
     /**
      * Defines post-execution actions.

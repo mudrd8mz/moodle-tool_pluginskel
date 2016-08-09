@@ -322,11 +322,12 @@ class manager {
             $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
             $this->files['lib.php']->set_attribute('has_strings_for_js');
 
-            $jsstrings = $this->recipe['strings_for_js'];
+            $jsstrings = $this->recipe['atto_features']['strings_for_js'];
             $this->verify_strings_exist($jsstrings);
         }
 
         if ($this->has_component_feature('params_for_js')) {
+
             if (empty($this->files['lib.php'])) {
                 $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
             }
@@ -351,12 +352,12 @@ class manager {
 
         // Convert boolean to string.
         if ($this->has_component_feature('applicable_formats')) {
-            foreach ($blockrecipe['applicable_formats'] as $key => $value) {
+            foreach ($blockrecipe['block_features']['applicable_formats'] as $key => $value) {
                 if (is_bool($value['allowed'])) {
-                    if ($value['allowed'] === false) {
-                        $blockrecipe['applicable_formats'][$key]['allowed'] = 'false';
+                    if ($value['allowed'] === true) {
+                        $blockrecipe['block_features']['applicable_formats'][$key]['allowed'] = 'true';
                     } else {
-                        $blockrecipe['applicable_formats'][$key]['allowed'] = 'true';
+                        $blockrecipe['block_features']['applicable_formats'][$key]['allowed'] = 'false';
                     }
                 }
             }
@@ -379,7 +380,6 @@ class manager {
         if ($this->has_component_feature('backup_moodle2')) {
             $this->prepare_block_backup_moodle2();
         }
-
     }
 
     /**
@@ -446,7 +446,7 @@ class manager {
         if ($this->has_component_feature('stylesheets')) {
             $this->files['config.php']->set_attribute('has_stylesheets');
 
-            foreach ($this->recipe['stylesheets'] as $stylesheet) {
+            foreach ($this->recipe['theme_features']['stylesheets'] as $stylesheet) {
                 $this->prepare_file_skeleton('styles/'.$stylesheet.'.css', 'base', 'theme/stylesheet');
             }
         }
@@ -456,7 +456,7 @@ class manager {
         }
 
         if ($this->has_component_feature('layouts')) {
-            foreach ($this->recipe['layouts'] as $layout) {
+            foreach ($this->recipe['theme_features']['layouts'] as $layout) {
                 $layoutfile = 'layout/'.$layout.'.php';
                 $this->prepare_file_skeleton($layoutfile, 'base', 'theme/layout');
 
@@ -766,62 +766,26 @@ class manager {
      */
     protected function has_component_feature($feature) {
 
-        $componenttype = $this->recipe['component_type'];
-
-        if ($feature === 'backup_moodle2') {
-            return !empty($this->recipe['backup_moodle2']);
-        }
+        $componentfeatures = $this->recipe['component_type'].'_features';
 
         if ($feature === 'settingslib') {
             $hasbackup = $this->has_component_feature('backup_moodle2');
-            return $hasbackup && !empty($this->recipe['backup_moodle2']['settingslib']);
+            return $hasbackup && !empty($this->recipe[$componentfeatures]['backup_moodle2']['settingslib']);
         }
 
         if ($feature === 'restore_task') {
             $hasbackup = $this->has_component_feature('backup_moodle2');
-            return $hasbackup && !empty($this->recipe['backup_moodle2']['restore_task']);
+            return $hasbackup && !empty($this->recipe[$componentfeatures]['backup_moodle2']['restore_task']);
         }
 
         if ($feature === 'backup_stepslib') {
             $hasbackup = $this->has_component_feature('backup_moodle2');
-            return $hasbackup && !empty($this->recipe['backup_moodle2']['backup_stepslib']);
+            return $hasbackup && !empty($this->recipe[$componentfeatures]['backup_moodle2']['backup_stepslib']);
         }
 
         if ($feature === 'restore_stepslib') {
             $hasbackup = $this->has_component_feature('backup_moodle2');
-            return $hasbackup && !empty($this->recipe['backup_moodle2']['restore_stepslib']);
-        }
-
-        if ($feature === 'applicable_formats') {
-            return !empty($this->recipe['applicable_formats']);
-        }
-
-        if ($feature === 'stylesheets') {
-            return !empty($this->recipe['stylesheets']);
-        }
-
-        if ($feature === 'layouts') {
-            return !empty($this->recipe['layouts']);
-        }
-
-        if ($feature === 'params_for_js') {
-            return !empty($this->recipe['params_for_js']);
-        }
-
-        if ($feature === 'strings_for_js') {
-            return !empty($this->recipe['strings_for_js']);
-        }
-
-        if ($feature === 'stylesheets') {
-            return !empty($this->recipe['stylesheets']);
-        }
-
-        if ($feature === 'parents') {
-            return !empty($this->recipe['parents']);
-        }
-
-        if ($feature === 'layouts') {
-            return !empty($this->recipe['layouts']);
+            return $hasbackup && !empty($this->recipe[$componentfeatures]['backup_moodle2']['restore_stepslib']);
         }
 
         $attofeatures = array(
@@ -838,11 +802,11 @@ class manager {
 
         foreach ($attofeatures as $attofeature) {
             if ($attofeature === $feature) {
-                return isset($this->recipe[$componenttype.'_features'][$feature]);
+                return isset($this->recipe[$componentfeatures][$feature]);
             }
         }
 
-        return !empty($this->recipe[$componenttype.'_features'][$feature]);
+        return !empty($this->recipe[$componentfeatures][$feature]);
     }
 
     /**
