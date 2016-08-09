@@ -43,7 +43,7 @@ class tool_pluginskel_lang_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'langtest',
+        'component' => 'local_langtest',
         'release'   => '0.1.0',
         'version'   => '2016062300',
         'name'      => 'Lang test',
@@ -67,8 +67,8 @@ class tool_pluginskel_lang_testcase extends advanced_testcase {
         $manager->make();
 
         $files = $manager->get_files_content();
-        $this->assertArrayHasKey('lang/en/langtest.php', $files);
-        $langfile = $files['lang/en/langtest.php'];
+        $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
+        $langfile = $files['lang/en/'.$recipe['component'].'.php'];
 
         $this->assertContains('Plugin strings are defined here.', $langfile);
         $this->assertRegExp('/\* @category\s+string/', $langfile);

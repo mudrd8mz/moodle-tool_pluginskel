@@ -46,12 +46,12 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
         'component' => 'theme_test',
         'name'      => 'Theme test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'layouts' => true,
+        'theme_features'  => array(
+            'all_layouts' => true,
+            'doctype' => 'html5',
         ),
         'parents' => array('base'),
         'stylesheets' => array('stylesheet'),
-        'doctype' => 'html5',
         'layouts' => array('layout'),
         'strings' => array(
             array('id' => 'choosereadme', 'text' => 'Theme test')
@@ -78,7 +78,7 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
         $description = 'The configuration for '.$recipe['component'].' is defined here.';
         $this->assertContains($description, $configfile);
 
-        $doctype = "\$THEME->doctype = '".$recipe['doctype']."'";
+        $doctype = "\$THEME->doctype = '".$recipe['theme_features']['doctype']."'";
         $this->assertContains($doctype, $configfile);
 
         $parents = '/\$THEME->parents = array\(\s+\''.$recipe['parents'][0].'\',\s+\)/';

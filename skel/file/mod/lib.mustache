@@ -82,7 +82,7 @@ function {{ component }}_delete_instance($id) {
 
     return true;
 }
-{{# self.functions.user_outline }}
+{{# self.has_user_outline }}
 
 /**
  * Returns a small object with summary information about what a user has done
@@ -106,8 +106,8 @@ function {{ component }}_user_outline($course, $user, $mod, $moduleinstance) {
 
     return $return;
 }
-{{/ self.functions.user_outline }}
-{{# self.functions.user_complete }}
+{{/ self.has_user_outline }}
+{{# self.has_user_complete }}
 
 /**
  * Prints a detailed representation of what a user has done with a given
@@ -121,8 +121,8 @@ function {{ component }}_user_outline($course, $user, $mod, $moduleinstance) {
 function {{ component }}_user_complete($course, $user, $mod, $moduleinstance) {
     return;
 }
-{{/ self.functions.user_complete }}
-{{# self.functions.print_recent_activity }}
+{{/ self.has_user_complete }}
+{{# self.has_print_recent_activity }}
 
 /**
  * Given a course and a time, this module should find recent activity that has
@@ -136,8 +136,8 @@ function {{ component }}_user_complete($course, $user, $mod, $moduleinstance) {
 function {{ component }}_print_recent_activity($course, $viewfullnames, $timestart) {
     return false;
 }
-{{/ self.functions.print_recent_activity}}
-{{# self.functions.get_recent_mod_activity }}
+{{/ self.has_print_recent_activity}}
+{{# self.has_get_recent_mod_activity }}
 
 /**
  * Prepares the recent activity data.
@@ -157,8 +157,8 @@ function {{ component }}_print_recent_activity($course, $viewfullnames, $timesta
 function {{ component }}_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
     return;
 }
-{{/ self.functions.get_recent_mod_activity }}
-{{# self.functions.print_recent_mod_activity }}
+{{/ self.has_get_recent_mod_activity }}
+{{# self.has_print_recent_mod_activity }}
 
 /**
  * Prints single activity item prepared by {@link {{ component }}_get_recent_mod_activity()}.
@@ -172,8 +172,8 @@ function {{ component }}_get_recent_mod_activity(&$activities, &$index, $timesta
 function {{ component }}_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
     return;
 }
-{{/ self.functions.print_recent_mod_activity }}
-{{# self.functions.get_extra_capabilities }}
+{{/ self.has_print_recent_mod_activity }}
+{{# self.has_get_extra_capabilities }}
 
 /**
  * Returns all other capabilities used in the module.
@@ -186,13 +186,13 @@ function {{ component }}_print_recent_mod_activity($activity, $courseid, $detail
 function {{ component }}_get_extra_capabilities() {
     return array();
 }
-{{/ self.functions.get_extra_capabilities }}
+{{/ self.has_get_extra_capabilities }}
 {{!
 
-    Start of gradebook feature functions.
+    Start of gradebook feature has_
 
 }}
-{{# self.functions.scale_used }}
+{{# self.has_scale_used }}
 
 /**
  * Is a given scale used by the instance of {{ component }}?
@@ -213,8 +213,8 @@ function {{ component }}_scale_used($moduleinstanceid, $scaleid) {
         return false;
     }
 }
-{{/ self.functions.scale_used }}
-{{# self.functions.scale_used_anywhere }}
+{{/ self.has_scale_used }}
+{{# self.has_scale_used_anywhere }}
 
 /**
  * Checks if scale is being used by any instance of {{ component }}.
@@ -233,8 +233,8 @@ function {{ component }}_scale_used_anywhere($scaleid) {
         return false;
     }
 }
-{{/ self.functions.scale_used_anywhere }}
-{{# self.functions.grade_item_update }}
+{{/ self.has_scale_used_anywhere }}
+{{# self.has_grade_item_update }}
 
 /**
  * Creates or updates grade item for the given {{ component }} instance.
@@ -269,8 +269,8 @@ function {{ component }}_grade_item_update($moduleinstance, $reset=false) {
 
     grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component }}', $moduleinstance->id, 0, null, $item);
 }
-{{/ self.functions.grade_item_update }}
-{{# self.functions.grade_item_delete }}
+{{/ self.has_grade_item_update }}
+{{# self.has_grade_item_delete }}
 
 /**
  * Delete grade item for given {{ component }} instance.
@@ -285,8 +285,8 @@ function {{ component }}_grade_item_delete($moduleinstance) {
     return grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component_name }}',
                         $moduleinstance->id, 0, null, array('deleted' => 1));
 }
-{{/ self.functions.grade_item_delete }}
-{{# self.functions.update_grades }}
+{{/ self.has_grade_item_delete }}
+{{# self.has_update_grades }}
 
 /**
  * Update {{ component }} grades in the gradebook.
@@ -304,18 +304,18 @@ function {{ component }}_update_grades($moduleinstance, $userid = 0) {
     $grades = array();
     grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component }}', $moduleinstance->id, 0, $grades);
 }
-{{/ self.functions.update_grades }}
+{{/ self.has_update_grades }}
 {{!
 
-    End of gradebook feature functions.
+    End of gradebook feature has_
 
 }}
 {{!
 
-    Start of file_area feature functions.
+    Start of file_area feature has_
 
 }}
-{{# self.functions.get_file_areas }}
+{{# self.has_get_file_areas }}
 
 /**
  * Returns the lists of all browsable file areas within the given module context.
@@ -334,8 +334,8 @@ function {{ component }}_update_grades($moduleinstance, $userid = 0) {
 function {{ component }}_get_file_areas($course, $cm, $context) {
     return array();
 }
-{{/ self.functions.get_file_areas }}
-{{# self.functions.get_file_info }}
+{{/ self.has_get_file_areas }}
+{{# self.has_get_file_info }}
 
 /**
  * File browsing support for {{ component }} file areas.
@@ -357,8 +357,8 @@ function {{ component }}_get_file_areas($course, $cm, $context) {
 function {{ component }}_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
     return null;
 }
-{{/ self.functions.get_file_info }}
-{{# self.functions.pluginfile }}
+{{/ self.has_get_file_info }}
+{{# self.has_pluginfile }}
 
 /**
  * Serves the files from the {{ component }} file areas.
@@ -384,7 +384,7 @@ function {{ component }}_pluginfile($course, $cm, $context, $filearea, $args, $f
     require_login($course, true, $cm);
     send_file_not_found();
 }
-{{/ self.functions.pluginfile }}
+{{/ self.has_pluginfile }}
 {{!
 
     End of file_area specific functions.

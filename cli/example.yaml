@@ -1,4 +1,4 @@
-component: local_test
+component: atto_test
 
 ## Human readable name of the plugin.
 name: Example plugin
@@ -18,6 +18,109 @@ maturity: MATURITY_BETA
 
 ## Copyright holder(s) of the generated files and classes.
 copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
+
+auth_features:
+
+    ## The plugin can be configured throught the Moodle UI.
+    config_ui: true
+
+    ## Can the auth plugin change the user's password?
+    can_change_password: 'false'
+
+    ## Can the auth plugin edit the user's password?
+    can_edit_profile: false
+
+    ## Is the plugin internal? The is_internal() function will not be generated.
+    #is_internal: true
+
+    ## Should password hashes be stored in the local moodle database?
+    prevent_local_passwords: false
+
+    ## Should moodle update internal user records with data from external sources?
+    is_synchronised_with_external: false
+
+    ## Can the plugin reset the password?
+    can_reset_password: true
+
+    ## Allow signup and user creation?
+    can_signup: true
+
+    ## Allow confirming of new users?
+    can_confirm: true
+
+    ## Can the plugin be manually set for users?
+    can_be_manually_set: false
+
+block_features:
+  ## Creates the file edit_form.php
+  edit_form: true
+
+  ## Allows multiple instances of the block on the same course.
+  instance_allow_multiple: false
+
+mod_features:
+    ## Creates the gradebook related functions. Adds FEATURE_GRADE_HAS_GRADE.
+    ## The file grade.php is also created.
+    gradebook: true
+
+    ## Creates the files API related function.
+    ## Adds FEATURE_MOD_INTRO.
+    file_area: true
+
+    ## Creates the functions <modulename>_extend_navigation() and
+    ## <modulename>_extend_settings_navigation() in lib.php.
+    navigation: true
+
+qtype_features:
+    base_class: question_graded_automatically
+
+theme_features:
+
+    ## Apply the theme to all layouts.
+    all_layouts: true
+
+    ## The doctype for the web page.
+    doctype: html5
+
+## Parents for the theme. Optional.
+## Theme specific feature.
+parents:
+    - base
+
+## Stylesheets defined by the plugin. They go in the 'styles' directory.
+## Theme specific feature.
+stylesheets:
+    - sheet
+
+## Custom layouts that go in the 'layout' directory. Authomatically generates
+## all the moodle layouts.
+## Theme specific feature.
+layouts:
+    - test
+
+## Choose where to display the block.
+## Block specific feature.
+applicable_formats:
+    - page: all
+      allowed: false
+    - page: course-view
+      allowed: true
+    - page: course-view-social
+      allowed: false
+
+## Adds strings to be initialized in the plugin's user interface.
+## Atto specific feature.
+strings_for_js:
+    - stringone
+    - stringtwo
+
+## Adds parameters to be passed in the javascript init function.
+## Atto specific feature.
+params_for_js:
+    - name: param
+      value: value
+      ## The default value for the ATTRS property.
+      default: ''
 
 ## If the plugin depends on other plugins, declare the dependencies.
 dependencies:
@@ -115,10 +218,58 @@ mobile_addons:
 
 ## Explicitly added strings
 strings:
-  - id: mycustomstring
-    text: You can add 'extra' strings via the recipe file.
-  - id: mycustomstring2
-    text: Another string with {$a->some} placeholder.
+    - id: mycustomstring
+      text: You can add 'extra' strings via the recipe file.
+    - id: mycustomstring2
+      text: Another string with {$a->some} placeholder.
+
+    ## Needed for atto plugins.
+    - id: stringone
+      text: String one
+    - id: stringtwo
+      text: String two
+
+    ## Needed for auth plugins.
+    - id: auth_description
+      text: Auth pluing description
+
+    ## Needed for mod plugins.
+    - id: modulenameplural
+      text: newmodules
+    - id: modulename_help
+      text: Use the newmodule module for...
+    - id: newmodulefieldset
+      text: Custom example fieldset.
+    - id: newmodulename
+      text: newmodule name
+    - id: newmodulename_help
+      text: This is the content of the help tooltip associated with the newmodulename field
+    - id: modulename
+      text: newmodule
+    - id: pluginadministration
+      text: newmodule administration
+    - id: newmodulesettings
+      text: Settings
+    - id: missingidandcmid
+      text: Missing id and cmid
+    - id: nonewmodules
+      text: No newmodules
+    - id: view
+      text: View
+
+    ## Needed for qtype plugins.
+    - id: pluginnamesummary
+      text: Rendered when choosing the question type to be added.
+    - id: pluginnameadding
+      text: Rendered when adding this question type.
+    - id: pluginnameediting
+      text: Rendered when editing this question type.
+    - id: pluginname_help
+      text: Help text when adding this question type.
+
+    ## Needed for theme plugins.
+    - id: choosereadme
+      text: Readme when selecting the theme.
 
 ## Explicitly added contents, such as files not covered by the generator logic.
 ##

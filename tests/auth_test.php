@@ -47,18 +47,17 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
         'component' => 'auth_test',
         'name'      => 'Auth test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
+        'auth_features' => array(
             'config_ui' => true,
-        ),
-        'can_change_password' => true,
-        'can_edit_profile' => false,
-        'is_internal' => true,
-        'prevent_local_passwords' => false,
-        'is_synchronised_with_external' => false,
-        'can_reset_password' => false,
-        'can_signup' => false,
-        'can_confirm' => true,
-        'can_be_manually_set' => false,
+            'can_edit_profile' => false,
+            'is_internal' => true,
+            'prevent_local_passwords' => false,
+            'is_synchronised_with_external' => false,
+            'can_reset_password' => false,
+            'can_signup' => false,
+            'can_confirm' => true,
+            'can_be_manually_set' => false,
+        )
     );
 
     /**
@@ -91,8 +90,7 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
         $userlogin = 'public function user_login($username, $password)';
         $this->assertContains($userlogin, $authfile);
 
-        $recipevariables = array(
-            'can_change_password',
+        $recipefeatures = array(
             'can_edit_profile',
             'prevent_local_passwords',
             'is_synchronised_with_external',
@@ -103,12 +101,15 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
             'is_internal'
         );
 
-        foreach ($recipevariables as $functionname) {
+        foreach ($recipefeatures as $functionname) {
             $function = '/public function '.$functionname.'\(\) {';
-            $returnvalue = $recipe[$functionname] == true ? 'true' : 'false';
+            $returnvalue = $recipe['auth_features'][$functionname] == true ? 'true' : 'false';
             $function .= '\s+return '.$returnvalue.';/';
             $this->assertRegExp($function, $authfile);
         }
+
+        $canchangepassword = 'public function can_change_password()';
+        $this->assertNotContains($canchangepassword, $authfile);
 
         $configform = 'public function config_form($config, $err, $user_fields)';
         $this->assertContains($configform, $authfile);

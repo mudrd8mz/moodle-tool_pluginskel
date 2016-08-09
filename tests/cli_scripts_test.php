@@ -43,7 +43,7 @@ class tool_pluginskel_cli_scripts_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component'     => 'cliscriptstest',
+        'component'     => 'local_cliscriptstest',
         'name'          => 'Cli_scripts test',
         'copyright'     => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'cli_scripts'   => array('first', 'second')

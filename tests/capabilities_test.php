@@ -43,7 +43,7 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'capabilitiestest',
+        'component' => 'local_capabilitiestest',
         'name'      => 'Capabilities test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'capabilities' => array(
@@ -60,6 +60,17 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
             ),
         )
     );
+
+    /** @var string The plugin type. */
+    protected static $plugintype;
+
+    /**
+     * Sets the the $plugintype.
+     */
+    public static function setUpBeforeClass() {
+        list($type, $name) = \core_component::normalize_component(self::$recipe['component']);
+        self::$plugintype = $type;
+    }
 
     /**
      * Test creating the db/access.php file with one capability.
@@ -85,7 +96,7 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         $this->assertContains($moodleinternal, $dbaccessfile);
 
         // Verify if the capability has been generated correctly.
-        $this->assertContains('mod/capabilitiestest:view', $dbaccessfile);
+        $this->assertContains(self::$plugintype.'/capabilitiestest:view', $dbaccessfile);
         $this->assertContains("'riskbitmask' => RISK_XSS", $dbaccessfile);
         $this->assertContains("'captype' => 'view'", $dbaccessfile);
         $this->assertContains("'contextlevel' => CONTEXT_MODULE", $dbaccessfile);
@@ -110,7 +121,7 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         $dbaccessfile = $files['db/access.php'];
 
         // Verify if all the capabilities have been generated.
-        $this->assertContains('mod/capabilitiestest:view', $dbaccessfile);
-        $this->assertContains('mod/capabilitiestest:edit', $dbaccessfile);
+        $this->assertContains(self::$plugintype.'/capabilitiestest:view', $dbaccessfile);
+        $this->assertContains(self::$plugintype.'/capabilitiestest:edit', $dbaccessfile);
     }
 }

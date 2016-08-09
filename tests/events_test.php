@@ -43,7 +43,7 @@ class tool_pluginskel_events_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'eventstest',
+        'component' => 'local_eventstest',
         'name'      => 'Events test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'events' => array(

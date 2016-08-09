@@ -35,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class lib_php_file extends php_library_file {
+class lib_php_file extends php_internal_file {
 
     /**
      * Set the data to be eventually rendered.
@@ -65,19 +65,5 @@ class lib_php_file extends php_library_file {
         }
 
         $this->data['self']['supports'][] = $feature;
-    }
-
-    /**
-     * Adds the strings required for the initialization of a javascript module.
-     *
-     * @param string[] $strings.
-     */
-    public function add_strings_for_js($strings) {
-
-        if (empty($this->data)) {
-            throw new coding_exception(get_string('skeletondatanotset', 'tool_pluginskel'));
-        }
-
-        $this->data['self']['strings_for_js'] = $strings;
     }
 }

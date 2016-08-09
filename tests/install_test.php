@@ -43,7 +43,7 @@ class tool_pluginskel_install_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'installtest',
+        'component' => 'local_installtest',
         'name'      => 'Install test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(

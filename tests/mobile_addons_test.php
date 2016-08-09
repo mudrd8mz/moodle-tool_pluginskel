@@ -43,7 +43,7 @@ class tool_pluginskel_mobile_addons_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'mobileaddonstest',
+        'component' => 'local_mobileaddonstest',
         'name'      => 'Mobile_addons test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'mobile_addons' => array(

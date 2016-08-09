@@ -43,7 +43,7 @@ class tool_pluginskel_license_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'licensetest',
+        'component' => 'local_licensetest',
         'name'      => 'License test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(

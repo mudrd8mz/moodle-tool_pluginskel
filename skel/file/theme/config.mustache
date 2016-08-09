@@ -13,7 +13,7 @@
 $THEME->name = '{{ component_name }}';
 
 {{# self.has_doctype }}
-$THEME->doctype = '{{ doctype }}';
+$THEME->doctype = '{{ theme_features.doctype }}';
 {{/ self.has_doctype }}
 
 {{# self.has_parents }}
@@ -32,7 +32,7 @@ $THEME->sheets = array(
 );
 {{/ self.has_stylesheets }}
 
-{{# self.has_layouts }}
+{{# self.has_all_layouts }}
 // The theme needs to be added to all Moodle layouts.
 $THEME->layouts = array(
 
@@ -183,4 +183,4 @@ $THEME->layouts = array(
         ),
     ),
 );
-{{/ self.has_layouts }}
+{{/ self.has_all_layouts }}

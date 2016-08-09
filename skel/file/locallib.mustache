@@ -9,14 +9,14 @@
 {{$ package }}{{ component }}{{/ package }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
-{{# locallib.functions }}
+{{# self.events }}
 
 /**
- * Description of the function.
+ * Handle the {{{ .event }}} event.
  *
- * @param type $param Description of parameter.
+ * @param object $event The event object.
  */
-function {{ . }}($param) {
+function {{ .callback }}($event) {
     return;
 }
-{{/ locallib.functions }}
+{{/ self.events }}

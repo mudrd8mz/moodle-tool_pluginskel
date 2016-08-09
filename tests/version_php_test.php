@@ -43,7 +43,7 @@ class tool_pluginskel_version_php_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'versionphptest',
+        'component' => 'local_versionphptest',
         'release'   => '0.1.0',
         'version'   => '2016062300',
         'name'      => 'Version.php test',

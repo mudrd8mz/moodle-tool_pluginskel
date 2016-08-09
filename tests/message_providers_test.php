@@ -43,7 +43,7 @@ class tool_pluginskel_message_providers_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'messageproviderstest',
+        'component' => 'local_messageproviderstest',
         'name'      => 'Message_providers test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'message_providers' => array(

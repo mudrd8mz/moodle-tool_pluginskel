@@ -43,7 +43,7 @@ class tool_pluginskel_uninstall_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'uninstalltest',
+        'component' => 'local_uninstalltest',
         'name'      => 'Uninstall test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
