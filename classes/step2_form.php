@@ -42,11 +42,8 @@ class tool_pluginskel_step2_form extends moodleform {
     public function definition () {
         $mform = $this->_form;
 
-        $recipe = array();
-        if (!empty($this->_customdata['recipe'])) {
-            $recipe = $this->_customdata['recipe'];
-            $recipestring = \tool_pluginskel\local\util\yaml::encode($recipe);
-        }
+        $recipe = $this->_customdata['recipe'];
+        $recipestring = \tool_pluginskel\local\util\yaml::encode($recipe);
 
         $mform->addElement('header', 'showrecipehdr', get_string('showrecipehdr', 'tool_pluginskel'));
         $mform->setExpanded('showrecipehdr', true);
@@ -68,5 +65,8 @@ class tool_pluginskel_step2_form extends moodleform {
 
         $mform->addElement('hidden', 'step', 2);
         $mform->setType('step', PARAM_INT);
+
+        $mform->addElement('hidden', 'component1', $recipe['component']);
+        $mform->setType('component1', PARAM_TEXT);
     }
 }

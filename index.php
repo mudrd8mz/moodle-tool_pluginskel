@@ -83,7 +83,6 @@ if ($step == 0) {
 
         $data = get_variable_count_from_recipe($templatevars, $recipe);
         $data['recipe'] = $recipe;
-
         $mform1 = new tool_pluginskel_step1_form(null, $data);
 
         $arrayvariables = get_array_template_variables($templatevars);
@@ -140,7 +139,10 @@ if ($step == 0) {
 
 } else if ($step == 2) {
 
-    $mform2 = new tool_pluginskel_step2_form();
+    // Reconstruct the form.
+    $recipestub = array('component' => $component);
+    $data = array('recipe' => $recipestub);
+    $mform2 = new tool_pluginskel_step2_form(null, $data);
     $formdata = (array) $mform2->get_data();
 
     $recipestring = $formdata['recipe'];
