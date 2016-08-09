@@ -119,7 +119,8 @@ class tool_pluginskel_step1_form extends moodleform {
 
             $hint = $variable['hint'];
             $elementname = $this->componenttype.'_features['.$variable['name'].']';
-            $recipecomponent= empty($recipe['features']) ? array() : $recipe[$this->componenttype.'_features'];
+            $componentfeatures = $this->componenttype.'_features';
+            $componentrecipe= empty($recipe[$componentfeatures]) ? array() : $recipe[$componentfeatures];
 
             // Template variables that are arrays will be added at the bottom of the page.
             if ($hint == 'array') {
@@ -127,7 +128,7 @@ class tool_pluginskel_step1_form extends moodleform {
             }
 
             if ($hint == 'text' || $hint == 'int') {
-                $this->add_text_element($elementname, $variable, $recipecomponent);
+                $this->add_text_element($elementname, $variable, $componentrecipe);
             }
 
             if ($hint == 'boolean') {
@@ -136,14 +137,14 @@ class tool_pluginskel_step1_form extends moodleform {
                 // The select element adds an extra field 'undefined' to discard it from the recipe.
                 if (empty($variable['required'])) {
                     $variable['values'] = array('true' => 'true', 'false' => 'false');
-                    $this->add_select_element($elementname, $variable, $recipecomponent);
+                    $this->add_select_element($elementname, $variable, $componentrecipe);
                 } else {
-                    $this->add_advcheckbox_element($elementname, $variable, $recipecomponent);
+                    $this->add_advcheckbox_element($elementname, $variable, $componentrecipe);
                 }
             }
 
             if ($hint == 'multiple-options') {
-                $this->add_select_element($elementname, $variable, $recipecomponent);
+                $this->add_select_element($elementname, $variable, $componentrecipe);
             }
         }
 
@@ -488,21 +489,15 @@ class tool_pluginskel_step1_form extends moodleform {
             if (!empty($formdata[$variablename])) {
 
                 if ($hint == 'array') {
-                    $value = $this->get_array_variable($formdata[$variablename], $variable);
+                    $value = $this->get_array_variable_value($formdata[$variablename], $variable);
                     if (!empty($value)) {
                         $recipe[$variablename] = $value;
                     }
-                } else if ($hint === 'multiple-options') {
-                    // Ignoring 'undefined' select options.
-                    if ($formdata[$variablename] !== 'undefined') {
-                        $recipe[$variablename] = $formdata[$variablename];
-                    }
-                } else if ($hint === 'boolean' && empty($variable['required'])) {
-                    if ($formdata[$variablename] !== 'undefined') {
-                        $recipe[$variablename] = $formdata[$variablename];
-                    }
                 } else {
-                    $recipe[$variablename] = $formdata[$variablename];
+                    $value = $this->get_variable_value($formdata[$variablename], $variable);
+                    if (!is_null($value)) {
+                        $recipe[$variablename] = $value;
+                    }
                 }
             }
         }
@@ -516,19 +511,10 @@ class tool_pluginskel_step1_form extends moodleform {
                 $variablename = $variable['name'];
                 $hint = $variable['hint'];
 
-                if (!empty($componentformdata[$variablename])) {
-
-                    if ($hint === 'multiple-options') {
-                        // Ignoring 'undefined' select options.
-                        if ($componentformdata[$variablename] !== 'undefined') {
-                            $recipe[$componentfeatures][$variablename] = $componentformdata[$variablename];
-                        }
-                    } else if ($hint === 'boolean' && empty($variable['required'])) {
-                        if ($componentformdata[$variablename] !== 'undefined') {
-                            $recipe[$componentfeatures][$variablename] = $componentformdata[$variablename];
-                        }
-                    } else {
-                        $recipe[$componentfeatures][$variablename] = $componentformdata[$variablename];
+                if (!empty($componentformdata[$variablename]) && $hint !== 'array') {
+                    $value = $this->get_variable_value($componentformdata[$variablename], $variable);
+                    if (!is_null($value)) {
+                        $recipe[$componentfeatures][$variablename] = $value;
                     }
                 }
             }
@@ -541,7 +527,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
             // Only array features are at the root of the recipe.
             if ($hint === 'array' && !empty($formdata[$variablename])) {
-                $value = $this->get_array_variable($formdata[$variablename], $variable);
+                $value = $this->get_array_variable_value($formdata[$variablename], $variable);
                 if (!empty($value)) {
                     $recipe[$variablename] = $value;
                 }
@@ -555,7 +541,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
             // Only array features are at the root of the recipe.
             if ($hint === 'array' && !empty($formdata[$variablename])) {
-                $value = $this->get_array_variable($formdata[$variablename], $variable);
+                $value = $this->get_array_variable_value($formdata[$variablename], $variable);
                 if (!empty($value)) {
                     $recipe[$variablename] = $value;
                 }
@@ -586,54 +572,30 @@ class tool_pluginskel_step1_form extends moodleform {
      *
      * @param string[] $formvariable The form value of the array variable.
      * @param string[] $templatevariable The variable definition from the template.
-     * @return string[]
+     * @return string[]|null Null for an empty value.
      */
-    protected function get_array_variable($formvariable, $templatevariable) {
+    protected function get_array_variable_value($formvariable, $templatevariable) {
 
         $ret = array();
         foreach ($formvariable as $formvalues) {
-
             $currentvalue = array();
-
             foreach ($formvalues as $field => $value) {
 
                 if (!empty($value)) {
-
-                    $ismultipleoptions = false;
-                    $isrequired = false;
-                    $isarray = false;
-
-                    foreach ($templatevariable['values'] as $templatefield) {
-
-                        if ($templatefield['name'] == $field) {
-
-                            if ($templatefield['hint'] == 'multiple-options') {
-                                $ismultipleoptions = true;
-                                $isrequired = !empty($templatefield['required']);
-                            }
-
-                            if ($templatefield['hint'] == 'boolean' && empty($templatefield['required'])) {
-                                $ismultipleoptions = true;
-                                $isrequired = false;
-                            }
-
-                            if ($templatefield['hint'] == 'array') {
-                                $isarray = true;
-                                $value = $this->get_array_variable($value, $templatefield);
-                            }
-
+                    foreach ($templatevariable['values'] as $nestedvariable) {
+                        if ($nestedvariable['name'] == $field) {
+                            $variable = $nestedvariable;
                             break;
                         }
                     }
 
-                    if ($isarray) {
-                        if (!empty($value)) {
-                            $currentvalue[$field] = $value;
-                        }
-                    } else if ($ismultipleoptions && !$isrequired && $value == 'undefined') {
-                        // If the field is a select element with the value 'undefined' then ignore it.
-                        continue;
+                    if ($variable['hint'] === 'array') {
+                        $value = $this->get_array_variable_value($value, $variable);
                     } else {
+                        $value = $this->get_variable_value($value, $variable);
+                    }
+
+                    if (!is_null($value)) {
                         $currentvalue[$field] = $value;
                     }
                 }
@@ -644,6 +606,50 @@ class tool_pluginskel_step1_form extends moodleform {
             }
         }
 
-        return $ret;
+        if (empty($ret)) {
+            return null;
+        } else {
+            return $ret;
+        }
+    }
+
+    /**
+     * Returns the value of a form variable.
+     *
+     * @param string[] $formvalue The form value of the array variable.
+     * @param string[] $templatevariable The variable definition from the template.
+     * @return mixed The variable value, with the type based on the variable hint.
+     */
+    protected function get_variable_value($formvalue, $templatevariable) {
+
+        $value = null;
+
+        $hint = $templatevariable['hint'];
+        $variablename = $templatevariable['name'];
+
+        if ($hint === 'array') {
+            return null;
+        }
+
+        if ($hint === 'multiple-options') {
+            // Ignoring 'undefined' select options.
+            if ($formvalue !== 'undefined') {
+                $value = $formvalue;
+            }
+        } else if ($hint === 'boolean') {
+            if ($formvalue !== 'undefined') {
+                if ($formvalue === 'true') {
+                    $value = true;
+                } else {
+                    $value = false;
+                }
+            }
+        } else if ($hint === 'int') {
+            $value = intval($formvalue);
+        } else {
+            $value = $formvalue;
+        }
+
+        return $value;
     }
 }
