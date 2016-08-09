@@ -46,7 +46,10 @@ class tool_pluginskel_phpunit_tests_testcase extends advanced_testcase {
         'component' => 'local_test',
         'name'      => 'PHPUnit tests test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'phpunit_tests' => array('first', 'local_test_second_testcase')
+        'phpunit_tests' => array(
+            array('classname' => 'first'),
+            array('classname' => 'local_test_second_testcase'),
+        )
     );
 
     /**

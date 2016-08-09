@@ -250,7 +250,7 @@ class manager {
 
         foreach ($this->recipe['phpunit_tests'] as $class) {
 
-            $classname = $class;
+            $classname = $class['classname'];
 
             if (strpos($classname, $this->recipe['component']) !== false) {
                 $classname = substr($classname, strlen($this->recipe['component']) + 1);
@@ -322,11 +322,15 @@ class manager {
             $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
             $this->files['lib.php']->set_attribute('has_strings_for_js');
 
-            $jsstrings = $this->recipe['strings_for_js'];
+            $jsstrings = array();
+            foreach ($this->recipe['atto_features']['strings_for_js'] as $string) {
+                $jsstrings[] = $string['id'];
+            }
             $this->verify_strings_exist($jsstrings);
         }
 
         if ($this->has_component_feature('params_for_js')) {
+
             if (empty($this->files['lib.php'])) {
                 $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
             }
@@ -351,12 +355,12 @@ class manager {
 
         // Convert boolean to string.
         if ($this->has_component_feature('applicable_formats')) {
-            foreach ($blockrecipe['applicable_formats'] as $key => $value) {
+            foreach ($blockrecipe['block_features']['applicable_formats'] as $key => $value) {
                 if (is_bool($value['allowed'])) {
-                    if ($value['allowed'] === false) {
-                        $blockrecipe['applicable_formats'][$key]['allowed'] = 'false';
+                    if ($value['allowed'] === true) {
+                        $blockrecipe['block_features']['applicable_formats'][$key]['allowed'] = 'true';
                     } else {
-                        $blockrecipe['applicable_formats'][$key]['allowed'] = 'true';
+                        $blockrecipe['block_features']['applicable_formats'][$key]['allowed'] = 'false';
                     }
                 }
             }
@@ -379,7 +383,6 @@ class manager {
         if ($this->has_component_feature('backup_moodle2')) {
             $this->prepare_block_backup_moodle2();
         }
-
     }
 
     /**
@@ -446,8 +449,8 @@ class manager {
         if ($this->has_component_feature('stylesheets')) {
             $this->files['config.php']->set_attribute('has_stylesheets');
 
-            foreach ($this->recipe['stylesheets'] as $stylesheet) {
-                $this->prepare_file_skeleton('styles/'.$stylesheet.'.css', 'base', 'theme/stylesheet');
+            foreach ($this->recipe['theme_features']['stylesheets'] as $stylesheet) {
+                $this->prepare_file_skeleton('styles/'.$stylesheet['name'].'.css', 'base', 'theme/stylesheet');
             }
         }
 
@@ -455,9 +458,9 @@ class manager {
             $this->files['config.php']->set_attribute('has_all_layouts');
         }
 
-        if ($this->has_component_feature('layouts')) {
-            foreach ($this->recipe['layouts'] as $layout) {
-                $layoutfile = 'layout/'.$layout.'.php';
+        if ($this->has_component_feature('custom_layouts')) {
+            foreach ($this->recipe['theme_features']['custom_layouts'] as $layout) {
+                $layoutfile = 'layout/'.$layout['name'].'.php';
                 $this->prepare_file_skeleton($layoutfile, 'base', 'theme/layout');
 
                 if ($ishtml5) {
@@ -497,8 +500,8 @@ class manager {
     protected function verify_strings_exist($stringids) {
         foreach ($stringids as $stringid) {
             $found = false;
-            if ($this->has_common_feature('strings')) {
-                foreach ($this->recipe['strings'] as $string) {
+            if ($this->has_common_feature('lang_strings')) {
+                foreach ($this->recipe['lang_strings'] as $string) {
                     if ($string['id'] === $stringid) {
                         $found = true;
                         break;
@@ -707,12 +710,8 @@ class manager {
      */
     protected function prepare_cli_files() {
 
-        if (!is_array($this->recipe['cli_scripts'])) {
-            throw new exception('No cli_script file names specified');
-        }
-
-        foreach ($this->recipe['cli_scripts'] as $filename) {
-            $this->prepare_file_skeleton('cli/'.$filename.'.php', 'php_cli_file', 'cli');
+        foreach ($this->recipe['cli_scripts'] as $script) {
+            $this->prepare_file_skeleton('cli/'.$script['filename'].'.php', 'php_cli_file', 'cli');
         }
     }
 
@@ -766,62 +765,26 @@ class manager {
      */
     protected function has_component_feature($feature) {
 
-        $componenttype = $this->recipe['component_type'];
-
-        if ($feature === 'backup_moodle2') {
-            return !empty($this->recipe['backup_moodle2']);
-        }
+        $componentfeatures = $this->recipe['component_type'].'_features';
 
         if ($feature === 'settingslib') {
             $hasbackup = $this->has_component_feature('backup_moodle2');
-            return $hasbackup && !empty($this->recipe['backup_moodle2']['settingslib']);
+            return $hasbackup && !empty($this->recipe[$componentfeatures]['backup_moodle2']['settingslib']);
         }
 
         if ($feature === 'restore_task') {
             $hasbackup = $this->has_component_feature('backup_moodle2');
-            return $hasbackup && !empty($this->recipe['backup_moodle2']['restore_task']);
+            return $hasbackup && !empty($this->recipe[$componentfeatures]['backup_moodle2']['restore_task']);
         }
 
         if ($feature === 'backup_stepslib') {
             $hasbackup = $this->has_component_feature('backup_moodle2');
-            return $hasbackup && !empty($this->recipe['backup_moodle2']['backup_stepslib']);
+            return $hasbackup && !empty($this->recipe[$componentfeatures]['backup_moodle2']['backup_stepslib']);
         }
 
         if ($feature === 'restore_stepslib') {
             $hasbackup = $this->has_component_feature('backup_moodle2');
-            return $hasbackup && !empty($this->recipe['backup_moodle2']['restore_stepslib']);
-        }
-
-        if ($feature === 'applicable_formats') {
-            return !empty($this->recipe['applicable_formats']);
-        }
-
-        if ($feature === 'stylesheets') {
-            return !empty($this->recipe['stylesheets']);
-        }
-
-        if ($feature === 'layouts') {
-            return !empty($this->recipe['layouts']);
-        }
-
-        if ($feature === 'params_for_js') {
-            return !empty($this->recipe['params_for_js']);
-        }
-
-        if ($feature === 'strings_for_js') {
-            return !empty($this->recipe['strings_for_js']);
-        }
-
-        if ($feature === 'stylesheets') {
-            return !empty($this->recipe['stylesheets']);
-        }
-
-        if ($feature === 'parents') {
-            return !empty($this->recipe['parents']);
-        }
-
-        if ($feature === 'layouts') {
-            return !empty($this->recipe['layouts']);
+            return $hasbackup && !empty($this->recipe[$componentfeatures]['backup_moodle2']['restore_stepslib']);
         }
 
         $attofeatures = array(
@@ -838,11 +801,11 @@ class manager {
 
         foreach ($attofeatures as $attofeature) {
             if ($attofeature === $feature) {
-                return isset($this->recipe[$componenttype.'_features'][$feature]);
+                return isset($this->recipe[$componentfeatures][$feature]);
             }
         }
 
-        return !empty($this->recipe[$componenttype.'_features'][$feature]);
+        return !empty($this->recipe[$componentfeatures][$feature]);
     }
 
     /**
@@ -879,6 +842,10 @@ class manager {
 
         if ($feature === 'phpunit_tests') {
             return !empty($this->recipe['phpunit_tests']);
+        }
+
+        if ($feature === 'lang_strings') {
+            return !empty($this->recipe['lang_strings']);
         }
 
         if ($feature === 'upgrade') {

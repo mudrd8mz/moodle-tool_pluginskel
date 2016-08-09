@@ -102,9 +102,9 @@ class {{ component }} extends block_base {
      */
     public function applicable_formats() {
         return array(
-            {{# applicable_formats }}
+            {{# block_features.applicable_formats }}
             '{{ .page }}' => {{ .allowed }},
-            {{/ applicable_formats }}
+            {{/ block_features.applicable_formats }}
         );
     }
 }

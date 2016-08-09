@@ -52,23 +52,25 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         'block_features' => array(
             'instance_allow_multiple' => true,
             'edit_form' => true,
+            'applicable_formats' => array(
+                array('page' => 'all', 'allowed' => false),
+                array('page' => 'course-view', 'allowed' => true),
+                array('page' => 'course-view-social', 'allowed' => false)
+            ),
+            'backup_moodle2' => array(
+                'restore_task' => true,
+                'restore_stepslib' => true,
+                'backup_stepslib' => true,
+                'settingslib' => true,
+                'backup_elements' => array(
+                    array('name' => 'elt'),
+                ),
+                'restore_elements' => array(
+                    array('name' => 'node', 'path' => '/path/to/file')
+                )
+            ),
         ),
-        'applicable_formats' => array(
-            array('page' => 'all', 'allowed' => false),
-            array('page' => 'course-view', 'allowed' => true),
-            array('page' => 'course-view-social', 'allowed' => false)
-        ),
-        'backup_moodle2' => array(
-            'restore_task' => true,
-            'restore_stepslib' => true,
-            'backup_stepslib' => true,
-            'settingslib' => true,
-            'backup_elements' => array('elt'),
-            'restore_elements' => array(
-                array('name' => 'node', 'path' => '/path/to/file')
-            )
-        ),
-        'capabilities' => array(
+         'capabilities' => array(
             array(
                 'name' => 'addinstance',
                 'riskbitmask' => 'RISK_XSS | RISK_XSS',
@@ -301,8 +303,8 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $classdefinition = 'class backup_'.$blockname.'_block_structure_step extends backup_block_structure_step';
         $this->assertContains($classdefinition, $stepslibfile);
 
-        $element = $recipe['backup_moodle2']['backup_elements'][0];
-        $nestedelement = '$'.$element.' = new backup_nested_element(\''.$element.'\', $attributes, $final_elements)';
+        $elementname = $recipe['block_features']['backup_moodle2']['backup_elements'][0]['name'];
+        $nestedelement = '$'.$elementname.' = new backup_nested_element(\''.$elementname.'\', $attributes, $final_elements)';
         $this->assertContains($nestedelement, $stepslibfile);
     }
 
@@ -372,9 +374,8 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $classdefinition = 'class restore_'.$blockname.'_block_structure_step extends restore_structure_step';
         $this->assertContains($classdefinition, $stepslibfile);
 
-        $element = $recipe['backup_moodle2']['restore_elements'][0]['name'];
-
-        $path = $recipe['backup_moodle2']['restore_elements'][0]['path'];
+        $element = $recipe['block_features']['backup_moodle2']['restore_elements'][0]['name'];
+        $path = $recipe['block_features']['backup_moodle2']['restore_elements'][0]['path'];
         $elementpath = "\$paths[] = new restore_path_element('".$element."', '".$path."')";
         $this->assertContains($elementpath, $stepslibfile);
 

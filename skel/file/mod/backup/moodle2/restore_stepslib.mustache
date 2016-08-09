@@ -24,13 +24,13 @@ class restore_{{ component_name }}_activity_structure_step extends restore_activ
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
 
-        {{# backup_moodle2.restore_elements }}
+        {{# mod_features.backup_moodle2.restore_elements }}
         $paths[] = new restore_path_element('{{ .name }}', '{{ .path }}');
-        {{/ backup_moodle2.restore_elements}}
+        {{/ mod_features.backup_moodle2.restore_elements}}
 
         return $this->prepare_activity_structure($paths);
     }
-    {{# backup_moodle2.restore_elements}}
+    {{# mod_features.backup_moodle2.restore_elements}}
 
     /**
      * Processes the {{ .name }} restore data.
@@ -40,7 +40,7 @@ class restore_{{ component_name }}_activity_structure_step extends restore_activ
     protected function process_{{ .name }}($data) {
         return;
     }
-    {{/ backup_moodle2.restore_elements}}
+    {{/ mod_features.backup_moodle2.restore_elements}}
 
     /**
      * Defines post-execution actions.

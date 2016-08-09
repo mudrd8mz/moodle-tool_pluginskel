@@ -55,7 +55,16 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         'mod_features' => array(
             'gradebook' => true,
             'file_area' => true,
-            'navigation' => true
+            'navigation' => true,
+            'backup_moodle2' => array(
+                'settingslib' => true,
+                'backup_elements' => array(
+                    array('name' => 'node'),
+                ),
+                'restore_elements' => array(
+                    array('name' => 'node', 'path' => '/path/to/file')
+                )
+            )
         ),
         'events' => array(
             array(
@@ -120,13 +129,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
                 'clonepermissionsfrom' => 'moodle/course:manageactivities'
             )
         ),
-        'backup_moodle2' => array(
-            'settingslib' => true,
-            'backup_elements' => array('node'),
-            'restore_elements' => array(
-                array('name' => 'node', 'path' => '/path/to/file')
-            )
-        )
+
     );
 
     /** @var string The plugin files path relative the Moodle root. */
@@ -411,7 +414,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
-        $recipe['backup_moodle2']['settingslib'] = false;
+        $recipe['mod_features']['backup_moodle2']['settingslib'] = false;
         $manager->load_recipe($recipe);
         $manager->make();
 
@@ -454,7 +457,6 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
-        $recipe['backup_moodle2']['settingslib'] = true;
         $manager->load_recipe($recipe);
         $manager->make();
 
@@ -511,7 +513,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $classdefinition = 'class backup_'.$modname.'_activity_structure_step extends backup_activity_structure_step';
         $this->assertContains($classdefinition, $stepslibfile);
 
-        $element = $recipe['backup_moodle2']['backup_elements'][0];
+        $element = $recipe['mod_features']['backup_moodle2']['backup_elements'][0]['name'];
         $nestedelement = '$'.$element.' = new backup_nested_element(\''.$element.'\', $attributes, $final_elements)';
         $this->assertContains($nestedelement, $stepslibfile);
     }
@@ -585,8 +587,8 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $classdefinition = 'class restore_'.$modname.'_activity_structure_step extends restore_activity_structure_step';
         $this->assertContains($classdefinition, $stepslibfile);
 
-        $element = $recipe['backup_moodle2']['restore_elements'][0]['name'];
-        $path = $recipe['backup_moodle2']['restore_elements'][0]['path'];
+        $element = $recipe['mod_features']['backup_moodle2']['restore_elements'][0]['name'];
+        $path = $recipe['mod_features']['backup_moodle2']['restore_elements'][0]['path'];
         $elementpath = "\$paths[] = new restore_path_element('".$element."', '".$path."')";
         $this->assertContains($elementpath, $stepslibfile);
 

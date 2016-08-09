@@ -18,17 +18,17 @@ $THEME->doctype = '{{ theme_features.doctype }}';
 
 {{# self.has_parents }}
 $THEME->parents = array(
-    {{# parents }}
-    '{{ . }}',
-    {{/ parents }}
+    {{# theme_features.parents }}
+    '{{ .base_theme }}',
+    {{/ theme_features.parents }}
 );
 {{/ self.has_parents }}
 
 {{# self.has_stylesheets }}
 $THEME->sheets = array(
-    {{# stylesheets }}
-    '{{ . }}',
-    {{/ stylesheets }}
+    {{# theme_features.stylesheets }}
+    '{{ .name }}',
+    {{/ theme_features.stylesheets }}
 );
 {{/ self.has_stylesheets }}
 

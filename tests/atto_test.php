@@ -50,11 +50,15 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
             'settings' => true,
             'settings' => true,
         ),
-        'strings_for_js' => array('stringone'),
-        'params_for_js' => array(
-            array('name' => 'paramone', 'value' => 'val', 'default' => '')
+        'atto_features' => array(
+            'strings_for_js' => array(
+                array('id' => 'stringone'),
+            ),
+            'params_for_js' => array(
+                array('name' => 'paramone', 'value' => 'val', 'default' => '')
+            ),
         ),
-        'strings' => array(
+        'lang_strings' => array(
             array('id' => 'stringone', 'text' => 'String one'),
         )
     );
@@ -98,8 +102,8 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $namespace = "Y.namespace('M.".$recipe['component']."').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin";
         $this->assertContains($namespace, $buttonjsfile);
 
-        $paramname = $recipe['params_for_js'][0]['name'];
-        $default = $recipe['params_for_js'][0]['default'];
+        $paramname = $recipe['atto_features']['params_for_js'][0]['name'];
+        $default = $recipe['atto_features']['params_for_js'][0]['default'];
         $attrs = '/ATTRS: {\s+'.$paramname.': {\s+value: \''.$default.'\'/';
         $this->assertRegExp($attrs, $buttonjsfile);
     }
@@ -166,14 +170,15 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $stringsforjs = 'function '.$recipe['component'].'_strings_for_js()';
         $this->assertContains($stringsforjs, $libfile);
 
-        $strings = '/\$PAGE->requires_strings_for_js\(array\(\s+\''.$recipe['strings_for_js'][0].'\',\s+\)\)/';
+        $id = $recipe['atto_features']['strings_for_js'][0]['id'];
+        $strings = '/\$PAGE->requires_strings_for_js\(array\(\s+\''.$id.'\',\s+\)\)/';
         $this->assertRegExp($strings, $libfile);
 
         $paramsforjs = 'function '.$recipe['component'].'_params_for_js($elementid, $options, $foptions)';
         $this->assertContains($paramsforjs, $libfile);
 
-        $paramname = $recipe['params_for_js'][0]['name'];
-        $value = $recipe['params_for_js'][0]['value'];
+        $paramname = $recipe['atto_features']['params_for_js'][0]['name'];
+        $value = $recipe['atto_features']['params_for_js'][0]['value'];
         $params = '/return array\(\s+\''.$paramname.'\' => \''.$value.'\',\s+\);/';
         $this->assertRegExp($params, $libfile);
     }

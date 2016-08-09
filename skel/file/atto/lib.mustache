@@ -18,9 +18,9 @@ function {{ component }}_strings_for_js() {
     global $PAGE;
 
     $PAGE->requires_strings_for_js(array(
-        {{# strings_for_js }}
-        '{{ . }}',
-        {{/ strings_for_js }}
+        {{# atto_features.strings_for_js }}
+        '{{ .id }}',
+        {{/ atto_features.strings_for_js }}
     ));
 }
 {{/ self.has_strings_for_js }}
@@ -38,9 +38,9 @@ function {{ component }}_strings_for_js() {
  */
 function {{ component }}_params_for_js($elementid, $options, $foptions) {
     return array(
-        {{# params_for_js }}
+        {{# atto_features.params_for_js }}
         '{{ .name }}' => '{{ .value }}',
-        {{/ params_for_js }}
+        {{/ atto_features.params_for_js }}
     );
 }
 {{/ self.has_params_for_js }}

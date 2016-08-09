@@ -49,11 +49,17 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
         'theme_features'  => array(
             'all_layouts' => true,
             'doctype' => 'html5',
+            'parents' => array(
+                array('base_theme' => 'base'),
+            ),
+            'stylesheets' => array(
+                array('name' => 'stylesheet'),
+            ),
+            'custom_layouts' => array(
+                array('name' => 'layout'),
+            ),
         ),
-        'parents' => array('base'),
-        'stylesheets' => array('stylesheet'),
-        'layouts' => array('layout'),
-        'strings' => array(
+        'lang_strings' => array(
             array('id' => 'choosereadme', 'text' => 'Theme test')
         )
     );
@@ -81,10 +87,12 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
         $doctype = "\$THEME->doctype = '".$recipe['theme_features']['doctype']."'";
         $this->assertContains($doctype, $configfile);
 
-        $parents = '/\$THEME->parents = array\(\s+\''.$recipe['parents'][0].'\',\s+\)/';
+        $basetheme = $recipe['theme_features']['parents'][0]['base_theme'];
+        $parents = '/\$THEME->parents = array\(\s+\''.$basetheme.'\',\s+\)/';
         $this->assertRegExp($parents, $configfile);
 
-        $stylesheets = '/\$THEME->sheets = array\(\s*\''.$recipe['stylesheets'][0].'\',\s*\);/';
+        $stylesheetname = $recipe['theme_features']['stylesheets'][0]['name'];
+        $stylesheets = '/\$THEME->sheets = array\(\s*\''.$stylesheetname.'\',\s*\);/';
         $this->assertRegExp($stylesheets, $configfile);
 
         $layouts = '$THEME->layouts = array(';
@@ -105,10 +113,10 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
 
         $files = $manager->get_files_content();
 
-        $layoutfile = 'layout/'.$recipe['layouts'][0].'.php';
+        $layoutfile = 'layout/'.$recipe['theme_features']['custom_layouts'][0]['name'].'.php';
         $this->assertArrayHasKey($layoutfile, $files);
 
-        $stylesheetfile = 'styles/'.$recipe['stylesheets'][0].'.css';
+        $stylesheetfile = 'styles/'.$recipe['theme_features']['stylesheets'][0]['name'].'.css';
         $this->assertArrayHasKey($stylesheetfile, $files);
     }
 }

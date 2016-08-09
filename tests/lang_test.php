@@ -49,7 +49,7 @@ class tool_pluginskel_lang_testcase extends advanced_testcase {
         'name'      => 'Lang test',
         'requires'  => '2015051100',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'strings'   => array(
+        'lang_strings'   => array(
             array('id' => 'somestring', 'text' => 'Test string')
         )
     );
@@ -74,8 +74,8 @@ class tool_pluginskel_lang_testcase extends advanced_testcase {
         $this->assertRegExp('/\* @category\s+string/', $langfile);
         $this->assertContains("\$string['pluginname'] = '".$recipe['name'], $langfile);
 
-        $id = $recipe['strings'][0]['id'];
-        $text = $recipe['strings'][0]['text'];
+        $id = $recipe['lang_strings'][0]['id'];
+        $text = $recipe['lang_strings'][0]['text'];
         $this->assertContains("\$string['$id'] = '$text'", $langfile);
     }
 }
