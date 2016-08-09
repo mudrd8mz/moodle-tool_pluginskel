@@ -51,7 +51,9 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
             'settings' => true,
         ),
         'atto_features' => array(
-            'strings_for_js' => array('stringone'),
+            'strings_for_js' => array(
+                array('id' => 'stringone'),
+            ),
             'params_for_js' => array(
                 array('name' => 'paramone', 'value' => 'val', 'default' => '')
             ),
@@ -168,7 +170,8 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $stringsforjs = 'function '.$recipe['component'].'_strings_for_js()';
         $this->assertContains($stringsforjs, $libfile);
 
-        $strings = '/\$PAGE->requires_strings_for_js\(array\(\s+\''.$recipe['atto_features']['strings_for_js'][0].'\',\s+\)\)/';
+        $id = $recipe['atto_features']['strings_for_js'][0]['id'];
+        $strings = '/\$PAGE->requires_strings_for_js\(array\(\s+\''.$id.'\',\s+\)\)/';
         $this->assertRegExp($strings, $libfile);
 
         $paramsforjs = 'function '.$recipe['component'].'_params_for_js($elementid, $options, $foptions)';

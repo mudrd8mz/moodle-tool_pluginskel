@@ -22,8 +22,8 @@ copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <da
 atto_features:
     ## Adds strings to be initialized in the plugin's user interface.
     strings_for_js:
-        - stringone
-        - stringtwo
+        - id: stringone
+        - id: stringtwo
 
     ## Adds parameters to be passed in the javascript init function.
     params_for_js:
@@ -125,36 +125,35 @@ theme_features:
 
     ## Parents for the theme. Optional.
     parents:
-        - base
+        - base_theme: base
 
     ## Stylesheets defined by the plugin. They go in the 'styles' directory.
     stylesheets:
-        - sheet
+        - name: sheet
 
-    ## Custom layouts that go in the 'layout' directory. Authomatically generates
-    ## all the moodle layouts.
-    layouts:
-        - test
+    ## Custom layouts that go in the 'layout' directory.
+    custom_layouts:
+        - name: test
 
 ## If the plugin depends on other plugins, declare the dependencies.
 dependencies:
-  - plugin: mod_forum
-    version: ANY_VERSION
-  - plugin: tool_another
-    version: 2016121200
+    - plugin: mod_forum
+      version: ANY_VERSION
+    - plugin: tool_another
+      version: 2016121200
 
 ## Features flags can control generation of optional files/code fragments.
 features:
-  readme: true
-  license: true
-  settings: true
+    readme: true
+    license: true
+    settings: true
 
-  ## The db/upgrade.php file will be generated. Upgrade steps are defined in
-  ## this file.
-  upgrade: true
+    ## The db/upgrade.php file will be generated. Upgrade steps are defined in
+    ## this file.
+    upgrade: true
 
-  install: true
-  uninstall: true
+    install: true
+    uninstall: true
 
 ## The file db/upgradelib.php will also be generated.
 upgrade:
@@ -164,25 +163,25 @@ upgrade:
 phpunit_tests:
     ## The class will be defined in the file tests/firstclass_test.php
     ## The full class name will be local_test_firstclass_testcase.
-    - firstclass
-    - secondclass
+    - classname: firstclass
+    - classname: secondclass
 
     ## This is valid too.
-    - local_test_thirdclass_testcase
+    - classname: local_test_thirdclass_testcase
 
 ## Capabilities defined by the plugin.
 capabilities:
-  - name: viewsomething
-    captype: view
-    contextlevel: CONTEXT_MODULE
-    archetypes:
-      - role: student
-        permission: CAP_ALLOW
-      - role: editingteacher
-        permission: CAP_ALLOW
-    clonepermissionsfrom: moodle/course:view
-  - name: editsomething
-    captype: write
+    - name: viewsomething
+      captype: view
+      contextlevel: CONTEXT_MODULE
+      archetypes:
+        - role: student
+          permission: CAP_ALLOW
+        - role: editingteacher
+          permission: CAP_ALLOW
+      clonepermissionsfrom: moodle/course:view
+    - name: editsomething
+      captype: write
 
 ## Message producers to be used with the Message API.
 message_providers:
@@ -192,26 +191,26 @@ message_providers:
 
 ## Creates the cli script files cli/firstfilename.php and cli/seconfilename.php.
 cli_scripts:
-   - firstfilename
-   - secondfilename
+    - filename: firstfilename
+    - filename: secondfilename
 
 ## Register observers for events.
 observers:
-  - eventname: \core\event\something_happened
-    ## The callback creates the file classes/observer_one.php. The namespace
-    ## for the file is 'local_test'.
-    callback: \local_test\another\observer_one::something_happened
-    includefile: "/path/to/file/relative/to/moodle/dir/root"
-    priority: 200
+    - eventname: \core\event\something_happened
+      ## The callback creates the file classes/observer_one.php. The namespace
+      ## for the file is 'local_test'.
+      callback: \local_test\another\observer_one::something_happened
+      includefile: "/path/to/file/relative/to/moodle/dir/root"
+      priority: 200
 
-  - eventname: \core\event\something_else_happened
-    ## The callback creates the function in locallib.php.
-    callback: local_test_locallib_function
+    - eventname: \core\event\something_else_happened
+      ## The callback creates the function in locallib.php.
+      callback: local_test_locallib_function
 
-  - eventname: \core\event\something_else_happened
-    ## This callback creates the class 'local_test_observer_two' in the file
-    ## classes/observer_two.php. The class is created in the global namespace.
-    callback: local_test_observer_two::do_something
+    - eventname: \core\event\something_else_happened
+      ## This callback creates the class 'local_test_observer_two' in the file
+      ## classes/observer_two.php. The class is created in the global namespace.
+      callback: local_test_observer_two::do_something
 
 ## Creates event classes. The first class, located at
 ## classes/event/first_event.php, will extend the base class
@@ -228,7 +227,7 @@ mobile_addons:
       dependencies:
           - dependency_one
           - dependency_two
-    - name: 'my_second_mine'
+    - name: 'my_second_addon'
 
 ## Explicitly added strings
 lang_strings:

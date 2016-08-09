@@ -19,7 +19,7 @@ $THEME->doctype = '{{ theme_features.doctype }}';
 {{# self.has_parents }}
 $THEME->parents = array(
     {{# theme_features.parents }}
-    '{{ . }}',
+    '{{ .base_theme }}',
     {{/ theme_features.parents }}
 );
 {{/ self.has_parents }}
@@ -27,7 +27,7 @@ $THEME->parents = array(
 {{# self.has_stylesheets }}
 $THEME->sheets = array(
     {{# theme_features.stylesheets }}
-    '{{ . }}',
+    '{{ .name }}',
     {{/ theme_features.stylesheets }}
 );
 {{/ self.has_stylesheets }}

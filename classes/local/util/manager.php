@@ -250,7 +250,7 @@ class manager {
 
         foreach ($this->recipe['phpunit_tests'] as $class) {
 
-            $classname = $class;
+            $classname = $class['classname'];
 
             if (strpos($classname, $this->recipe['component']) !== false) {
                 $classname = substr($classname, strlen($this->recipe['component']) + 1);
@@ -322,7 +322,10 @@ class manager {
             $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
             $this->files['lib.php']->set_attribute('has_strings_for_js');
 
-            $jsstrings = $this->recipe['atto_features']['strings_for_js'];
+            $jsstrings = array();
+            foreach ($this->recipe['atto_features']['strings_for_js'] as $string) {
+                $jsstrings[] = $string['id'];
+            }
             $this->verify_strings_exist($jsstrings);
         }
 
@@ -447,7 +450,7 @@ class manager {
             $this->files['config.php']->set_attribute('has_stylesheets');
 
             foreach ($this->recipe['theme_features']['stylesheets'] as $stylesheet) {
-                $this->prepare_file_skeleton('styles/'.$stylesheet.'.css', 'base', 'theme/stylesheet');
+                $this->prepare_file_skeleton('styles/'.$stylesheet['name'].'.css', 'base', 'theme/stylesheet');
             }
         }
 
@@ -455,9 +458,9 @@ class manager {
             $this->files['config.php']->set_attribute('has_all_layouts');
         }
 
-        if ($this->has_component_feature('layouts')) {
-            foreach ($this->recipe['theme_features']['layouts'] as $layout) {
-                $layoutfile = 'layout/'.$layout.'.php';
+        if ($this->has_component_feature('custom_layouts')) {
+            foreach ($this->recipe['theme_features']['custom_layouts'] as $layout) {
+                $layoutfile = 'layout/'.$layout['name'].'.php';
                 $this->prepare_file_skeleton($layoutfile, 'base', 'theme/layout');
 
                 if ($ishtml5) {
@@ -707,12 +710,8 @@ class manager {
      */
     protected function prepare_cli_files() {
 
-        if (!is_array($this->recipe['cli_scripts'])) {
-            throw new exception('No cli_script file names specified');
-        }
-
-        foreach ($this->recipe['cli_scripts'] as $filename) {
-            $this->prepare_file_skeleton('cli/'.$filename.'.php', 'php_cli_file', 'cli');
+        foreach ($this->recipe['cli_scripts'] as $script) {
+            $this->prepare_file_skeleton('cli/'.$script['filename'].'.php', 'php_cli_file', 'cli');
         }
     }
 

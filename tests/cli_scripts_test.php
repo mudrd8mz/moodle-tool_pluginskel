@@ -46,7 +46,10 @@ class tool_pluginskel_cli_scripts_testcase extends advanced_testcase {
         'component'     => 'local_cliscriptstest',
         'name'          => 'Cli_scripts test',
         'copyright'     => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'cli_scripts'   => array('first', 'second')
+        'cli_scripts'   => array(
+            array('filename' => 'first'),
+            array('filename' => 'second'),
+        )
     );
 
     /**
@@ -62,7 +65,7 @@ class tool_pluginskel_cli_scripts_testcase extends advanced_testcase {
         $manager->make();
 
         $files = $manager->get_files_content();
-        $filename = 'cli/'.$recipe['cli_scripts'][0].'.php';
+        $filename = 'cli/'.$recipe['cli_scripts'][0]['filename'].'.php';
         $this->assertArrayHasKey($filename, $files);
 
         $clifile = $files[$filename];
@@ -79,7 +82,7 @@ class tool_pluginskel_cli_scripts_testcase extends advanced_testcase {
         $clilib = "require_once(\$CFG->libdir.'/clilib.php')";
         $this->assertContains($clilib, $clifile);
 
-        $filename = 'cli/'.$recipe['cli_scripts'][1].'.php';
+        $filename = 'cli/'.$recipe['cli_scripts'][1]['filename'].'.php';
         $this->assertArrayHasKey($filename, $files);
     }
 }

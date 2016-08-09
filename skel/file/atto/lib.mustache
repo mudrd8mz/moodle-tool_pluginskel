@@ -19,7 +19,7 @@ function {{ component }}_strings_for_js() {
 
     $PAGE->requires_strings_for_js(array(
         {{# atto_features.strings_for_js }}
-        '{{ . }}',
+        '{{ .id }}',
         {{/ atto_features.strings_for_js }}
     ));
 }
