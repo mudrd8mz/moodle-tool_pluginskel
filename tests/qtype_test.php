@@ -49,7 +49,7 @@ class tool_pluginskel_qtype_testcase extends advanced_testcase {
         'qtype_features' => array(
             'base_class' => 'question_graded_automatically',
         ),
-        'strings'   => array(
+        'lang_strings'   => array(
             array('id' => 'pluginnamesummary', 'text' => 'Plugin name summary'),
             array('id' => 'pluginnameadding', 'text' => 'Plugin name when adding'),
             array('id' => 'pluginnameediting', 'text' => 'Plugin name when editing'),

@@ -497,8 +497,8 @@ class manager {
     protected function verify_strings_exist($stringids) {
         foreach ($stringids as $stringid) {
             $found = false;
-            if ($this->has_common_feature('strings')) {
-                foreach ($this->recipe['strings'] as $string) {
+            if ($this->has_common_feature('lang_strings')) {
+                foreach ($this->recipe['lang_strings'] as $string) {
                     if ($string['id'] === $stringid) {
                         $found = true;
                         break;
@@ -843,6 +843,10 @@ class manager {
 
         if ($feature === 'phpunit_tests') {
             return !empty($this->recipe['phpunit_tests']);
+        }
+
+        if ($feature === 'lang_strings') {
+            return !empty($this->recipe['lang_strings']);
         }
 
         if ($feature === 'upgrade') {

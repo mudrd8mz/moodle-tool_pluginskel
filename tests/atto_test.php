@@ -56,7 +56,7 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
                 array('name' => 'paramone', 'value' => 'val', 'default' => '')
             ),
         ),
-        'strings' => array(
+        'lang_strings' => array(
             array('id' => 'stringone', 'text' => 'String one'),
         )
     );

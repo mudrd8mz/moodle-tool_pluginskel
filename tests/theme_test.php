@@ -53,7 +53,7 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
             'stylesheets' => array('stylesheet'),
             'layouts' => array('layout'),
         ),
-        'strings' => array(
+        'lang_strings' => array(
             array('id' => 'choosereadme', 'text' => 'Theme test')
         )
     );

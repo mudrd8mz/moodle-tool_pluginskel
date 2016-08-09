@@ -231,7 +231,7 @@ mobile_addons:
     - name: 'my_second_mine'
 
 ## Explicitly added strings
-strings:
+lang_strings:
     - id: mycustomstring
       text: You can add 'extra' strings via the recipe file.
     - id: mycustomstring2
