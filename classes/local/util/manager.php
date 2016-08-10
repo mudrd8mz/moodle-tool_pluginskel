@@ -219,8 +219,6 @@ class manager {
             );
         }
 
-        print_r($componentvars);
-
         return $componentvars;
     }
 

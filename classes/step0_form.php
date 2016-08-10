@@ -45,11 +45,8 @@ class tool_pluginskel_step0_form extends moodleform {
         $mform->addElement('header', 'manualhdr', get_string('manualhdr', 'tool_pluginskel'));
         $mform->setExpanded('manualhdr', true);
 
-        $objs = array();
         $plugintypes = tool_pluginskel\local\util\manager::get_plugintype_names();
-        $objs[] =& $mform->createElement('select', 'componenttype', '', $plugintypes);
-        $objs[] =& $mform->createElement('submit', 'helpmechoose', get_string('helpmechoose', 'tool_pluginskel'));
-        $mform->addGroup($objs, 'componentgroup', get_string('skelcomponenttype', 'tool_pluginskel'), null, false);
+        $mform->addElement('select', 'componenttype', get_string('skelcomponenttype', 'tool_pluginskel'), $plugintypes);
 
         $mform->addElement('text', 'componentname', get_string('skelcomponentname', 'tool_pluginskel'), null);
         $mform->setType('componentname', PARAM_TEXT);
