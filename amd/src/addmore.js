@@ -10,7 +10,7 @@ define(['jquery'], function($) {
          */
         deleteElements: function(templateVars, variableName, elt) {
 
-            var variableCount = +$("[name='"+variableName+"count']").val();
+            var variableCount = parseInt($("[name='"+variableName+"count']").val());
 
             if (variableCount == 1) {
                 return;
@@ -39,7 +39,7 @@ define(['jquery'], function($) {
                 if (fieldVariable.hint === 'array') {
 
                     var nestedCountVar = variableName+'_'+lastIndex+'_'+fieldVariable.name+'count';
-                    var nestedCount = +$("[name='"+nestedCountVar+"']").val();
+                    var nestedCount = parseInt($("[name='"+nestedCountVar+"']").val());
 
                     // Removing the newlines between the nested array elements.
                     $('#id_'+variableName+' br').slice(-(nestedCount - 1)).remove();
@@ -74,7 +74,7 @@ define(['jquery'], function($) {
          * @param {String} variableName The name of the variable.
          */
         addMoreRootElements: function(templateVars, variableName, elt) {
-            var variableCount = +$("[name='"+variableName+"count']").val();
+            var variableCount = parseInt($("[name='"+variableName+"count']").val());
             var templateVariable;
 
             for (var i in templateVars) {
@@ -85,12 +85,8 @@ define(['jquery'], function($) {
             }
 
             var prevIndex = variableCount-1;
-            var newElements = '<br/>';
-
             var elementIdPrefix;
-            var newButtonId;
-            var newButtonName;
-            var hasNestedFields = false;
+            var newElements = '<br/>';
 
             for (i in templateVariable.values) {
                 var fieldVariable = templateVariable.values[i];
@@ -102,8 +98,6 @@ define(['jquery'], function($) {
                 var prevElementId = 'id_'+variableName+'_'+prevIndex+'_'+fieldVariable.name;
 
                 if (fieldVariable.hint == 'array') {
-
-                    hasNestedFields = true;
 
                     // Cloning the static label.
                     var prevElementClasses = $('#fitem_'+prevElementId).attr('class');
@@ -125,8 +119,8 @@ define(['jquery'], function($) {
                     }
 
                     // Cloning the 'Add more ..' button.
-                    newButtonId = 'id_addmore_'+variableName+'_'+variableCount+'_'+fieldVariable.name;
-                    newButtonName = 'addmore_'+variableName+'['+variableCount+']['+fieldVariable.name+']';
+                    var newButtonId = 'id_addmore_'+variableName+'_'+variableCount+'_'+fieldVariable.name;
+                    var newButtonName = 'addmore_'+variableName+'['+variableCount+']['+fieldVariable.name+']';
 
                     var prevButtonId = 'id_addmore_'+variableName+'_'+prevIndex+'_'+fieldVariable.name;
                     var prevButtonName = 'addmore_'+variableName+'['+prevIndex+']['+fieldVariable.name+']';
@@ -154,13 +148,6 @@ define(['jquery'], function($) {
 
             // Increment the number of variable elements.
             $("[name='"+variableName+"count']").val(variableCount + 1);
-
-            // Attaching the event to the newly added button.
-            if (hasNestedFields === true) {
-                return [[newButtonId, newButtonName]];
-            } else {
-                return [];
-            }
         },
 
         /**
@@ -181,7 +168,7 @@ define(['jquery'], function($) {
             var idPrefix = 'id_'+topVariableName+'_'+topIndex+'_'+nestedVariableName;
 
             var variableCountName = topVariableName+'_'+topIndex+'_'+nestedVariableName+'count';
-            var variableCount = +$("[name='"+variableCountName+"']").val();
+            var variableCount = parseInt($("[name='"+variableCountName+"']").val());
 
             var templateVariable;
             for (var i in templateVars) {
@@ -281,42 +268,30 @@ define(['jquery'], function($) {
         },
 
         /**
-         * Adds more fields for an array template variable when the 'Add more .. ' button is clicked.
-         *
-         * @param {Array} templateVars The template variables.
+         * Adds or remove fields for an array template variable.
          */
         addMore: function() {
 
-            var templateVars = $.parseJSON($('[name="templatevars"]').val());
+            $('.mform').on('click', ':button', function(event) {
+                var buttonName = event.target.name;
+                var templateVars;
+                var variableName;
 
-            $("[name*='addmore_']").on('click', function() {
-                var variableName = $(this).prop('name').replace('addmore_', '');
+                if (buttonName.indexOf('addmore_') !== -1) {
+                    templateVars = $.parseJSON($('[name="templatevars"]').val());
+                    variableName = buttonName.replace('addmore_', '');
 
-                if (variableName.indexOf('[') == -1) {
-                    var nestedButtons = addElements.addMoreRootElements(templateVars, variableName, this);
-
-                    // Attaching the on click event to the newly added buttons.
-                    if (nestedButtons.length > 0) {
-                        for (var i in nestedButtons) {
-                            var newId = nestedButtons[i][0];
-                            var newName = nestedButtons[i][1];
-                            $('#'+newId).on('click', function() {
-                                addElements.addMoreNestedElements(templateVars,
-                                                                  newName.replace('addmore_', ''),
-                                                                  this);
-                            });
-                        }
+                    if (variableName.indexOf('[') == -1) {
+                        addElements.addMoreRootElements(templateVars, variableName, this);
+                    } else {
+                        addElements.addMoreNestedElements(templateVars, variableName, this);
                     }
-                } else {
-                    addElements.addMoreNestedElements(templateVars, variableName, this);
+                } else if (buttonName.indexOf('delete_') !== -1) {
+                    templateVars = $.parseJSON($('[name="templatevars"]').val());
+                    variableName = buttonName.replace('delete_', '');
+
+                    addElements.deleteElements(templateVars, variableName, this);
                 }
-            });
-
-            $("[name*='delete_']").on('click', function() {
-
-                var variableName = $(this).prop('name').replace('delete_', '');
-                addElements.deleteElements(templateVars, variableName, this);
-
             });
         },
     };
