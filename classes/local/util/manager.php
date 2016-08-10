@@ -246,9 +246,13 @@ class manager {
                         'values' => array('view' => 'view', 'write' => 'write')),
                   array('name' => 'contextlevel', 'hint' => 'text'),
                   array('name' => 'archetypes', 'hint' => 'array', 'values' => array(
-                        array('name' => 'role', 'hint' => 'text'),
+                        array('name' => 'role', 'hint' => 'multiple-options', 'values' => get_role_archetypes()),
                         array('name' => 'permission', 'hint' => 'multiple-options',
-                              'values' => array('CAP_ALLOW' => 'CAP_ALLOW', 'CAP_PREVENT' => 'CAP_PREVENT')))
+                              'values' => array(
+                                  'CAP_ALLOW' => 'CAP_ALLOW',
+                                  'CAP_PREVENT' => 'CAP_PREVENT',
+                                  'CAP_PROHIBIT' => 'CAP_PROHIBIT'
+                              )))
                   ),
                   array('name' => 'clonepermissionsfrom', 'hint' => 'text'))
             ),
