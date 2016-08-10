@@ -49,7 +49,10 @@ class tool_pluginskel_mobile_addons_testcase extends advanced_testcase {
         'mobile_addons' => array(
             array(
                 'name' => 'my_addon',
-                'dependencies' => array('dependency1', 'dependency2')
+                'dependencies' => array(
+                    array('name' => 'dependency1'),
+                    array('name' => 'dependency2'),
+                ),
             ),
             array(
                 'name' => 'another_addon'
@@ -85,7 +88,7 @@ class tool_pluginskel_mobile_addons_testcase extends advanced_testcase {
 
         $dependencieslist = $recipe['mobile_addons'][0]['dependencies'];
         foreach ($dependencieslist as $key => $dependency) {
-            $dependencieslist[$key] = "'".$dependency."'";
+            $dependencieslist[$key] = "'".$dependency['name']."'";
         }
         $dependencies = "'dependencies' => array(".implode(', ', $dependencieslist).", )";
         $this->assertContains($dependencies, $dbmobilefile);
