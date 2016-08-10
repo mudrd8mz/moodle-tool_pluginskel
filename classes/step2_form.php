@@ -57,9 +57,9 @@ class tool_pluginskel_step2_form extends moodleform {
         $mform->addElement('html', '<br/>');
 
         $buttonarr = array();
-        $buttonarr[] =& $mform->createElement('submit', 'buttonback', get_string('back', 'tool_pluginskel'));
-        $buttonarr[] =& $mform->createElement('submit', 'buttondownloadskel', get_string('downloadskel', 'tool_pluginskel'));
-        $buttonarr[] =& $mform->createElement('submit', 'buttondownloadrecipe', get_string('downloadrecipe', 'tool_pluginskel'));
+        $buttonarr[] = $mform->createElement('submit', 'buttonback', get_string('back', 'tool_pluginskel'));
+        $buttonarr[] = $mform->createElement('submit', 'buttondownloadskel', get_string('downloadskel', 'tool_pluginskel'));
+        $buttonarr[] = $mform->createElement('submit', 'buttondownloadrecipe', get_string('downloadrecipe', 'tool_pluginskel'));
         $mform->addGroup($buttonarr, 'buttonarr', '', array(' '), false);
         $mform->closeHeaderBefore('buttonarr');
 

@@ -43,7 +43,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * The standard form definiton.
      */
     public function definition () {
-        $mform =& $this->_form;
+        $mform = $this->_form;
 
         $recipe = $this->_customdata['recipe'];
         $component = $recipe['component'];
@@ -172,9 +172,9 @@ class tool_pluginskel_step1_form extends moodleform {
         $mform->addElement('html', '<hr>');
 
         $buttonarr = array();
-        $buttonarr[] =& $mform->createElement('submit', 'buttondownloadskel', get_string('downloadskel', 'tool_pluginskel'));
-        $buttonarr[] =& $mform->createElement('submit', 'buttondownloadrecipe', get_string('downloadrecipe', 'tool_pluginskel'));
-        $buttonarr[] =& $mform->createElement('submit', 'buttonviewrecipe', get_string('viewrecipe', 'tool_pluginskel'));
+        $buttonarr[] = $mform->createElement('submit', 'buttondownloadskel', get_string('downloadskel', 'tool_pluginskel'));
+        $buttonarr[] = $mform->createElement('submit', 'buttondownloadrecipe', get_string('downloadrecipe', 'tool_pluginskel'));
+        $buttonarr[] = $mform->createElement('submit', 'buttonshowrecipe', get_string('showrecipe', 'tool_pluginskel'));
         $mform->addGroup($buttonarr, 'buttonarr', '', array(' '), false);
         $mform->closeHeaderBefore('buttonarr');
 
@@ -219,7 +219,7 @@ class tool_pluginskel_step1_form extends moodleform {
      */
     protected function add_select_element($elementname, $templatevar, $recipe) {
 
-        $mform =& $this->_form;
+        $mform = $this->_form;
         $variablename = $templatevar['name'];
         $selectvalues = $templatevar['values'];
 
@@ -245,7 +245,7 @@ class tool_pluginskel_step1_form extends moodleform {
      */
     protected function add_advcheckbox_element($elementname, $templatevar, $recipe) {
 
-        $mform =& $this->_form;
+        $mform = $this->_form;
         $variablename = $templatevar['name'];
         $values = array('false', 'true');
 
@@ -269,7 +269,7 @@ class tool_pluginskel_step1_form extends moodleform {
      */
     protected function add_text_element($elementname, $templatevar, $recipe) {
 
-        $mform =& $this->_form;
+        $mform = $this->_form;
         $variablename = $templatevar['name'];
 
         $mform->addElement('text', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'));
@@ -297,7 +297,7 @@ class tool_pluginskel_step1_form extends moodleform {
      */
     protected function add_fieldset($templatevar, $recipe) {
 
-        $mform =& $this->_form;
+        $mform = $this->_form;
         $fieldsetname = $templatevar['name'];
         $templatevalues = $templatevar['values'];
 
@@ -325,9 +325,9 @@ class tool_pluginskel_step1_form extends moodleform {
         $this->add_fieldset_elements($fieldsetname, $templatevalues, $recipevalues, $count);
 
         $buttonarr = array();
-        $buttonarr[] =& $mform->createElement('button', 'addmore_'.$fieldsetname,
+        $buttonarr[] = $mform->createElement('button', 'addmore_'.$fieldsetname,
                                               get_string('addmore_'.$fieldsetname, 'tool_pluginskel'));
-        $buttonarr[] =& $mform->createElement('button', 'delete_'.$fieldsetname,
+        $buttonarr[] = $mform->createElement('button', 'delete_'.$fieldsetname,
                                               get_string('delete_'.$fieldsetname, 'tool_pluginskel'));
         $mform->addGroup($buttonarr, 'buttons_'.$fieldsetname, '', array('    '), false);
 
@@ -406,7 +406,7 @@ class tool_pluginskel_step1_form extends moodleform {
      */
     protected function add_fieldset_elements($fieldsetname, $templatevars, $recipevalues, $count) {
 
-        $mform =& $this->_form;
+        $mform = $this->_form;
 
         // Adding elements which have values specified in the recipe.
         if (!empty($recipevalues)) {
@@ -461,7 +461,7 @@ class tool_pluginskel_step1_form extends moodleform {
      */
     protected function add_nested_array_variable($parentvariablename, $index, $nestedvariable, $nestedrecipe) {
 
-        $mform =& $this->_form;
+        $mform = $this->_form;
         $variablename = $nestedvariable['name'];
         $variablearrname = $parentvariablename.'['.$index.']'.'['.$variablename.']';
         $templatevalues = $nestedvariable['values'];

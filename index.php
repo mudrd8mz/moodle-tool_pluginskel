@@ -126,7 +126,7 @@ if ($step == 0) {
         $recipestring = tool_pluginskel\local\util\yaml::encode($recipe);
         download_recipe($recipestring);
 
-    } else if (!empty($formdata['buttonviewrecipe'])) {
+    } else if (!empty($formdata['buttonshowrecipe'])) {
 
         $data = array('recipe' => $recipe);
         $mform2 = new tool_pluginskel_step2_form(null, $data);
