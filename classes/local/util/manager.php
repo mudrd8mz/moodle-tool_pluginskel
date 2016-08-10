@@ -186,6 +186,10 @@ class manager {
             $this->prepare_atto_files();
         }
 
+        if ($plugintype === 'enrol') {
+            $this->prepare_enrol_files();
+        }
+
         if ($this->has_common_feature('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -337,6 +341,64 @@ class manager {
 
             $this->files['lib.php']->set_attribute('has_params_for_js');
             $this->files[$buttonjsfile]->set_attribute('has_params_for_js');
+        }
+    }
+
+    /**
+     * Prepares the files for an enrolment plugin.
+     */
+    protected function prepare_enrol_files() {
+
+        $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'enrol/lib');
+
+        $enrolfeatures = array(
+            'allow_enrol',
+            'allow_unenrol',
+            'allow_manage',
+            'allow_unenrol_user'
+        );
+
+        foreach ($enrolfeatures as $enrolfeature) {
+            if ($this->has_component_feature($enrolfeature)) {
+                $this->files['lib.php']->set_attribute('has_'.$enrolfeature);
+            }
+        }
+
+        if ($this->has_component_feature('allow_enrol')) {
+            $this->verify_capability_exists('enrol');
+        }
+
+        if ($this->has_component_feature('allow_unenrol') || $this->has_component_feature('allow_unenrol_user')) {
+            $this->verify_capability_exists('unenrol');
+        }
+
+        if ($this->has_component_feature('allow_manage')) {
+            $this->verify_capability_exists('manage');
+        }
+    }
+
+    /**
+     * Checks if the capability has been defined by the user.
+     *
+     * If the capability hasn't been defined a warning is logged.
+     *
+     * @param string $capabilitnyname
+     */
+    protected function verify_capability_exists($capabilityname) {
+
+        $hascapability = false;
+
+        if ($this->has_common_feature('capabilities')) {
+            foreach ($this->recipe['capabilities'] as $capability) {
+                if ($capability['name'] == $capabilityname) {
+                    $hascapability = true;
+                    break;
+                }
+            }
+        }
+
+        if (!$hascapability) {
+            $this->logger->warning("Missing capability: '$capabilityname'");
         }
     }
 
@@ -801,6 +863,19 @@ class manager {
 
         foreach ($attofeatures as $attofeature) {
             if ($attofeature === $feature) {
+                return isset($this->recipe[$componentfeatures][$feature]);
+            }
+        }
+
+        $enrolfeatures = array(
+            'allow_enrol',
+            'allow_unenrol',
+            'allow_manage',
+            'allow_unenrol_user'
+        );
+
+        foreach ($enrolfeatures as $enrolfeature) {
+            if ($enrolfeature === $feature) {
                 return isset($this->recipe[$componentfeatures][$feature]);
             }
         }

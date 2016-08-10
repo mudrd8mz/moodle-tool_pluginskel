@@ -1,4 +1,4 @@
-component: block_test
+component: enrol_test
 
 ## Human readable name of the plugin.
 name: Example plugin
@@ -91,6 +91,21 @@ block_features:
             - name: elt
               path: /path/to/file
 
+enrol_features:
+    ## Allows manual enrolment. Requires enrol/<enrolname>:enrol capability.
+    allow_enrol: false
+
+    ## Allows manual unenrolment. Requires enrol/<enrolname>:unenrol capability.
+    allow_unenrol: true
+
+    ## Allows manual unenrolment of a specific user.
+    ## Requires the enrol/<enrolname>:unenrol capability to be defined.
+    allow_unenrol_user: true
+
+    ## Allows manual changes in the user_enrolment table.
+    ## Requires enrol/<enrolname>:manage capability.
+    allow_manage: true
+
 mod_features:
     ## Creates the gradebook related functions. Adds FEATURE_GRADE_HAS_GRADE.
     ## The file grade.php is also created.
@@ -180,8 +195,39 @@ capabilities:
         - role: editingteacher
           permission: CAP_ALLOW
       clonepermissionsfrom: moodle/course:view
+
     - name: editsomething
       captype: write
+
+    # Required by enrol plugins if allow_enrol is true.
+    - name: something else
+      captype: write
+      contextlevel: CONTEXT_COURSE
+      archetypes:
+        - role: manager
+          permission: CAP_ALLOW
+        - role: editingteacher
+          permission: CAP_ALLOW
+
+    # Required by enrol plugins if allow_unenrol or allow_unenrol_user are true.
+    - name: unenrol
+      captype: write
+      contextlevel: CONTEXT_COURSE
+      archetypes:
+        - role: manager
+          permission: CAP_ALLOW
+        - role: editingteacher
+          permission: CAP_ALLOW
+
+    # Required by enrol plugins if allow_manage is true.
+    - name: manage
+      captype: write
+      contextlevel: CONTEXT_COURSE
+      archetypes:
+        - role: manager
+          permission: CAP_ALLOW
+        - role: editingteacher
+          permission: CAP_ALLOW
 
 ## Message producers to be used with the Message API.
 message_providers:
