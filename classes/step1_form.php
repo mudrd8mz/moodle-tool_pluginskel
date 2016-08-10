@@ -183,6 +183,31 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $mform->addElement('hidden', 'component1', $component);
         $mform->setType('component1', PARAM_TEXT);
+
+        $templatevars = array_merge($generalvars, $componentvars, $featuresvars);
+        $arrayvars = $this->get_array_template_variables($templatevars);
+        $arrayvarsjson = json_encode($arrayvars);
+
+        $mform->addElement('hidden', 'templatevars', $arrayvarsjson);
+        $mform->setType('templatevars', PARAM_TEXT);
+    }
+
+    /**
+     * Returns only those template variables which are arrays.
+     *
+     * @param string[] $templatevars All of the template variables.
+     * @return string[] Only those variables which are arrays.
+     */
+    protected function get_array_template_variables($templatevars) {
+
+        $arrayvars = array();
+        foreach ($templatevars as $variable) {
+            if ($variable['hint'] == 'array') {
+                $arrayvars[] = $variable;
+            }
+        }
+
+        return $arrayvars;
     }
 
     /**

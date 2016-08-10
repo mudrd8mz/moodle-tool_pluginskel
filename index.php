@@ -85,8 +85,7 @@ if ($step == 0) {
         $data['recipe'] = $recipe;
         $mform1 = new tool_pluginskel_step1_form(null, $data);
 
-        $arrayvariables = get_array_template_variables($templatevars);
-        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore', $arrayvariables);
+        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore');
 
         echo $OUTPUT->header();
         $mform1->display();
@@ -170,31 +169,12 @@ if ($step == 0) {
         $data['recipe'] = $recipe;
         $mform1 = new tool_pluginskel_step1_form(null, $data);
 
-        $arrayvars = get_array_template_variables($templatevars);
-        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore', $arrayvars);
+        $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore');
 
         echo $OUTPUT->header();
         $mform1->display();
         echo $OUTPUT->footer();
     }
-}
-
-/**
- * Returns only those template variables which are arrays.
- *
- * @param string[] $templatevars All of the template variables.
- * @return string[] Only those variables which are arrays.
- */
-function get_array_template_variables($templatevars) {
-
-    $arrayvars = array();
-    foreach ($templatevars as $variable) {
-        if ($variable['hint'] == 'array') {
-            $arrayvars[] = $variable;
-        }
-    }
-
-    return array($arrayvars);
 }
 
 /**

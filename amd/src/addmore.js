@@ -285,10 +285,11 @@ define(['jquery'], function($) {
          *
          * @param {Array} templateVars The template variables.
          */
-        addMore: function(templateVars) {
+        addMore: function() {
+
+            var templateVars = $.parseJSON($('[name="templatevars"]').val());
 
             $("[name*='addmore_']").on('click', function() {
-
                 var variableName = $(this).prop('name').replace('addmore_', '');
 
                 if (variableName.indexOf('[') == -1) {
