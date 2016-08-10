@@ -114,6 +114,19 @@ class manager {
 
         $componentvars = array();
 
+        if ($type === 'atto') {
+            $componentvars = array(
+                array('name' => 'strings_for_js', 'hint' => 'array', 'values' => array(
+                    array('name' => 'id', 'hint' => 'text')),
+                ),
+                array('name' => 'params_for_js', 'hint' => 'array', 'values' => array(
+                    array('name' => 'name', 'hint' => 'text'),
+                    array('name' => 'value', 'hint' => 'text'),
+                    array('name' => 'default', 'hint' => 'text'))
+                )
+            );
+        }
+
         if ($type === 'auth') {
             $componentvars = array(
                 array('name' => 'config_ui', 'hint' => 'boolean', 'required' => true),
@@ -137,6 +150,21 @@ class manager {
                     array('name' => 'page', 'hint' => 'text'),
                     array('name' => 'allowed', 'hint' => 'boolean', 'required' => true))
                 ),
+                /*
+                array('name' => 'backup_moodle2', 'hint' => 'array', 'values' => array(
+                    array('name' => 'restore_task', 'hint' => 'boolean'),
+                    array('name' => 'restore_stepslib', 'hint' => 'boolean'),
+                    array('name' => 'backup_stepslib', 'hint' => 'boolean'),
+                    array('name' => 'settingslib', 'hint' => 'boolean'),
+                    array('name' => 'backup_elements', 'hint' => 'array', 'values' => array(
+                        array('name' => 'name', 'hint' => 'text'))
+                    ),
+                    array('name' => 'restore_elements', 'hint' => 'array', 'values' => array(
+                        array('name' => 'name', 'hint' => 'text'),
+                        array('name' => 'path', 'hint' => 'text'))
+                    ))
+                ),
+                 */
             );
         }
 
@@ -145,6 +173,18 @@ class manager {
                 array('name' => 'gradebook', 'hint' => 'boolean', 'required' => true),
                 array('name' => 'file_area', 'hint' => 'boolean', 'required' => true),
                 array('name' => 'navigation', 'hint' => 'boolean', 'required' => true),
+                /*
+                array('name' => 'backup_moodle2', 'hint' => 'array', 'values' => array(
+                    array('name' => 'settingslib', 'hint' => 'boolean'),
+                    array('name' => 'backup_elements', 'hint' => 'array', 'values' => array(
+                        array('name' => 'name', 'hint' => 'text'))
+                    ),
+                    array('name' => 'restore_elements', 'hint' => 'array', 'values' => array(
+                        array('name' => 'name', 'hint' => 'text'),
+                        array('name' => 'path', 'hint' => 'text'))
+                    ))
+                ),
+                 */
             );
         }
 
@@ -154,13 +194,32 @@ class manager {
             );
         }
 
-        // TODO: redo theme so array features have a name.
+        if ($type === 'enrol') {
+            $componentvars = array(
+                array('name' => 'allow_enrol', 'hint' => 'boolean'),
+                array('name' => 'allow_unenrol', 'hint' => 'boolean'),
+                array('name' => 'allow_unenrol_user', 'hint' => 'boolean'),
+                array('name' => 'allow_manage', 'hint' => 'boolean'),
+            );
+        }
+
         if ($type === 'theme') {
             $componentvars = array(
                 array('name' => 'all_layouts', 'hint' => 'boolean', 'required' => true),
                 array('name' => 'doctype', 'hint' => 'text'),
+                array('name' => 'parents', 'hint' => 'array', 'values' => array(
+                    array('name' => 'base_theme', 'hint' => 'text'))
+                ),
+                array('name' => 'stylesheets', 'hint' => 'array', 'values' => array(
+                    array('name' => 'name', 'hint' => 'text'))
+                ),
+                array('name' => 'custom_layouts', 'hint' => 'array', 'values' => array(
+                    array('name' => 'name', 'hint' => 'text'))
+                ),
             );
         }
+
+        print_r($componentvars);
 
         return $componentvars;
     }
@@ -203,9 +262,8 @@ class manager {
                 array('name' => 'capability', 'hint' => 'text'))),
         );
 
-        // TODO: Redo cli_script feature.
-        $cliscript = array(
-            array('name' => 'cli_script', 'hint' => 'array', 'values' => array(
+        $cliscripts = array(
+            array('name' => 'cli_scripts', 'hint' => 'array', 'values' => array(
                 array('name' => 'filename', 'hint' => 'text'))
             ),
         );
@@ -236,18 +294,21 @@ class manager {
             ),
         );
 
-        // TODO: Redo phpunit_tests feature.
         $phpunittests = array(
             array('name' => 'phpunit_tests', 'hint' => 'array', 'values' => array(
                 array('name' => 'classname', 'hint' => 'text')),
             ),
         );
 
-        $featuresvars = array_merge($featuresvars,
-                                    $messageproviders,
-                                    $capabilities,
-                                    $observers,
-                                    $events);
+        $featuresvars = array_merge(
+            $featuresvars,
+            $cliscripts,
+            $messageproviders,
+            $capabilities,
+            $observers,
+            $events,
+            $phpunittests
+        );
 
         return $featuresvars;
     }

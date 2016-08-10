@@ -361,11 +361,11 @@ class tool_pluginskel_step1_form extends moodleform {
         }
 
         if ($hint == 'boolean') {
-            if ($variable['required'] === true) {
-                $this->add_advcheckbox_element($elementname, $variable, $fieldsetvalues);
-            } else {
+            if (empty($variable['required'])) {
                 $variable['values'] = array('true' => 'true', 'false' => 'false');
                 $this->add_select_element($elementname, $variable, $fieldsetvalues);
+            } else {
+                $this->add_advcheckbox_element($elementname, $variable, $fieldsetvalues);
             }
         }
     }
