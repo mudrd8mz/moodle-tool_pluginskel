@@ -36,7 +36,7 @@ define(['jquery'], function($) {
 
                 $('#'+lastElementDiv).remove();
 
-                if (fieldVariable.hint === 'array') {
+                if (fieldVariable.hint === 'numeric-array') {
 
                     var nestedCountVar = variableName+'_'+lastIndex+'_'+fieldVariable.name+'count';
                     var nestedCount = parseInt($("[name='"+nestedCountVar+"']").val());
@@ -97,7 +97,7 @@ define(['jquery'], function($) {
                 var prevElementName = variableName+'['+prevIndex+']['+fieldVariable.name+']';
                 var prevElementId = 'id_'+variableName+'_'+prevIndex+'_'+fieldVariable.name;
 
-                if (fieldVariable.hint == 'array') {
+                if (fieldVariable.hint == 'numeric-array') {
 
                     // Cloning the static label.
                     var prevElementClasses = $('#fitem_'+prevElementId).attr('class');
@@ -233,7 +233,7 @@ define(['jquery'], function($) {
                     }
                 }
 
-                if (fieldVariable.hint == 'array') {
+                if (fieldVariable.hint == 'numeric-array') {
                     var newIdPrefix = newElementId+'_0';
                     addElements.removeInputFromNewNode(fieldVariable, newIdPrefix);
                 }

@@ -59,7 +59,7 @@ class lang_file extends php_internal_file {
 
         $templatevars = array(
             array('name' => 'name', 'hint' => 'text', 'required' => true),
-            array('name' => 'lang_strings', 'hint' => 'array', 'values' => array(
+            array('name' => 'lang_strings', 'hint' => 'numeric-array', 'values' => array(
                 array('name' => 'id', 'hint' => 'text'),
                 array('name' => 'text', 'hint' => 'text')))
         );

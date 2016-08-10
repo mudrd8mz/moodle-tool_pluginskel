@@ -97,7 +97,7 @@ class version_php_file extends php_internal_file {
             array('name' => 'release', 'hint' => 'text'),
             array('name' => 'version', 'hint' => 'int'),
             array('name' => 'requires', 'hint' => 'multiple-options', 'required' => true, 'values' => self::$moodleversions),
-            array('name' => 'dependencies', 'hint' => 'array', 'values' => array(
+            array('name' => 'dependencies', 'hint' => 'numeric-array', 'values' => array(
                   array('name' => 'plugin', 'hint' => 'text'),
                   array('name' => 'version', 'hint' => 'text'))),
         );
