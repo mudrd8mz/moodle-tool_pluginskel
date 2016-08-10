@@ -271,8 +271,8 @@ events:
 mobile_addons:
     - name: 'my_first_addon'
       dependencies:
-          - dependency_one
-          - dependency_two
+          - name: dependency_one
+          - name: dependency_two
     - name: 'my_second_addon'
 
 ## Explicitly added strings

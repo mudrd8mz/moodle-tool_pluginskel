@@ -15,7 +15,7 @@ $addons = array(
     {{# mobile_addons }}
 
     '{{ .name }}' => array({{# .addon_has_dependencies }}
-        'dependencies' => array({{# dependencies }}'{{ . }}', {{/ dependencies }})
+        'dependencies' => array({{# dependencies }}'{{ .name }}', {{/ dependencies }})
     {{/ .addon_has_dependencies }}),
     {{/ mobile_addons }}
 );
