@@ -286,7 +286,6 @@ class manager {
             ),
         );
 
-        // TODO: Redo mobile_addons feature.
         $mobileaddons = array(
             array('name' => 'mobile_addons', 'hint' => 'numeric-array', 'values' => array(
                 array('name' => 'name', 'hint' => 'text'),
@@ -309,6 +308,7 @@ class manager {
             $capabilities,
             $observers,
             $events,
+            $mobileaddons,
             $phpunittests
         );
 
