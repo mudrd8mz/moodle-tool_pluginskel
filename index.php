@@ -51,6 +51,7 @@ if ($step == 0) {
 
         $data = array();
         $recipe = array();
+        $componenttype = '';
 
         if (!empty($formdata->proceedmanually)) {
 
@@ -59,6 +60,7 @@ if ($step == 0) {
             }
 
             $recipe['component'] = $formdata->componenttype.'_'.$formdata->componentname;
+            $componenttype = $formdata->componenttype;
 
         } else {
 
@@ -73,18 +75,29 @@ if ($step == 0) {
             }
 
             $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
+            list($componenttype, $componentname) = core_component::normalize_component($recipe['component']);
+
+            $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
+            $componentvars = tool_pluginskel\local\util\manager::get_component_variables($recipe['component']);
+            $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
+
+            $rootvars = array_merge($generalvars, $featuresvars);
+            $rootvarscount = get_array_variable_count_from_recipe($rootvars, $recipe);
+
+            $componentfeatures = $componenttype.'_features';
+            $componentvarscount = array();
+            if (!empty($recipe[$componentfeatures])) {
+                $componentvarscount = get_array_variable_count_from_recipe($componentvars,
+                                                                           $recipe[$componentfeatures],
+                                                                           $componentfeatures);
+            }
+
+            $data = array_merge($rootvarscount, $componentvarscount);
         }
 
-        $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
-        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($recipe['component']);
-        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
-
-        $templatevars = array_merge($generalvars, $componentvars, $featuresvars);
-
-        $data = get_variable_count_from_recipe($templatevars, $recipe);
         $data['recipe'] = $recipe;
-        $mform1 = new tool_pluginskel_step1_form(null, $data);
 
+        $mform1 = new tool_pluginskel_step1_form(null, $data);
         $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore');
 
         echo $OUTPUT->header();
@@ -106,10 +119,14 @@ if ($step == 0) {
     $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
     $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
 
-    $templatevars = array_merge($generalvars, $componentvars, $featuresvars);
+    $rootvars = array_merge($generalvars, $featuresvars);
+    $rootvarscount = get_array_variable_count_from_form($rootvars);
 
-    // Getting the number of elements for array variables.
-    $data = get_variable_count_from_form($templatevars);
+    list($componenttype, $componentname) = core_component::normalize_component($component);
+    $componentfeatures = $componenttype.'_features';
+    $componentvarscount = get_array_variable_count_from_form($componentvars, $componentfeatures);
+
+    $data = array_merge($rootvarscount, $componentvarscount);
     $data['recipe'] = array('component' => $component);
 
     $mform1 = new tool_pluginskel_step1_form(null, $data);
@@ -134,6 +151,7 @@ if ($step == 0) {
         echo $OUTPUT->header();
         $mform2->display();
         echo $OUTPUT->footer();
+
     }
 
 } else if ($step == 2) {
@@ -160,15 +178,25 @@ if ($step == 0) {
         $recipe = tool_pluginskel\local\util\yaml::decode_string($recipestring);
 
         $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
-        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
+        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($recipe['component']);
         $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
 
-        $templatevars = array_merge($generalvars, $componentvars, $featuresvars);
+        $rootvars = array_merge($generalvars, $featuresvars);
+        $rootvarscount = get_array_variable_count_from_recipe($rootvars, $recipe);
 
-        $data = get_variable_count_from_recipe($templatevars, $recipe);
+        list($componenttype, $componentname) = core_component::normalize_component($component);
+        $componentfeatures = $componenttype.'_features';
+        $componentvarscount = array();
+        if (!empty($recipe[$componentfeatures])) {
+            $componentvarscount = get_array_variable_count_from_recipe($componentvars,
+                                                                       $recipe[$componentfeatures],
+                                                                       $componentfeatures);
+        }
+
+        $data = array_merge($rootvarscount, $componentvarscount);
         $data['recipe'] = $recipe;
-        $mform1 = new tool_pluginskel_step1_form(null, $data);
 
+        $mform1 = new tool_pluginskel_step1_form(null, $data);
         $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore');
 
         echo $OUTPUT->header();
@@ -182,37 +210,74 @@ if ($step == 0) {
  *
  * @param string[] $templatevars The template variables.
  * @param string[] $recipe
+ * @param string $countprefix The prefix for the variable that will hold the number of values for the variables.
  * @return string[]
  */
-function get_variable_count_from_recipe($templatevars, $recipe) {
+function get_array_variable_count_from_recipe($templatevars, $recipe, $countprefix = '') {
 
     $variablecount = array();
 
     foreach ($templatevars as $variable) {
-        if ($variable['hint'] == 'array') {
+        if ($variable['hint'] == 'numeric-array') {
 
             $variablename = $variable['name'];
-            $variablecountvar = $variablename.'count';
 
             if (empty($recipe[$variablename])) {
+                $recipevalues = array();
                 $count = 1;
             } else {
-                $count = count($recipe[$variablename]);
+                $recipevalues = $recipe[$variablename];
+                $count = count($recipevalues);
             }
 
-            $variablecount[$variablecountvar] = $count;
+            if (empty($countprefix)) {
+                $countname = $variablename.'count';
+            } else {
+                $countname = $countprefix.'_'.$variablename.'count';
+            }
 
-            if (empty($recipe[$variablename])) {
+            $variablecount[$countname] = $count;
+
+            if (empty($recipevalues)) {
                 continue;
             }
 
             foreach ($variable['values'] as $nestedvariable) {
-                if ($nestedvariable['hint'] == 'array') {
+                if ($nestedvariable['hint'] == 'numeric-array') {
                     for ($i = 0; $i < $count; $i += 1) {
-                        $nestedvariablecount = get_variable_count_from_recipe($variable['values'], $recipe[$variablename][$i]);
-                        $nestedvariablecountvar = $variablename.'_'.$i.'_'.$nestedvariable['name'].'count';
-                        $variablecount[$nestedvariablecountvar] = $nestedvariablecount[$nestedvariable['name'].'count'];
+                        $nestedvariablecount = get_array_variable_count_from_recipe($variable['values'],
+                                                                                    $recipevalues[$i],
+                                                                                    $countprefix);
+
+                        if (empty($countprefix)) {
+                            $nestedcountname = $variablename.'_'.$i.'_'.$nestedvariable['name'].'count';
+                        } else {
+                            $nestedcountname = $countprefix.'_'.$variablename.'_'.$i.'_'.$nestedvariable['name'].'count';
+                        }
+
+                        $variablecount[$nestedcountname] = $nestedvariablecount[$nestedvariable['name'].'count'];
                     }
+                }
+            }
+
+        } else if ($variable['hint'] === 'associative-array') {
+            // Associative arrays can have nested numerically indexed array variables.
+            foreach ($variable['values'] as $nestedvariable) {
+                if ($nestedvariable['hint'] === 'numeric-array') {
+
+                    if (empty($recipe[$variable['name']][$nestedvariable['name']])) {
+                        $count = 1;
+                    } else {
+                        $count = count($recipe[$variable['name']][$nestedvariable['name']]);
+                    }
+
+                    if (empty($countprefix)) {
+                        $countname = $variable['name'].'_'.$nestedvariable['name'].'count';
+                    } else {
+                        $countname = $countprefix.'_'.$variable['name'].'_'.$nestedvariable['name'].'count';
+                    }
+
+                    $variablecount[$countname] = $count;
                 }
             }
         }
@@ -225,34 +290,55 @@ function get_variable_count_from_recipe($templatevars, $recipe) {
  * Returns the number of values for each variable array by examining the form.
  *
  * @param string[] $templatevars The template variables.
- * @param string $prefix The prefix used for nested arrays.
+ * @param string $countprefix The prefix for the form count variable that has the number of values.
  * @return string[]
  */
-function get_variable_count_from_form($templatevars) {
+function get_array_variable_count_from_form($templatevars, $countprefix = '') {
 
     $variablecount = array();
 
     foreach ($templatevars as $variable) {
+        if ($variable['hint'] === 'numeric-array') {
 
-        if ($variable['hint'] == 'array') {
+            $variablename = $variable['name'];
 
-            $variablecountvar = $variable['name'].'count';
-            $count = (int) optional_param($variablecountvar, 1, PARAM_INT);
-            $variablecount[$variablecountvar] = $count;
+            if (empty($countprefix)) {
+                $countname = $variablename.'count';
+            } else {
+                $countname = $countprefix.'_'.$variablename.'count';
+            }
+
+            $count = (int) optional_param($countname, 1, PARAM_INT);
+            $variablecount[$countname] = $count;
 
             foreach ($variable['values'] as $nestedvariable) {
-
-                if ($nestedvariable['hint'] == 'array') {
-
+                if ($nestedvariable['hint'] === 'numeric-array') {
                     for ($i = 0; $i < $count; $i += 1) {
 
-                        $nestedname = $variable['name'].'_'.$i.'_'.$nestedvariable['name'];
-                        $nestedcountvar = $nestedname.'count';
+                        if (empty($parentname)) {
+                            $nestedcountname = $variablename.'_'.$i.'_'.$nestedvariable['name'].'count';
+                        } else {
+                            $nestedcountname = $countprefix.'_'.$variablename.'_'.$i.'_'.$nestedvariable['name'].'count';
+                        }
 
-                        $count = (int) optional_param($nestedcountvar, 1, PARAM_INT);
-
-                        $variablecount[$nestedcountvar] = $count;
+                        $count = (int) optional_param($nestedcountname, 1, PARAM_INT);
+                        $variablecount[$nestedcountname] = $count;
                     }
+                }
+            }
+
+        } else if ($variable['hint'] === 'associative-array') {
+            foreach ($variable['values'] as $nestedvariable) {
+                if ($nestedvariable['hint'] === 'numeric-array') {
+
+                    if (empty($countprefix)) {
+                        $countname = $variable['name'].'_'.$nestedvariable['name'].'count';
+                    } else {
+                        $countname = $countprefix.'_'.$variable['name'].'_'.$nestedvariable['name'].'count';
+                    }
+
+                    $count = (int) optional_param($countname, 1, PARAM_INT);
+                    $variablecount[$countname] = $count;
                 }
             }
         }

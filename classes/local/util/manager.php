@@ -148,10 +148,9 @@ class manager {
                 array('name' => 'instance_allow_multiple', 'hint' => 'boolean', 'required' => true),
                 array('name' => 'applicable_formats', 'hint' => 'numeric-array', 'values' => array(
                     array('name' => 'page', 'hint' => 'text'),
-                    array('name' => 'allowed', 'hint' => 'boolean', 'required' => true))
+                    array('name' => 'allowed', 'hint' => 'boolean')),
                 ),
-                /*
-                array('name' => 'backup_moodle2', 'hint' => 'numeric-array', 'values' => array(
+                array('name' => 'backup_moodle2', 'hint' => 'associative-array', 'values' => array(
                     array('name' => 'restore_task', 'hint' => 'boolean'),
                     array('name' => 'restore_stepslib', 'hint' => 'boolean'),
                     array('name' => 'backup_stepslib', 'hint' => 'boolean'),
@@ -164,7 +163,6 @@ class manager {
                         array('name' => 'path', 'hint' => 'text'))
                     ))
                 ),
-                 */
             );
         }
 
@@ -173,8 +171,7 @@ class manager {
                 array('name' => 'gradebook', 'hint' => 'boolean', 'required' => true),
                 array('name' => 'file_area', 'hint' => 'boolean', 'required' => true),
                 array('name' => 'navigation', 'hint' => 'boolean', 'required' => true),
-                /*
-                array('name' => 'backup_moodle2', 'hint' => 'numeric-array', 'values' => array(
+                array('name' => 'backup_moodle2', 'hint' => 'associative-array', 'values' => array(
                     array('name' => 'settingslib', 'hint' => 'boolean'),
                     array('name' => 'backup_elements', 'hint' => 'numeric-array', 'values' => array(
                         array('name' => 'name', 'hint' => 'text'))
@@ -184,7 +181,6 @@ class manager {
                         array('name' => 'path', 'hint' => 'text'))
                     ))
                 ),
-                 */
             );
         }
 

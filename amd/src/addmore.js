@@ -6,18 +6,33 @@ define(['jquery'], function($) {
          * Deletes a an array template variable value.
          *
          * @param {Array} templateVars The template variables.
-         * @param {String} variableName The name of the variable.
+         * @param {String} variableNames The recipe hierarchy for the variable.
+         * @param {Boolean} isComponentFeature If the elements are a component feature.
          */
-        deleteElements: function(templateVars, variableName, elt) {
+        deleteElements: function(templateVars, variableNames, isComponentFeature) {
 
-            var variableCount = parseInt($("[name='"+variableName+"count']").val());
+            var variableName;
+            var namePrefix;
+            var idPrefix;
 
+            if (isComponentFeature) {
+                var componentFeatures = variableNames[0];
+                variableName = variableNames[1];
+                idPrefix = componentFeatures + '_' + variableName;
+                namePrefix = componentFeatures + '[' + variableName + ']';
+            } else {
+                variableName = variableNames[0];
+                namePrefix = variableName;
+                idPrefix = variableName;
+            }
+
+            var countName = idPrefix + 'count';
+            var variableCount = parseInt($('[name="' + countName + '"]').val());
             if (variableCount == 1) {
                 return;
             }
 
             var templateVariable;
-
             for (var i in templateVars) {
                 if (templateVars[i].name == variableName) {
                     templateVariable = templateVars[i];
@@ -28,55 +43,74 @@ define(['jquery'], function($) {
             var lastIndex = variableCount - 1;
 
             // Removing the newline before the element that will be deleted.
-            $('#id_'+variableName+' br').filter(':last').remove();
+            $('#id_' + idPrefix + ' br').last().remove();
 
             for (i in templateVariable.values) {
                 var fieldVariable = templateVariable.values[i];
-                var lastElementDiv = 'fitem_id_'+variableName+'_'+lastIndex+'_'+fieldVariable.name;
+                var lastElementDiv = 'fitem_id_' + idPrefix + '_' + lastIndex + '_' + fieldVariable.name;
 
-                $('#'+lastElementDiv).remove();
+                $('#' + lastElementDiv).remove();
 
                 if (fieldVariable.hint === 'numeric-array') {
 
-                    var nestedCountVar = variableName+'_'+lastIndex+'_'+fieldVariable.name+'count';
-                    var nestedCount = parseInt($("[name='"+nestedCountVar+"']").val());
+                    var nestedCountName = idPrefix + '_' + lastIndex + '_' + fieldVariable.name + 'count';
+                    var nestedCount = parseInt($("[name='" + nestedCountName + "']").val());
 
                     // Removing the newlines between the nested array elements.
-                    $('#id_'+variableName+' br').slice(-(nestedCount - 1)).remove();
+                    if (nestedCount >= 2) {
+                        $('#id_' + idPrefix + ' br').slice(-(nestedCount - 1)).remove();
+                    }
 
                     for (var j in fieldVariable.values) {
 
                         var nestedVariable = fieldVariable.values[j];
 
                         for (var k = 0; k < nestedCount; k++) {
-                            var nestedDiv = lastElementDiv+'_'+k+'_'+nestedVariable.name;
-                            $('#'+nestedDiv).remove();
+                            var nestedDiv = lastElementDiv + '_' + k + '_' + nestedVariable.name;
+                            $('#' + nestedDiv).remove();
                         }
                     }
 
                     // Removing the 'Add more ..' button.
-                    var buttonDivId = 'fitem_id_addmore_'+variableName+'_'+lastIndex+'_'+fieldVariable.name;
-                    $('#'+buttonDivId).remove();
+                    var buttonDivId = 'fitem_id_addmore_' + idPrefix + '_' + lastIndex + '_' + fieldVariable.name;
+                    $('#' + buttonDivId).remove();
 
-                    // Remove the number of nested variables
-                    $("[name='"+nestedCountVar+"']").remove();
+                    // Remove the number of nested variables.
+                    $("[name='" + nestedCountName + "']").remove();
                 }
             }
 
             // Decrement the number of variable elements.
-            $("[name='"+variableName+"count']").val(variableCount - 1);
+            $('[name="' + countName + '"]').val(variableCount - 1);
         },
 
         /**
          * Adds more elements to a fieldset located at the root of the document.
          *
          * @param {Array} templateVars The template variables.
-         * @param {String} variableName The name of the variable.
+         * @param {String} variableNames The recipe hierarchy for the variable.
+         * @param {Boolean} isComponentFeature If the elements are a component feature.
          */
-        addMoreRootElements: function(templateVars, variableName, elt) {
-            var variableCount = parseInt($("[name='"+variableName+"count']").val());
-            var templateVariable;
+        addMoreRootElements: function(templateVars, variableNames, isComponentFeature) {
 
+            var variableName;
+            var namePrefix;
+            var idPrefix;
+            if (isComponentFeature) {
+                var componentFeatures = variableNames[0];
+                variableName = variableNames[1];
+                namePrefix = componentFeatures + '[' + variableName + ']';
+                idPrefix = componentFeatures + '_' + variableName;
+            } else {
+                variableName = variableNames[0];
+                namePrefix = variableName;
+                idPrefix = variableName;
+            }
+
+            var countName = idPrefix + 'count';
+            var variableCount = parseInt($('[name="' + countName + '"]').val());
+
+            var templateVariable;
             for (var i in templateVars) {
                 if (templateVars[i].name == variableName) {
                     templateVariable = templateVars[i];
@@ -84,56 +118,56 @@ define(['jquery'], function($) {
                 }
             }
 
-            var prevIndex = variableCount-1;
+            var prevIndex = variableCount - 1;
             var elementIdPrefix;
             var newElements = '<br/>';
 
             for (i in templateVariable.values) {
                 var fieldVariable = templateVariable.values[i];
 
-                var newElementName = variableName+'['+variableCount+']['+fieldVariable.name+']';
-                var newElementId = 'id_'+variableName+'_'+variableCount+'_'+fieldVariable.name;
+                var newElementName = namePrefix + '[' + variableCount + '][' + fieldVariable.name + ']';
+                var newElementId = 'id_' + idPrefix + '_' + variableCount + '_' + fieldVariable.name;
 
-                var prevElementName = variableName+'['+prevIndex+']['+fieldVariable.name+']';
-                var prevElementId = 'id_'+variableName+'_'+prevIndex+'_'+fieldVariable.name;
+                var prevElementName = namePrefix + '[' + prevIndex + '][' + fieldVariable.name + ']';
+                var prevElementId = 'id_' + idPrefix + '_' + prevIndex + '_' + fieldVariable.name;
 
                 if (fieldVariable.hint == 'numeric-array') {
 
                     // Cloning the static label.
-                    var prevElementClasses = $('#fitem_'+prevElementId).attr('class');
-                    newElements += '<div id="fitem_'+newElementId+'" class="'+prevElementClasses+'">';
-                    newElements += $('#fitem_'+prevElementId).html();
+                    var prevElementClasses = $('#fitem_' + prevElementId).attr('class');
+                    newElements += '<div id="fitem_' + newElementId + '" class="' + prevElementClasses + '">';
+                    newElements += $('#fitem_' + prevElementId).html();
                     newElements += '</div>';
 
                     for (var j in fieldVariable.values) {
                         var nestedVariable = fieldVariable.values[j];
 
-                        var newNestedElementName = newElementName+'[0]['+nestedVariable.name+']';
-                        var newNestedElementId = newElementId+'_0_'+nestedVariable.name;
+                        var newNestedElementName = newElementName + '[0][' + nestedVariable.name + ']';
+                        var newNestedElementId = newElementId + '_0_' + nestedVariable.name;
 
-                        var prevNestedElementName = prevElementName+'[0]['+nestedVariable.name+']';
-                        var prevNestedElementId = prevElementId+'_0_'+nestedVariable.name;
+                        var prevNestedElementName = prevElementName + '[0][' + nestedVariable.name + ']';
+                        var prevNestedElementId = prevElementId + '_0_' + nestedVariable.name;
 
                         newElements += addElements.cloneElement(prevNestedElementName, prevNestedElementId,
                                                                 newNestedElementName, newNestedElementId);
                     }
 
                     // Cloning the 'Add more ..' button.
-                    var newButtonId = 'id_addmore_'+variableName+'_'+variableCount+'_'+fieldVariable.name;
-                    var newButtonName = 'addmore_'+variableName+'['+variableCount+']['+fieldVariable.name+']';
+                    var newButtonId = 'id_addmore_' + idPrefix + '_' + variableCount + '_' + fieldVariable.name;
+                    var newButtonName = 'addmore_' + namePrefix + '[' + variableCount + '][' + fieldVariable.name + ']';
 
-                    var prevButtonId = 'id_addmore_'+variableName+'_'+prevIndex+'_'+fieldVariable.name;
-                    var prevButtonName = 'addmore_'+variableName+'['+prevIndex+']['+fieldVariable.name+']';
+                    var prevButtonId = 'id_addmore_' + idPrefix + '_' + prevIndex + '_' + fieldVariable.name;
+                    var prevButtonName = 'addmore_' + namePrefix + '[' + prevIndex + '][' + fieldVariable.name + ']';
 
                     newElements += addElements.cloneElement(prevButtonName, prevButtonId,
                                                             newButtonName, newButtonId);
 
                     // Adding the hidden count field.
-                    var prevCountName = variableName+'_'+prevIndex+'_'+fieldVariable.name+'count';
-                    var newCountName = variableName+'_'+variableCount+'_'+fieldVariable.name+'count';
+                    var prevCountName = idPrefix + '_' + prevIndex + '_' + fieldVariable.name + 'count';
+                    var newCountName = idPrefix + '_' + variableCount + '_' + fieldVariable.name + 'count';
 
-                    var newCountHtml = '<input name="'+newCountName+'" value="1" type="hidden"></input>';
-                    $('[name="'+prevCountName+'"]').after(newCountHtml);
+                    var newCountHtml = '<input name="' + newCountName + '" value="1" type="hidden"></input>';
+                    $('[name="' + prevCountName + '"]').after(newCountHtml);
 
                 } else {
                     newElements += addElements.cloneElement(prevElementName, prevElementId,
@@ -141,40 +175,68 @@ define(['jquery'], function($) {
                 }
             }
 
-            $('#fgroup_id_buttons_'+variableName).before(newElements);
+            $('#fgroup_id_buttons_' + idPrefix).before(newElements);
 
-            elementIdPrefix = 'id_'+variableName+'_'+variableCount;
+            elementIdPrefix = 'id_' + idPrefix + '_' + variableCount;
             addElements.removeInputFromNewNode(templateVariable, elementIdPrefix);
 
             // Increment the number of variable elements.
-            $("[name='"+variableName+"count']").val(variableCount + 1);
+            $('[name="' + countName + '"]').val(variableCount + 1);
         },
 
         /**
          * Adds more elements nested inside a fieldset element.
          *
          * @param {Array} templateVars The template variables.
-         * @param {String} variableName The name of the variable.
+         * @param {String} variableNames The recipe hierarchy for the variable.
+         * @param {Boolean} isComponentFeature If the elements are a component feature.
+         * @param {Boolean} isPartOfAssocArray If the elements to add are part of an associative array variable.
          */
-        addMoreNestedElements: function(templateVars, variableName, elt) {
+        addMoreNestedElements: function(templateVars, variableNames, isComponentFeature, isPartOfAssocArray) {
 
-            var topVariableName = variableName.substr(0, variableName.indexOf('['));
-            variableName = variableName.substr(variableName.indexOf('[') + 1);
-            var topIndex = variableName.substr(0, variableName.indexOf(']'));
-            variableName = variableName.substr(variableName.indexOf(']') + 2);
-            var nestedVariableName = variableName.substr(0, variableName.indexOf(']'));
+            var namePrefix;
+            var idPrefix;
+            var parentVariableName;
+            var variableName;
+            if (isPartOfAssocArray) {
+                if (isComponentFeature) {
+                    // Componenenttype_features[<parent associative array>][<numeric array>].
+                    namePrefix = variableNames[0] + '[' + variableNames[1] + '][' + variableNames[2] + ']';
+                    idPrefix = variableNames[0] + '_' + variableNames[1] + '_' + variableNames[2];
+                    parentVariableName = variableNames[1];
+                    variableName = variableNames[2];
+                } else {
+                    // Parent associative array[numeric array].
+                    namePrefix = variableNames[0] + '[' + variableNames[1] + ']';
+                    idPrefix = variableNames[0] + '_' + variableNames[1];
+                    parentVariableName = variableNames[0];
+                    variableName = variableNames[1];
+                }
+            } else {
+                if (isComponentFeature) {
+                    // Componenenttype_features[<parent numeric array>][<index>][<numeric array>].
+                    namePrefix = variableNames[0] + '[' + variableNames[1] + '][' + variableNames[2] + ']';
+                    namePrefix = namePrefix + '[' + variableNames[3] + ']';
+                    idPrefix = variableNames[0] + '_' + variableNames[1] + '_' + variableNames[2] + '_' + variableNames[3];
+                    parentVariableName = variableNames[1];
+                    variableName = variableNames[3];
+                } else {
+                    // Parent numeric array[<index>][<numeric array>].
+                    namePrefix = variableNames[0] + '[' + variableNames[1] + '][' + variableNames[2] + ']';
+                    idPrefix = variableNames[0] + '_' + variableNames[1] + '_' + variableNames[2];
+                    parentVariableName = variableNames[0];
+                    variableName = variableNames[2];
+                }
+            }
 
-            var namePrefix = topVariableName+'['+topIndex+']['+nestedVariableName+']';
-            var idPrefix = 'id_'+topVariableName+'_'+topIndex+'_'+nestedVariableName;
-
-            var variableCountName = topVariableName+'_'+topIndex+'_'+nestedVariableName+'count';
-            var variableCount = parseInt($("[name='"+variableCountName+"']").val());
+            var countName = idPrefix + 'count';
+            var variableCount = parseInt($('[name="' + countName + '"]').val());
 
             var templateVariable;
             for (var i in templateVars) {
-                if (templateVars[i].name == topVariableName) {
+                if (templateVars[i].name == parentVariableName) {
                     for (var j in templateVars[i].values) {
-                        if (templateVars[i].values[j].name == nestedVariableName) {
+                        if (templateVars[i].values[j].name == variableName) {
                             templateVariable = templateVars[i].values[j];
                             break;
                         }
@@ -182,30 +244,29 @@ define(['jquery'], function($) {
                 }
             }
 
-            var prevIndex = variableCount-1;
+            var prevIndex = variableCount - 1;
             var newElements = '<br/>';
-
             for (i in templateVariable.values) {
 
                 var fieldVariable = templateVariable.values[i];
 
-                var newElementName = namePrefix+'['+variableCount+']['+fieldVariable.name+']';
-                var newElementId = idPrefix+'_'+variableCount+'_'+fieldVariable.name;
+                var newElementName = namePrefix + '[' + variableCount + '][' + fieldVariable.name + ']';
+                var newElementId = 'id_' + idPrefix + '_' + variableCount + '_' + fieldVariable.name;
 
-                var prevElementName = namePrefix+'['+prevIndex+']['+fieldVariable.name+']';
-                var prevElementId = idPrefix+'_'+prevIndex+'_'+fieldVariable.name;
+                var prevElementName = namePrefix + '[' + prevIndex + '][' + fieldVariable.name + ']';
+                var prevElementId = 'id_' + idPrefix + '_' + prevIndex + '_' + fieldVariable.name;
 
                 newElements += addElements.cloneElement(prevElementName, prevElementId,
                                                         newElementName, newElementId);
             }
 
-            $('#fitem_id_addmore_'+topVariableName+'_'+topIndex+'_'+nestedVariableName).before(newElements);
+            $('#fitem_id_addmore_' + idPrefix).before(newElements);
 
-            var elementIdPrefix = idPrefix+'_'+variableCount;
+            var elementIdPrefix = 'id_' + idPrefix + '_' + variableCount;
             addElements.removeInputFromNewNode(templateVariable, elementIdPrefix);
 
             // Increment the number of variable elements.
-            $("[name='"+variableCountName+"']").val(variableCount + 1);
+            $('[name="' + countName + '"]').val(variableCount + 1);
 
         },
 
@@ -220,21 +281,21 @@ define(['jquery'], function($) {
             for (var i in templateVariable.values) {
 
                 var fieldVariable = templateVariable.values[i];
-                var newElementId = elementIdPrefix+'_'+fieldVariable.name;
+                var newElementId = elementIdPrefix + '_' + fieldVariable.name;
 
                 if (fieldVariable.hint == 'text' || fieldVariable.hint == 'int') {
-                    $('#'+newElementId).removeAttr('value');
+                    $('#' + newElementId).removeAttr('value');
                 }
 
                 if (fieldVariable.hint == 'multiple-options') {
                     var isRequired = ('required' in fieldVariable) && fieldVariable.required === true;
                     if (!isRequired) {
-                        $('#'+newElementId+' option[value="undefined"]').prop('selected', true).change();
+                        $('#' + newElementId + ' option[value="undefined"]').prop('selected', true).change();
                     }
                 }
 
                 if (fieldVariable.hint == 'numeric-array') {
-                    var newIdPrefix = newElementId+'_0';
+                    var newIdPrefix = newElementId + '_0';
                     addElements.removeInputFromNewNode(fieldVariable, newIdPrefix);
                 }
             }
@@ -249,8 +310,8 @@ define(['jquery'], function($) {
          * @param {String} newElementId
          */
         cloneElement: function(prevElementName, prevElementId, newElementName, newElementId) {
-            var prevElementClasses = $('#fitem_'+prevElementId).attr('class');
-            var newElementHtml = $('#fitem_'+prevElementId).html();
+            var prevElementClasses = $('#fitem_' + prevElementId).attr('class');
+            var newElementHtml = $('#fitem_' + prevElementId).html();
 
             while (newElementHtml.indexOf(prevElementId) != -1) {
                 newElementHtml = newElementHtml.replace(prevElementId, newElementId);
@@ -260,7 +321,7 @@ define(['jquery'], function($) {
                 newElementHtml = newElementHtml.replace(prevElementName, newElementName);
             }
 
-            var newElement = '<div id="fitem_'+newElementId+'" class="'+prevElementClasses+'">';
+            var newElement = '<div id="fitem_' + newElementId + '" class="' + prevElementClasses + '">';
             newElement += newElementHtml;
             newElement += '</div>';
 
@@ -268,30 +329,75 @@ define(['jquery'], function($) {
         },
 
         /**
-         * Adds or remove fields for an array template variable.
+         * Adds or remove fields from an array template variable.
          */
         addMore: function() {
 
-            $('.mform').on('click', ':button', function(event) {
-                var buttonName = event.target.name;
-                var templateVars;
-                var variableName;
+            $(document).ready(function() {
+                $('.mform').on('click', ':button', function(event) {
+                    var buttonName = event.target.name;
 
-                if (buttonName.indexOf('addmore_') !== -1) {
-                    templateVars = $.parseJSON($('[name="templatevars"]').val());
-                    variableName = buttonName.replace('addmore_', '');
+                    if (buttonName.indexOf('addmore_') !== -1 || buttonName.indexOf('delete_') !== -1) {
+                        var templateVars = $.parseJSON($('[name="templatevars"]').val());
+                        var componentType = $('[name="componenttype1"]').val();
+                        var componentFeatures = componentType + '_features';
 
-                    if (variableName.indexOf('[') == -1) {
-                        addElements.addMoreRootElements(templateVars, variableName, this);
-                    } else {
-                        addElements.addMoreNestedElements(templateVars, variableName, this);
+                        var shouldAdd;
+                        var variableName;
+                        if (buttonName.indexOf('addmore_') !== -1) {
+                            shouldAdd = true;
+                            variableName = buttonName.replace('addmore_', '');
+                        } else {
+                            variableName = buttonName.replace('delete_', '');
+                            shouldAdd = false;
+                        }
+
+                        var variableNames = variableName.split(/\]\[|\[|\]/gi);
+                        // Removing last empty element added by split.
+                        if (variableNames[variableNames.length - 1].length === 0) {
+                            variableNames.pop();
+                        }
+
+                        var isComponentFeature;
+                        if (variableNames[0] === componentFeatures) {
+                            isComponentFeature = true;
+                        } else {
+                            isComponentFeature = false;
+                        }
+
+                        var isNested = false;
+                        for (var i in variableNames) {
+                            if ($.isNumeric(variableNames[i])) {
+                                isNested = true;
+                                break;
+                            }
+                        }
+
+                        var isPartOfAssocArray = false;
+                        if (!isNested) {
+                            if (isComponentFeature && variableNames.length === 3) {
+                                isNested = true;
+                                isPartOfAssocArray = true;
+                            }
+
+                            if (!isComponentFeature && variableNames.length === 2) {
+                                isNested = true;
+                                isPartOfAssocArray = true;
+                            }
+                        }
+
+                        if (shouldAdd) {
+                            if (isNested) {
+                                addElements.addMoreNestedElements(templateVars, variableNames, isComponentFeature,
+                                                                  isPartOfAssocArray);
+                            } else {
+                                addElements.addMoreRootElements(templateVars, variableNames, isComponentFeature);
+                            }
+                        } else {
+                            addElements.deleteElements(templateVars, variableNames, isComponentFeature);
+                        }
                     }
-                } else if (buttonName.indexOf('delete_') !== -1) {
-                    templateVars = $.parseJSON($('[name="templatevars"]').val());
-                    variableName = buttonName.replace('delete_', '');
-
-                    addElements.deleteElements(templateVars, variableName, this);
-                }
+                });
             });
         },
     };
