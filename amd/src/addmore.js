@@ -148,8 +148,11 @@ define(['jquery'], function($) {
                         var prevNestedElementName = prevElementName + '[0][' + nestedVariable.name + ']';
                         var prevNestedElementId = prevElementId + '_0_' + nestedVariable.name;
 
-                        newElements += addElements.cloneElement(prevNestedElementName, prevNestedElementId,
-                                                                newNestedElementName, newNestedElementId);
+                        var prevNestedIndex = prevIndex + '.0';
+                        var newNestedIndex = variableCount + '.0';
+                        newElements += addElements.copyElement(prevNestedElementName, prevNestedElementId,
+                                                               newNestedElementName, newNestedElementId,
+                                                               prevNestedIndex, newNestedIndex);
                     }
 
                     // Cloning the 'Add more ..' button.
@@ -159,19 +162,18 @@ define(['jquery'], function($) {
                     var prevButtonId = 'id_addmore_' + idPrefix + '_' + prevIndex + '_' + fieldVariable.name;
                     var prevButtonName = 'addmore_' + namePrefix + '[' + prevIndex + '][' + fieldVariable.name + ']';
 
-                    newElements += addElements.cloneElement(prevButtonName, prevButtonId,
-                                                            newButtonName, newButtonId);
+                    newElements += addElements.copyElement(prevButtonName, prevButtonId, newButtonName, newButtonId,
+                                                           null, null);
 
                     // Adding the hidden count field.
                     var prevCountName = idPrefix + '_' + prevIndex + '_' + fieldVariable.name + 'count';
                     var newCountName = idPrefix + '_' + variableCount + '_' + fieldVariable.name + 'count';
-
                     var newCountHtml = '<input name="' + newCountName + '" value="1" type="hidden"></input>';
                     $('[name="' + prevCountName + '"]').after(newCountHtml);
 
                 } else {
-                    newElements += addElements.cloneElement(prevElementName, prevElementId,
-                                                            newElementName, newElementId);
+                    newElements += addElements.copyElement(prevElementName, prevElementId, newElementName, newElementId,
+                                                           prevIndex, variableCount);
                 }
             }
 
@@ -198,6 +200,8 @@ define(['jquery'], function($) {
             var idPrefix;
             var parentVariableName;
             var variableName;
+            var topIndex;
+
             if (isPartOfAssocArray) {
                 if (isComponentFeature) {
                     // Componenenttype_features[<parent associative array>][<numeric array>].
@@ -212,6 +216,7 @@ define(['jquery'], function($) {
                     parentVariableName = variableNames[0];
                     variableName = variableNames[1];
                 }
+                topIndex = null;
             } else {
                 if (isComponentFeature) {
                     // Componenenttype_features[<parent numeric array>][<index>][<numeric array>].
@@ -220,12 +225,14 @@ define(['jquery'], function($) {
                     idPrefix = variableNames[0] + '_' + variableNames[1] + '_' + variableNames[2] + '_' + variableNames[3];
                     parentVariableName = variableNames[1];
                     variableName = variableNames[3];
+                    topIndex = variableNames[2];
                 } else {
                     // Parent numeric array[<index>][<numeric array>].
                     namePrefix = variableNames[0] + '[' + variableNames[1] + '][' + variableNames[2] + ']';
                     idPrefix = variableNames[0] + '_' + variableNames[1] + '_' + variableNames[2];
                     parentVariableName = variableNames[0];
                     variableName = variableNames[2];
+                    topIndex = variableNames[1];
                 }
             }
 
@@ -256,8 +263,18 @@ define(['jquery'], function($) {
                 var prevElementName = namePrefix + '[' + prevIndex + '][' + fieldVariable.name + ']';
                 var prevElementId = 'id_' + idPrefix + '_' + prevIndex + '_' + fieldVariable.name;
 
-                newElements += addElements.cloneElement(prevElementName, prevElementId,
-                                                        newElementName, newElementId);
+                var prevIndexPrefix;
+                var newIndexPrefix;
+                if (topIndex === null) {
+                    prevIndexPrefix = prevIndex;
+                    newIndexPrefix = variableCount;
+                } else {
+                    prevIndexPrefix = topIndex + '.' + prevIndex;
+                    newIndexPrefix = topIndex + '.' + variableCount;
+                }
+                newElements += addElements.copyElement(prevElementName, prevElementId,
+                                                        newElementName, newElementId,
+                                                        prevIndexPrefix, newIndexPrefix);
             }
 
             $('#fitem_id_addmore_' + idPrefix).before(newElements);
@@ -308,8 +325,11 @@ define(['jquery'], function($) {
          * @param {String} prevElementId
          * @param {String} newElementName
          * @param {String} newElementId
+         * @param {String} prevIndex
+         * @param {String} newIndex
          */
-        cloneElement: function(prevElementName, prevElementId, newElementName, newElementId) {
+        copyElement: function(prevElementName, prevElementId, newElementName, newElementId, prevIndex, newIndex) {
+
             var prevElementClasses = $('#fitem_' + prevElementId).attr('class');
             var newElementHtml = $('#fitem_' + prevElementId).html();
 
@@ -319,6 +339,13 @@ define(['jquery'], function($) {
 
             while (newElementHtml.indexOf(prevElementName) != -1) {
                 newElementHtml = newElementHtml.replace(prevElementName, newElementName);
+            }
+
+            if (prevIndex !== null) {
+                prevIndex = prevIndex + '. ';
+                newIndex = newIndex + '. ';
+                newElementHtml = newElementHtml.replace('label for="' + newElementId + '">' + prevIndex,
+                                                        'label for="' + newElementId + '">' + newIndex);
             }
 
             var newElement = '<div id="fitem_' + newElementId + '" class="' + prevElementClasses + '">';

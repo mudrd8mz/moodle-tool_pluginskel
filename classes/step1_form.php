@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/formslib.php');
+require_once($CFG->libdir.'/formslib.php');
 
 /**
  * Step 1 form.
@@ -235,8 +235,9 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param bool $replaceboolean If the select element replaces a boolean non-required variable.
+     * @param string $index Optional index for the element in an array variable.
      */
-    protected function add_select_element($elementname, $templatevar, $recipe, $replaceboolean = false) {
+    protected function add_select_element($elementname, $templatevar, $recipe, $replaceboolean = false, $index = null) {
 
         $mform = $this->_form;
         $variablename = $templatevar['name'];
@@ -254,13 +255,20 @@ class tool_pluginskel_step1_form extends moodleform {
             }
         }
 
+        if (is_null($index)) {
+            $indexprefix = '';
+        } else {
+            $indexprefix = $index.'. ';
+        }
+
         // Adding 'undefine' option to select element for optional template variable.
         if (empty($templatevar['required'])) {
             $undefined = array('undefined' => get_string('undefined', 'tool_pluginskel'));
             $selectvalues = array_merge($undefined, $selectvalues);
         }
 
-        $mform->addElement('select', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'), $selectvalues);
+        $mform->addElement('select', $elementname, $indexprefix.get_string('skel'.$variablename, 'tool_pluginskel'),
+                           $selectvalues);
 
         if (!empty($recipe[$variablename]) && !empty($selectvalues[$recipe[$variablename]])) {
             $mform->getElement($elementname)->setSelected($recipe[$variablename]);
@@ -273,14 +281,22 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string $elementname Element form name.
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
+     * @param string $index Optional index for the element in an array variable.
      */
-    protected function add_advcheckbox_element($elementname, $templatevar, $recipe) {
+    protected function add_advcheckbox_element($elementname, $templatevar, $recipe, $index = null) {
 
         $mform = $this->_form;
         $variablename = $templatevar['name'];
         $values = array('false', 'true');
 
-        $mform->addElement('advcheckbox', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'), '', null, $values);
+        if (is_null($index)) {
+            $indexprefix = '';
+        } else {
+            $indexprefix = $index.'. ';
+        }
+
+        $mform->addElement('advcheckbox', $elementname, $indexprefix.get_string('skel'.$variablename, 'tool_pluginskel'),
+                           '', null, $values);
 
         if (!empty($recipe[$variablename]) && !empty($values[$recipe[$variablename]])) {
             $mform->getElement($elementname)->setChecked(true);
@@ -297,13 +313,20 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string $elementname Element form name.
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
+     * @param string $index Optional index for the element in an array variable.
      */
-    protected function add_text_element($elementname, $templatevar, $recipe) {
+    protected function add_text_element($elementname, $templatevar, $recipe, $index = null) {
 
         $mform = $this->_form;
         $variablename = $templatevar['name'];
 
-        $mform->addElement('text', $elementname, get_string('skel'.$variablename, 'tool_pluginskel'));
+        if (is_null($index)) {
+            $indexprefix = '';
+        } else {
+            $indexprefix = $index.'. ';
+        }
+
+        $mform->addElement('text', $elementname, $indexprefix.get_string('skel'.$variablename, 'tool_pluginskel'));
 
         if ($templatevar['hint'] == 'int') {
             $mform->setType($elementname, PARAM_INT);
@@ -481,25 +504,26 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string $elementname
      * @param string $variable The template variable the element represents.
      * @param string[] $fieldsetvalues The values for all the fieldset elements.
+     * @param int|string|null $indexprefix The index of the element in the array.
      */
-    protected function add_fieldset_element($elementname, $variable, $fieldsetvalues) {
+    protected function add_fieldset_element($elementname, $variable, $fieldsetvalues, $indexprefix = null) {
 
         $hint = $variable['hint'];
         $variablename = $variable['name'];
 
         if ($hint == 'text' || $hint == 'int') {
-            $this->add_text_element($elementname, $variable, $fieldsetvalues);
+            $this->add_text_element($elementname, $variable, $fieldsetvalues, $indexprefix);
         }
 
         if ($hint == 'multiple-options') {
-            $this->add_select_element($elementname, $variable, $fieldsetvalues);
+            $this->add_select_element($elementname, $variable, $fieldsetvalues, false, $indexprefix);
         }
 
         if ($hint == 'boolean') {
             if (empty($variable['required'])) {
-                $this->add_select_element($elementname, $variable, $fieldsetvalues, true);
+                $this->add_select_element($elementname, $variable, $fieldsetvalues, true, $indexprefix);
             } else {
-                $this->add_advcheckbox_element($elementname, $variable, $fieldsetvalues);
+                $this->add_advcheckbox_element($elementname, $variable, $fieldsetvalues, $indexprefix);
             }
         }
     }
@@ -511,8 +535,9 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevars The template variables to add.
      * @param string[] $recipevalues The values for the elements taken from recipe.
      * @param int $count The number of elements to add.
+     * @param int $parentindex The index of the parent variable in case of nested array variables.
      */
-    protected function add_numeric_fieldset_elements($fieldsetname, $templatevars, $recipevalues, $count) {
+    protected function add_numeric_fieldset_elements($fieldsetname, $templatevars, $recipevalues, $count, $parentindex = null) {
 
         $mform = $this->_form;
 
@@ -524,10 +549,11 @@ class tool_pluginskel_step1_form extends moodleform {
 
                     if ($variable['hint'] === 'numeric-array') {
                         $parentname = $fieldsetname.'['.$index.']';
-                        $this->add_nested_array_variable($parentname, $variable, $fieldsetvalues);
+                        $this->add_nested_array_variable($parentname, $variable, $fieldsetvalues, $index);
                     } else {
                         $elementname = $fieldsetname.'['.$index.']['.$variable['name'].']';
-                        $this->add_fieldset_element($elementname, $variable, $fieldsetvalues);
+                        $indexprefix = is_null($parentindex) ? $index : $parentindex.'.'.$index;
+                        $this->add_fieldset_element($elementname, $variable, $fieldsetvalues, $indexprefix);
                     }
                 }
 
@@ -545,10 +571,11 @@ class tool_pluginskel_step1_form extends moodleform {
 
                 if ($variable['hint'] == 'numeric-array') {
                     $parentname = $fieldsetname.'['.$currentcount.']';
-                    $this->add_nested_array_variable($parentname, $variable, array());
+                    $this->add_nested_array_variable($parentname, $variable, array(), $currentcount);
                 } else {
                     $elementname = $fieldsetname.'['.$currentcount.']['.$variable['name'].']';
-                    $this->add_fieldset_element($elementname, $variable, array());
+                    $indexprefix = is_null($parentindex) ? $currentcount : ($parentindex.'.'.$currentcount);
+                    $this->add_fieldset_element($elementname, $variable, array(), $indexprefix);
                 }
             }
 
@@ -567,8 +594,9 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string $parentname
      * @param string[] $nestedvariable The variable.
      * @param string[] $nestedrecipe The recipe for the nested variable.
+     * @param int $parentindex The index of the parent numeric array variable.
      */
-    protected function add_nested_array_variable($parentname, $nestedvariable, $nestedrecipe) {
+    protected function add_nested_array_variable($parentname, $nestedvariable, $nestedrecipe, $parentindex = null) {
 
         $mform = $this->_form;
         $variablename = $nestedvariable['name'];
@@ -597,7 +625,7 @@ class tool_pluginskel_step1_form extends moodleform {
                                                                           $nestedrecipe[$variablename]);
         }
 
-        $this->add_numeric_fieldset_elements($formname, $templatevalues, $recipevalues, $count);
+        $this->add_numeric_fieldset_elements($formname, $templatevalues, $recipevalues, $count, $parentindex);
 
         $mform->addElement('button', 'addmore_'.$formname, get_string('addmore_'.$variablename, 'tool_pluginskel'));
 
