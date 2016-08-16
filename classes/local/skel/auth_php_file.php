@@ -43,27 +43,6 @@ class auth_php_file extends php_internal_file {
      * @param array $data
      */
     public function set_data(array $data) {
-
         parent::set_data($data);
-
-        /*
-        $recipevariables = array(
-            'can_change_password',
-            'can_edit_profile',
-            'prevent_local_passwords',
-            'is_synchronised_with_external',
-            'can_reset_password',
-            'can_signup',
-            'can_confirm',
-            'can_be_manually_set',
-            'is_internal'
-        );
-
-        foreach ($recipevariables as $variable) {
-            if (isset($this->data[$variable])) {
-                $this->set_attribute('has_'.$variable);
-            }
-        }
-         */
     }
 }

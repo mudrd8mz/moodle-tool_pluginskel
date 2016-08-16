@@ -408,8 +408,8 @@ class manager {
     protected function prepare_block_files() {
 
         if (!$this->has_common_feature('capabilities')) {
-            // 'block/<blockname>:addinstance' is required.
-            // 'block/<blockname>:myaddinstance' is also required if applicable format 'my' is set to true.
+            // Capability block/<blockname>:addinstance is required.
+            // Capability block/<blockname>:myaddinstance is also required if applicable format 'my' is set to true.
             $this->logger->warning('Capabilities not defined');
         }
 
@@ -661,8 +661,8 @@ class manager {
         $componentname = $this->recipe['component_name'];
         $hassettingslib = $this->has_component_feature('settingslib');
 
-        $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_activity_task.class.php', 'backup_activity_task_file',
-                                     'mod/backup/moodle2/backup_activity_task_class');
+        $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_activity_task.class.php',
+                                     'backup_activity_task_file', 'mod/backup/moodle2/backup_activity_task_class');
         if ($hassettingslib) {
             $this->files['backup/moodle2/backup_'.$componentname.'_activity_task.class.php']->set_attribute('has_settingslib');
         }
@@ -791,7 +791,8 @@ class manager {
             $template = 'file/'.$template;
         }
 
-        $this->logger->debug('Preparing file skeleton:', ['filename' => $filename, 'skeltype' => $skeltype, 'template' => $template]);
+        $this->logger->debug('Preparing file skeleton:',
+                             ['filename' => $filename, 'skeltype' => $skeltype, 'template' => $template]);
 
         if (isset($this->files[$filename])) {
             throw new exception('The file has already been initialised: '.$filename);
@@ -809,7 +810,7 @@ class manager {
             $data = $recipe;
         }
 
-        // Populate some additional properties
+        // Populate some additional properties.
         $data['self']['filename'] = $filename;
         $data['self']['relpath'] = $data['component_root'].'/'.$data['component_name'].'/'.$filename;
         $data['self']['pathtoconfig'] = "__DIR__.'/".str_repeat('../', substr_count($data['self']['relpath'], '/') - 1)."config.php'";
@@ -1011,43 +1012,6 @@ class manager {
         $this->recipe['component_type'] = $type;
         $this->recipe['component_name'] = $name;
         $this->recipe['component_root'] = $root;
-    }
-
-    /**
-     * Validate and set the target location of the generated plugin.
-     *
-     * @param string $moodleroot
-     */
-    protected function init_target_location($moodleroot) {
-        global $CFG;
-
-        if ($this->rootdir !== null) {
-            throw new exception('The target directory has already been set for this manager instance');
-        }
-
-        if (empty($moodleroot)) {
-            $moodleroot = $CFG->dirroot;
-        }
-
-        if (!file_exists($moodleroot)) {
-            throw new exception('Target Moodle root directory does not exist: '.$moodleroot);
-        }
-
-        if (empty($this->recipe['component_root'])) {
-            throw new exception('The component type root location not detected');
-        }
-
-        $rootdir = $moodleroot.'/'.$this->recipe['component_root'].'/'.$this->recipe['component_name'];
-        $rootdir = str_replace('//', '/', $rootdir);
-
-        if (file_exists($rootdir)) {
-            throw new exception('Target plugin directory already exists: '.$rootdir);
-        }
-
-        // TODO: Check the location is writable.
-
-        $this->logger->info('Target directory: '.$rootdir);
-        $this->rootdir = $rootdir;
     }
 
     /**
