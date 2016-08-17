@@ -1,4 +1,4 @@
-component: atto_test
+component: auth_test
 
 ## Human readable name of the plugin.
 name: Example plugin
@@ -37,6 +37,10 @@ atto_features:
 auth_features:
     ## The plugin can be configured throught the Moodle UI.
     config_ui: true
+
+    ## The lang string 'auth_description' will be generated with the
+    ## description text.
+    description: Auth plugin description
 
     ## Can the auth plugin change the user's password?
     can_change_password: 'false'
@@ -288,10 +292,6 @@ lang_strings:
       text: You can add 'extra' strings via the recipe file.
     - id: mycustomstring2
       text: Another string with {$a->some} placeholder.
-
-    ## Needed for auth plugins.
-    - id: auth_description
-      text: Auth plugin description
 
     ## Needed for mod plugins.
     - id: modulenameplural

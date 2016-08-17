@@ -49,6 +49,7 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'auth_features' => array(
             'config_ui' => true,
+            'description' => 'Auth plugin description',
             'can_edit_profile' => false,
             'is_internal' => true,
             'prevent_local_passwords' => false,
@@ -116,5 +117,26 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
 
         $processconfig = 'public function process_config($config)';
         $this->assertContains($processconfig, $authfile);
+    }
+
+    /**
+     * Tests creating the 'auth_description' lang string.
+     */
+    public function test_auth_lang_strings() {
+        $logger = new Logger('authtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $files = $manager->get_files_content();
+
+        $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
+        $langfile = $files['lang/en/'.$recipe['component'].'.php'];
+
+        $descriptionstring = "\$string['auth_description'] = '".$recipe['auth_features']['description']."';";
+        $this->assertContains($descriptionstring, $langfile);
     }
 }
