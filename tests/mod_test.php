@@ -89,6 +89,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         'capabilities' => array(
             array(
                 'name' => 'addinstance',
+                'title' => 'Add new test instance',
                 'riskbitmask' => 'RISK_XSS',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_COURSE',
@@ -106,6 +107,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
             ),
             array(
                 'name' => 'view',
+                'title' => 'View test',
                 'captype' => 'read',
                 'contextlevel' => 'CONTEXT_MODULE',
                 'archetypes' => array(

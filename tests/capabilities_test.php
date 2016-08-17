@@ -49,6 +49,7 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         'capabilities' => array(
             array(
                 'name' => 'view',
+                'title' => 'View capabilitiestest',
                 'riskbitmask' => 'RISK_XSS',
                 'captype' => 'view',
                 'contextlevel' => 'CONTEXT_MODULE',
@@ -94,6 +95,13 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $dbaccessfile);
+
+        // Verify if te title string has been generated.
+        $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
+        $langfile = $files['lang/en/'.$recipe['component'].'.php'];
+
+        $langstring = "\$string['capabilitiestest:view'] = '".$recipe['capabilities'][0]['title']."';";
+        $this->assertContains($langstring, $langfile);
 
         // Verify if the capability has been generated correctly.
         $this->assertContains(self::$plugintype.'/capabilitiestest:view', $dbaccessfile);
