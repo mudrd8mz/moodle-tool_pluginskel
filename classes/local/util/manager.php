@@ -92,7 +92,7 @@ class manager {
     public static function get_general_variables() {
 
         $copyright = array(
-            array('name' => 'copyright', 'hint' => 'text', 'required' => true)
+            array('name' => 'copyright', 'type' => 'text', 'required' => true)
         );
         $versionvars = \tool_pluginskel\local\skel\version_php_file::get_template_variables();
         $langvars = \tool_pluginskel\local\skel\lang_file::get_template_variables();
@@ -116,53 +116,53 @@ class manager {
 
         if ($type === 'atto') {
             $componentvars = array(
-                array('name' => 'strings_for_js', 'hint' => 'numeric-array', 'values' => array(
-                    array('name' => 'id', 'hint' => 'text'),
-                    array('name' => 'text', 'hint' => 'text')),
+                array('name' => 'strings_for_js', 'type' => 'numeric-array', 'values' => array(
+                    array('name' => 'id', 'type' => 'text'),
+                    array('name' => 'text', 'type' => 'text')),
                 ),
-                array('name' => 'params_for_js', 'hint' => 'numeric-array', 'values' => array(
-                    array('name' => 'name', 'hint' => 'text'),
-                    array('name' => 'value', 'hint' => 'text'),
-                    array('name' => 'default', 'hint' => 'text'))
+                array('name' => 'params_for_js', 'type' => 'numeric-array', 'values' => array(
+                    array('name' => 'name', 'type' => 'text'),
+                    array('name' => 'value', 'type' => 'text'),
+                    array('name' => 'default', 'type' => 'text'))
                 )
             );
         }
 
         if ($type === 'auth') {
             $componentvars = array(
-                array('name' => 'config_ui', 'hint' => 'boolean', 'required' => true),
-                array('name' => 'description', 'hint' => 'text'),
-                array('name' => 'can_change_password', 'hint' => 'boolean'),
-                array('name' => 'can_edit_profile', 'hint' => 'boolean'),
-                array('name' => 'is_internal', 'hint' => 'boolean'),
-                array('name' => 'prevent_local_passwords', 'hint' => 'boolean'),
-                array('name' => 'is_synchronised_with_external', 'hint' => 'boolean'),
-                array('name' => 'can_reset_password', 'hint' => 'boolean'),
-                array('name' => 'can_signup', 'hint' => 'boolean'),
-                array('name' => 'can_confirm', 'hint' => 'boolean'),
-                array('name' => 'can_be_manually_set', 'hint' => 'boolean'),
+                array('name' => 'config_ui', 'type' => 'boolean', 'required' => true),
+                array('name' => 'description', 'type' => 'text'),
+                array('name' => 'can_change_password', 'type' => 'boolean'),
+                array('name' => 'can_edit_profile', 'type' => 'boolean'),
+                array('name' => 'is_internal', 'type' => 'boolean'),
+                array('name' => 'prevent_local_passwords', 'type' => 'boolean'),
+                array('name' => 'is_synchronised_with_external', 'type' => 'boolean'),
+                array('name' => 'can_reset_password', 'type' => 'boolean'),
+                array('name' => 'can_signup', 'type' => 'boolean'),
+                array('name' => 'can_confirm', 'type' => 'boolean'),
+                array('name' => 'can_be_manually_set', 'type' => 'boolean'),
             );
         }
 
         if ($type === 'block') {
             $componentvars = array(
-                array('name' => 'edit_form', 'hint' => 'boolean', 'required' => true),
-                array('name' => 'instance_allow_multiple', 'hint' => 'boolean', 'required' => true),
-                array('name' => 'applicable_formats', 'hint' => 'numeric-array', 'values' => array(
-                    array('name' => 'page', 'hint' => 'text'),
-                    array('name' => 'allowed', 'hint' => 'boolean')),
+                array('name' => 'edit_form', 'type' => 'boolean', 'required' => true),
+                array('name' => 'instance_allow_multiple', 'type' => 'boolean', 'required' => true),
+                array('name' => 'applicable_formats', 'type' => 'numeric-array', 'values' => array(
+                    array('name' => 'page', 'type' => 'text'),
+                    array('name' => 'allowed', 'type' => 'boolean')),
                 ),
-                array('name' => 'backup_moodle2', 'hint' => 'associative-array', 'values' => array(
-                    array('name' => 'restore_task', 'hint' => 'boolean'),
-                    array('name' => 'restore_stepslib', 'hint' => 'boolean'),
-                    array('name' => 'backup_stepslib', 'hint' => 'boolean'),
-                    array('name' => 'settingslib', 'hint' => 'boolean'),
-                    array('name' => 'backup_elements', 'hint' => 'numeric-array', 'values' => array(
-                        array('name' => 'name', 'hint' => 'text'))
+                array('name' => 'backup_moodle2', 'type' => 'associative-array', 'values' => array(
+                    array('name' => 'restore_task', 'type' => 'boolean'),
+                    array('name' => 'restore_stepslib', 'type' => 'boolean'),
+                    array('name' => 'backup_stepslib', 'type' => 'boolean'),
+                    array('name' => 'settingslib', 'type' => 'boolean'),
+                    array('name' => 'backup_elements', 'type' => 'numeric-array', 'values' => array(
+                        array('name' => 'name', 'type' => 'text'))
                     ),
-                    array('name' => 'restore_elements', 'hint' => 'numeric-array', 'values' => array(
-                        array('name' => 'name', 'hint' => 'text'),
-                        array('name' => 'path', 'hint' => 'text'))
+                    array('name' => 'restore_elements', 'type' => 'numeric-array', 'values' => array(
+                        array('name' => 'name', 'type' => 'text'),
+                        array('name' => 'path', 'type' => 'text'))
                     ))
                 ),
             );
@@ -170,17 +170,17 @@ class manager {
 
         if ($type === 'mod') {
             $componentvars = array(
-                array('name' => 'gradebook', 'hint' => 'boolean', 'required' => true),
-                array('name' => 'file_area', 'hint' => 'boolean', 'required' => true),
-                array('name' => 'navigation', 'hint' => 'boolean', 'required' => true),
-                array('name' => 'backup_moodle2', 'hint' => 'associative-array', 'values' => array(
-                    array('name' => 'settingslib', 'hint' => 'boolean'),
-                    array('name' => 'backup_elements', 'hint' => 'numeric-array', 'values' => array(
-                        array('name' => 'name', 'hint' => 'text'))
+                array('name' => 'gradebook', 'type' => 'boolean', 'required' => true),
+                array('name' => 'file_area', 'type' => 'boolean', 'required' => true),
+                array('name' => 'navigation', 'type' => 'boolean', 'required' => true),
+                array('name' => 'backup_moodle2', 'type' => 'associative-array', 'values' => array(
+                    array('name' => 'settingslib', 'type' => 'boolean'),
+                    array('name' => 'backup_elements', 'type' => 'numeric-array', 'values' => array(
+                        array('name' => 'name', 'type' => 'text'))
                     ),
-                    array('name' => 'restore_elements', 'hint' => 'numeric-array', 'values' => array(
-                        array('name' => 'name', 'hint' => 'text'),
-                        array('name' => 'path', 'hint' => 'text'))
+                    array('name' => 'restore_elements', 'type' => 'numeric-array', 'values' => array(
+                        array('name' => 'name', 'type' => 'text'),
+                        array('name' => 'path', 'type' => 'text'))
                     ))
                 ),
             );
@@ -188,31 +188,31 @@ class manager {
 
         if ($type === 'qtype') {
             $componentvars = array(
-                array('name' => 'base_class', 'hint' => 'text', 'required' => true),
+                array('name' => 'base_class', 'type' => 'text', 'required' => true),
             );
         }
 
         if ($type === 'enrol') {
             $componentvars = array(
-                array('name' => 'allow_enrol', 'hint' => 'boolean'),
-                array('name' => 'allow_unenrol', 'hint' => 'boolean'),
-                array('name' => 'allow_unenrol_user', 'hint' => 'boolean'),
-                array('name' => 'allow_manage', 'hint' => 'boolean'),
+                array('name' => 'allow_enrol', 'type' => 'boolean'),
+                array('name' => 'allow_unenrol', 'type' => 'boolean'),
+                array('name' => 'allow_unenrol_user', 'type' => 'boolean'),
+                array('name' => 'allow_manage', 'type' => 'boolean'),
             );
         }
 
         if ($type === 'theme') {
             $componentvars = array(
-                array('name' => 'all_layouts', 'hint' => 'boolean', 'required' => true),
-                array('name' => 'doctype', 'hint' => 'text'),
-                array('name' => 'parents', 'hint' => 'numeric-array', 'values' => array(
-                    array('name' => 'base_theme', 'hint' => 'text'))
+                array('name' => 'all_layouts', 'type' => 'boolean', 'required' => true),
+                array('name' => 'doctype', 'type' => 'text'),
+                array('name' => 'parents', 'type' => 'numeric-array', 'values' => array(
+                    array('name' => 'base_theme', 'type' => 'text'))
                 ),
-                array('name' => 'stylesheets', 'hint' => 'numeric-array', 'values' => array(
-                    array('name' => 'name', 'hint' => 'text'))
+                array('name' => 'stylesheets', 'type' => 'numeric-array', 'values' => array(
+                    array('name' => 'name', 'type' => 'text'))
                 ),
-                array('name' => 'custom_layouts', 'hint' => 'numeric-array', 'values' => array(
-                    array('name' => 'name', 'hint' => 'text'))
+                array('name' => 'custom_layouts', 'type' => 'numeric-array', 'values' => array(
+                    array('name' => 'name', 'type' => 'text'))
                 ),
             );
         }
@@ -229,74 +229,74 @@ class manager {
 
         $featuresvars = array();
 
-        $featuresvars[] = array('name' => 'install', 'hint' => 'boolean');
-        $featuresvars[] = array('name' => 'uninstall', 'hint' => 'boolean');
-        $featuresvars[] = array('name' => 'settings', 'hint' => 'boolean');
-        $featuresvars[] = array('name' => 'readme', 'hint' => 'boolean');
-        $featuresvars[] = array('name' => 'license', 'hint' => 'boolean');
-        $featuresvars[] = array('name' => 'upgrade', 'hint' => 'boolean');
+        $featuresvars[] = array('name' => 'install', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'uninstall', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'settings', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'readme', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'license', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'upgrade', 'type' => 'boolean');
 
         $capabilities = array(
-            array('name' => 'capabilities', 'hint' => 'numeric-array', 'values' => array(
-                  array('name' => 'name', 'hint' => 'text'),
-                  array('name' => 'title', 'hint' => 'text'),
-                  array('name' => 'riskbitmask', 'hint' => 'text'),
-                  array('name' => 'captype', 'hint' => 'multiple-options',
+            array('name' => 'capabilities', 'type' => 'numeric-array', 'values' => array(
+                  array('name' => 'name', 'type' => 'text'),
+                  array('name' => 'title', 'type' => 'text'),
+                  array('name' => 'riskbitmask', 'type' => 'text'),
+                  array('name' => 'captype', 'type' => 'multiple-options',
                         'values' => array('view' => 'view', 'write' => 'write')),
-                  array('name' => 'contextlevel', 'hint' => 'text'),
-                  array('name' => 'archetypes', 'hint' => 'numeric-array', 'values' => array(
-                        array('name' => 'role', 'hint' => 'multiple-options', 'values' => get_role_archetypes()),
-                        array('name' => 'permission', 'hint' => 'multiple-options',
+                  array('name' => 'contextlevel', 'type' => 'text'),
+                  array('name' => 'archetypes', 'type' => 'numeric-array', 'values' => array(
+                        array('name' => 'role', 'type' => 'multiple-options', 'values' => get_role_archetypes()),
+                        array('name' => 'permission', 'type' => 'multiple-options',
                               'values' => array(
                                   'CAP_ALLOW' => 'CAP_ALLOW',
                                   'CAP_PREVENT' => 'CAP_PREVENT',
                                   'CAP_PROHIBIT' => 'CAP_PROHIBIT'
                               )))
                   ),
-                  array('name' => 'clonepermissionsfrom', 'hint' => 'text'))
+                  array('name' => 'clonepermissionsfrom', 'type' => 'text'))
             ),
         );
 
         $messageproviders = array(
-            array('name' => 'message_providers', 'hint' => 'numeric-array', 'values' => array(
-                array('name' => 'name', 'hint' => 'text'),
-                array('name' => 'capability', 'hint' => 'text'))),
+            array('name' => 'message_providers', 'type' => 'numeric-array', 'values' => array(
+                array('name' => 'name', 'type' => 'text'),
+                array('name' => 'capability', 'type' => 'text'))),
         );
 
         $cliscripts = array(
-            array('name' => 'cli_scripts', 'hint' => 'numeric-array', 'values' => array(
-                array('name' => 'filename', 'hint' => 'text'))
+            array('name' => 'cli_scripts', 'type' => 'numeric-array', 'values' => array(
+                array('name' => 'filename', 'type' => 'text'))
             ),
         );
 
         $observers = array(
-            array('name' => 'observers', 'hint' => 'numeric-array', 'values' => array(
-                array('name' => 'eventname', 'hint' => 'text'),
-                array('name' => 'callback', 'hint' => 'text'),
-                array('name' => 'includefile', 'hint' => 'text'),
-                array('name' => 'priority', 'hint' => 'int'))
+            array('name' => 'observers', 'type' => 'numeric-array', 'values' => array(
+                array('name' => 'eventname', 'type' => 'text'),
+                array('name' => 'callback', 'type' => 'text'),
+                array('name' => 'includefile', 'type' => 'text'),
+                array('name' => 'priority', 'type' => 'int'))
             ),
         );
 
         $events = array(
-            array('name' => 'events', 'hint' => 'numeric-array', 'values' => array(
-                array('name' => 'eventname', 'hint' => 'text'),
-                array('name' => 'extends', 'hint' => 'text'))
+            array('name' => 'events', 'type' => 'numeric-array', 'values' => array(
+                array('name' => 'eventname', 'type' => 'text'),
+                array('name' => 'extends', 'type' => 'text'))
             ),
         );
 
         $mobileaddons = array(
-            array('name' => 'mobile_addons', 'hint' => 'numeric-array', 'values' => array(
-                array('name' => 'name', 'hint' => 'text'),
-                array('name' => 'dependencies', 'hint' => 'numeric-array', 'values' => array(
-                    array('name' => 'name', 'hint' => 'text')))
+            array('name' => 'mobile_addons', 'type' => 'numeric-array', 'values' => array(
+                array('name' => 'name', 'type' => 'text'),
+                array('name' => 'dependencies', 'type' => 'numeric-array', 'values' => array(
+                    array('name' => 'name', 'type' => 'text')))
                 ),
             ),
         );
 
         $phpunittests = array(
-            array('name' => 'phpunit_tests', 'hint' => 'numeric-array', 'values' => array(
-                array('name' => 'classname', 'hint' => 'text')),
+            array('name' => 'phpunit_tests', 'type' => 'numeric-array', 'values' => array(
+                array('name' => 'classname', 'type' => 'text')),
             ),
         );
 

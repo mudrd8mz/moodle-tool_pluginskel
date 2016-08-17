@@ -58,7 +58,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         foreach ($generalvars as $variable) {
 
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
             $elementname = $variable['name'];
 
             // Template variables that are arrays will be added at the bottom of the page.
@@ -87,7 +87,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         foreach ($featuresvars as $variable) {
 
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
 
             // Array variables will be added at the bottom of the page.
             if ($hint == 'numeric-array' || $hint == 'associative-array') {
@@ -116,7 +116,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         foreach ($componentvars as $variable) {
 
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
             $elementname = $this->componenttype.'_features['.$variable['name'].']';
             $componentfeatures = $this->componenttype.'_features';
             $componentrecipe = empty($recipe[$componentfeatures]) ? array() : $recipe[$componentfeatures];
@@ -147,7 +147,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         foreach ($componentvars as $variable) {
 
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
             $parentname = $this->componenttype.'_features';
 
             if ($hint == 'numeric-array') {
@@ -158,7 +158,7 @@ class tool_pluginskel_step1_form extends moodleform {
         }
 
         foreach ($generalvars as $variable) {
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
             if ($hint == 'numeric-array') {
                 $this->add_numeric_fieldset($variable, $recipe);
             } else if ($hint == 'associative-array') {
@@ -168,7 +168,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         // Adding array features.
         foreach ($featuresvars as $variable) {
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
             if ($hint == 'numeric-array') {
                 $this->add_numeric_fieldset($variable, $recipe);
             } else if ($hint == 'associative-array') {
@@ -212,12 +212,12 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $arrayvars = array();
         foreach ($templatevars as $variable) {
-            if ($variable['hint'] === 'numeric-array') {
+            if ($variable['type'] === 'numeric-array') {
                 $arrayvars[] = $variable;
-            } else if ($variable['hint'] === 'associative-array') {
+            } else if ($variable['type'] === 'associative-array') {
                 // Adding associative array variables that have a numeric array value.
                 foreach ($variable['values'] as $nestedvariable) {
-                    if ($nestedvariable['hint'] === 'numeric-array') {
+                    if ($nestedvariable['type'] === 'numeric-array') {
                         $arrayvars[] = $variable;
                         break;
                     }
@@ -328,7 +328,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $mform->addElement('text', $elementname, $indexprefix.get_string('skel'.$variablename, 'tool_pluginskel'));
 
-        if ($templatevar['hint'] == 'int') {
+        if ($templatevar['type'] == 'int') {
             $mform->setType($elementname, PARAM_INT);
         } else {
             $mform->setType($elementname, PARAM_RAW);
@@ -435,7 +435,7 @@ class tool_pluginskel_step1_form extends moodleform {
         // Adding the fieldset elements to the page.
         foreach ($templatevalues as $nestedvariable) {
 
-            $hint = $nestedvariable['hint'];
+            $hint = $nestedvariable['type'];
 
             if ($hint === 'numeric-array') {
                 $this->add_nested_array_variable($fieldsetname, $nestedvariable, $recipevalues);
@@ -508,7 +508,7 @@ class tool_pluginskel_step1_form extends moodleform {
      */
     protected function add_fieldset_element($elementname, $variable, $fieldsetvalues, $indexprefix = null) {
 
-        $hint = $variable['hint'];
+        $hint = $variable['type'];
         $variablename = $variable['name'];
 
         if ($hint == 'text' || $hint == 'int') {
@@ -547,7 +547,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
                 foreach ($templatevars as $variable) {
 
-                    if ($variable['hint'] === 'numeric-array') {
+                    if ($variable['type'] === 'numeric-array') {
                         $parentname = $fieldsetname.'['.$index.']';
                         $this->add_nested_array_variable($parentname, $variable, $fieldsetvalues, $index);
                     } else {
@@ -569,7 +569,7 @@ class tool_pluginskel_step1_form extends moodleform {
         while ($currentcount < $count) {
             foreach ($templatevars as $variable) {
 
-                if ($variable['hint'] == 'numeric-array') {
+                if ($variable['type'] == 'numeric-array') {
                     $parentname = $fieldsetname.'['.$currentcount.']';
                     $this->add_nested_array_variable($parentname, $variable, array(), $currentcount);
                 } else {
@@ -652,7 +652,7 @@ class tool_pluginskel_step1_form extends moodleform {
         foreach ($generalvars as $variable) {
 
             $variablename = $variable['name'];
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
 
             if ($hint === 'numeric-array') {
                 $value = $this->get_numeric_array_variable_from_formdata($formdata[$variablename], $variable);
@@ -672,7 +672,7 @@ class tool_pluginskel_step1_form extends moodleform {
         foreach ($componentvars as $variable) {
 
             $variablename = $variable['name'];
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
 
             if ($hint === 'numeric-array') {
                 $value = $this->get_numeric_array_variable_from_formdata($componentformdata[$variablename], $variable);
@@ -690,7 +690,7 @@ class tool_pluginskel_step1_form extends moodleform {
         foreach ($featuresvars as $variable) {
 
             $variablename = $variable['name'];
-            $hint = $variable['hint'];
+            $hint = $variable['type'];
 
             // Only array common features are at the root of the recipe.
             if ($hint === 'numeric-array') {
@@ -729,7 +729,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         foreach ($templatevariable['values'] as $fieldvariable) {
 
-            $hint = $fieldvariable['hint'];
+            $hint = $fieldvariable['type'];
             $fieldname = $fieldvariable['name'];
 
             $value = null;
@@ -776,7 +776,7 @@ class tool_pluginskel_step1_form extends moodleform {
                         }
                     }
 
-                    if ($variable['hint'] === 'numeric-array') {
+                    if ($variable['type'] === 'numeric-array') {
                         $value = $this->get_numeric_array_variable_from_formdata($value, $variable);
                     } else {
                         $value = $this->get_variable_value($value, $variable);
@@ -811,7 +811,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $value = null;
 
-        $hint = $templatevariable['hint'];
+        $hint = $templatevariable['type'];
         $variablename = $templatevariable['name'];
 
         if ($hint === 'numeric-array') {

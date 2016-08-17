@@ -93,13 +93,13 @@ class version_php_file extends php_internal_file {
     static public function get_template_variables($plugintype = null) {
 
         $templatevars = array(
-            array('name' => 'component', 'hint' => 'text', 'required' => true),
-            array('name' => 'release', 'hint' => 'text'),
-            array('name' => 'version', 'hint' => 'int'),
-            array('name' => 'requires', 'hint' => 'multiple-options', 'required' => true, 'values' => self::$moodleversions),
-            array('name' => 'dependencies', 'hint' => 'numeric-array', 'values' => array(
-                  array('name' => 'plugin', 'hint' => 'text'),
-                  array('name' => 'version', 'hint' => 'text'))),
+            array('name' => 'component', 'type' => 'text', 'required' => true),
+            array('name' => 'release', 'type' => 'text'),
+            array('name' => 'version', 'type' => 'int'),
+            array('name' => 'requires', 'type' => 'multiple-options', 'required' => true, 'values' => self::$moodleversions),
+            array('name' => 'dependencies', 'type' => 'numeric-array', 'values' => array(
+                  array('name' => 'plugin', 'type' => 'text'),
+                  array('name' => 'version', 'type' => 'text'))),
         );
 
         $maturities = array(
@@ -109,7 +109,7 @@ class version_php_file extends php_internal_file {
             'MATURITY_STABLE' => 'MATURITY_STABLE'
         );
 
-        $templatevars[] = array('name' => 'maturity', 'hint' => 'multiple-options', 'values' => $maturities);
+        $templatevars[] = array('name' => 'maturity', 'type' => 'multiple-options', 'values' => $maturities);
 
         return $templatevars;
     }
