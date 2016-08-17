@@ -218,7 +218,7 @@ function get_array_variable_count_from_recipe($templatevars, $recipe, $countpref
     $variablecount = array();
 
     foreach ($templatevars as $variable) {
-        if ($variable['hint'] == 'numeric-array') {
+        if ($variable['type'] == 'numeric-array') {
 
             $variablename = $variable['name'];
 
@@ -243,7 +243,7 @@ function get_array_variable_count_from_recipe($templatevars, $recipe, $countpref
             }
 
             foreach ($variable['values'] as $nestedvariable) {
-                if ($nestedvariable['hint'] == 'numeric-array') {
+                if ($nestedvariable['type'] == 'numeric-array') {
                     for ($i = 0; $i < $count; $i += 1) {
                         $nestedvariablecount = get_array_variable_count_from_recipe($variable['values'],
                                                                                     $recipevalues[$i],
@@ -260,10 +260,10 @@ function get_array_variable_count_from_recipe($templatevars, $recipe, $countpref
                 }
             }
 
-        } else if ($variable['hint'] === 'associative-array') {
+        } else if ($variable['type'] === 'associative-array') {
             // Associative arrays can have nested numerically indexed array variables.
             foreach ($variable['values'] as $nestedvariable) {
-                if ($nestedvariable['hint'] === 'numeric-array') {
+                if ($nestedvariable['type'] === 'numeric-array') {
 
                     if (empty($recipe[$variable['name']][$nestedvariable['name']])) {
                         $count = 1;
@@ -298,7 +298,7 @@ function get_array_variable_count_from_form($templatevars, $countprefix = '') {
     $variablecount = array();
 
     foreach ($templatevars as $variable) {
-        if ($variable['hint'] === 'numeric-array') {
+        if ($variable['type'] === 'numeric-array') {
 
             $variablename = $variable['name'];
 
@@ -312,7 +312,7 @@ function get_array_variable_count_from_form($templatevars, $countprefix = '') {
             $variablecount[$countname] = $count;
 
             foreach ($variable['values'] as $nestedvariable) {
-                if ($nestedvariable['hint'] === 'numeric-array') {
+                if ($nestedvariable['type'] === 'numeric-array') {
                     for ($i = 0; $i < $count; $i += 1) {
 
                         if (empty($parentname)) {
@@ -327,9 +327,9 @@ function get_array_variable_count_from_form($templatevars, $countprefix = '') {
                 }
             }
 
-        } else if ($variable['hint'] === 'associative-array') {
+        } else if ($variable['type'] === 'associative-array') {
             foreach ($variable['values'] as $nestedvariable) {
-                if ($nestedvariable['hint'] === 'numeric-array') {
+                if ($nestedvariable['type'] === 'numeric-array') {
 
                     if (empty($countprefix)) {
                         $countname = $variable['name'].'_'.$nestedvariable['name'].'count';
