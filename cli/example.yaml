@@ -1,4 +1,4 @@
-component: enrol_test
+component: atto_test
 
 ## Human readable name of the plugin.
 name: Example plugin
@@ -23,7 +23,9 @@ atto_features:
     ## Adds strings to be initialized in the plugin's user interface.
     strings_for_js:
         - id: stringone
+          text: String one text
         - id: stringtwo
+          text: String two text
 
     ## Adds parameters to be passed in the javascript init function.
     params_for_js:
@@ -286,12 +288,6 @@ lang_strings:
       text: You can add 'extra' strings via the recipe file.
     - id: mycustomstring2
       text: Another string with {$a->some} placeholder.
-
-    ## Needed for atto plugins.
-    - id: stringone
-      text: String one
-    - id: stringtwo
-      text: String two
 
     ## Needed for auth plugins.
     - id: auth_description

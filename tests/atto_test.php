@@ -52,15 +52,12 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         ),
         'atto_features' => array(
             'strings_for_js' => array(
-                array('id' => 'stringone'),
+                array('id' => 'stringone', 'text' => 'String one text'),
             ),
             'params_for_js' => array(
                 array('name' => 'paramone', 'value' => 'val', 'default' => '')
             ),
         ),
-        'lang_strings' => array(
-            array('id' => 'stringone', 'text' => 'String one'),
-        )
     );
 
     /** @var string The plugin type. */
@@ -181,5 +178,26 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $value = $recipe['atto_features']['params_for_js'][0]['value'];
         $params = '/return array\(\s+\''.$paramname.'\' => \''.$value.'\',\s+\);/';
         $this->assertRegExp($params, $libfile);
+    }
+
+    /**
+     * Tests creating the lang strings.
+     */
+    public function test_atto_lang_strings() {
+        $logger = new Logger('attotest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $files = $manager->get_files_content();
+
+        $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
+        $langfile = $files['lang/en/'.$recipe['component'].'.php'];
+
+        $langstring = $recipe['atto_features']['strings_for_js'][0];
+        $this->assertContains("\$string['".$langstring['id']."'] = '".$langstring['text']."';", $langfile);
     }
 }
