@@ -48,4 +48,22 @@ class lang_file extends php_internal_file {
         $this->data['lang_strings'][] = ['id' => 'pluginname', 'text' => $this->data['name']];
         ksort($this->data['lang_strings']);
     }
+
+    /**
+     * Returns a list of the variables needed to render the template.
+     *
+     * @param string $plugintype
+     * @return string[]
+     */
+    static public function get_template_variables($plugintype = null) {
+
+        $templatevars = array(
+            array('name' => 'name', 'hint' => 'text', 'required' => true),
+            array('name' => 'lang_strings', 'hint' => 'numeric-array', 'values' => array(
+                array('name' => 'id', 'hint' => 'text'),
+                array('name' => 'text', 'hint' => 'text')))
+        );
+
+        return $templatevars;
+    }
 }

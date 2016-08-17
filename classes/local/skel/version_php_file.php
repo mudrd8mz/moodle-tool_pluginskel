@@ -37,6 +37,20 @@ defined('MOODLE_INTERNAL') || die();
  */
 class version_php_file extends php_internal_file {
 
+    /** @var string[] Moodle versions. */
+    protected static $moodleversions = [
+        '2016052300' => '3.1',
+        '2015111600' => '3.0',
+        '2015051100' => '2.9',
+        '2014111000' => '2.8',
+        '2014051200' => '2.7',
+        '2013111800' => '2.6',
+        '2013051400' => '2.5',
+        '2012120300' => '2.4',
+        '2012062500' => '2.3',
+        '2011120500' => '2.2',
+    ];
+
     /**
      * Set the data to be eventually rendered.
      *
@@ -58,27 +72,45 @@ class version_php_file extends php_internal_file {
             $this->data['has_dependencies'] = true;
         }
 
-        $moodleversions = [
-            '3.1' => '2016052300',
-            '3.0' => '2015111600',
-            '2.9' => '2015051100',
-            '2.8' => '2014111000',
-            '2.7' => '2014051200',
-            '2.6' => '2013111800',
-            '2.5' => '2013051400',
-            '2.4' => '2012120300',
-            '2.3' => '2012062500',
-            '2.2' => '2011120500',
-        ];
-
         if (!empty($this->data['requires'])) {
             if (!preg_match('/^2[0-9]{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])[0-9]{2}$/', $this->data['requires'])) {
-                if (isset($moodleversions[$this->data['requires']])) {
-                    $this->data['requires'] = $moodleversions[$this->data['requires']];
-                } else {
+                $moodleversion = array_search($this->data['requires'], self::$moodleversions);
+                if ($moodleversion === false) {
                     throw new exception('Unknown required Moodle version: '.$this->data['requires']);
+                } else {
+                    $this->data['requires'] = $moodleversion;
                 }
             }
         }
+    }
+
+    /**
+     * Returns a list of the variables needed to render the template.
+     *
+     * @param string $plugintype
+     * @return string[]
+     */
+    static public function get_template_variables($plugintype = null) {
+
+        $templatevars = array(
+            array('name' => 'component', 'hint' => 'text', 'required' => true),
+            array('name' => 'release', 'hint' => 'text'),
+            array('name' => 'version', 'hint' => 'int'),
+            array('name' => 'requires', 'hint' => 'multiple-options', 'required' => true, 'values' => self::$moodleversions),
+            array('name' => 'dependencies', 'hint' => 'numeric-array', 'values' => array(
+                  array('name' => 'plugin', 'hint' => 'text'),
+                  array('name' => 'version', 'hint' => 'text'))),
+        );
+
+        $maturities = array(
+            'MATURITY_ALPHA' => 'MATURITY_ALPHA',
+            'MATURITY_BETA' => 'MATURITY_BETA',
+            'MATURITY_RC' => 'MATURITY_RC',
+            'MATURITY_STABLE' => 'MATURITY_STABLE'
+        );
+
+        $templatevars[] = array('name' => 'maturity', 'hint' => 'multiple-options', 'values' => $maturities);
+
+        return $templatevars;
     }
 }
