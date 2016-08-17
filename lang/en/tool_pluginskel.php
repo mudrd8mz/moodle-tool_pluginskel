@@ -51,6 +51,7 @@ $string['skelcaptype'] = 'Captype';
 $string['skelriskbitmask'] = 'Riskbit mask';
 $string['skelcontextlevel'] = 'Contextlevel';
 $string['skelrole'] = 'Role';
+$string['skeldescription'] = 'Description';
 $string['skelpermission'] = 'Permission';
 $string['skelclonepermissionsfrom'] = 'Clone permissions from';
 $string['skelplugin'] = 'Plugin';

@@ -131,6 +131,7 @@ class manager {
         if ($type === 'auth') {
             $componentvars = array(
                 array('name' => 'config_ui', 'hint' => 'boolean', 'required' => true),
+                array('name' => 'description', 'hint' => 'text'),
                 array('name' => 'can_change_password', 'hint' => 'boolean'),
                 array('name' => 'can_edit_profile', 'hint' => 'boolean'),
                 array('name' => 'is_internal', 'hint' => 'boolean'),
@@ -569,11 +570,6 @@ class manager {
 
         $this->prepare_file_skeleton('auth.php', 'auth_php_file', 'auth/auth');
 
-        $stringids = array(
-            'auth_description'
-        );
-        $this->verify_strings_exist($stringids);
-
         if ($this->has_component_feature('config_ui')) {
             $this->files['auth.php']->set_attribute('has_config_form');
             $this->files['auth.php']->set_attribute('has_process_config');
@@ -595,6 +591,12 @@ class manager {
             if ($this->has_component_feature($feature)) {
                 $this->files['auth.php']->set_attribute('has_'.$feature);
             }
+        }
+
+        if (empty($this->recipe['auth_features']['description'])) {
+            $this->logger->warning("Field 'description' not set");
+        } else {
+            $this->add_lang_string('auth_description', $this->recipe['auth_features']['description']);
         }
     }
 
