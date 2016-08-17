@@ -444,7 +444,7 @@ class manager {
         }
 
         if ($this->has_common_feature('capabilities')) {
-            $this->prepare_file_skeleton('db/access.php', 'php_internal_file', 'db_access');
+            $this->prepare_capabilities();
         }
 
         if ($this->has_common_feature('settings')) {
@@ -490,6 +490,21 @@ class manager {
         if ($this->has_common_feature('phpunit_tests')) {
             $this->prepare_phpunit_tests();
         }
+    }
+
+    /**
+     * Prepares the capabilities.
+     */
+    protected function prepare_capabilities() {
+
+        $this->prepare_file_skeleton('db/access.php', 'php_internal_file', 'db_access');
+
+        $stringids = array();
+        foreach ($this->recipe['capabilities'] as $capability) {
+            $stringids[] = $this->recipe['component_name'].':'.$capability['name'];
+        }
+
+        $this->verify_strings_exist($stringids);
     }
 
     /**

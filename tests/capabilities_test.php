@@ -58,7 +58,10 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
                 ),
                 'clonepermissionsfrom' => 'moodle/course:view'
             ),
-        )
+        ),
+        'lang_strings' => array(
+            array('id' => 'capabilitiestest:view', 'text' => 'View capabilitiestest'),
+        ),
     );
 
     /** @var string The plugin type. */
