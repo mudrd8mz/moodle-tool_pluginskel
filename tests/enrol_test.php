@@ -58,6 +58,7 @@ class tool_pluginskel_enrol_testcase extends advanced_testcase {
         'capabilities' => array(
             array(
                 'name' => 'enrol',
+                'title' => 'Enrol user',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_COURSE',
                 'archetypes' => array(
@@ -73,6 +74,7 @@ class tool_pluginskel_enrol_testcase extends advanced_testcase {
             ),
             array(
                 'name' => 'unenrol',
+                'title' => 'Unenrol user',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_COURSE',
                 'archetypes' => array(
@@ -88,6 +90,7 @@ class tool_pluginskel_enrol_testcase extends advanced_testcase {
             ),
             array(
                 'name' => 'manage',
+                'title' => 'Manage users',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_COURSE',
                 'archetypes' => array(

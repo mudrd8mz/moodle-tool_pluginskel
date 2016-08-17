@@ -73,6 +73,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
          'capabilities' => array(
             array(
                 'name' => 'addinstance',
+                'title' => 'Add new block instance',
                 'riskbitmask' => 'RISK_XSS | RISK_XSS',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_BLOCK',

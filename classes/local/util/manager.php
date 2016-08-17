@@ -237,6 +237,7 @@ class manager {
         $capabilities = array(
             array('name' => 'capabilities', 'hint' => 'numeric-array', 'values' => array(
                   array('name' => 'name', 'hint' => 'text'),
+                  array('name' => 'title', 'hint' => 'text'),
                   array('name' => 'riskbitmask', 'hint' => 'text'),
                   array('name' => 'captype', 'hint' => 'multiple-options',
                         'values' => array('view' => 'view', 'write' => 'write')),
@@ -402,9 +403,6 @@ class manager {
      */
     protected function prepare_files_skeletons() {
 
-        $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
-        $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
-
         $plugintype = $this->recipe['component_type'];
 
         if ($plugintype === 'qtype') {
@@ -444,7 +442,7 @@ class manager {
         }
 
         if ($this->has_common_feature('capabilities')) {
-            $this->prepare_file_skeleton('db/access.php', 'php_internal_file', 'db_access');
+            $this->prepare_capabilities();
         }
 
         if ($this->has_common_feature('settings')) {
@@ -489,6 +487,38 @@ class manager {
 
         if ($this->has_common_feature('phpunit_tests')) {
             $this->prepare_phpunit_tests();
+        }
+
+        $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
+        $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
+    }
+
+    /**
+     * Prepares the capabilities.
+     */
+    protected function prepare_capabilities() {
+
+        $this->prepare_file_skeleton('db/access.php', 'php_internal_file', 'db_access');
+
+        // Adding the title lang strings.
+        if (!$this->has_common_feature('lang_strings')) {
+            $this->recipe['lang_strings'] = array();
+        }
+
+        foreach ($this->recipe['capabilities'] as $capability) {
+
+            if (empty($capability['name'])) {
+                $this->logger->warning('Capability name not set');
+                continue;
+            }
+
+            if (empty($capability['title'])) {
+                $this->logger->warning("Title for capability '".$capability['name']."' not set");
+                continue;
+            }
+
+            $stringid = $this->recipe['component_name'].':'.$capability['name'];
+            $this->recipe['lang_strings'][] = array('id' => $stringid, 'text' => $capability['title']);
         }
     }
 

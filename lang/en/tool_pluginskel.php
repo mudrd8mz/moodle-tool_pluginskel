@@ -45,6 +45,7 @@ $string['helpmechoose'] = 'Help me choose';
 $string['skeldependencies'] = 'Dependencies';
 $string['skelcopyright'] = 'Copyright';
 $string['skelname'] = 'Name';
+$string['skeltitle'] = 'Title';
 $string['skelcapabilities'] = 'Capabilities';
 $string['skelcaptype'] = 'Captype';
 $string['skelriskbitmask'] = 'Riskbit mask';

@@ -186,7 +186,8 @@ phpunit_tests:
 
 ## Capabilities defined by the plugin.
 capabilities:
-    - name: viewsomething
+    - name: view
+      title: View test
       captype: view
       contextlevel: CONTEXT_MODULE
       archetypes:
@@ -196,11 +197,13 @@ capabilities:
           permission: CAP_ALLOW
       clonepermissionsfrom: moodle/course:view
 
-    - name: editsomething
+    - name: edit
+      title: Edit test
       captype: write
 
     # Required by enrol plugins if allow_enrol is true.
-    - name: something else
+    - name: enrol
+      title: Enrol users
       captype: write
       contextlevel: CONTEXT_COURSE
       archetypes:
@@ -211,6 +214,7 @@ capabilities:
 
     # Required by enrol plugins if allow_unenrol or allow_unenrol_user are true.
     - name: unenrol
+      title: Unenrol users
       captype: write
       contextlevel: CONTEXT_COURSE
       archetypes:
@@ -221,6 +225,7 @@ capabilities:
 
     # Required by enrol plugins if allow_manage is true.
     - name: manage
+      title: Manage users
       captype: write
       contextlevel: CONTEXT_COURSE
       archetypes:
