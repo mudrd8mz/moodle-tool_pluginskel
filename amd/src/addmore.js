@@ -51,7 +51,7 @@ define(['jquery'], function($) {
 
                 $('#' + lastElementDiv).remove();
 
-                if (fieldVariable.hint === 'numeric-array') {
+                if (fieldVariable.type === 'numeric-array') {
 
                     var nestedCountName = idPrefix + '_' + lastIndex + '_' + fieldVariable.name + 'count';
                     var nestedCount = parseInt($("[name='" + nestedCountName + "']").val());
@@ -131,7 +131,7 @@ define(['jquery'], function($) {
                 var prevElementName = namePrefix + '[' + prevIndex + '][' + fieldVariable.name + ']';
                 var prevElementId = 'id_' + idPrefix + '_' + prevIndex + '_' + fieldVariable.name;
 
-                if (fieldVariable.hint == 'numeric-array') {
+                if (fieldVariable.type == 'numeric-array') {
 
                     // Cloning the static label.
                     var prevElementClasses = $('#fitem_' + prevElementId).attr('class');
@@ -300,18 +300,18 @@ define(['jquery'], function($) {
                 var fieldVariable = templateVariable.values[i];
                 var newElementId = elementIdPrefix + '_' + fieldVariable.name;
 
-                if (fieldVariable.hint == 'text' || fieldVariable.hint == 'int') {
+                if (fieldVariable.type == 'text' || fieldVariable.type == 'int') {
                     $('#' + newElementId).removeAttr('value');
                 }
 
-                if (fieldVariable.hint == 'multiple-options') {
+                if (fieldVariable.type == 'multiple-options') {
                     var isRequired = ('required' in fieldVariable) && fieldVariable.required === true;
                     if (!isRequired) {
                         $('#' + newElementId + ' option[value="undefined"]').prop('selected', true).change();
                     }
                 }
 
-                if (fieldVariable.hint == 'numeric-array') {
+                if (fieldVariable.type == 'numeric-array') {
                     var newIdPrefix = newElementId + '_0';
                     addElements.removeInputFromNewNode(fieldVariable, newIdPrefix);
                 }
