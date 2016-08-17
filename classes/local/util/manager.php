@@ -117,7 +117,8 @@ class manager {
         if ($type === 'atto') {
             $componentvars = array(
                 array('name' => 'strings_for_js', 'hint' => 'numeric-array', 'values' => array(
-                    array('name' => 'id', 'hint' => 'text')),
+                    array('name' => 'id', 'hint' => 'text'),
+                    array('name' => 'text', 'hint' => 'text')),
                 ),
                 array('name' => 'params_for_js', 'hint' => 'numeric-array', 'values' => array(
                     array('name' => 'name', 'hint' => 'text'),
@@ -518,8 +519,23 @@ class manager {
             }
 
             $stringid = $this->recipe['component_name'].':'.$capability['name'];
-            $this->recipe['lang_strings'][] = array('id' => $stringid, 'text' => $capability['title']);
+            $this->add_lang_string($stringid, $capability['title']);
         }
+    }
+
+    /**
+     * Adds a new lang string to be generated.
+     *
+     * @param string $id
+     * @param string $text
+     */
+    protected function add_lang_string($id, $text) {
+
+        if (!$this->has_common_feature('lang_strings')) {
+            $this->recipe['lang_strings'] = array();
+        }
+
+        $this->recipe['lang_strings'][] = array('id' => $id, 'text' => $text);
     }
 
     /**
@@ -601,11 +617,20 @@ class manager {
             $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'atto/lib');
             $this->files['lib.php']->set_attribute('has_strings_for_js');
 
-            $jsstrings = array();
-            foreach ($this->recipe['atto_features']['strings_for_js'] as $string) {
-                $jsstrings[] = $string['id'];
+            foreach ($this->recipe['atto_features']['strings_for_js'] as $langstring) {
+
+                if (empty($langstring['id'])) {
+                    $this->logger->warning('String id not set');
+                    continue;
+                }
+
+                if (empty($langstring['text'])) {
+                    $this->logger->warning("Text for string '".$langstring['id']."' not set");
+                    continue;
+                }
+
+                $this->add_lang_string($langstring['id'], $langstring['text']);
             }
-            $this->verify_strings_exist($jsstrings);
         }
 
         if ($this->has_component_feature('params_for_js')) {
