@@ -46,10 +46,10 @@ class tool_pluginskel_step0_form extends moodleform {
         $mform->setExpanded('manualhdr', true);
 
         $plugintypes = tool_pluginskel\local\util\manager::get_plugintype_names();
-        $mform->addElement('select', 'componenttype', get_string('skelcomponenttype', 'tool_pluginskel'), $plugintypes);
+        $mform->addElement('select', 'componenttype', get_string('componenttype', 'tool_pluginskel'), $plugintypes);
 
-        $mform->addElement('text', 'componentname', get_string('skelcomponentname', 'tool_pluginskel'), null);
-        $mform->setType('componentname', PARAM_TEXT);
+        $mform->addElement('text', 'componentname', get_string('componentname', 'tool_pluginskel'), null);
+        $mform->setType('componentname', PARAM_PLUGIN);
 
         $mform->addElement('submit', 'proceedmanually', get_string('proceedmanually', 'tool_pluginskel'));
 
