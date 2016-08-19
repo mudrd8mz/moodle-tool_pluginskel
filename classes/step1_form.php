@@ -237,7 +237,8 @@ class tool_pluginskel_step1_form extends moodleform {
     protected function construct_label($elementname) {
 
         $namearr = preg_split('/\]\[|\[|\]/', $elementname);
-        if (empty(end($namearr))) {
+        $lastvalue = end($namearr);
+        if (empty($lastvalue)) {
             array_pop($namearr);
         }
 
@@ -294,6 +295,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $label = $this->construct_label($elementname);
         $mform->addElement('select', $elementname, $indexprefix.get_string($label, 'tool_pluginskel'), $selectvalues);
+        $mform->addHelpButton($elementname, $label, 'tool_pluginskel');
 
         if (!empty($recipe[$variablename]) && !empty($selectvalues[$recipe[$variablename]])) {
             $mform->getElement($elementname)->setSelected($recipe[$variablename]);
@@ -322,6 +324,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $label = $this->construct_label($elementname);
         $mform->addElement('advcheckbox', $elementname, $indexprefix.get_string($label, 'tool_pluginskel'), '', null, $values);
+        $mform->addHelpButton($elementname, $label, 'tool_pluginskel');
 
         if (!empty($recipe[$variablename]) && !empty($values[$recipe[$variablename]])) {
             $mform->getElement($elementname)->setChecked(true);
@@ -353,6 +356,7 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $label = $this->construct_label($elementname);
         $mform->addElement('text', $elementname, $indexprefix.get_string($label, 'tool_pluginskel'));
+        $mform->addHelpButton($elementname, $label, 'tool_pluginskel');
 
         if ($templatevar['type'] == 'int') {
             $mform->setType($elementname, PARAM_INT);
@@ -645,7 +649,7 @@ class tool_pluginskel_step1_form extends moodleform {
             $count = (int) $this->_customdata[$countname];
         }
 
-        $label = $this->construct_label($parentname);
+        $label = $this->construct_label($parentname.$variablename);
         $mform->addElement('static', $formname, get_string($label, 'tool_pluginskel').':');
 
         $recipevalues = array();

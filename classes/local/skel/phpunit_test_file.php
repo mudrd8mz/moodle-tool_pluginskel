@@ -45,7 +45,7 @@ class phpunit_test_file extends php_internal_file {
     public function set_classname($classname) {
 
         if (empty($this->data)) {
-            throw new coding_exception(get_string('skeletondatanotset', 'tool_pluginskel'));
+            throw new coding_exception('Skeleton data not set');
         }
 
         $this->data['self']['classname'] = $classname;

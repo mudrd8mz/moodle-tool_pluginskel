@@ -47,9 +47,11 @@ class tool_pluginskel_step0_form extends moodleform {
 
         $plugintypes = tool_pluginskel\local\util\manager::get_plugintype_names();
         $mform->addElement('select', 'componenttype', get_string('componenttype', 'tool_pluginskel'), $plugintypes);
+        $mform->addHelpButton('componenttype', 'componenttype', 'tool_pluginskel');
 
         $mform->addElement('text', 'componentname', get_string('componentname', 'tool_pluginskel'), null);
         $mform->setType('componentname', PARAM_PLUGIN);
+        $mform->addHelpButton('componentname', 'componentname', 'tool_pluginskel');
 
         $mform->addElement('submit', 'proceedmanually', get_string('proceedmanually', 'tool_pluginskel'));
 
@@ -57,12 +59,14 @@ class tool_pluginskel_step0_form extends moodleform {
         $mform->setExpanded('recipefilehdr', true);
         $mform->addElement('filepicker', 'recipefile', get_string('recipefile', 'tool_pluginskel'),
                            null, array('maxbytes' => 50000, 'accepted_types' => '*'));
+        $mform->addHelpButton('recipefile', 'recipefile', 'tool_pluginskel');
         $mform->addElement('submit', 'proceedrecipefile', get_string('proceedrecipefile', 'tool_pluginskel'));
 
         $mform->addElement('header', 'recipehdr', get_string('recipehdr', 'tool_pluginskel'));
         $mform->setExpanded('recipehdr', true);
         $mform->addElement('textarea', 'recipe', get_string('recipe', 'tool_pluginskel'),
                            array('wrap' => 'virtual',  'rows' => '20', 'cols' => '50'));
+        $mform->addHelpButton('recipe', 'recipe', 'tool_pluginskel');
         $mform->addElement('submit', 'proceedrecipe', get_string('proceedrecipe', 'tool_pluginskel'));
 
         $mform->addElement('hidden', 'step', 0);
