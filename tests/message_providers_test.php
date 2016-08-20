@@ -49,13 +49,14 @@ class tool_pluginskel_message_providers_testcase extends advanced_testcase {
         'message_providers' => array(
             array(
                 'name' => 'submission',
+                'title' => 'Submission title',
                 'capability' => 'mod/quiz:emailnotifysubmission'
             ),
         )
     );
 
     /**
-     * Test creating the db/messages.php file.
+     * Test creating the message providers.
      */
     public function test_message_providers() {
         $logger = new Logger('messageproviderstest');
@@ -83,5 +84,12 @@ class tool_pluginskel_message_providers_testcase extends advanced_testcase {
 
         $capability = $recipe['message_providers'][0]['capability'];
         $this->assertContains("'capability' => '".$capability."'", $messagesfile);
+
+        // Verify if the title string has been generated.
+        $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
+        $langfile = $files['lang/en/'.$recipe['component'].'.php'];
+
+        $langstring = "\$string['messageprovider:".$messageprovider."'] = '".$recipe['message_providers'][0]['title']."';";
+        $this->assertContains($langstring, $langfile);
     }
 }

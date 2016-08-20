@@ -260,6 +260,7 @@ class manager {
         $messageproviders = array(
             array('name' => 'message_providers', 'type' => 'numeric-array', 'values' => array(
                 array('name' => 'name', 'type' => 'text'),
+                array('name' => 'title', 'type' => 'text'),
                 array('name' => 'capability', 'type' => 'text'))),
         );
 
@@ -468,7 +469,7 @@ class manager {
         }
 
         if ($this->has_common_feature('message_providers')) {
-            $this->prepare_file_skeleton('db/messages.php', 'php_internal_file', 'db_messages');
+            $this->prepare_message_providers();
         }
 
         if ($this->has_common_feature('mobile_addons')) {
@@ -494,6 +495,35 @@ class manager {
 
         $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
         $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
+    }
+
+    /**
+     * Prepares the message providers.
+     */
+    protected function prepare_message_providers() {
+
+        $this->prepare_file_skeleton('db/messages.php', 'php_internal_file', 'db_messages');
+
+        // Adding the title lang strings.
+        if (!$this->has_common_feature('lang_strings')) {
+            $this->recipe['lang_strings'] = array();
+        }
+
+        foreach ($this->recipe['message_providers'] as $messageprovider) {
+
+            if (empty($messageprovider['name'])) {
+                $this->logger->warning('Message provider name not set');
+                continue;
+            }
+
+            if (empty($messageprovider['title'])) {
+                $this->logger->warning("Title for message provider '".$messageprovider['name']."' not set");
+                continue;
+            }
+
+            $stringid = 'messageprovider:'.$messageprovider['name'];
+            $this->add_lang_string($stringid, $messageprovider['title']);
+        }
     }
 
     /**

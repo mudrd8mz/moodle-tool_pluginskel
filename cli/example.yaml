@@ -243,8 +243,12 @@ capabilities:
 ## Message producers to be used with the Message API.
 message_providers:
     - name: submission
+      ## Used to create the lang string messageprovider:submission.
+      title: Submission message
       capability: mod/quiz:emailnotifysubmission
-    - name: notification
+    - name: expiry
+      ## Used to create the lang string messageprovider:expiry.
+      title: Expiry message
 
 ## Creates the cli script files cli/firstfilename.php and cli/seconfilename.php.
 cli_scripts:

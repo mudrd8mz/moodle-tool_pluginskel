@@ -29,6 +29,10 @@ $string['observers_internal'] = 'Internal';
 $string['observers_internal_help'] = 'Non-internal observers are not called during database transactions, but instead after a successful commit of the transaction.';
 $string['observers_internal_link'] = 'https://docs.moodle.org/dev/Event_2';
 
+$string['message_providers_title'] = 'Title';
+$string['message_providers_title_help'] = 'A short, one-line, description of the message provider. It represents the text value for the language string "messageprovider:name".';
+$string['message_providers_title_link'] = 'https://docs.moodle.org/dev/Messaging_2.0';
+
 $string['pluginname'] = 'Moodle plugin skeleton generator';
 $string['back'] = 'Back';
 $string['skeletondatanotset'] = 'Skeleton data not set';
