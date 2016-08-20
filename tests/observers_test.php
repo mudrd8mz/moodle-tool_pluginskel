@@ -51,11 +51,13 @@ class tool_pluginskel_observers_testcase extends advanced_testcase {
                 'eventname' => '\core\event\something_happened',
                 'callback' => '\local_observerstest\event_observer::something_happened',
                 'includefile' => '/path/to/file/relative/to/moodle/dir/root',
-                'priority' => 200
+                'priority' => 200,
+                'internal' => true
             ),
             array(
                 'eventname' => '\core\event\something_else_happened',
-                'callback' => 'local_observerstest_another_event_observer::something_else_happened'
+                'callback' => 'local_observerstest_another_event_observer::something_else_happened',
+                'internal' => false
             ),
             array(
                 'eventname' => '\core\event\another_eventname',
@@ -86,31 +88,34 @@ class tool_pluginskel_observers_testcase extends advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $eventsfile);
 
-        $this->assertContains('$observers = array(', $eventsfile);
+        $observers = '$observers = array(';
+        $this->assertContains($observers, $eventsfile);
 
-        $eventname = $recipe['observers'][0]['eventname'];
-        $this->assertContains("'eventname' => '".$eventname."'", $eventsfile);
+        foreach ($recipe['observers'] as $obs) {
 
-        $callback = $recipe['observers'][0]['callback'];
-        $this->assertContains("'callback' => '".$callback."'", $eventsfile);
+            $eventname = str_replace('\\', '\\\\', $obs['eventname']);
+            $observer = "/'eventname' => '".$eventname."',\s+";
+            $callback = str_replace('\\', '\\\\', $obs['callback']);
+            $observer .= "'callback' => '".$callback."',\s+";
 
-        $includefile = $recipe['observers'][0]['includefile'];
-        $this->assertContains("'includefile' => '".$includefile."'", $eventsfile);
+            if (isset($obs['includefile'])) {
+                $includefile = str_replace('/', '\\/', $obs['includefile']);
+                $observer .= "'includefile' => '".$includefile."',\s+";
+            }
 
-        $priority = $recipe['observers'][0]['priority'];
-        $this->assertContains("'priority' => ".$priority, $eventsfile);
+            if (isset($obs['priority'])) {
+                $priority = $obs['priority'];
+                $observer .= "'priority' => ".$priority.",\s+";
+            }
 
-        $eventname = $recipe['observers'][1]['eventname'];
-        $this->assertContains("'eventname' => '".$eventname."'", $eventsfile);
+            if (isset($obs['internal'])) {
+                $internal = $obs['internal'] === true ? 'true' : 'false';
+                $observer .= "'internal' => ".$internal.",\s+";
+            }
 
-        $callback = $recipe['observers'][1]['callback'];
-        $this->assertContains("'callback' => '".$callback."'", $eventsfile);
-
-        $eventname = $recipe['observers'][2]['eventname'];
-        $this->assertContains("'eventname' => '".$eventname."'", $eventsfile);
-
-        $callback = $recipe['observers'][2]['callback'];
-        $this->assertContains("'callback' => '".$callback."'", $eventsfile);
+            $observer .= '\),/';
+            $this->assertRegExp($observer, $eventsfile);
+        }
     }
 
     /**

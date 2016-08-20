@@ -259,10 +259,12 @@ observers:
       callback: \local_test\another\observer_one::something_happened
       includefile: "/path/to/file/relative/to/moodle/dir/root"
       priority: 200
+      internal: true
 
     - eventname: \core\event\something_else_happened
       ## The callback creates the function in locallib.php.
       callback: local_test_locallib_function
+      internal: false
 
     - eventname: \core\event\something_else_happened
       ## This callback creates the class 'local_test_observer_two' in the file

@@ -25,6 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['observers_internal'] = 'Internal';
+$string['observers_internal_help'] = 'Non-internal observers are not called during database transactions, but instead after a successful commit of the transaction.';
+$string['observers_internal_link'] = 'https://docs.moodle.org/dev/Event_2';
+
 $string['pluginname'] = 'Moodle plugin skeleton generator';
 $string['back'] = 'Back';
 $string['skeletondatanotset'] = 'Skeleton data not set';

@@ -274,7 +274,8 @@ class manager {
                 array('name' => 'eventname', 'type' => 'text'),
                 array('name' => 'callback', 'type' => 'text'),
                 array('name' => 'includefile', 'type' => 'text'),
-                array('name' => 'priority', 'type' => 'int'))
+                array('name' => 'priority', 'type' => 'int'),
+                array('name' => 'internal', 'type' => 'boolean'))
             ),
         );
 
@@ -475,7 +476,7 @@ class manager {
         }
 
         if ($this->has_common_feature('observers')) {
-            $this->prepare_file_skeleton('db/events.php', 'php_internal_file', 'db_events');
+            $this->prepare_file_skeleton('db/events.php', 'db_events_php_file', 'db_events');
             $this->prepare_observers();
         }
 
