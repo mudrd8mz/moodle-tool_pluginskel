@@ -235,6 +235,7 @@ class manager {
         $featuresvars[] = array('name' => 'readme', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'license', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'upgrade', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'upgradelib', 'type' => 'boolean');
 
         $capabilities = array(
             array('name' => 'capabilities', 'type' => 'numeric-array', 'values' => array(
@@ -465,6 +466,7 @@ class manager {
             $this->prepare_file_skeleton('db/upgrade.php', 'php_internal_file', 'db_upgrade');
             if ($this->has_common_feature('upgradelib')) {
                 $this->prepare_file_skeleton('db/upgradelib.php', 'php_internal_file', 'db_upgradelib');
+                $this->files['db/upgrade.php']->set_attribute('has_upgradelib');
             }
         }
 
@@ -1257,17 +1259,9 @@ class manager {
             return !empty($this->recipe['lang_strings']);
         }
 
-        if ($feature === 'upgrade') {
-            if (isset($this->recipe['features']['upgrade'])) {
-                return (bool) $this->recipe['features']['upgrade'];
-            } else {
-                return !empty($this->recipe['upgrade']);
-            }
-        }
-
-        if ($feature === 'upgradelib') {
-            $hasupgrade = $this->has_common_feature('upgrade');
-            return $hasupgrade && !empty($this->recipe['upgrade']['upgradelib']);
+        // Having the upgradelib feature automatically enables the upgrade feature.
+        if ($feature === 'upgrade' && $this->has_common_feature('upgradelib')) {
+            return true;
         }
 
         return !empty($this->recipe['features'][$feature]);

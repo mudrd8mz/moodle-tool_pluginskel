@@ -12,10 +12,10 @@
 {{/ extratags }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
-{{# upgrade.upgradelib}}
+{{# self.has_upgradelib}}
 
 require_once(__DIR__.'/upgradelib.php');
-{{/ upgrade.upgradelib}}
+{{/ self.has_upgradelib}}
 
 /**
  * Execute {{ component }} upgrade from the given old version.

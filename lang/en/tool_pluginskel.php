@@ -33,6 +33,10 @@ $string['message_providers_title'] = 'Title';
 $string['message_providers_title_help'] = 'A short, one-line, description of the message provider. It represents the text value for the language string "messageprovider:name".';
 $string['message_providers_title_link'] = 'https://docs.moodle.org/dev/Messaging_2.0';
 
+$string['upgradelib'] = 'Upgradelib';
+$string['upgradelib_help'] = 'Create the file db/upgradelib.php where upgrade code can be grouped under some helper functions to be used in the upgrade.php file.';
+$string['upgradelib_link'] = 'https://docs.moodle.org/dev/Upgrade_API';
+
 $string['pluginname'] = 'Moodle plugin skeleton generator';
 $string['back'] = 'Back';
 $string['skeletondatanotset'] = 'Skeleton data not set';
@@ -87,7 +91,6 @@ $string['skelevents'] = 'Events';
 $string['skelextends'] = 'Extends';
 $string['skeluninstall'] = 'Uninstall';
 $string['skelupgrade'] = 'Upgrade';
-$string['skelupgradelib'] = 'Upgradelib';
 $string['skelid'] = 'Id';
 $string['skeltext'] = 'Text';
 $string['skelconfig_ui'] = 'Config UI';

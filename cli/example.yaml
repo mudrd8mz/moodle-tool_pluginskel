@@ -173,12 +173,12 @@ features:
     ## this file.
     upgrade: true
 
+    ## The file db/upgradelib.php will also be generated.
+    ## The upgrade feature will automatically be enabled.
+    upgradelib: true
+
     install: true
     uninstall: true
-
-## The file db/upgradelib.php will also be generated.
-upgrade:
-    upgradelib: true
 
 ## PHPUnit test classes.
 phpunit_tests:
