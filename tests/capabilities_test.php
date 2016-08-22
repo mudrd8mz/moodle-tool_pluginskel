@@ -96,7 +96,7 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $dbaccessfile);
 
-        // Verify if te title string has been generated.
+        // Verify if the title string has been generated.
         $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
         $langfile = $files['lang/en/'.$recipe['component'].'.php'];
 

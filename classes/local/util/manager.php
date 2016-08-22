@@ -235,6 +235,7 @@ class manager {
         $featuresvars[] = array('name' => 'readme', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'license', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'upgrade', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'upgradelib', 'type' => 'boolean');
 
         $capabilities = array(
             array('name' => 'capabilities', 'type' => 'numeric-array', 'values' => array(
@@ -260,6 +261,7 @@ class manager {
         $messageproviders = array(
             array('name' => 'message_providers', 'type' => 'numeric-array', 'values' => array(
                 array('name' => 'name', 'type' => 'text'),
+                array('name' => 'title', 'type' => 'text'),
                 array('name' => 'capability', 'type' => 'text'))),
         );
 
@@ -274,7 +276,8 @@ class manager {
                 array('name' => 'eventname', 'type' => 'text'),
                 array('name' => 'callback', 'type' => 'text'),
                 array('name' => 'includefile', 'type' => 'text'),
-                array('name' => 'priority', 'type' => 'int'))
+                array('name' => 'priority', 'type' => 'int'),
+                array('name' => 'internal', 'type' => 'boolean'))
             ),
         );
 
@@ -463,11 +466,12 @@ class manager {
             $this->prepare_file_skeleton('db/upgrade.php', 'php_internal_file', 'db_upgrade');
             if ($this->has_common_feature('upgradelib')) {
                 $this->prepare_file_skeleton('db/upgradelib.php', 'php_internal_file', 'db_upgradelib');
+                $this->files['db/upgrade.php']->set_attribute('has_upgradelib');
             }
         }
 
         if ($this->has_common_feature('message_providers')) {
-            $this->prepare_file_skeleton('db/messages.php', 'php_internal_file', 'db_messages');
+            $this->prepare_message_providers();
         }
 
         if ($this->has_common_feature('mobile_addons')) {
@@ -475,7 +479,7 @@ class manager {
         }
 
         if ($this->has_common_feature('observers')) {
-            $this->prepare_file_skeleton('db/events.php', 'php_internal_file', 'db_events');
+            $this->prepare_file_skeleton('db/events.php', 'db_events_php_file', 'db_events');
             $this->prepare_observers();
         }
 
@@ -493,6 +497,35 @@ class manager {
 
         $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
         $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
+    }
+
+    /**
+     * Prepares the message providers.
+     */
+    protected function prepare_message_providers() {
+
+        $this->prepare_file_skeleton('db/messages.php', 'php_internal_file', 'db_messages');
+
+        // Adding the title lang strings.
+        if (!$this->has_common_feature('lang_strings')) {
+            $this->recipe['lang_strings'] = array();
+        }
+
+        foreach ($this->recipe['message_providers'] as $messageprovider) {
+
+            if (empty($messageprovider['name'])) {
+                $this->logger->warning('Message provider name not set');
+                continue;
+            }
+
+            if (empty($messageprovider['title'])) {
+                $this->logger->warning("Title for message provider '".$messageprovider['name']."' not set");
+                continue;
+            }
+
+            $stringid = 'messageprovider:'.$messageprovider['name'];
+            $this->add_lang_string($stringid, $messageprovider['title']);
+        }
     }
 
     /**
@@ -1226,17 +1259,9 @@ class manager {
             return !empty($this->recipe['lang_strings']);
         }
 
-        if ($feature === 'upgrade') {
-            if (isset($this->recipe['features']['upgrade'])) {
-                return (bool) $this->recipe['features']['upgrade'];
-            } else {
-                return !empty($this->recipe['upgrade']);
-            }
-        }
-
-        if ($feature === 'upgradelib') {
-            $hasupgrade = $this->has_common_feature('upgrade');
-            return $hasupgrade && !empty($this->recipe['upgrade']['upgradelib']);
+        // Having the upgradelib feature automatically enables the upgrade feature.
+        if ($feature === 'upgrade' && $this->has_common_feature('upgradelib')) {
+            return true;
         }
 
         return !empty($this->recipe['features'][$feature]);

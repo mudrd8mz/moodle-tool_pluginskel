@@ -47,14 +47,15 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         'name'      => 'Upgrade test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
-            'upgrade' => true
+            'upgrade' => true,
+            'upgradelib' => true
         )
     );
 
     /**
      * Test creating the db/upgrade.php file.
      */
-    public function test_upgrade() {
+    public function test_db_upgrade_php() {
         $logger = new Logger('upgradetest');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);
@@ -65,7 +66,6 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
 
         $files = $manager->get_files_content();
         $this->assertArrayHasKey('db/upgrade.php', $files);
-        $this->assertArrayNotHasKey('db/upgradelib.php', $files);
         $upgradefile = $files['db/upgrade.php'];
 
         $description = 'Plugin upgrade steps are defined here.';
@@ -74,25 +74,27 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $upgradefile);
 
-        $this->assertNotContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
+        $this->assertContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
         $this->assertContains('function xmldb_'.$recipe['component'].'_upgrade($oldversion)', $upgradefile);
     }
 
     /**
      * Test creating the db/upgradelib.php file.
      */
-    public function test_upgrade_with_upgradelib() {
+    public function test_db_upgradelib_php() {
         $logger = new Logger('upgradetest');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
-        $recipe['upgrade'] = array('upgradelib' => true);
+        $recipe['features']['upgrade'] = false;
         $manager->load_recipe($recipe);
         $manager->make();
 
         $files = $manager->get_files_content();
+        $this->assertArrayHasKey('db/upgrade.php', $files);
         $this->assertArrayHasKey('db/upgradelib.php', $files);
+
         $upgradefile = $files['db/upgrade.php'];
         $upgradelibfile = $files['db/upgradelib.php'];
 

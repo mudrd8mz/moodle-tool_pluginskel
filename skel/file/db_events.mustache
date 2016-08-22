@@ -29,9 +29,14 @@ $observers = array(
         {{# .priority }}
         'priority' => {{ . }},
         {{/ .priority }}
-        {{# .internal }}
-        'internal' => {{ . }}
-        {{/ .internal }}
+        {{# .has_internal }}
+        {{# internal }}
+        'internal' => true,
+        {{/ internal }}
+        {{^ internal }}
+        'internal' => false,
+        {{/ internal }}
+        {{/ .has_internal }}
     ),
     {{/ observers }}
 );

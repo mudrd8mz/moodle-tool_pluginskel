@@ -173,12 +173,12 @@ features:
     ## this file.
     upgrade: true
 
+    ## The file db/upgradelib.php will also be generated.
+    ## The upgrade feature will automatically be enabled.
+    upgradelib: true
+
     install: true
     uninstall: true
-
-## The file db/upgradelib.php will also be generated.
-upgrade:
-    upgradelib: true
 
 ## PHPUnit test classes.
 phpunit_tests:
@@ -243,8 +243,12 @@ capabilities:
 ## Message producers to be used with the Message API.
 message_providers:
     - name: submission
+      ## Used to create the lang string messageprovider:submission.
+      title: Submission message
       capability: mod/quiz:emailnotifysubmission
-    - name: notification
+    - name: expiry
+      ## Used to create the lang string messageprovider:expiry.
+      title: Expiry message
 
 ## Creates the cli script files cli/firstfilename.php and cli/seconfilename.php.
 cli_scripts:
@@ -259,10 +263,12 @@ observers:
       callback: \local_test\another\observer_one::something_happened
       includefile: "/path/to/file/relative/to/moodle/dir/root"
       priority: 200
+      internal: true
 
     - eventname: \core\event\something_else_happened
       ## The callback creates the function in locallib.php.
       callback: local_test_locallib_function
+      internal: false
 
     - eventname: \core\event\something_else_happened
       ## This callback creates the class 'local_test_observer_two' in the file
