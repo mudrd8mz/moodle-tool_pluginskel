@@ -67,7 +67,7 @@ class base {
     public function set_attribute($attribute) {
 
         if (empty($this->data)) {
-            throw new coding_exception(get_string('skeletondatanotset', 'tool_pluginskel'));
+            throw new coding_exception('Skeleton data not set');
         }
 
         $this->data['self'][$attribute] = true;

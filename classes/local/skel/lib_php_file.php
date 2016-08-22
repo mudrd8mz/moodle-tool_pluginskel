@@ -57,7 +57,7 @@ class lib_php_file extends php_internal_file {
     public function add_supported_feature($feature) {
 
         if (empty($this->data)) {
-            throw new coding_exception(get_string('skeletondatanotset', 'tool_pluginskel'));
+            throw new coding_exception('Skeleton data not set');
         }
 
         if (empty($this->data['self']['supports'])) {
