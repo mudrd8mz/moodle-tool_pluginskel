@@ -32,15 +32,15 @@ function {{ component }}_supports($feature) {
  * number of the instance.
  *
  * @param object $moduleinstance An object from the form.
- * @param mod_{{ component_name }}_mod_form $mform The form.
+ * @param {{ component }}_mod_form $mform The form.
  * @return int The id of the newly inserted record.
  */
-function {{ component }}_add_instance($moduleinstance, $mform = null) {
+function {{ component_name }}_add_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timecreated = time();
 
-    $id = $DB->insert_record('{{ component }}', $moduleinstance);
+    $id = $DB->insert_record('{{ component_name }}', $moduleinstance);
 
     return $id;
 }
@@ -55,13 +55,13 @@ function {{ component }}_add_instance($moduleinstance, $mform = null) {
  * @param mod_{{ component_name }}_mod_form $mform The form.
  * @return bool True if successful, false otherwise.
  */
-function {{ component }}_update_instance($moduleinstance, $mform = null) {
+function {{ component_name }}_update_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timemodified = time();
     $moduleinstance->id = $moduleinstance->instance;
 
-    return $DB->update_record('{{ component }}', $moduleinstance);
+    return $DB->update_record('{{ component_name }}', $moduleinstance);
 }
 
 /**
@@ -70,15 +70,15 @@ function {{ component }}_update_instance($moduleinstance, $mform = null) {
  * @param int $id Id of the module instance.
  * @return bool True if successful, false on failure.
  */
-function {{ component }}_delete_instance($id) {
+function {{ component_name }}_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('{{ component }}', array('id' => $id));
+    $exists = $DB->get_record('{{ component_name }}', array('id' => $id));
     if (!$exists) {
         return false;
     }
 
-    $DB->delete_records('{{ component }}', array('id' => $id));
+    $DB->delete_records('{{ component_name }}', array('id' => $id));
 
     return true;
 }
@@ -95,7 +95,7 @@ function {{ component }}_delete_instance($id) {
  * @param stdClass $moduleinstance The {{ component }} instance record.
  * @return stdClass | null.
  */
-function {{ component }}_user_outline($course, $user, $mod, $moduleinstance) {
+function {{ component_name }}_user_outline($course, $user, $mod, $moduleinstance) {
     $return = new stdClass();
 
     // The time they did it.
@@ -118,7 +118,7 @@ function {{ component }}_user_outline($course, $user, $mod, $moduleinstance) {
  * @param cm_info $mod Course module info.
  * @param stdClass $moduleinstance The {{ component }} instance record.
  */
-function {{ component }}_user_complete($course, $user, $mod, $moduleinstance) {
+function {{ component_name }}_user_complete($course, $user, $mod, $moduleinstance) {
     return;
 }
 {{/ self.has_user_complete }}
@@ -133,7 +133,7 @@ function {{ component }}_user_complete($course, $user, $mod, $moduleinstance) {
  * @param int $timestart Print activity since this timestamp.
  * @return bool True if anything was printed, false otherwiese.
  */
-function {{ component }}_print_recent_activity($course, $viewfullnames, $timestart) {
+function {{ component_name }}_print_recent_activity($course, $viewfullnames, $timestart) {
     return false;
 }
 {{/ self.has_print_recent_activity}}
@@ -154,14 +154,14 @@ function {{ component }}_print_recent_activity($course, $viewfullnames, $timesta
  * @param int $userid Check for a particular user's activity only, defaults to 0 (all users).
  * @param int $groupid Check for a particular group's activity only, defaults to 0 (all groups).
  */
-function {{ component }}_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
+function {{ component_name }}_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
     return;
 }
 {{/ self.has_get_recent_mod_activity }}
 {{# self.has_print_recent_mod_activity }}
 
 /**
- * Prints single activity item prepared by {@link {{ component }}_get_recent_mod_activity()}.
+ * Prints single activity item prepared by {@link {{ component_name }}_get_recent_mod_activity()}.
  *
  * @param stdClass $activity Activity record with added 'cmid' property.
  * @param int $courseid The id of the course the report is for.
@@ -169,7 +169,7 @@ function {{ component }}_get_recent_mod_activity(&$activities, &$index, $timesta
  * @param array $modnames As returned by {@link get_module_types_names()}.
  * @param bool $viewfullnames Display users' full names.
  */
-function {{ component }}_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
+function {{ component_name }}_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
     return;
 }
 {{/ self.has_print_recent_mod_activity }}
@@ -183,7 +183,7 @@ function {{ component }}_print_recent_mod_activity($activity, $courseid, $detail
  *
  * @return string[].
  */
-function {{ component }}_get_extra_capabilities() {
+function {{ component_name }}_get_extra_capabilities() {
     return array();
 }
 {{/ self.has_get_extra_capabilities }}
@@ -204,10 +204,10 @@ function {{ component }}_get_extra_capabilities() {
  * @param int $scaleid ID of the scale.
  * @return bool True if the scale is used by the given {{ component }} instance.
  */
-function {{ component }}_scale_used($moduleinstanceid, $scaleid) {
+function {{ component_name }}_scale_used($moduleinstanceid, $scaleid) {
     global $DB;
 
-    if ($scaleid && $DB->record_exists('{{ component }}', array('id' => $moduleinstanceid, 'grade' => -$scaleid))) {
+    if ($scaleid && $DB->record_exists('{{ component_name }}', array('id' => $moduleinstanceid, 'grade' => -$scaleid))) {
         return true;
     } else {
         return false;
@@ -224,10 +224,10 @@ function {{ component }}_scale_used($moduleinstanceid, $scaleid) {
  * @param int $scaleid ID of the scale.
  * @return bool True if the scale is used by any {{ component }} instance.
  */
-function {{ component }}_scale_used_anywhere($scaleid) {
+function {{ component_name }}_scale_used_anywhere($scaleid) {
     global $DB;
 
-    if ($scaleid and $DB->record_exists('{{ component }}', array('grade' => -$scaleid))) {
+    if ($scaleid and $DB->record_exists('{{ component_name }}', array('grade' => -$scaleid))) {
         return true;
     } else {
         return false;
@@ -245,7 +245,7 @@ function {{ component }}_scale_used_anywhere($scaleid) {
  * @param bool $reset Reset grades in the gradebook.
  * @return void.
  */
-function {{ component }}_grade_item_update($moduleinstance, $reset=false) {
+function {{ component_name }}_grade_item_update($moduleinstance, $reset=false) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
@@ -267,7 +267,7 @@ function {{ component }}_grade_item_update($moduleinstance, $reset=false) {
         $item['reset'] = true;
     }
 
-    grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component }}', $moduleinstance->id, 0, null, $item);
+    grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component_name }}', $moduleinstance->id, 0, null, $item);
 }
 {{/ self.has_grade_item_update }}
 {{# self.has_grade_item_delete }}
@@ -278,11 +278,11 @@ function {{ component }}_grade_item_update($moduleinstance, $reset=false) {
  * @param stdClass $moduleinstance Instance object.
  * @return grade_item.
  */
-function {{ component }}_grade_item_delete($moduleinstance) {
+function {{ component_name }}_grade_item_delete($moduleinstance) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
-    return grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component_name }}',
+    return grade_update('{{ component_type }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component_name }}',
                         $moduleinstance->id, 0, null, array('deleted' => 1));
 }
 {{/ self.has_grade_item_delete }}
@@ -296,13 +296,13 @@ function {{ component }}_grade_item_delete($moduleinstance) {
  * @param stdClass $moduleinstance Instance object with extra cmidnumber and modname property.
  * @param int $userid Update grade of specific user only, 0 means all participants.
  */
-function {{ component }}_update_grades($moduleinstance, $userid = 0) {
+function {{ component_name }}_update_grades($moduleinstance, $userid = 0) {
     global $CFG, $DB;
     require_once($CFG->libdir.'/gradelib.php');
 
     // Populate array of grade objects indexed by userid.
     $grades = array();
-    grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component }}', $moduleinstance->id, 0, $grades);
+    grade_update('{{ component_type }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component_name }}', $moduleinstance->id, 0, $grades);
 }
 {{/ self.has_update_grades }}
 {{!
@@ -323,9 +323,7 @@ function {{ component }}_update_grades($moduleinstance, $userid = 0) {
  * The file area 'intro' for the activity introduction field is added automatically
  * by {@link file_browser::get_file_info_context_module()}.
  *
- * @package     {{ component }}
- * @category    files
- *
+ * @category files
  * @param stdClass $course.
  * @param stdClass $cm.
  * @param stdClass $context.

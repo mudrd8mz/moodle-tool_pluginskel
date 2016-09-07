@@ -43,7 +43,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
-        'component' => 'modtest',
+        'component' => 'mod_modtest',
         'name'      => 'Mod test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
         'features'  => array(
@@ -197,13 +197,13 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $libfile);
 
-        $addinstance = 'function '.$recipe['component'].'_add_instance($moduleinstance, $mform = null)';
+        $addinstance = 'function modtest_add_instance($moduleinstance, $mform = null)';
         $this->assertContains($addinstance, $libfile);
 
-        $updateinstance = 'function '.$recipe['component'].'_update_instance($moduleinstance, $mform = null)';
+        $updateinstance = 'function modtest_update_instance($moduleinstance, $mform = null)';
         $this->assertContains($updateinstance, $libfile);
 
-        $deleteinstance = 'function '.$recipe['component'].'_delete_instance($id)';
+        $deleteinstance = 'function modtest_delete_instance($id)';
         $this->assertContains($deleteinstance, $libfile);
     }
 
@@ -229,7 +229,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertContains($moodleinternal, $modformfile);
 
-        $formclass = 'class mod_'.$recipe['component'].'_mod_form extends moodleform_mod';
+        $formclass = 'class '.$recipe['component'].'_mod_form extends moodleform_mod';
         $this->assertContains($formclass, $modformfile);
     }
 
@@ -258,7 +258,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $requirelogin = 'require_login($course, true, $cm)';
         $this->assertContains($requirelogin, $viewfile);
 
-        $seturl = "\$PAGE->set_url('/mod/".$recipe['component']."/view.php', array('id' => \$cm->id))";
+        $seturl = "\$PAGE->set_url('/mod/modtest/view.php', array('id' => \$cm->id))";
         $this->assertContains($seturl, $viewfile);
 
         $header = 'echo $OUTPUT->header()';
@@ -296,7 +296,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $requirecourselogin = 'require_course_login($course)';
         $this->assertContains($requirecourselogin, $indexfile);
 
-        $seturl = "\$PAGE->set_url('/mod/".$recipe['component']."/index.php', array('id' => \$id))";
+        $seturl = "\$PAGE->set_url('/mod/modtest/index.php', array('id' => \$id))";
         $this->assertContains($seturl, $indexfile);
 
         $header = 'echo $OUTPUT->header()';
@@ -333,19 +333,19 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
         $this->assertRegExp('/case FEATURE_GRADE_HAS_GRADE:\s+return true/', $libfile);
 
-        $scaleused = 'function '.$recipe['component'].'_scale_used($moduleinstanceid, $scaleid)';
+        $scaleused = 'function modtest_scale_used($moduleinstanceid, $scaleid)';
         $this->assertContains($scaleused, $libfile);
 
-        $scaleusedanywhere = 'function '.$recipe['component'].'_scale_used_anywhere($scaleid)';
+        $scaleusedanywhere = 'function modtest_scale_used_anywhere($scaleid)';
         $this->assertContains($scaleusedanywhere, $libfile);
 
-        $gradeitemupdate = 'function '.$recipe['component'].'_grade_item_update($moduleinstance, $reset=false)';
+        $gradeitemupdate = 'function modtest_grade_item_update($moduleinstance, $reset=false)';
         $this->assertContains($gradeitemupdate, $libfile);
 
-        $gradeitemdelete = 'function '.$recipe['component'].'_grade_item_delete($moduleinstance)';
+        $gradeitemdelete = 'function modtest_grade_item_delete($moduleinstance)';
         $this->assertContains($gradeitemdelete, $libfile);
 
-        $updategrades = 'function '.$recipe['component'].'_update_grades($moduleinstance, $userid = 0)';
+        $updategrades = 'function modtest_update_grades($moduleinstance, $userid = 0)';
         $this->assertContains($updategrades, $libfile);
 
         $gradefile = $files['grade.php'];
@@ -398,11 +398,11 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $this->assertArrayHasKey('lib.php', $files);
         $libfile = $files['lib.php'];
 
-        $extendnavigationargs = '$'.$recipe['component'].'node, $course, $module, $cm';
+        $extendnavigationargs = '$modtestnode, $course, $module, $cm';
         $extendnavigation = 'function '.$recipe['component'].'_extend_navigation('.$extendnavigationargs.')';
         $this->assertContains($extendnavigation, $libfile);
 
-        $extendsettingsargs = '$settingsnav, $'.$recipe['component'].'node = null';
+        $extendsettingsargs = '$settingsnav, $modtestnode = null';
         $extendsettings = 'function '.$recipe['component'].'_extend_settings_navigation('.$extendsettingsargs.')';
         $this->assertContains($extendsettings, $libfile);
     }
