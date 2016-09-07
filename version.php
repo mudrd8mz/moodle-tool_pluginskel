@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Plugin version and other meta-data are defined here.
+ *
  * @package     tool_pluginskel
- * @category    optional API reference
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -24,5 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tool_pluginskel';
-$plugin->version = 2016062000;
+$plugin->release = '0.9.0';
+$plugin->version = 2016090700;
 $plugin->requires = 2016052300;
+$plugin->maturity = MATURITY_BETA;
