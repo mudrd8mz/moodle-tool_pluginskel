@@ -72,4 +72,23 @@ class tool_pluginskel_step0_form extends moodleform {
         $mform->addElement('hidden', 'step', 0);
         $mform->setType('step', PARAM_INT);
     }
+
+    /**
+     * Validate the input.
+     *
+     * @return array of (string)elementname => (string)error
+     */
+    public function validation($data, $files) {
+
+        $errors = [];
+
+        if (!empty($data['proceedmanually'])) {
+            // The default clean_param() does not take plugin type into account.
+            if (!core_component::is_valid_plugin_name($data['componenttype'], $data['componentname'])) {
+                $errors['componentname'] = get_string('componentnameinvalid', 'tool_pluginskel');
+            }
+        }
+
+        return $errors;
+    }
 }

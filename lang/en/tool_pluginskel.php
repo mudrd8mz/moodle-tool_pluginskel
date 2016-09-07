@@ -188,8 +188,11 @@ $string['componenthdr'] = 'Component';
 $string['componenttype'] = 'Component type';
 $string['componenttype_help'] = 'The type of plugin. More information about the different plugin types can be found in the official Moodle documentation by clicking the "More help" button.';
 $string['componenttype_link'] = 'https://docs.moodle.org/dev/Plugin_types';
+$string['componentnameinvalid'] = 'Invalid component name';
 $string['componentname'] = 'Component name';
-$string['componentname_help'] = 'The name of the plugin.';
+$string['componentname_help'] = 'The name of the plugin. This will become the name of the plugin\'s root folder.
+
+The name must start with a letter and ideally should contain letters only. Numbers and underscores are allowed, but discouraged. Activity modules must not have underscores in their name.';
 $string['copyright'] = 'Copyright';
 $string['copyright_help'] = 'This field should contain the year the plugin was created, the name(s) of the copyright holder(s) as well as the email addresse(s).
 
