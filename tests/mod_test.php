@@ -598,4 +598,35 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $this->assertContains($processfunction, $stepslibfile);
     }
 
+    /**
+     * Tests generation of the plugin strings file.
+     */
+    public function test_lang_file() {
+        $logger = new Logger('modtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+
+        // Add some explicit strings.
+        $recipe['lang_strings'] = [
+            [
+                'id' => 'mycustomstring',
+                'text' => 'My custom string',
+            ]
+        ];
+
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $files = $manager->get_files_content();
+
+        $this->assertArrayHasKey('lang/en/modtest.php', $files);
+        $langfile = $files['lang/en/modtest.php'];
+
+        $this->assertContains('$string[\'pluginname\'] = \'Mod test\';', $langfile);
+        $this->assertContains('$string[\'mycustomstring\'] = \'My custom string\';', $langfile);
+        $this->assertContains('$string[\'modtest:addinstance\'] = \'Add new test instance\';', $langfile);
+        $this->assertContains('$string[\'modtest:view\'] = \'View test\';', $langfile);
+    }
 }

@@ -496,7 +496,12 @@ class manager {
         }
 
         $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
-        $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
+
+        if ($plugintype === 'mod') {
+            $this->prepare_file_skeleton('lang/en/'.$this->recipe['component_name'].'.php', 'lang_file', 'lang');
+        } else {
+            $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
+        }
     }
 
     /**
