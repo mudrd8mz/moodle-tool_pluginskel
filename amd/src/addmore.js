@@ -28,9 +28,6 @@ define(['jquery'], function($) {
 
             var countName = idPrefix + 'count';
             var variableCount = parseInt($('[name="' + countName + '"]').val());
-            if (variableCount == 1) {
-                return;
-            }
 
             var templateVariable;
             for (var i in templateVars) {
@@ -38,6 +35,12 @@ define(['jquery'], function($) {
                     templateVariable = templateVars[i];
                     break;
                 }
+            }
+
+            if (variableCount == 1) {
+                var elementIdPrefix = 'id_' + idPrefix + '_0';
+                addElements.removeInputFromNode(templateVariable, elementIdPrefix);
+                return;
             }
 
             var lastIndex = variableCount - 1;
@@ -180,7 +183,7 @@ define(['jquery'], function($) {
             $('#fgroup_id_buttons_' + idPrefix).before(newElements);
 
             elementIdPrefix = 'id_' + idPrefix + '_' + variableCount;
-            addElements.removeInputFromNewNode(templateVariable, elementIdPrefix);
+            addElements.removeInputFromNode(templateVariable, elementIdPrefix);
 
             // Increment the number of variable elements.
             $('[name="' + countName + '"]').val(variableCount + 1);
@@ -280,7 +283,7 @@ define(['jquery'], function($) {
             $('#fitem_id_addmore_' + idPrefix).before(newElements);
 
             var elementIdPrefix = 'id_' + idPrefix + '_' + variableCount;
-            addElements.removeInputFromNewNode(templateVariable, elementIdPrefix);
+            addElements.removeInputFromNode(templateVariable, elementIdPrefix);
 
             // Increment the number of variable elements.
             $('[name="' + countName + '"]').val(variableCount + 1);
@@ -288,12 +291,12 @@ define(['jquery'], function($) {
         },
 
         /**
-         * Removes previous input from the newly added nodes.
+         * Removes previous input from a node.
          *
          * @param {Array} templateVariable The variable from which the added elements were created.
-         * @param {String} elementIdPrefix The prefix for the new elements' id.
+         * @param {String} elementIdPrefix The prefix for the elements' id.
          */
-        removeInputFromNewNode: function(templateVariable, elementIdPrefix) {
+        removeInputFromNode: function(templateVariable, elementIdPrefix) {
 
             for (var i in templateVariable.values) {
 
@@ -301,10 +304,11 @@ define(['jquery'], function($) {
                 var newElementId = elementIdPrefix + '_' + fieldVariable.name;
 
                 if (fieldVariable.type == 'text' || fieldVariable.type == 'int') {
-                    $('#' + newElementId).removeAttr('value');
+                    $('#' + newElementId).val('');
                 }
 
-                if (fieldVariable.type == 'multiple-options') {
+                // Non required boolean variables are represented as a select element.
+                if (fieldVariable.type == 'multiple-options' || fieldVariable.type == 'boolean') {
                     var isRequired = ('required' in fieldVariable) && fieldVariable.required === true;
                     if (!isRequired) {
                         $('#' + newElementId + ' option[value="undefined"]').prop('selected', true).change();
@@ -312,8 +316,13 @@ define(['jquery'], function($) {
                 }
 
                 if (fieldVariable.type == 'numeric-array') {
-                    var newIdPrefix = newElementId + '_0';
-                    addElements.removeInputFromNewNode(fieldVariable, newIdPrefix);
+                    var countName = newElementId.replace('id_', '') + 'count';
+                    var variableCount = parseInt($('[name="' + countName + '"]').val());
+
+                    for (var j = 0; j < variableCount; j++) {
+                        var newIdPrefix = newElementId + '_' + j;
+                        addElements.removeInputFromNode(fieldVariable, newIdPrefix);
+                    }
                 }
             }
         },
