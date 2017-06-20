@@ -220,8 +220,8 @@ class index_helper {
         $manager->load_recipe($recipe);
         $manager->make();
 
-        $targetdir = make_request_directory();
-        $targetdir = $targetdir.'/pluginskel';
+        $tempdir = make_request_directory();
+        $targetdir = $tempdir.'/src';
         $manager->write_files($targetdir);
 
         $generatedfiles = $manager->get_files_content();
@@ -234,7 +234,7 @@ class index_helper {
         }
 
         $packer = get_file_packer('application/zip');
-        $archivefile = $targetdir.'/'.$component.'_'.time().'.zip';
+        $archivefile = $tempdir.'/'.$component.'_'.time().'.zip';
         $packer->archive_to_pathname($zipfiles, $archivefile);
 
         $filename = basename($archivefile);
@@ -242,6 +242,6 @@ class index_helper {
 
         self::generate_download_header($filename, $contentlength);
         readfile($archivefile);
-        unlink($targetdir);
+        exit();
     }
 }
