@@ -28,6 +28,8 @@ namespace tool_pluginskel\local\util;
 use moodle_exception;
 use core_component;
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Main controller class for the plugin skeleton generation.
  *
@@ -1153,7 +1155,8 @@ class manager {
         // Populate some additional properties.
         $data['self']['filename'] = $filename;
         $data['self']['relpath'] = $data['component_root'].'/'.$data['component_name'].'/'.$filename;
-        $data['self']['pathtoconfig'] = "__DIR__.'/".str_repeat('../', substr_count($data['self']['relpath'], '/') - 1)."config.php'";
+        $depth = substr_count($data['self']['relpath'], '/');
+        $data['self']['pathtoconfig'] = "__DIR__.'/".str_repeat('../', $depth - 1)."config.php'";
 
         $skel->set_data($data);
 

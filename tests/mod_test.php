@@ -374,10 +374,12 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $getfileareas = 'function '.$recipe['component'].'_get_file_areas($course, $cm, $context)';
         $this->assertContains($getfileareas, $libfile);
 
-        $getfileinfo = 'function '.$recipe['component'].'_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename)';
+        $getfileinfo = 'function '.$recipe['component'].
+            '_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename)';
         $this->assertContains($getfileinfo, $libfile);
 
-        $pluginfile = 'function '.$recipe['component'].'_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = array())';
+        $pluginfile = 'function '.$recipe['component'].
+            '_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = array())';
         $this->assertContains($pluginfile, $libfile);
     }
 
@@ -446,7 +448,8 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $classdefinition = 'class backup_'.$modname.'_activity_task extends backup_activity_task';
         $this->assertContains($classdefinition, $taskfile);
 
-        $stepdefinition = "\$this->add_step(new backup_".$modname."_activity_structure_step('".$modname."_structure', '".$modname.".xml')";
+        $stepdefinition = "\$this->add_step(new backup_".$modname."_activity_structure_step('"
+            .$modname."_structure', '".$modname.".xml')";
         $this->assertContains($stepdefinition, $taskfile);
     }
 
@@ -554,7 +557,8 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $classdefinition = 'class restore_'.$modname.'_activity_task extends restore_activity_task';
         $this->assertContains($classdefinition, $restorefile);
 
-        $stepdefinition = "\$this->add_step(new restore_".$modname."_activity_structure_step('".$modname."_structure', '".$modname.".xml')";
+        $stepdefinition = "\$this->add_step(new restore_".$modname."_activity_structure_step('".
+            $modname."_structure', '".$modname.".xml')";
         $this->assertContains($stepdefinition, $restorefile);
     }
 

@@ -28,6 +28,8 @@ namespace tool_pluginskel\local\util;
 use Monolog\Logger;
 use Monolog\Handler\BrowserConsoleHandler;
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Helper class for index.php.
  *

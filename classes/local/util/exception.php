@@ -27,6 +27,8 @@ namespace tool_pluginskel\local\util;
 
 use moodle_exception;
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * General exception to be thrown when the generation of the plugin skeleton fails.
  *

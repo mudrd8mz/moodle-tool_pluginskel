@@ -36,13 +36,4 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class auth_php_file extends php_internal_file {
-
-    /**
-     * Set the data to be eventually rendered.
-     *
-     * @param array $data
-     */
-    public function set_data(array $data) {
-        parent::set_data($data);
-    }
 }
