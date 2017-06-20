@@ -25,6 +25,14 @@
 use Monolog\Logger;
 use Monolog\Handler\BrowserConsoleHandler;
 
+if (!empty($_REQUEST['buttondownloadskel'])) {
+    // We are going to download a ZIP file via this script. Disable debugging
+    // to prevent corruption of the file. This must be done before booting up
+    // the Moodle core so we need to use the low-level access to the
+    // superlobal $_REQUEST here.
+    define('NO_DEBUG_DISPLAY', true);
+}
+
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->libdir.'/moodlelib.php');
