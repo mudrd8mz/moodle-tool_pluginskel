@@ -194,6 +194,7 @@ $string['componentname_help'] = 'The name of the plugin. This will become the na
 
 The name must start with a letter and ideally should contain letters only. Numbers and underscores are allowed, but discouraged. Activity modules must not have underscores in their name.';
 $string['copyright'] = 'Copyright';
+$string['copyright_desc'] = 'Default value of the Copyright field when manually generating the plugin skeleton.';
 $string['copyright_help'] = 'This field should contain the year the plugin was created, the name(s) of the copyright holder(s) as well as the email addresse(s).
 
 The copyright tag will be present in every file of the plugin as part of the standard Moodle boilerplate.

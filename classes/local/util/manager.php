@@ -92,7 +92,12 @@ class manager {
     public static function get_general_variables() {
 
         $copyright = array(
-            array('name' => 'copyright', 'type' => 'text', 'required' => true)
+            array(
+                'name' => 'copyright',
+                'type' => 'text',
+                'required' => true,
+                'default' => get_config('tool_pluginskel', 'copyright'),
+            )
         );
         $versionvars = \tool_pluginskel\local\skel\version_php_file::get_template_variables();
         $langvars = \tool_pluginskel\local\skel\lang_file::get_template_variables();

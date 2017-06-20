@@ -24,13 +24,24 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-// Entry in Site administration -> Development -> Generate plugin skeleton.
 if ($hassiteconfig) {
+    $settings = new admin_settingpage('tool_pluginskel_settings', new lang_string('pluginname', 'tool_pluginskel'));
+
+    $settings->add(new admin_setting_configtext(
+        'tool_pluginskel/copyright',
+        new lang_string('copyright', 'tool_pluginskel'),
+        new lang_string('copyright_desc', 'tool_pluginskel'),
+        date('Y').' Your Name <you@example.com>',
+        PARAM_RAW
+    ));
+
+    $ADMIN->add('tools', $settings);
+
     $ADMIN->add(
         'development',
         new admin_externalpage(
             'tool_pluginskel', get_string('generateskel', 'tool_pluginskel'),
-            "$CFG->wwwroot/$CFG->admin/tool/pluginskel/index.php"
+            new moodle_url('/admin/tool/pluginskel/index.php')
         )
     );
 }
