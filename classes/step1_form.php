@@ -110,8 +110,10 @@ class tool_pluginskel_step1_form extends moodleform {
             }
         }
 
-        $mform->addElement('header', 'componenthdr', get_string('componenthdr', 'tool_pluginskel'));
-        $mform->setExpanded('componenthdr', true);
+        if (!empty($componentvars)) {
+            $mform->addElement('header', 'componenthdr', get_string('componenthdr', 'tool_pluginskel'));
+            $mform->setExpanded('componenthdr', true);
+        }
 
         foreach ($componentvars as $variable) {
 
