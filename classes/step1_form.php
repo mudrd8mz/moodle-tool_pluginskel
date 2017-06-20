@@ -713,7 +713,7 @@ class tool_pluginskel_step1_form extends moodleform {
         }
 
         $componentfeatures = $this->componenttype.'_features';
-        $componentformdata = $formdata[$componentfeatures];
+        $componentformdata = isset($formdata[$componentfeatures]) ? $formdata[$componentfeatures] : array();
         foreach ($componentvars as $variable) {
 
             $variablename = $variable['name'];
