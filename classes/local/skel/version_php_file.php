@@ -96,8 +96,8 @@ class version_php_file extends php_internal_file {
 
         $templatevars = array(
             array('name' => 'component', 'type' => 'text', 'required' => true),
-            array('name' => 'release', 'type' => 'text'),
-            array('name' => 'version', 'type' => 'int'),
+            array('name' => 'release', 'type' => 'text', 'default' => '0.1.0'),
+            array('name' => 'version', 'type' => 'int', 'default' => date('Ymd').'00'),
             array('name' => 'requires', 'type' => 'multiple-options', 'required' => true, 'values' => self::$moodleversions),
             array('name' => 'dependencies', 'type' => 'numeric-array', 'values' => array(
                   array('name' => 'plugin', 'type' => 'text'),
