@@ -111,7 +111,12 @@ class version_php_file extends php_internal_file {
             'MATURITY_STABLE' => 'MATURITY_STABLE'
         );
 
-        $templatevars[] = array('name' => 'maturity', 'type' => 'multiple-options', 'values' => $maturities);
+        $templatevars[] = array(
+            'name' => 'maturity',
+            'type' => 'multiple-options',
+            'values' => $maturities,
+            'default' => 'MATURITY_ALPHA',
+        );
 
         return $templatevars;
     }
