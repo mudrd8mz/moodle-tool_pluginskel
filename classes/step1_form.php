@@ -300,6 +300,10 @@ class tool_pluginskel_step1_form extends moodleform {
         if (!empty($recipe[$variablename]) && !empty($selectvalues[$recipe[$variablename]])) {
             $mform->getElement($elementname)->setSelected($recipe[$variablename]);
         }
+
+        if (isset($templatevar['default'])) {
+            $mform->setDefault($elementname, $templatevar['default']);
+        }
     }
 
     /**
@@ -332,6 +336,10 @@ class tool_pluginskel_step1_form extends moodleform {
 
         if (!empty($recipe[$variablename])) {
             $mform->getElement($elementname)->setChecked(true);
+        }
+
+        if (isset($templatevar['default'])) {
+            $mform->setDefault($elementname, $templatevar['default']);
         }
     }
 
@@ -370,6 +378,10 @@ class tool_pluginskel_step1_form extends moodleform {
 
         if (!empty($templatevar['required'])) {
             $mform->addRule($elementname, null, 'required', null, 'client', false, true);
+        }
+
+        if (isset($templatevar['default'])) {
+            $mform->setDefault($elementname, $templatevar['default']);
         }
     }
 
