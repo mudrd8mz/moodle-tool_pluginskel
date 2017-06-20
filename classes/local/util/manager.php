@@ -237,8 +237,8 @@ class manager {
         $featuresvars[] = array('name' => 'install', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'uninstall', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'settings', 'type' => 'boolean');
-        $featuresvars[] = array('name' => 'readme', 'type' => 'boolean');
-        $featuresvars[] = array('name' => 'license', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'readme', 'type' => 'boolean', 'default' => true);
+        $featuresvars[] = array('name' => 'license', 'type' => 'boolean', 'default' => true);
         $featuresvars[] = array('name' => 'upgrade', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'upgradelib', 'type' => 'boolean');
 
