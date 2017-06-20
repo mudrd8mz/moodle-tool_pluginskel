@@ -175,7 +175,7 @@ $string['capabilities_title'] = 'Title';
 $string['capabilities_title_help'] = 'A short, one-line, description of the capability. It represents the text value for the language string "componentname:name".';
 $string['capabilities_title_link'] = 'https://docs.moodle.org/dev/Access_API';
 
-$string['cli_scripts'] = 'Cli scripts';
+$string['cli_scripts'] = 'CLI scripts';
 $string['cli_scripts_filename'] = 'Filename';
 $string['cli_scripts_filename_help'] = 'The name of the CLI script file. All files will be generated in the plugin\'s "cli" directory.';
 
