@@ -12,17 +12,14 @@ define(['jquery'], function($) {
         deleteElements: function(templateVars, variableNames, isComponentFeature) {
 
             var variableName;
-            var namePrefix;
             var idPrefix;
 
             if (isComponentFeature) {
                 var componentFeatures = variableNames[0];
                 variableName = variableNames[1];
                 idPrefix = componentFeatures + '_' + variableName;
-                namePrefix = componentFeatures + '[' + variableName + ']';
             } else {
                 variableName = variableNames[0];
-                namePrefix = variableName;
                 idPrefix = variableName;
             }
 
