@@ -243,6 +243,41 @@ class manager {
         $featuresvars[] = array('name' => 'license', 'type' => 'boolean', 'default' => true);
         $featuresvars[] = array('name' => 'upgrade', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'upgradelib', 'type' => 'boolean');
+        //$featuresvars[] = array('name' => 'privacy', 'type' => 'boolean', 'default' => true);
+        $privacy = array(
+
+
+          array('name' => 'privacy', 'type' => 'associative-array', 'values' => array(
+              /*'NOPD' => 'NOPD',
+              'pddb' => 'pddb',
+              'subsys' => 'subsys',
+              'prefs' => 'prefs',
+              'external' => 'external'*/
+              //array('name' => 'nopd', 'type' => 'boolean', 'default' => false),
+              array('name' => 'tables', 'type' => 'numeric-array', 'values' => array(
+                  array('name' => 'name', 'type' => 'text'),
+                  array('name' => 'langstring', 'type' => 'text'),
+              )),
+              array('name' => 'subsystems', 'type' => 'numeric-array', 'values' => array(
+                  array('name' => 'name', 'type' => 'text'),
+                  array('name' => 'langstring', 'type' => 'text'),
+              )),
+              array('name' => 'prefs', 'type' => 'numeric-array', 'values' => array(
+                  array('name' => 'name', 'type' => 'text'),
+                  array('name' => 'langstring', 'type' => 'text'),
+              )),
+              array('name' => 'external', 'type' => 'numeric-array', 'values' => array(
+                  array('name' => 'name', 'type' => 'text'),
+                  array('name' => 'langstring', 'type' => 'text'),
+              )),
+          /*,
+              array('name' => 'pddb', 'type' => 'boolean', 'default' => true),
+              array('name' => 'subsys', 'type' => 'boolean', 'default' => true),
+              array('name' => 'prefs', 'type' => 'boolean', 'default' => true),
+              array('name' => 'external', 'type' => 'boolean', 'default' => true)
+              */
+          ))
+        );
 
         $capabilities = array(
             array('name' => 'capabilities', 'type' => 'numeric-array', 'values' => array(
@@ -312,6 +347,7 @@ class manager {
 
         $featuresvars = array_merge(
             $featuresvars,
+            $privacy,
             $cliscripts,
             $messageproviders,
             $capabilities,
@@ -445,6 +481,10 @@ class manager {
             $this->prepare_enrol_files();
         }
 
+        if ($this->has_common_feature('privacy')) {
+            $this->prepare_privacy_files();
+        }
+
         if ($this->has_common_feature('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -504,6 +544,20 @@ class manager {
 
         $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
         $this->prepare_file_skeleton('lang/en/'.$this->recipe['component'].'.php', 'lang_file', 'lang');
+    }
+
+    protected function prepare_privacy_files() {
+        $this->prepare_file_skeleton('classes/privacy/provider.php', 'privacy_file', 'privacy');
+        if (!$this->has_common_feature('lang_strings')) {
+            $this->recipe['lang_strings'] = array();
+        }
+        foreach($this->recipe['privacy'] as $area) {
+            foreach($area as $areaname=>$value) {
+                $stringid = 'privacy:metadata:'.$value['name'];
+                $string = $value['langstring'];
+                $this->add_lang_string($stringid, $string);
+            }
+        }
     }
 
     /**
@@ -1265,6 +1319,10 @@ class manager {
 
         if ($feature === 'lang_strings') {
             return !empty($this->recipe['lang_strings']);
+        }
+
+        if ($feature === 'privacy') {
+            return !empty($this->recipe['privacy']);
         }
 
         // Having the upgradelib feature automatically enables the upgrade feature.
