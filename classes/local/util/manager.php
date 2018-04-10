@@ -57,13 +57,13 @@ class manager {
      * @param array $recipe
      * @return \tool_pluginskel\local\util\manager
      */
-    public static function instance($logger) {
+    public static function instance($logger, $mustachedir = null) {
 
         $logger->debug('Initialising manager instance');
 
         $manager = new self();
         $manager->init_logger($logger);
-        $manager->init_templating_engine();
+        $manager->init_templating_engine($mustachedir);
 
         return $manager;
     }
@@ -1352,7 +1352,11 @@ class manager {
     /**
      * Prepare the mustache engine instance
      */
-    protected function init_templating_engine() {
-        $this->mustache = new mustache(['logger' => $this->logger]);
+    protected function init_templating_engine($mustachedir = null) {
+        $loader = null;
+        if ($mustachedir) {
+            $loader = new \Mustache_Loader_FilesystemLoader($mustachedir);
+        }
+        $this->mustache = new mustache(['logger' => $this->logger, 'loader' => $loader]);
     }
 }
