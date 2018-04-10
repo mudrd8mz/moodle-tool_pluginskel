@@ -54,11 +54,15 @@ class mustache {
         Mustache_Autoloader::register();
 
         $default = [
-            'loader' => new Mustache_Loader_FilesystemLoader($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/skel'),
             'cache' => make_localcache_directory('tool_pluginskel/mustache/'),
             'pragmas' => [Mustache_Engine::PRAGMA_BLOCKS, Mustache_Engine::PRAGMA_ANCHORED_DOT],
             'escape' => 'addslashes',
         ];
+
+        if (empty($options['loader'])) {
+            $default['loader'] = new Mustache_Loader_FilesystemLoader($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/skel');
+            unset($options['loader']);
+        }
 
         $this->engine = new Mustache_Engine(array_replace_recursive($default, $options));
     }
