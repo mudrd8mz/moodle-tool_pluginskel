@@ -1,0 +1,64 @@
+{{!
+    classes/privacy/<privacyproviderclass>.php
+
+    * component
+    * copyright
+    * observer
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Plugin privacy classes are defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @category    privacy
+{{/ extratags }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ namespace }}{{{ privacy.namespace }}}{{/ namespace }}
+{{/ common/boilerplate_php }}
+
+/**
+ * Privacy Provider class.
+ *
+ * @package    {{ component }}
+ * @copyright  {{ copyright }}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+{{# privacy }}
+class provider {
+
+    public static function get_metadata(collection $collection) : collection {
+    {{# tables }}
+        $collection->add_database_table(
+            '{{name}}',
+            [
+                // TODO Define fields with personal data.
+            ],
+            'privacy:metadata:{{langstring}}'
+        );
+    {{/ tables }}
+    {{# subsystems }}
+        $collection->link_subsystem(
+            '{{name}}',
+            'privacy:metadata:{{langstring}}'
+        );
+    {{/ subsystems }}
+    {{# prefs }}
+        $collection->add_user_preference(
+            '{{name}}',
+            'privacy:metadata:{{langstring}}'
+        );
+    {{/ prefs }}
+    {{# external }}
+        $collection->link_external_location(
+            '{{name}}',
+            [
+                // TODO Data that is exported.
+            ],
+            'privacy:metadata:{{langstring}}'
+        );
+
+    {{/ external }}
+        return $collection;
+    }
+}
+{{/ privacy }}
+
