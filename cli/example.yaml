@@ -337,6 +337,33 @@ lang_strings:
     - id: choosereadme
       text: Readme when selecting the theme.
 
+## Privacy API implementation
+privacy:
+  haspersonaldata: true
+  uselegacypolyfill: false
+  meta:
+    dbfields:
+      auth_test_sometable:
+        - username
+        - timecreated
+        - timemodified
+      auth_test_another:
+        - email
+    userpreferences:
+      - preferencename
+      - auth_test_anotherpreference
+    subsystems:
+      - comment
+      - files
+      - portfolio:
+          - firstname
+          - lastname
+    external:
+      - customexternalsystem
+      - mahara:
+          - firstname
+          - lastname
+
 ## Explicitly added contents, such as files not covered by the generator logic.
 ##
 ## Not yet implemented.
