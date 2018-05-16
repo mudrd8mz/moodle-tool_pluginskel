@@ -1198,6 +1198,7 @@ class manager {
 
         $skel = new $skelclass();
         $skel->set_template($template);
+        $skel->set_manager($this);
 
         if (is_null($recipe)) {
             // Skeleton will have access to the whole recipe.

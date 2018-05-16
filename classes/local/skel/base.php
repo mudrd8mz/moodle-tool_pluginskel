@@ -46,6 +46,9 @@ class base {
     /** @var array extra template data */
     protected $data = null;
 
+    /** @var \tool_pluginskel\local\util\manager manager used to generate the skeleton */
+    protected $manager = null;
+
     /**
      * Set the template to use.
      *
@@ -62,6 +65,20 @@ class base {
      */
     public function set_data(array $data) {
         $this->data = $data;
+    }
+
+    /**
+     * Set the manager reference.
+     *
+     * @param manager $manager
+     */
+    public function set_manager(\tool_pluginskel\local\util\manager $manager) {
+
+        if (!empty($this->manager)) {
+            throw new \coding_exception('Manager has been already set!');
+        }
+
+        $this->manager = $manager;
     }
 
     public function set_attribute($attribute) {
