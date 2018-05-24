@@ -370,6 +370,21 @@ class manager {
     }
 
     /**
+     * Adds a new lang string to be generated.
+     *
+     * @param string $id
+     * @param string $text
+     */
+    public function add_lang_string($id, $text) {
+
+        if (!$this->has_common_feature('lang_strings')) {
+            $this->recipe['lang_strings'] = array();
+        }
+
+        $this->recipe['lang_strings'][] = array('id' => $id, 'text' => $text);
+    }
+
+    /**
      * Disable direct instantiation to force usage of a factory method.
      */
     protected function __construct() {
@@ -616,21 +631,6 @@ class manager {
             $stringid = $this->recipe['component_name'].':'.$capability['name'];
             $this->add_lang_string($stringid, $capability['title']);
         }
-    }
-
-    /**
-     * Adds a new lang string to be generated.
-     *
-     * @param string $id
-     * @param string $text
-     */
-    protected function add_lang_string($id, $text) {
-
-        if (!$this->has_common_feature('lang_strings')) {
-            $this->recipe['lang_strings'] = array();
-        }
-
-        $this->recipe['lang_strings'][] = array('id' => $id, 'text' => $text);
     }
 
     /**
