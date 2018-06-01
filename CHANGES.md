@@ -1,3 +1,8 @@
+## 1.1.1 ##
+
+* Fixed a bug leading to generating the provider.php file with a syntax error in some
+  cases.
+
 ## 1.1.0 ##
 
 * Added support to generate privacy API related code (refer to cli/example.yaml).
