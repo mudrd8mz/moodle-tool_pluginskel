@@ -45,6 +45,15 @@ class tool_pluginskel_step1_form extends moodleform {
     public function definition () {
         $mform = $this->_form;
 
+        $mform->addElement('html', '
+            <div class="alert alert-warning">
+            <p><b>Warning: This may or may not work</b></p>
+            <p>Defining the plugin skeleton recipe via this interface is known to not work with recent Boost based themes.
+            Additionally, some features - such as describing the privacy API - is not supported yet via this interface.</p>
+            <p>Please refer to the <tt>cli/example.yaml</tt> and define the recipe manually as a YAML file.</p>
+            </div>'
+        );
+
         $recipe = $this->_customdata['recipe'];
         $component = $recipe['component'];
         list($this->componenttype, $componentname) = core_component::normalize_component($component);
