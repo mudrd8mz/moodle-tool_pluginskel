@@ -1,3 +1,13 @@
+## 1.1.0 ##
+
+* Added support to generate privacy API related code (refer to cli/example.yaml).
+  Special thanks to Michael Hughes for the initial implementation.
+* Improved the component type and name fields usability - autodisplay the plugin type
+  prefix so that it is more intuitive what the name field should hold.
+* Added support to generate plugins requiring Moodle 3.4 and 3.5
+* Make mustache loader path configurable, allowing better integration with moosh.
+  Credit goes to Tomasz Muras.
+
 ## 1.0.0 ##
 
 * Added support to generate plugins requiring Moodle 3.3 and 3.2.
