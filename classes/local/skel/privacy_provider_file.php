@@ -212,7 +212,7 @@ class privacy_provider_file extends php_internal_file {
 
             foreach ($data['privacy']['meta']['userpreferences'] as $prefname) {
                 // If the prefname starts with the component name, drop the prefix.
-                $prefnamewoprefix = preg_replace('/^'.$data['component'].'_/', '', $prefname);
+                $prefnamewoprefix = str_replace('_', '', preg_replace('/^'.$data['component'].'_/', '', $prefname));
                 $stringid = 'privacy:metadata:preference:'.$prefnamewoprefix;
 
                 $this->data['privacy']['_metauserpreferences'][] = [
