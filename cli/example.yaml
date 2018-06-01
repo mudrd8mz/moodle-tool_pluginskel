@@ -19,6 +19,60 @@ maturity: MATURITY_BETA
 ## Copyright holder(s) of the generated files and classes.
 copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>, David Mudrák <david@moodle.com>
 
+## Features flags can control generation of optional files/code fragments.
+features:
+    readme: true
+    license: true
+    settings: true
+
+    ## The db/upgrade.php file will be generated. Upgrade steps are defined in
+    ## this file.
+    upgrade: true
+
+    ## The file db/upgradelib.php will also be generated.
+    ## The upgrade feature will automatically be enabled.
+    upgradelib: true
+
+    install: true
+    uninstall: true
+
+## Privacy API implementation
+privacy:
+  haspersonaldata: true
+  uselegacypolyfill: false
+  meta:
+    dbfields:
+      auth_test_sometable:
+        - username
+        - timecreated
+        - timemodified
+      auth_test_another:
+        - email
+    userpreferences:
+      - preferencename
+      - auth_test_anotherpreference
+    subsystems:
+      - comment
+      - files
+      - portfolio:
+          - firstname
+          - lastname
+    external:
+      - customexternalsystem
+      - mahara:
+          - firstname
+          - lastname
+
+## PHPUnit test classes.
+phpunit_tests:
+    ## The class will be defined in the file tests/firstclass_test.php
+    ## The full class name will be local_test_firstclass_testcase.
+    - classname: firstclass
+    - classname: secondclass
+
+    ## This is valid too.
+    - classname: auth_test_thirdclass_testcase
+
 atto_features:
     ## Adds strings to be initialized in the plugin's user interface.
     strings_for_js:
@@ -162,33 +216,6 @@ dependencies:
       version: ANY_VERSION
     - plugin: tool_another
       version: 2016121200
-
-## Features flags can control generation of optional files/code fragments.
-features:
-    readme: true
-    license: true
-    settings: true
-
-    ## The db/upgrade.php file will be generated. Upgrade steps are defined in
-    ## this file.
-    upgrade: true
-
-    ## The file db/upgradelib.php will also be generated.
-    ## The upgrade feature will automatically be enabled.
-    upgradelib: true
-
-    install: true
-    uninstall: true
-
-## PHPUnit test classes.
-phpunit_tests:
-    ## The class will be defined in the file tests/firstclass_test.php
-    ## The full class name will be local_test_firstclass_testcase.
-    - classname: firstclass
-    - classname: secondclass
-
-    ## This is valid too.
-    - classname: local_test_thirdclass_testcase
 
 ## Capabilities defined by the plugin.
 capabilities:

@@ -46,7 +46,20 @@ class lang_file extends php_internal_file {
 
         parent::set_data($data);
         $this->data['lang_strings'][] = ['id' => 'pluginname', 'text' => $this->data['name']];
-        ksort($this->data['lang_strings']);
+    }
+
+    /**
+     * Return the data for the template.
+     *
+     * @return array
+     */
+    protected function get_template_data() {
+
+        $strings = fullclone($this->data['lang_strings']);
+        \core_collator::asort_array_of_arrays_by_key($strings, 'id');
+        $this->data['lang_strings'] = array_values($strings);
+
+        return parent::get_template_data();
     }
 
     /**

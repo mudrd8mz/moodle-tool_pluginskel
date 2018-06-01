@@ -334,6 +334,21 @@ class manager {
     }
 
     /**
+     * Adds a new lang string to be generated.
+     *
+     * @param string $id
+     * @param string $text
+     */
+    public function add_lang_string($id, $text) {
+
+        if (!$this->has_common_feature('lang_strings')) {
+            $this->recipe['lang_strings'] = array();
+        }
+
+        $this->recipe['lang_strings'][] = array('id' => $id, 'text' => $text);
+    }
+
+    /**
      * Disable direct instantiation to force usage of a factory method.
      */
     protected function __construct() {
@@ -445,6 +460,10 @@ class manager {
             $this->prepare_enrol_files();
         }
 
+        if ($this->has_common_feature('privacy')) {
+            $this->prepare_privacy_files();
+        }
+
         if ($this->has_common_feature('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -507,6 +526,13 @@ class manager {
     }
 
     /**
+     * Prepare the privacy implementation.
+     */
+    protected function prepare_privacy_files() {
+        $this->prepare_file_skeleton('classes/privacy/provider.php', 'privacy_provider_file', 'classes_privacy_provider');
+    }
+
+    /**
      * Prepares the message providers.
      */
     protected function prepare_message_providers() {
@@ -562,21 +588,6 @@ class manager {
             $stringid = $this->recipe['component_name'].':'.$capability['name'];
             $this->add_lang_string($stringid, $capability['title']);
         }
-    }
-
-    /**
-     * Adds a new lang string to be generated.
-     *
-     * @param string $id
-     * @param string $text
-     */
-    protected function add_lang_string($id, $text) {
-
-        if (!$this->has_common_feature('lang_strings')) {
-            $this->recipe['lang_strings'] = array();
-        }
-
-        $this->recipe['lang_strings'][] = array('id' => $id, 'text' => $text);
     }
 
     /**
@@ -1144,6 +1155,7 @@ class manager {
 
         $skel = new $skelclass();
         $skel->set_template($template);
+        $skel->set_manager($this);
 
         if (is_null($recipe)) {
             // Skeleton will have access to the whole recipe.
@@ -1265,6 +1277,10 @@ class manager {
 
         if ($feature === 'lang_strings') {
             return !empty($this->recipe['lang_strings']);
+        }
+
+        if ($feature === 'privacy') {
+            return isset($this->recipe['privacy']['haspersonaldata']);
         }
 
         // Having the upgradelib feature automatically enables the upgrade feature.

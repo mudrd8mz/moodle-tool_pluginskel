@@ -11,6 +11,10 @@ class ComposerStaticInit7e7a1d72f080bfecaabdbbc0fd472c8d
     );
 
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -18,19 +22,13 @@ class ComposerStaticInit7e7a1d72f080bfecaabdbbc0fd472c8d
     );
 
     public static $prefixDirsPsr4 = array (
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
-        ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
         ),
     );
 
@@ -39,7 +37,6 @@ class ComposerStaticInit7e7a1d72f080bfecaabdbbc0fd472c8d
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit7e7a1d72f080bfecaabdbbc0fd472c8d::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit7e7a1d72f080bfecaabdbbc0fd472c8d::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit7e7a1d72f080bfecaabdbbc0fd472c8d::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
