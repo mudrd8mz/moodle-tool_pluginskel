@@ -56,6 +56,7 @@ if ($step == 0) {
 
     $mform0 = new tool_pluginskel_step0_form();
     $formdata = $mform0->get_data();
+    $PAGE->requires->js_call_amd('tool_pluginskel/showtypeprefix', 'init');
 
     if (!empty($formdata)) {
 
