@@ -1292,19 +1292,6 @@ class manager {
     }
 
     /**
-     * Prepareskeleton of the language strings file
-     */
-    protected function prepare_lang_file() {
-
-        $this->init_file('lang/en/'.$this->recipe['component'].'.php', 'lang', [
-            'strings' => [
-                'id' => 'pluginname',
-                'text' => $this->recipe['pluginname'],
-            ]
-        ]);
-    }
-
-    /**
      * Sets the logger to be used by this instance.
      *
      * @param Monolog\Logger $logger
