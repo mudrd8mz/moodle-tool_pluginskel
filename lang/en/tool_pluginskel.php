@@ -350,6 +350,8 @@ $string['phpunit_tests_classname'] = 'Class name';
 $string['phpunit_tests_classname_help'] = 'The test class name. It can be either the full frankenstyle name, or just the name of the class to be tested. All PHPUnit test files will be generated in the "tests" directory.';
 $string['phpunit_tests_classname_link'] = 'https://docs.moodle.org/dev/PHPUnit';
 
+$string['privacy:metadata'] = 'Plugin skeleton generator does not store any personal data';
+
 $string['proceedmanually'] = 'Proceed with manual generation';
 $string['proceedrecipefile'] = 'Proceed with recipe file';
 $string['proceedrecipe'] = 'Proceed with recipe';
