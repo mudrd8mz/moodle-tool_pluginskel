@@ -1,3 +1,8 @@
+## 1.2.0 ##
+
+* Privacy API implemented. The plugin does not store any personal data.
+* Fixed bug #87 - invalid language file name for activity modules.
+
 ## 1.1.1 ##
 
 * Fixed a bug leading to generating the provider.php file with a syntax error in some
