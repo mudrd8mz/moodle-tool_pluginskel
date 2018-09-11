@@ -24,6 +24,15 @@ require_once($CFG->libdir.'/authlib.php');
 class auth_plugin_{{ component_name }} extends auth_plugin_base {
 
     /**
+     * Type of authentication provided. Used on the "Manage Authentication"
+     * page (/admin/settings.php?section=manageauths) to find value of
+     * pluginname string.
+     * 
+     * @var string
+     */
+    public $authtype = '{{ component_name }}';
+
+    /**
      * Returns true if the username and password work and false if they are
      * wrong or don't exist.
      *
