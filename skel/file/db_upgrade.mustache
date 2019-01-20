@@ -1,8 +1,11 @@
 {{!
-    settings.php
+    db/upgrade.php
 
     * component
+    * component_type
+    * component_name
     * copyright
+    * component_type_is_mod
 }}
 {{< common/boilerplate_php }}
 {{$ description }}Plugin upgrade steps are defined here.{{/ description }}
@@ -23,7 +26,7 @@ require_once(__DIR__.'/upgradelib.php');
  * @param int $oldversion
  * @return bool
  */
-function xmldb_{{ component }}_upgrade($oldversion) {
+function xmldb_{{^ component_type_is_mod }}{{ component_type }}_{{/ component_type_is_mod }}{{ component_name }}_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();

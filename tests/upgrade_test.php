@@ -41,8 +41,8 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  */
 class tool_pluginskel_upgrade_testcase extends advanced_testcase {
 
-    /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    /** @var string[] The test recipe for a local plugin type. */
+    protected static $recipelocal = array(
         'component' => 'local_upgradetest',
         'name'      => 'Upgrade test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
@@ -52,15 +52,26 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         )
     );
 
+    /** @var string[] The test recipe for an activity module type. */
+    protected static $recipemod = array(
+        'component' => 'mod_upgradetest',
+        'name'      => 'Upgrade test',
+        'copyright' => '2019 David Mudrak <david@moodle.com>',
+        'features'  => array(
+            'upgrade' => true,
+            'upgradelib' => true
+        )
+    );
+
     /**
-     * Test creating the db/upgrade.php file.
+     * Test creating the db/upgrade.php file for a local_upgradetest plugin.
      */
-    public function test_db_upgrade_php() {
+    public function test_local_db_upgrade_php() {
         $logger = new Logger('upgradetest');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);
 
-        $recipe = self::$recipe;
+        $recipe = self::$recipelocal;
         $manager->load_recipe($recipe);
         $manager->make();
 
@@ -68,14 +79,32 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         $this->assertArrayHasKey('db/upgrade.php', $files);
         $upgradefile = $files['db/upgrade.php'];
 
-        $description = 'Plugin upgrade steps are defined here.';
-        $this->assertContains($description, $upgradefile);
-
-        $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $upgradefile);
-
+        $this->assertContains('Plugin upgrade steps are defined here.', $upgradefile);
+        $this->assertContains("defined('MOODLE_INTERNAL') || die()", $upgradefile);
         $this->assertContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
-        $this->assertContains('function xmldb_'.$recipe['component'].'_upgrade($oldversion)', $upgradefile);
+        $this->assertContains('function xmldb_local_upgradetest_upgrade($oldversion)', $upgradefile);
+    }
+
+    /**
+     * Test creating the db/upgrade.php file for a mod_upgradetest plugin.
+     */
+    public function test_mod_db_upgrade_php() {
+        $logger = new Logger('upgradetest');
+        $logger->pushHandler(new NullHandler);
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipemod;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $files = $manager->get_files_content();
+        $this->assertArrayHasKey('db/upgrade.php', $files);
+        $upgradefile = $files['db/upgrade.php'];
+
+        $this->assertContains('Plugin upgrade steps are defined here.', $upgradefile);
+        $this->assertContains("defined('MOODLE_INTERNAL') || die()", $upgradefile);
+        $this->assertContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
+        $this->assertContains('function xmldb_upgradetest_upgrade($oldversion)', $upgradefile);
     }
 
     /**
@@ -86,7 +115,7 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);
 
-        $recipe = self::$recipe;
+        $recipe = self::$recipelocal;
         $recipe['features']['upgrade'] = false;
         $manager->load_recipe($recipe);
         $manager->make();
