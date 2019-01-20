@@ -24,6 +24,13 @@ require_once($CFG->libdir.'/authlib.php');
 class auth_plugin_{{ component_name }} extends auth_plugin_base {
 
     /**
+     * Set the properties of the instance.
+     */
+    public function __construct() {
+        $this->authtype = '{{ component_name }}';
+    }
+
+    /**
      * Returns true if the username and password work and false if they are
      * wrong or don't exist.
      *
