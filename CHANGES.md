@@ -1,3 +1,10 @@
+## 1.2.1 ##
+
+* Fixed bug - auth plugins not setting the authtype property. Credit goes to
+  Geoffrey Van Wyk (@systemovich) for the report and the fix suggestion.
+* Fixed bug #90 - the name of the XMLDB upgrade function for activity modules.
+* Added support for generating version.php code requiring Moodle 3.6.
+
 ## 1.2.0 ##
 
 * Privacy API implemented. The plugin does not store any personal data.

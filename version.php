@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tool_pluginskel';
-$plugin->release = '1.2.0';
-$plugin->version = 2018071500;
+$plugin->release = '1.2.1';
+$plugin->version = 2019012000;
 $plugin->requires = 2016052300;
 $plugin->maturity = MATURITY_STABLE;
