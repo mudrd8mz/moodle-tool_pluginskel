@@ -16,7 +16,8 @@ env:
   - DB=pgsql
   - IGNORE_PATHS=vendor/
   - MOZ_HEADLESS=1
- matrix:
+
+matrix:
   include:
   - env: MOODLE_BRANCH=MOODLE_35_STABLE
     php: 7.0
