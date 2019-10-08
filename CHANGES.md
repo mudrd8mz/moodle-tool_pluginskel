@@ -1,3 +1,7 @@
+## 1.2.2 ##
+
+* Added support for generating version.php code requiring Moodle 3.7
+
 ## 1.2.1 ##
 
 * Fixed bug - auth plugins not setting the authtype property. Credit goes to
