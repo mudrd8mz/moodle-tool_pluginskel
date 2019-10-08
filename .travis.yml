@@ -3,12 +3,8 @@ language: php
 sudo: false
 
 addons:
-  firefox: "47.0.1"
+  firefox: latest
   postgresql: "9.3"
-  apt:
-    packages:
-      - oracle-java8-installer
-      - oracle-java8-set-default
 
 cache:
   directories:
@@ -17,16 +13,17 @@ cache:
 
 php:
  - 7.0
- - 7.1
+ - 7.3
 
 env:
  global:
   - DB=pgsql
   - IGNORE_PATHS=vendor/
+  - MOZ_HEADLESS=1
  matrix:
-  - MOODLE_BRANCH=MOODLE_32_STABLE
-  - MOODLE_BRANCH=MOODLE_33_STABLE
-  - MOODLE_BRANCH=MOODLE_34_STABLE
+  - MOODLE_BRANCH=MOODLE_35_STABLE
+  - MOODLE_BRANCH=MOODLE_36_STABLE
+  - MOODLE_BRANCH=MOODLE_37_STABLE
 
 before_install:
   - phpenv config-rm xdebug.ini
