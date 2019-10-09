@@ -3,30 +3,34 @@ language: php
 sudo: false
 
 addons:
-  firefox: "47.0.1"
-  postgresql: "9.3"
-  apt:
-    packages:
-      - oracle-java8-installer
-      - oracle-java8-set-default
+  firefox: latest
+  postgresql: "9.4"
 
 cache:
   directories:
     - $HOME/.composer/cache
     - $HOME/.npm
 
-php:
- - 7.0
- - 7.1
-
 env:
  global:
   - DB=pgsql
   - IGNORE_PATHS=vendor/
- matrix:
-  - MOODLE_BRANCH=MOODLE_32_STABLE
-  - MOODLE_BRANCH=MOODLE_33_STABLE
-  - MOODLE_BRANCH=MOODLE_34_STABLE
+  - MOZ_HEADLESS=1
+
+matrix:
+  include:
+  - env: MOODLE_BRANCH=MOODLE_35_STABLE
+    php: 7.0
+  - env: MOODLE_BRANCH=MOODLE_35_STABLE
+    php: 7.2
+  - env: MOODLE_BRANCH=MOODLE_36_STABLE
+    php: 7.0
+  - env: MOODLE_BRANCH=MOODLE_36_STABLE
+    php: 7.3
+  - env: MOODLE_BRANCH=MOODLE_37_STABLE
+    php: 7.1
+  - env: MOODLE_BRANCH=MOODLE_37_STABLE
+    php: 7.3
 
 before_install:
   - phpenv config-rm xdebug.ini
