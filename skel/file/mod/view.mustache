@@ -26,7 +26,7 @@ if ($id) {
     $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
     $cm             = get_coursemodule_from_instance('{{ component_name }}', $moduleinstance->id, $course->id, false, MUST_EXIST);
 } else {
-    print_error(get_string('missingidandcmid', {{ component }}));
+    print_error(get_string('missingidandcmid', '{{ component }}'));
 }
 
 require_login($course, true, $cm);
