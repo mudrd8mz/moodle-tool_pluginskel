@@ -40,7 +40,7 @@ function {{ component_name }}_add_instance($moduleinstance, $mform = null) {
 
     $moduleinstance->timecreated = time();
 
-    $id = $DB->insert_record('{{ component }}', $moduleinstance);
+    $id = $DB->insert_record('{{ component_name }}', $moduleinstance);
 
     return $id;
 }
@@ -61,7 +61,7 @@ function {{ component_name }}_update_instance($moduleinstance, $mform = null) {
     $moduleinstance->timemodified = time();
     $moduleinstance->id = $moduleinstance->instance;
 
-    return $DB->update_record('{{ component }}', $moduleinstance);
+    return $DB->update_record('{{ component_name }}', $moduleinstance);
 }
 
 /**
@@ -73,12 +73,12 @@ function {{ component_name }}_update_instance($moduleinstance, $mform = null) {
 function {{ component_name }}_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('{{ component }}', array('id' => $id));
+    $exists = $DB->get_record('{{ component_name }}', array('id' => $id));
     if (!$exists) {
         return false;
     }
 
-    $DB->delete_records('{{ component }}', array('id' => $id));
+    $DB->delete_records('{{ component_name }}', array('id' => $id));
 
     return true;
 }
@@ -207,7 +207,7 @@ function {{ component_name }}_get_extra_capabilities() {
 function {{ component_name }}_scale_used($moduleinstanceid, $scaleid) {
     global $DB;
 
-    if ($scaleid && $DB->record_exists('{{ component }}', array('id' => $moduleinstanceid, 'grade' => -$scaleid))) {
+    if ($scaleid && $DB->record_exists('{{ component_name }}', array('id' => $moduleinstanceid, 'grade' => -$scaleid))) {
         return true;
     } else {
         return false;
@@ -227,7 +227,7 @@ function {{ component_name }}_scale_used($moduleinstanceid, $scaleid) {
 function {{ component_name }}_scale_used_anywhere($scaleid) {
     global $DB;
 
-    if ($scaleid and $DB->record_exists('{{ component }}', array('grade' => -$scaleid))) {
+    if ($scaleid and $DB->record_exists('{{ component_name }}', array('grade' => -$scaleid))) {
         return true;
     } else {
         return false;
