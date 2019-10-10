@@ -38,7 +38,7 @@ $event = \{{component_type}}_{{ component_name }}\event\course_module_viewed::cr
     'context' => $modulecontext
 ));
 $event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('{{ component}}', $moduleinstance);
+$event->add_record_snapshot('{{ component_name }}', $moduleinstance);
 $event->trigger();
 
 $PAGE->set_url('/mod/{{ component_name }}/view.php', array('id' => $cm->id));
