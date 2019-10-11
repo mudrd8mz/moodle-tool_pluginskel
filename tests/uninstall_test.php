@@ -71,4 +71,28 @@ class tool_pluginskel_uninstall_testcase extends advanced_testcase {
         $this->assertContains($description, $uninstallfile);
         $this->assertContains('function xmldb_'.$recipe['component'].'_uninstall()', $uninstallfile);
     }
+
+    /**
+     * Test that activity modules get the install function with the correct name.
+     */
+    public function test_mod_naming_exception() {
+        $logger = new Logger('uninstalltest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = [
+            'component' => 'mod_test',
+            'name' => 'Uninstall test',
+            'features' => [
+                'uninstall' => true
+            ],
+        ];
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $files = $manager->get_files_content();
+        $installfile = $files['db/uninstall.php'];
+
+        $this->assertContains('function xmldb_test_uninstall()', $installfile);
+    }
 }

@@ -71,4 +71,28 @@ class tool_pluginskel_install_testcase extends advanced_testcase {
         $this->assertContains($description, $installfile);
         $this->assertContains('function xmldb_'.$recipe['component'].'_install()', $installfile);
     }
+
+    /**
+     * Test that activity modules get the install function with the correct name.
+     */
+    public function test_mod_naming_exception() {
+        $logger = new Logger('installtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = [
+            'component' => 'mod_test',
+            'name' => 'Install test',
+            'features' => [
+                'install' => true
+            ],
+        ];
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $files = $manager->get_files_content();
+        $installfile = $files['db/install.php'];
+
+        $this->assertContains('function xmldb_test_install()', $installfile);
+    }
 }
