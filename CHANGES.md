@@ -1,3 +1,10 @@
+## 1.2.3 ##
+
+* Fixed generating skeletons for activity modules. Credit goes to Leo Auri (@leoauri)
+  for the fix.
+* Fixed travis-ci configuration. Credit goes to Jonathan Champ (@jrchamp).
+* Added support for generating minimal db/install.xml files for acticity modules.
+
 ## 1.2.2 ##
 
 * Added support for generating version.php code requiring Moodle 3.7
