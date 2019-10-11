@@ -16,7 +16,7 @@
 /**
  * Custom code to be run on installing the plugin.
  */
-function xmldb_{{ component }}_install() {
+function xmldb_{{^ component_type_is_mod }}{{ component_type }}_{{/ component_type_is_mod }}{{ component_name }}_install() {
 
     return true;
 }

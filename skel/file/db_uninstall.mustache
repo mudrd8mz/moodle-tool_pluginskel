@@ -16,7 +16,7 @@
 /**
  * Custom uninstallation procedure.
  */
-function xmldb_{{ component }}_uninstall() {
+function xmldb_{{^ component_type_is_mod }}{{ component_type }}_{{/ component_type_is_mod }}{{ component_name }}_uninstall() {
 
     return true;
 }
