@@ -20,13 +20,13 @@ ${{ self.component_name_first_character }}  = optional_param('{{ self.component_
 if ($id) {
     $cm             = get_coursemodule_from_id('{{ component_name }}', $id, 0, false, MUST_EXIST);
     $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('{{ component }}', array('id' => $cm->instance), '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('{{ component_name }}', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if (${{ self.component_name_first_character }}) {
-    $moduleinstance = $DB->get_record('{{ component }}', array('id' => $n), '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('{{ component_name }}', array('id' => $n), '*', MUST_EXIST);
     $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
     $cm             = get_coursemodule_from_instance('{{ component_name }}', $moduleinstance->id, $course->id, false, MUST_EXIST);
 } else {
-    print_error(get_string('missingidandcmid', {{ component }}));
+    print_error(get_string('missingidandcmid', '{{ component }}'));
 }
 
 require_login($course, true, $cm);
@@ -38,7 +38,7 @@ $event = \{{component_type}}_{{ component_name }}\event\course_module_viewed::cr
     'context' => $modulecontext
 ));
 $event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('{{ component}}', $moduleinstance);
+$event->add_record_snapshot('{{ component_name }}', $moduleinstance);
 $event->trigger();
 
 $PAGE->set_url('/mod/{{ component_name }}/view.php', array('id' => $cm->id));
