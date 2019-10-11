@@ -602,4 +602,30 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $this->assertContains($processfunction, $stepslibfile);
     }
 
+    /**
+     * Test that the db/install.xml was correctly generated.
+     */
+    public function test_install_xml() {
+        $logger = new Logger('modtest');
+        $logger->pushHandler(new NullHandler());
+        $manager = manager::instance($logger);
+
+        $recipe = self::$recipe;
+        $manager->load_recipe($recipe);
+        $manager->make();
+
+        $files = $manager->get_files_content();
+        $filename = 'db/install.xml';
+        $this->assertArrayHasKey($filename, $files);
+        $xml = $files[$filename];
+
+        $this->assertContains('<XMLDB PATH="mod/demo/db"', $xml);
+        $this->assertContains('<TABLES>', $xml);
+        $this->assertContains('<FIELD NAME="id" TYPE="int"', $xml);
+        $this->assertContains('<FIELD NAME="course" TYPE="int"', $xml);
+        $this->assertContains('<FIELD NAME="name" TYPE="char"', $xml);
+        $this->assertContains('<FIELD NAME="timemodified" TYPE="int"', $xml);
+        $this->assertContains('<FIELD NAME="intro" TYPE="text"', $xml);
+        $this->assertContains('<FIELD NAME="introformat" TYPE="int"', $xml);
+    }
 }
