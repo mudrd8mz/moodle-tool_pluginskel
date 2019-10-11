@@ -962,6 +962,7 @@ class manager {
         $this->prepare_file_skeleton('view.php', 'view_php_file', 'mod/view');
         $this->prepare_file_skeleton('mod_form.php', 'php_internal_file', 'mod/mod_form');
         $this->prepare_file_skeleton('lib.php', 'lib_php_file', 'mod/lib');
+        $this->prepare_file_skeleton('db/install.xml', 'db_install_xml_file', 'mod/db_install_xml');
 
         if ($this->has_component_feature('gradebook')) {
 
