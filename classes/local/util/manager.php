@@ -935,6 +935,29 @@ class manager {
         }
     }
 
+     /**
+      * Verifies that the specified events are present in the recipe.
+      *
+      * @param string[] $eventnames Sequence of event names.
+      */
+    protected function verify_events_exist($eventnames) {
+        foreach ($eventnames as $eventname) {
+            $exist = false;
+            if ($this->has_common_feature('events')) {
+                foreach ($this->recipe['events'] as $e) {
+                    if ($e['eventname'] === $eventname) {
+                        $exist = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!$exist) {
+                $this->logger->warning("Event '$eventname' does not exist");
+            }
+        }
+    }
+
     /**
      * Prepares the files for an activity module plugin.
      */
@@ -957,6 +980,13 @@ class manager {
         );
 
         $this->verify_strings_exist($stringids);
+
+        $eventnames = array(
+            'course_module_instance_list_viewed',
+            'course_module_viewed'
+        );
+
+        $this->verify_events_exist($eventnames);
 
         $this->prepare_file_skeleton('index.php', 'php_web_file', 'mod/index');
         $this->prepare_file_skeleton('view.php', 'view_php_file', 'mod/view');
