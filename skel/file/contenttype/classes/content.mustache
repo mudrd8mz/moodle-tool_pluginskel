@@ -1,0 +1,24 @@
+{{!
+    Contenttype content class.
+
+    * component
+    * copyright
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Content type {{ component_name }} is defined here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+namespace {{ component }};
+
+/**
+ * {{ component_name }} content class.
+ *
+ * @package    {{ component }}
+ * @copyright  {{ copyright }}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class content extends \core_contentbank\content {
+
+}
