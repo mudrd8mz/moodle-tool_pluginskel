@@ -3,7 +3,7 @@
 * Fixed generating skeletons for activity modules. Credit goes to Leo Auri (@leoauri)
   for the fix.
 * Fixed travis-ci configuration. Credit goes to Jonathan Champ (@jrchamp).
-* Added support for generating minimal db/install.xml files for acticity modules.
+* Added support for generating minimal db/install.xml files for activity modules.
 
 ## 1.2.2 ##
 
