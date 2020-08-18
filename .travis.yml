@@ -1,10 +1,11 @@
 language: php
 
-sudo: false
-
 addons:
-  firefox: latest
-  postgresql: "9.4"
+  postgresql: "9.5"
+
+services:
+  - postgresql
+  - docker
 
 cache:
   directories:
@@ -14,30 +15,24 @@ cache:
 env:
  global:
   - DB=pgsql
-  - IGNORE_PATHS=vendor/
-  - MOZ_HEADLESS=1
 
-matrix:
+jobs:
   include:
-  - env: MOODLE_BRANCH=MOODLE_35_STABLE
-    php: 7.0
-  - env: MOODLE_BRANCH=MOODLE_35_STABLE
-    php: 7.2
-  - env: MOODLE_BRANCH=MOODLE_36_STABLE
-    php: 7.0
-  - env: MOODLE_BRANCH=MOODLE_36_STABLE
-    php: 7.3
-  - env: MOODLE_BRANCH=MOODLE_37_STABLE
-    php: 7.1
-  - env: MOODLE_BRANCH=MOODLE_37_STABLE
-    php: 7.3
+    - php: 7.4
+      env: MOODLE_BRANCH=MOODLE_39_STABLE
+    - php: 7.3
+      env: MOODLE_BRANCH=MOODLE_38_STABLE
+    - php: 7.2
+      env: MOODLE_BRANCH=MOODLE_37_STABLE
+    - php: 7.1
+      env: MOODLE_BRANCH=MOODLE_36_STABLE
+    - php: 7.0
+      env: MOODLE_BRANCH=MOODLE_35_STABLE
 
 before_install:
   - phpenv config-rm xdebug.ini
-  - nvm install 8.9
-  - nvm use 8.9
   - cd ../..
-  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2
+  - composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
@@ -50,6 +45,8 @@ script:
   - moodle-plugin-ci codechecker
   - moodle-plugin-ci validate
   - moodle-plugin-ci savepoints
+  - moodle-plugin-ci mustache
   - moodle-plugin-ci grunt
+  - moodle-plugin-ci phpdoc
   - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat
