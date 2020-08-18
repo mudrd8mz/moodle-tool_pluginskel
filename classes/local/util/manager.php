@@ -432,6 +432,10 @@ class manager {
 
         $plugintype = $this->recipe['component_type'];
 
+        if ($plugintype === 'contenttype') {
+            $this->prepare_contenttype_files();
+        }
+
         if ($plugintype === 'qtype') {
             $this->prepare_qtype_files();
         }
@@ -1009,6 +1013,53 @@ class manager {
 
         if ($this->has_component_feature('navigation')) {
             $this->files['lib.php']->set_attribute('has_navigation');
+        }
+    }
+
+    /**
+     * Prepares the files for a content bank contenttype plugin.
+     */
+    protected function prepare_contenttype_files() {
+        $recipe = $this->recipe;
+
+        // General checks.
+        if ($this->has_common_feature('capabilities')) {
+            $this->verify_capability_exists('access');
+        } else {
+            // Capability contentytpe/<plugin>:access is required.
+            $this->logger->warning('Capabilities not defined');
+        }
+
+        $this->prepare_file_skeleton('classes/contenttype.php', 'base', 'contenttype/classes/contenttype');
+        $this->prepare_file_skeleton('classes/content.php', 'base', 'contenttype/classes/content');
+
+        // Feature dependencies.
+        if ($this->has_component_feature('can_edit')) {
+            $this->verify_capability_exists('useeditor');
+            $menuoptions = $recipe['contenttype_features']['can_edit']['add_menu'] ?? null;
+            if (empty($menuoptions)) {
+                $this->logger->warning('Missing add_menu options');
+            } else {
+                foreach ($menuoptions as $key => $value) {
+                    $checks = ['name', 'icon'];
+                    foreach ($checks as $check) {
+                        if (empty($value[$check])) {
+                            $this->logger->warning('Missing $check on the editor option $key');
+                        }
+                    }
+                }
+            }
+
+            $this->prepare_file_skeleton('classes/form/editor.php', 'base', 'contenttype/classes/form/editor');
+            $this->files['classes/contenttype.php']->set_attribute('has_can_edit');
+        }
+        if ($this->has_component_feature('can_upload')) {
+            $this->verify_capability_exists('upload');
+            $fileextensions = $recipe['contenttype_features']['can_upload']['file_extensions'] ?? null;
+            if (empty($fileextensions)) {
+                $this->logger->warning('Missing file extensions to upload');
+            }
+            $this->files['classes/contenttype.php']->set_attribute('has_can_upload');
         }
     }
 
