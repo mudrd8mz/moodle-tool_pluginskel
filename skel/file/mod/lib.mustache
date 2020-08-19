@@ -144,7 +144,7 @@ function {{ component_name }}_print_recent_activity($course, $viewfullnames, $ti
  *
  * This callback function is supposed to populate the passed array with custom
  * activity records. These records are then rendered into HTML via
- * {@link newmodule_print_recent_mod_activity()}.
+ * {@see newmodule_print_recent_mod_activity()}.
  *
  * @param array $activities Numerically indexed array of objects with added 'cmid' property.
  * @param int $index The index in the $activities to use for the next record.
@@ -161,12 +161,12 @@ function {{ component_name }}_get_recent_mod_activity(&$activities, &$index, $ti
 {{# self.has_print_recent_mod_activity }}
 
 /**
- * Prints single activity item prepared by {@link {{ component }}_get_recent_mod_activity()}.
+ * Prints single activity item prepared by {@see {{ component }}_get_recent_mod_activity()}.
  *
  * @param stdClass $activity Activity record with added 'cmid' property.
  * @param int $courseid The id of the course the report is for.
  * @param bool $detail Print detailed report.
- * @param array $modnames As returned by {@link get_module_types_names()}.
+ * @param array $modnames As returned by {@see get_module_types_names()}.
  * @param bool $viewfullnames Display users' full names.
  */
 function {{ component_name }}_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
@@ -239,7 +239,7 @@ function {{ component_name }}_scale_used_anywhere($scaleid) {
 /**
  * Creates or updates grade item for the given {{ component }} instance.
  *
- * Needed by {@link grade_update_mod_grades()}.
+ * Needed by {@see grade_update_mod_grades()}.
  *
  * @param stdClass $moduleinstance Instance object with extra cmidnumber and modname property.
  * @param bool $reset Reset grades in the gradebook.
@@ -291,7 +291,7 @@ function {{ component_name }}_grade_item_delete($moduleinstance) {
 /**
  * Update {{ component }} grades in the gradebook.
  *
- * Needed by {@link grade_update_mod_grades()}.
+ * Needed by {@see grade_update_mod_grades()}.
  *
  * @param stdClass $moduleinstance Instance object with extra cmidnumber and modname property.
  * @param int $userid Update grade of specific user only, 0 means all participants.
@@ -321,7 +321,7 @@ function {{ component_name }}_update_grades($moduleinstance, $userid = 0) {
  * Returns the lists of all browsable file areas within the given module context.
  *
  * The file area 'intro' for the activity introduction field is added automatically
- * by {@link file_browser::get_file_info_context_module()}.
+ * by {@see file_browser::get_file_info_context_module()}.
  *
  * @package     {{ component }}
  * @category    files
@@ -416,8 +416,8 @@ function {{ component_name }}_extend_navigation(${{ component_name }}node, $cour
  * This function is called when the context for the page is a {{ component }} module.
  * This is not called by AJAX so it is safe to rely on the $PAGE.
  *
- * @param settings_navigation $settingsnav {@link settings_navigation}
- * @param navigation_node ${{ component_name }}node {@link navigation_node}
+ * @param settings_navigation $settingsnav {@see settings_navigation}
+ * @param navigation_node ${{ component_name }}node {@see navigation_node}
  */
 function {{ component_name }}_extend_settings_navigation($settingsnav, ${{ component_name }}node = null) {
 }
