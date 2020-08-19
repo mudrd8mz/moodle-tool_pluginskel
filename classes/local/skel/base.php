@@ -81,6 +81,11 @@ class base {
         $this->manager = $manager;
     }
 
+     /**
+      * Set the given attribute flag.
+      *
+      * @param string $attribute Attribute name
+      */
     public function set_attribute($attribute) {
 
         if (empty($this->data)) {
@@ -93,7 +98,8 @@ class base {
     /**
      * Render the file contents.
      *
-     * @return string
+     * @param renderer_base $renderer
+     * @return The file source code contents.
      */
     public function render($renderer) {
         $this->content = $this->normalize($renderer->render($this->get_template_name(), $this->get_template_data()));
@@ -141,7 +147,7 @@ class base {
      * The $plugintype parameter is needed if the skel class is used by different plugintypes
      * (possibly with different template files), and each plugin type requires different variables.
      *
-     * @param string $plugintype.
+     * @param string $plugintype The plugin type, optional.
      * @return string[].
      */
     static public function get_template_variables($plugintype = null) {

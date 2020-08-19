@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides the {@link tool_pluginskel_privacy_testcase} class.
+ * Provides the {@see tool_pluginskel_privacy_testcase} class.
  *
  * @package     tool_pluginskel
  * @category    test
@@ -33,7 +33,7 @@ global $CFG;
 require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/vendor/autoload.php');
 
 /**
- * Test case for {@link \tool_pluginskel\local\util\manager} class.
+ * Test case for {@see \tool_pluginskel\local\util\manager} class.
  *
  * @copyright 2018 David Mudrák <david@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

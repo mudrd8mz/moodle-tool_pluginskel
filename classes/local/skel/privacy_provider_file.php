@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides {@link \tool_pluginskel\local\skel\privacy_provider_file} class.
+ * Provides {@see \tool_pluginskel\local\skel\privacy_provider_file} class.
  *
  * @package     tool_pluginskel
  * @subpackage  skel
@@ -247,7 +247,7 @@ class privacy_provider_file extends php_internal_file {
      *
      * This helper method makes sure that such a structure is correctly parsed.
      *
-     * @param int $input The input array node, such as the contents of the 'subsystems' node
+     * @param array $input The input array node, such as the contents of the 'subsystems' node
      * @return array of name => fields
      */
     protected function normalize_names_and_fields(array $input) {

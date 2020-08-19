@@ -76,7 +76,9 @@ class tool_pluginskel_step0_form extends moodleform {
     /**
      * Validate the input.
      *
-     * @return array of (string)elementname => (string)error
+     * @param array $data Submitted form data (string) element name => (mixed) value
+     * @param array $files Uploaded files (string) element name => (string) temporary file path
+     * @return array Validation errors (string) element name => (string) validation error
      */
     public function validation($data, $files) {
 

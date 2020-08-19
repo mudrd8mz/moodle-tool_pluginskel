@@ -39,9 +39,10 @@ defined('MOODLE_INTERNAL') || die();
 class locallib_php_file extends php_internal_file {
 
     /**
-     * Adds a function to be generated from the template.
+     * Adds an event callback functionm to generate code for.
      *
-     * @param string $function The function name.
+     * @param string $callback The callback name
+     * @param string $event The event name
      */
     public function add_event_callback($callback, $event) {
 

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides {@link \tool_pluginskel\local\skel\db_install_xml_file} class.
+ * Provides {@see \tool_pluginskel\local\skel\db_install_xml_file} class.
  *
  * @package     tool_pluginskel
  * @subpackage  skel

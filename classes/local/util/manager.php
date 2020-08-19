@@ -54,7 +54,7 @@ class manager {
      * Factory method returning manager instance.
      *
      * @param Monolog\Logger $logger
-     * @param array $recipe
+     * @param string $mustachedir Path to the base directory containing the mustache skeleton templates
      * @return \tool_pluginskel\local\util\manager
      */
     public static function instance($logger, $mustachedir = null) {
@@ -112,8 +112,8 @@ class manager {
     /**
      * Returns a list of component specific variables needed by the plugin templates.
      *
-     * @param string $component.
-     * @return string[].
+     * @param string $component
+     * @return string[]
      */
     public static function get_component_variables($component) {
 
@@ -660,7 +660,7 @@ class manager {
         }
     }
 
-    /*
+    /**
      * Prepares the files for an atto plugin.
      */
     protected function prepare_atto_files() {
@@ -744,7 +744,7 @@ class manager {
      *
      * If the capability hasn't been defined a warning is logged.
      *
-     * @param string $capabilitnyname
+     * @param string $capabilityname
      */
     protected function verify_capability_exists($capabilityname) {
 
@@ -1063,7 +1063,7 @@ class manager {
         }
     }
 
-    /*
+    /**
      * Prepares the skeleton files for the 'backup_moodle2' feature for an activity module.
      */
     protected function prepare_mod_backup_moodle2() {
@@ -1155,7 +1155,7 @@ class manager {
         }
     }
 
-    /*
+    /**
      * Prepare the event class files.
      */
     protected function prepare_events() {
@@ -1177,7 +1177,7 @@ class manager {
         }
     }
 
-    /*
+    /**
      * Prepare the file skeletons for the cli_scripts feature.
      */
     protected function prepare_cli_files() {
@@ -1412,6 +1412,8 @@ class manager {
 
     /**
      * Prepare the mustache engine instance
+     *
+     * @param string $mustachedir Path to the base directory containing the mustache skeleton templates
      */
     protected function init_templating_engine($mustachedir = null) {
         $loader = null;

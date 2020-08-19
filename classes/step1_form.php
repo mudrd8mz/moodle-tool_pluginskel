@@ -507,7 +507,6 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string $fieldsetname The name of the fieldset.
      * @param string $templatefieldset The template variables associated with the fieldset.
      * @param string[] $fieldsetrecipe The part of the recipe that contains the values for the fieldset.
-     * @param string[]
      */
     protected function get_numeric_array_variable_from_recipe($fieldsetname, $templatefieldset, $fieldsetrecipe) {
 
@@ -537,7 +536,6 @@ class tool_pluginskel_step1_form extends moodleform {
      *
      * @param string[] $templatevariables The template variables associated with the fieldset.
      * @param string[] $fieldsetrecipe The part of the recipe that contains the values for the fieldset.
-     * @param string[]
      */
     protected function get_associative_array_variable_from_recipe($templatevariables, $fieldsetrecipe) {
 

@@ -40,7 +40,7 @@ class phpunit_test_file extends php_internal_file {
     /**
      * Adds the classname of the class.
      *
-     * @param string $classname.
+     * @param string $classname
      */
     public function set_classname($classname) {
 

@@ -17,7 +17,7 @@
 /**
  * Web interface for generating plugins.
  *
- * @package    tool_pluginkenobi
+ * @package    tool_pluginskel
  * @copyright  2016 Alexandru Elisei
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides the {@link tool_pluginskel_privacy_testcase} class.
+ * Provides the {@see tool_pluginskel_privacy_testcase} class.
  *
  * @package     tool_pluginskel
  * @category    test

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines {@link \tool_pluginskel\privacy\provider} class.
+ * Defines {@see \tool_pluginskel\privacy\provider} class.
  *
  * @package     tool_pluginskel
  * @category    privacy
