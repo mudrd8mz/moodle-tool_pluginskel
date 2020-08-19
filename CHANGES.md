@@ -1,3 +1,11 @@
+## 1.3.0 ##
+
+* Added support for generating contenttype plugin templates. Credit goes to Ferran
+  Recio (@ferranrecio).
+* Moodle versions 3.8 and 3.9 can be selected as required versions.
+* URLs in boilerplates use the HTTPS protocol explicitly.
+* Fixed typos and errors. Credit goes to @kritisingh1.
+
 ## 1.2.3 ##
 
 * Fixed generating skeletons for activity modules. Credit goes to Leo Auri (@leoauri)
