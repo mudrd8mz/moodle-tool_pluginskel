@@ -19,15 +19,11 @@ env:
 jobs:
   include:
     - php: 7.4
-      env: MOODLE_BRANCH=MOODLE_39_STABLE
+      env: MOODLE_BRANCH=master
     - php: 7.3
-      env: MOODLE_BRANCH=MOODLE_38_STABLE
+      env: MOODLE_BRANCH=MOODLE_39_STABLE
     - php: 7.2
-      env: MOODLE_BRANCH=MOODLE_37_STABLE
-    - php: 7.1
-      env: MOODLE_BRANCH=MOODLE_36_STABLE
-    - php: 7.0
-      env: MOODLE_BRANCH=MOODLE_35_STABLE
+      env: MOODLE_BRANCH=MOODLE_38_STABLE
 
 before_install:
   - phpenv config-rm xdebug.ini
