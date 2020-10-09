@@ -243,6 +243,7 @@ class manager {
         $featuresvars[] = array('name' => 'license', 'type' => 'boolean', 'default' => true);
         $featuresvars[] = array('name' => 'upgrade', 'type' => 'boolean');
         $featuresvars[] = array('name' => 'upgradelib', 'type' => 'boolean');
+        $featuresvars[] = array('name' => 'ci', 'type' => 'boolean');
 
         $capabilities = array(
             array('name' => 'capabilities', 'type' => 'numeric-array', 'values' => array(
@@ -478,6 +479,10 @@ class manager {
 
         if ($this->has_common_feature('capabilities')) {
             $this->prepare_capabilities();
+        }
+
+        if ($this->has_common_feature('ci')) {
+            $this->prepare_file_skeleton('.travis.yml', 'txt_file', 'travis');
         }
 
         if ($this->has_common_feature('settings')) {

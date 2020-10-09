@@ -253,6 +253,8 @@ $string['events_extends'] = 'Extends';
 $string['events_extends_help'] = 'The name of the base event that the event extends.';
 $string['events_extends_link'] = 'https://docs.moodle.org/dev/Event_2';
 
+$string['features_ci'] = 'Travis CI configuration';
+$string['features_ci_help'] = 'Generate a .travis.yml file that configures automated testing of GitHub repositories.';
 $string['features_install'] = 'Install';
 $string['features_install_help'] = 'Generate the file db/install.php';
 $string['features_license'] = 'License';
