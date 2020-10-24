@@ -69,7 +69,7 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
     /**
      * Sets the the $plugintype.
      */
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         list($type, $name) = \core_component::normalize_component(self::$recipe['component']);
         self::$plugintype = $type;
         self::$pluginname = $name;
