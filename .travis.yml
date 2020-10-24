@@ -21,6 +21,8 @@ jobs:
   include:
     - php: 7.4
       env: MOODLE_BRANCH=master
+    - php: 7.4
+      env: MOODLE_BRANCH=MOODLE_310_STABLE
     - php: 7.3
       env: MOODLE_BRANCH=MOODLE_39_STABLE
     - php: 7.2
