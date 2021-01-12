@@ -1,3 +1,9 @@
+## 1.4.0 ##
+
+* Fixed deprecation warnings in unit tests under Moodle 3.10. Credit goes to @ewallah.
+* Fixed tests syntax to be compatible with PHPUnit 8.5.
+* Added support for generating version.php code requiring Moodle 3.10.
+
 ## 1.3.0 ##
 
 * Added support for generating contenttype plugin templates. Credit goes to Ferran
