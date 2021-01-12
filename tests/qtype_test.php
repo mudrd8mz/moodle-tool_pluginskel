@@ -63,7 +63,7 @@ class tool_pluginskel_qtype_testcase extends advanced_testcase {
     /**
      * Sets the $qtypename.
      */
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         global $CFG;
 
         list($type, $qtypename) = \core_component::normalize_component(self::$recipe['component']);

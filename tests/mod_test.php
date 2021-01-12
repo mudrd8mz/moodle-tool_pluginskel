@@ -143,7 +143,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
     /**
      * Sets the $relpath and the $modname.
      */
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         global $CFG;
 
         list($type, $modname) = \core_component::normalize_component(self::$recipe['component']);

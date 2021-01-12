@@ -101,7 +101,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
     /**
      * Sets the the $modname.
      */
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         global $CFG;
 
         list($type, $blockname) = \core_component::normalize_component(self::$recipe['component']);
