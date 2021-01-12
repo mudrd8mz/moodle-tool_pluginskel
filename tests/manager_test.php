@@ -74,9 +74,9 @@ class tool_pluginskel_manager_testcase extends advanced_testcase {
         $langfile = $files['lang/en/local_foobar.php'];
 
         // The pluginname string is added implicitly.
-        $this->assertContains("\$string['pluginname'] = 'Foo bar';", $langfile);
+        $this->assertStringContainsString("\$string['pluginname'] = 'Foo bar';", $langfile);
 
         // The foobar string has been added explicitly.
-        $this->assertContains("\$string['foobar'] = '<h1>Foo bar!</h1>\n".'Say {$a} or {$a->foo} here\';', $langfile);
+        $this->assertStringContainsString("\$string['foobar'] = '<h1>Foo bar!</h1>\n".'Say {$a} or {$a->foo} here\';', $langfile);
     }
 }

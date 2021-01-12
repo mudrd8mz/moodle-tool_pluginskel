@@ -65,7 +65,7 @@ class tool_pluginskel_readme_testcase extends advanced_testcase {
 
         $files = $manager->get_files_content();
         $this->assertArrayHasKey('README.md', $files);
-        $this->assertContains($recipe['name'], $files['README.md']);
-        $this->assertContains($recipe['copyright'], $files['README.md']);
+        $this->assertStringContainsString($recipe['name'], $files['README.md']);
+        $this->assertStringContainsString($recipe['copyright'], $files['README.md']);
     }
 }

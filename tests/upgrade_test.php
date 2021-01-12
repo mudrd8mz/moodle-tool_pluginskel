@@ -79,10 +79,10 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         $this->assertArrayHasKey('db/upgrade.php', $files);
         $upgradefile = $files['db/upgrade.php'];
 
-        $this->assertContains('Plugin upgrade steps are defined here.', $upgradefile);
-        $this->assertContains("defined('MOODLE_INTERNAL') || die()", $upgradefile);
-        $this->assertContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
-        $this->assertContains('function xmldb_local_upgradetest_upgrade($oldversion)', $upgradefile);
+        $this->assertStringContainsString('Plugin upgrade steps are defined here.', $upgradefile);
+        $this->assertStringContainsString("defined('MOODLE_INTERNAL') || die()", $upgradefile);
+        $this->assertStringContainsString("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
+        $this->assertStringContainsString('function xmldb_local_upgradetest_upgrade($oldversion)', $upgradefile);
     }
 
     /**
@@ -101,10 +101,10 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         $this->assertArrayHasKey('db/upgrade.php', $files);
         $upgradefile = $files['db/upgrade.php'];
 
-        $this->assertContains('Plugin upgrade steps are defined here.', $upgradefile);
-        $this->assertContains("defined('MOODLE_INTERNAL') || die()", $upgradefile);
-        $this->assertContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
-        $this->assertContains('function xmldb_upgradetest_upgrade($oldversion)', $upgradefile);
+        $this->assertStringContainsString('Plugin upgrade steps are defined here.', $upgradefile);
+        $this->assertStringContainsString("defined('MOODLE_INTERNAL') || die()", $upgradefile);
+        $this->assertStringContainsString("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
+        $this->assertStringContainsString('function xmldb_upgradetest_upgrade($oldversion)', $upgradefile);
     }
 
     /**
@@ -128,12 +128,12 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         $upgradelibfile = $files['db/upgradelib.php'];
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $upgradelibfile);
+        $this->assertStringContainsString($moodleinternal, $upgradelibfile);
 
-        $this->assertContains("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
+        $this->assertStringContainsString("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
 
         $description = 'Plugin upgrade helper functions are defined here.';
-        $this->assertContains($description, $upgradelibfile);
-        $this->assertContains($recipe['component'].'_helper_function()', $upgradelibfile);
+        $this->assertStringContainsString($description, $upgradelibfile);
+        $this->assertStringContainsString($recipe['component'].'_helper_function()', $upgradelibfile);
     }
 }

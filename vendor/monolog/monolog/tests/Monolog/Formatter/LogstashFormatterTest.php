@@ -43,7 +43,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("1970-01-01T00:00:00.000000+00:00", $message['@timestamp']);
         $this->assertEquals('log', $message['@message']);
         $this->assertEquals('meh', $message['@fields']['channel']);
-        $this->assertContains('meh', $message['@tags']);
+        $this->assertStringContainsString('meh', $message['@tags']);
         $this->assertEquals(Logger::ERROR, $message['@fields']['level']);
         $this->assertEquals('test', $message['@type']);
         $this->assertEquals('hostname', $message['@source']);
@@ -318,7 +318,7 @@ class LogstashFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("1970-01-01T00:00:00.000000+00:00", $message['@timestamp']);
         $this->assertEquals('log', $message['@message']);
         $this->assertEquals('¯\_(ツ)_/¯', $message['@fields']['channel']);
-        $this->assertContains('¯\_(ツ)_/¯', $message['@tags']);
+        $this->assertStringContainsString('¯\_(ツ)_/¯', $message['@tags']);
         $this->assertEquals(Logger::ERROR, $message['@fields']['level']);
         $this->assertEquals('test', $message['@type']);
         $this->assertEquals('hostname', $message['@source']);

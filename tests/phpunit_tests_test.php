@@ -70,15 +70,15 @@ class tool_pluginskel_phpunit_tests_testcase extends advanced_testcase {
         $firsttest = $files['tests/first_test.php'];
 
         $description = 'File containing tests for first.';
-        $this->assertContains($description, $firsttest);
+        $this->assertStringContainsString($description, $firsttest);
 
         $classdefinition = 'class local_test_first_testcase extends advanced_testcase {';
-        $this->assertContains($classdefinition, $firsttest);
+        $this->assertStringContainsString($classdefinition, $firsttest);
 
         $this->assertArrayHasKey('tests/second_test.php', $files);
         $secondtest = $files['tests/second_test.php'];
 
         $classdefinition = 'class local_test_second_testcase extends advanced_testcase {';
-        $this->assertContains($classdefinition, $secondtest);
+        $this->assertStringContainsString($classdefinition, $secondtest);
     }
 }

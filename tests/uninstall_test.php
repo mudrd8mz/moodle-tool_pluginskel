@@ -68,8 +68,8 @@ class tool_pluginskel_uninstall_testcase extends advanced_testcase {
         $uninstallfile = $files['db/uninstall.php'];
 
         $description = 'Code that is executed before the tables and data are dropped during the plugin uninstallation.';
-        $this->assertContains($description, $uninstallfile);
-        $this->assertContains('function xmldb_'.$recipe['component'].'_uninstall()', $uninstallfile);
+        $this->assertStringContainsString($description, $uninstallfile);
+        $this->assertStringContainsString('function xmldb_'.$recipe['component'].'_uninstall()', $uninstallfile);
     }
 
     /**
@@ -93,6 +93,6 @@ class tool_pluginskel_uninstall_testcase extends advanced_testcase {
         $files = $manager->get_files_content();
         $installfile = $files['db/uninstall.php'];
 
-        $this->assertContains('function xmldb_test_uninstall()', $installfile);
+        $this->assertStringContainsString('function xmldb_test_uninstall()', $installfile);
     }
 }

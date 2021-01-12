@@ -133,44 +133,44 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
 
         list($type, $blockname) = \core_component::normalize_component($recipe['component']);
         $description = 'Block '.$blockname.' is defined here.';
-        $this->assertContains($description, $blockfile);
+        $this->assertStringContainsString($description, $blockfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         // The block file is not internal.
-        $this->assertNotContains($moodleinternal, $blockfile);
+        $this->assertStringNotContainsString($moodleinternal, $blockfile);
 
         // The block file should not include the config.php file.
         $this->assertNotRegExp('/require.+config\.php/', $blockfile);
 
         $classdefinition = 'class '.$recipe['component'].' extends block_base';
-        $this->assertContains($classdefinition, $blockfile);
+        $this->assertStringContainsString($classdefinition, $blockfile);
 
         $init = 'public function init()';
-        $this->assertContains($init, $blockfile);
+        $this->assertStringContainsString($init, $blockfile);
 
         $getcontent = 'public function get_content()';
-        $this->assertContains($getcontent, $blockfile);
+        $this->assertStringContainsString($getcontent, $blockfile);
 
         $specialization = 'public function specialization()';
-        $this->assertContains($specialization, $blockfile);
+        $this->assertStringContainsString($specialization, $blockfile);
 
         $allowmultiple = 'function instance_allow_multiple()';
-        $this->assertContains($allowmultiple, $blockfile);
+        $this->assertStringContainsString($allowmultiple, $blockfile);
 
         $hasconfig = 'function has_config()';
-        $this->assertContains($hasconfig, $blockfile);
+        $this->assertStringContainsString($hasconfig, $blockfile);
 
         $applicableformats = 'public function applicable_formats()';
-        $this->assertContains($applicableformats, $blockfile);
+        $this->assertStringContainsString($applicableformats, $blockfile);
 
         $allformat = "'all' => false,";
-        $this->assertContains($allformat, $blockfile);
+        $this->assertStringContainsString($allformat, $blockfile);
 
         $courseviewformat = "'course-view' => true,";
-        $this->assertContains($courseviewformat, $blockfile);
+        $this->assertStringContainsString($courseviewformat, $blockfile);
 
         $courseviewsocialformat = "'course-view-social' => false,";
-        $this->assertContains($courseviewsocialformat, $blockfile);
+        $this->assertStringContainsString($courseviewsocialformat, $blockfile);
     }
 
     /**
@@ -192,17 +192,17 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
 
         list($type, $blockname) = \core_component::normalize_component($recipe['component']);
         $description = 'Form for editing '.$blockname.' block instances.';
-        $this->assertContains($description, $editformfile);
+        $this->assertStringContainsString($description, $editformfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         // The edit_form file is not internal.
-        $this->assertNotContains($moodleinternal, $editformfile);
+        $this->assertStringNotContainsString($moodleinternal, $editformfile);
 
         // The edit_form file should not include the config.php file.
         $this->assertNotRegExp('/require.+config\.php/', $editformfile);
 
         $classdefinition = 'class '.$recipe['component'].'_edit_form extends block_edit_form';
-        $this->assertContains($classdefinition, $editformfile);
+        $this->assertStringContainsString($classdefinition, $editformfile);
     }
 
     /**
@@ -227,21 +227,21 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'The task that provides all the steps to perform a complete backup is defined here.';
-        $this->assertContains($description, $taskfile);
+        $this->assertStringContainsString($description, $taskfile);
 
         $this->assertRegExp('/\* @category\s+backup/', $taskfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $taskfile);
+        $this->assertStringContainsString($moodleinternal, $taskfile);
 
         $settingslibpath = self::$relpath.'/backup/moodle2/backup_'.$blockname.'_settingslib.php';
-        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$settingslibpath.'\')', $taskfile);
+        $this->assertStringContainsString('require_once($CFG->dirroot.'.'\'/'.$settingslibpath.'\')', $taskfile);
 
         $stepslibpath = self::$relpath.'/backup/moodle2/backup_'.$blockname.'_stepslib.php';
-        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $taskfile);
+        $this->assertStringContainsString('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $taskfile);
 
         $classdefinition = 'class backup_'.$blockname.'_block_task extends backup_block_task';
-        $this->assertContains($classdefinition, $taskfile);
+        $this->assertStringContainsString($classdefinition, $taskfile);
     }
 
     /**
@@ -265,12 +265,12 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'Plugin custom settings are defined here.';
-        $this->assertContains($description, $settingslibfile);
+        $this->assertStringContainsString($description, $settingslibfile);
 
         $this->assertRegExp('/\* @category\s+backup/', $settingslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $settingslibfile);
+        $this->assertStringContainsString($moodleinternal, $settingslibfile);
     }
 
     /**
@@ -294,19 +294,19 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'Backup steps for '.$recipe['component'].' are defined here.';
-        $this->assertContains($description, $stepslibfile);
+        $this->assertStringContainsString($description, $stepslibfile);
 
         $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $stepslibfile);
+        $this->assertStringContainsString($moodleinternal, $stepslibfile);
 
         $classdefinition = 'class backup_'.$blockname.'_block_structure_step extends backup_block_structure_step';
-        $this->assertContains($classdefinition, $stepslibfile);
+        $this->assertStringContainsString($classdefinition, $stepslibfile);
 
         $elementname = $recipe['block_features']['backup_moodle2']['backup_elements'][0]['name'];
         $nestedelement = '$'.$elementname.' = new backup_nested_element(\''.$elementname.'\', $attributes, $final_elements)';
-        $this->assertContains($nestedelement, $stepslibfile);
+        $this->assertStringContainsString($nestedelement, $stepslibfile);
     }
 
     /**
@@ -330,18 +330,18 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'The task that provides a complete restore of '.$recipe['component'].' is defined here.';
-        $this->assertContains($description, $restorefile);
+        $this->assertStringContainsString($description, $restorefile);
 
         $this->assertRegExp('/\* @category\s+restore/', $restorefile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $restorefile);
+        $this->assertStringContainsString($moodleinternal, $restorefile);
 
         $stepslibpath = self::$relpath.'/backup/moodle2/restore_'.$blockname.'_stepslib.php';
-        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $restorefile);
+        $this->assertStringContainsString('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $restorefile);
 
         $classdefinition = 'class restore_'.$blockname.'_block_task extends restore_block_task';
-        $this->assertContains($classdefinition, $restorefile);
+        $this->assertStringContainsString($classdefinition, $restorefile);
     }
 
     /**
@@ -365,22 +365,22 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'All the steps to restore '.$recipe['component'].' are defined here.';
-        $this->assertContains($description, $stepslibfile);
+        $this->assertStringContainsString($description, $stepslibfile);
 
         $this->assertRegExp('/\* @category\s+restore/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $stepslibfile);
+        $this->assertStringContainsString($moodleinternal, $stepslibfile);
 
         $classdefinition = 'class restore_'.$blockname.'_block_structure_step extends restore_structure_step';
-        $this->assertContains($classdefinition, $stepslibfile);
+        $this->assertStringContainsString($classdefinition, $stepslibfile);
 
         $element = $recipe['block_features']['backup_moodle2']['restore_elements'][0]['name'];
         $path = $recipe['block_features']['backup_moodle2']['restore_elements'][0]['path'];
         $elementpath = "\$paths[] = new restore_path_element('".$element."', '".$path."')";
-        $this->assertContains($elementpath, $stepslibfile);
+        $this->assertStringContainsString($elementpath, $stepslibfile);
 
         $processfunction = 'protected function process_'.$element.'($data)';
-        $this->assertContains($processfunction, $stepslibfile);
+        $this->assertStringContainsString($processfunction, $stepslibfile);
     }
 }

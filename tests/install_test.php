@@ -68,8 +68,8 @@ class tool_pluginskel_install_testcase extends advanced_testcase {
         $installfile = $files['db/install.php'];
 
         $description = 'Code to be executed after the plugin\'s database scheme has been installed is defined here.';
-        $this->assertContains($description, $installfile);
-        $this->assertContains('function xmldb_'.$recipe['component'].'_install()', $installfile);
+        $this->assertStringContainsString($description, $installfile);
+        $this->assertStringContainsString('function xmldb_'.$recipe['component'].'_install()', $installfile);
     }
 
     /**
@@ -93,6 +93,6 @@ class tool_pluginskel_install_testcase extends advanced_testcase {
         $files = $manager->get_files_content();
         $installfile = $files['db/install.php'];
 
-        $this->assertContains('function xmldb_test_install()', $installfile);
+        $this->assertStringContainsString('function xmldb_test_install()', $installfile);
     }
 }

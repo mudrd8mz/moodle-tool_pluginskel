@@ -70,12 +70,12 @@ class tool_pluginskel_lang_testcase extends advanced_testcase {
         $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
         $langfile = $files['lang/en/'.$recipe['component'].'.php'];
 
-        $this->assertContains('Plugin strings are defined here.', $langfile);
+        $this->assertStringContainsString('Plugin strings are defined here.', $langfile);
         $this->assertRegExp('/\* @category\s+string/', $langfile);
-        $this->assertContains("\$string['pluginname'] = '".$recipe['name'], $langfile);
+        $this->assertStringContainsString("\$string['pluginname'] = '".$recipe['name'], $langfile);
 
         $id = $recipe['lang_strings'][0]['id'];
         $text = $recipe['lang_strings'][0]['text'];
-        $this->assertContains("\$string['$id'] = '$text'", $langfile);
+        $this->assertStringContainsString("\$string['$id'] = '$text'", $langfile);
     }
 }

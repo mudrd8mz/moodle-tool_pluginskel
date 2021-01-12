@@ -75,27 +75,27 @@ class tool_pluginskel_version_php_testcase extends advanced_testcase {
         $versionfile = $files['version.php'];
 
         $description = 'Plugin version and other meta-data are defined here';
-        $this->assertContains($description, $versionfile);
+        $this->assertStringContainsString($description, $versionfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $versionfile);
+        $this->assertStringContainsString($moodleinternal, $versionfile);
 
         list($type, $name) = core_component::normalize_component($recipe['component']);
         $fullcomponent = $type.'_'.$name;
-        $this->assertContains("\$plugin->component = '".$fullcomponent."'", $versionfile);
+        $this->assertStringContainsString("\$plugin->component = '".$fullcomponent."'", $versionfile);
 
-        $this->assertContains("\$plugin->release = '".$recipe['release']."'", $versionfile);
-        $this->assertContains("\$plugin->version = ".$recipe['version'], $versionfile);
-        $this->assertContains("\$plugin->requires = ".$recipe['requires'], $versionfile);
-        $this->assertContains("\$plugin->maturity = ".$recipe['maturity'], $versionfile);
-        $this->assertContains('$plugin->dependencies', $versionfile);
+        $this->assertStringContainsString("\$plugin->release = '".$recipe['release']."'", $versionfile);
+        $this->assertStringContainsString("\$plugin->version = ".$recipe['version'], $versionfile);
+        $this->assertStringContainsString("\$plugin->requires = ".$recipe['requires'], $versionfile);
+        $this->assertStringContainsString("\$plugin->maturity = ".$recipe['maturity'], $versionfile);
+        $this->assertStringContainsString('$plugin->dependencies', $versionfile);
 
         $plugin = $recipe['dependencies'][0]['plugin'];
         $version = $recipe['dependencies'][0]['version'];
-        $this->assertContains("'$plugin' => $version", $versionfile);
+        $this->assertStringContainsString("'$plugin' => $version", $versionfile);
 
         $plugin = $recipe['dependencies'][1]['plugin'];
         $version = $recipe['dependencies'][1]['version'];
-        $this->assertContains("'$plugin' => $version", $versionfile);
+        $this->assertStringContainsString("'$plugin' => $version", $versionfile);
     }
 }

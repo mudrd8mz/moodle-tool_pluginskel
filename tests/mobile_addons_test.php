@@ -78,22 +78,22 @@ class tool_pluginskel_mobile_addons_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'Mobile addons are declared here.';
-        $this->assertContains($description, $dbmobilefile);
+        $this->assertStringContainsString($description, $dbmobilefile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $dbmobilefile);
+        $this->assertStringContainsString($moodleinternal, $dbmobilefile);
 
         $addon = "'".$recipe['mobile_addons'][0]['name']."' => array(";
-        $this->assertContains($addon, $dbmobilefile);
+        $this->assertStringContainsString($addon, $dbmobilefile);
 
         $dependencieslist = $recipe['mobile_addons'][0]['dependencies'];
         foreach ($dependencieslist as $key => $dependency) {
             $dependencieslist[$key] = "'".$dependency['name']."'";
         }
         $dependencies = "'dependencies' => array(".implode(', ', $dependencieslist).", )";
-        $this->assertContains($dependencies, $dbmobilefile);
+        $this->assertStringContainsString($dependencies, $dbmobilefile);
 
         $addon = "'".$recipe['mobile_addons'][1]['name']."' => array(";
-        $this->assertContains($addon, $dbmobilefile);
+        $this->assertStringContainsString($addon, $dbmobilefile);
     }
 }

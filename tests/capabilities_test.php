@@ -90,28 +90,28 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         $dbaccessfile = $files['db/access.php'];
 
         // Verify the boilerplate.
-        $this->assertContains('Plugin capabilities are defined here.', $dbaccessfile);
+        $this->assertStringContainsString('Plugin capabilities are defined here.', $dbaccessfile);
         $this->assertRegExp('/\* @category\s+access/', $dbaccessfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $dbaccessfile);
+        $this->assertStringContainsString($moodleinternal, $dbaccessfile);
 
         // Verify if the title string has been generated.
         $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
         $langfile = $files['lang/en/'.$recipe['component'].'.php'];
 
         $langstring = "\$string['capabilitiestest:view'] = '".$recipe['capabilities'][0]['title']."';";
-        $this->assertContains($langstring, $langfile);
+        $this->assertStringContainsString($langstring, $langfile);
 
         // Verify if the capability has been generated correctly.
-        $this->assertContains(self::$plugintype.'/capabilitiestest:view', $dbaccessfile);
-        $this->assertContains("'riskbitmask' => RISK_XSS", $dbaccessfile);
-        $this->assertContains("'captype' => 'view'", $dbaccessfile);
-        $this->assertContains("'contextlevel' => CONTEXT_MODULE", $dbaccessfile);
-        $this->assertContains("'archetypes'", $dbaccessfile);
-        $this->assertContains("'student' => CAP_ALLOW", $dbaccessfile);
-        $this->assertContains("'editingteacher' => CAP_ALLOW", $dbaccessfile);
-        $this->assertContains("'clonepermissionsfrom' => 'moodle/course:view'", $dbaccessfile);
+        $this->assertStringContainsString(self::$plugintype.'/capabilitiestest:view', $dbaccessfile);
+        $this->assertStringContainsString("'riskbitmask' => RISK_XSS", $dbaccessfile);
+        $this->assertStringContainsString("'captype' => 'view'", $dbaccessfile);
+        $this->assertStringContainsString("'contextlevel' => CONTEXT_MODULE", $dbaccessfile);
+        $this->assertStringContainsString("'archetypes'", $dbaccessfile);
+        $this->assertStringContainsString("'student' => CAP_ALLOW", $dbaccessfile);
+        $this->assertStringContainsString("'editingteacher' => CAP_ALLOW", $dbaccessfile);
+        $this->assertStringContainsString("'clonepermissionsfrom' => 'moodle/course:view'", $dbaccessfile);
     }
 
     public function test_capabilities() {
@@ -129,7 +129,7 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         $dbaccessfile = $files['db/access.php'];
 
         // Verify if all the capabilities have been generated.
-        $this->assertContains(self::$plugintype.'/capabilitiestest:view', $dbaccessfile);
-        $this->assertContains(self::$plugintype.'/capabilitiestest:edit', $dbaccessfile);
+        $this->assertStringContainsString(self::$plugintype.'/capabilitiestest:view', $dbaccessfile);
+        $this->assertStringContainsString(self::$plugintype.'/capabilitiestest:edit', $dbaccessfile);
     }
 }

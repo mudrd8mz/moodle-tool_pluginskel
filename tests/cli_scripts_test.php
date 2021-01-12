@@ -71,16 +71,16 @@ class tool_pluginskel_cli_scripts_testcase extends advanced_testcase {
         $clifile = $files[$filename];
 
         $description = 'CLI script for '.$recipe['component'].'.';
-        $this->assertContains($description, $clifile);
+        $this->assertStringContainsString($description, $clifile);
 
         $cliscript = "define('CLI_SCRIPT', true)";
-        $this->assertContains($cliscript, $clifile);
+        $this->assertStringContainsString($cliscript, $clifile);
 
         $configphp = "require(__DIR__.'/../../../config.php')";
-        $this->assertContains($configphp, $clifile);
+        $this->assertStringContainsString($configphp, $clifile);
 
         $clilib = "require_once(\$CFG->libdir.'/clilib.php')";
-        $this->assertContains($clilib, $clifile);
+        $this->assertStringContainsString($clilib, $clifile);
 
         $filename = 'cli/'.$recipe['cli_scripts'][1]['filename'].'.php';
         $this->assertArrayHasKey($filename, $files);

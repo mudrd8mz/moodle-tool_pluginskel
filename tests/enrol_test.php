@@ -126,13 +126,13 @@ class tool_pluginskel_enrol_testcase extends advanced_testcase {
 
         list($type, $enrolname) = \core_component::normalize_component($recipe['component']);
         $description = 'The enrol plugin '.$enrolname.' is defined here.';
-        $this->assertContains($description, $libfile);
+        $this->assertStringContainsString($description, $libfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $libfile);
+        $this->assertStringContainsString($moodleinternal, $libfile);
 
         $classdefinition = 'class '.$recipe['component'].'_plugin extends enrol_plugin';
-        $this->assertContains($classdefinition, $libfile);
+        $this->assertStringContainsString($classdefinition, $libfile);
 
         $returnvalue = $recipe['enrol_features']['allow_enrol'] == true ? 'true' : 'false';
         $allowenrol = '/public function allow_enrol\(\$instance\) {\s+return '.$returnvalue.';/';

@@ -73,23 +73,23 @@ class tool_pluginskel_message_providers_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'Plugin message providers are defined here.';
-        $this->assertContains($description, $messagesfile);
+        $this->assertStringContainsString($description, $messagesfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $messagesfile);
+        $this->assertStringContainsString($moodleinternal, $messagesfile);
 
         // Verify if the message provider has been generated correctly.
         $messageprovider = $recipe['message_providers'][0]['name'];
-        $this->assertContains("'".$messageprovider."' => array(", $messagesfile);
+        $this->assertStringContainsString("'".$messageprovider."' => array(", $messagesfile);
 
         $capability = $recipe['message_providers'][0]['capability'];
-        $this->assertContains("'capability' => '".$capability."'", $messagesfile);
+        $this->assertStringContainsString("'capability' => '".$capability."'", $messagesfile);
 
         // Verify if the title string has been generated.
         $this->assertArrayHasKey('lang/en/'.$recipe['component'].'.php', $files);
         $langfile = $files['lang/en/'.$recipe['component'].'.php'];
 
         $langstring = "\$string['messageprovider:".$messageprovider."'] = '".$recipe['message_providers'][0]['title']."';";
-        $this->assertContains($langstring, $langfile);
+        $this->assertStringContainsString($langstring, $langfile);
     }
 }

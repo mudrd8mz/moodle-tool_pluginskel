@@ -83,13 +83,13 @@ class tool_pluginskel_observers_testcase extends advanced_testcase {
         $eventsfile = $files['db/events.php'];
 
         $description = 'Plugin event observers are registered here.';
-        $this->assertContains($description, $eventsfile);
+        $this->assertStringContainsString($description, $eventsfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $eventsfile);
+        $this->assertStringContainsString($moodleinternal, $eventsfile);
 
         $observers = '$observers = array(';
-        $this->assertContains($observers, $eventsfile);
+        $this->assertStringContainsString($observers, $eventsfile);
 
         foreach ($recipe['observers'] as $obs) {
 
@@ -138,32 +138,32 @@ class tool_pluginskel_observers_testcase extends advanced_testcase {
         $observerfile = $files['classes/event_observer.php'];
 
         $description = 'Event observer class.';
-        $this->assertContains($description, $observerfile);
+        $this->assertStringContainsString($description, $observerfile);
 
         $namespace = 'namespace '.$recipe['component'].';';
-        $this->assertContains($namespace, $observerfile);
+        $this->assertStringContainsString($namespace, $observerfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $observerfile);
+        $this->assertStringContainsString($moodleinternal, $observerfile);
 
-        $this->assertContains('class event_observer', $observerfile);
+        $this->assertStringContainsString('class event_observer', $observerfile);
 
         $paramevent = '* @param '.$recipe['observers'][0]['eventname'].' $event';
-        $this->assertContains($paramevent, $observerfile);
+        $this->assertStringContainsString($paramevent, $observerfile);
 
         $function = 'public static function something_happened($event)';
-        $this->assertContains($function, $observerfile);
+        $this->assertStringContainsString($function, $observerfile);
 
         $secondobserverfile = $files['classes/another_event_observer.php'];
-        $this->assertNotContains($namespace, $secondobserverfile);
+        $this->assertStringNotContainsString($namespace, $secondobserverfile);
 
         $locallibfile = $files['locallib.php'];
 
         $functiondescription = 'Handle the '.$recipe['observers'][2]['eventname'].' event.';
-        $this->assertContains($functiondescription, $locallibfile);
+        $this->assertStringContainsString($functiondescription, $locallibfile);
 
         $functionname = $recipe['observers'][2]['callback'];
         $function = 'function '.$functionname.'($event)';
-        $this->assertContains($function, $locallibfile);
+        $this->assertStringContainsString($function, $locallibfile);
     }
 }

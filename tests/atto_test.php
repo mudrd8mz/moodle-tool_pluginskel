@@ -94,10 +94,10 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $buttonjsfile = $files['yui/src/button/js/button.js'];
 
         $description = 'The Atto plugin '.self::$pluginname.' is defined here.';
-        $this->assertContains($description, $buttonjsfile);
+        $this->assertStringContainsString($description, $buttonjsfile);
 
         $namespace = "Y.namespace('M.".$recipe['component']."').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin";
-        $this->assertContains($namespace, $buttonjsfile);
+        $this->assertStringContainsString($namespace, $buttonjsfile);
 
         $paramname = $recipe['atto_features']['params_for_js'][0]['name'];
         $default = $recipe['atto_features']['params_for_js'][0]['default'];
@@ -123,7 +123,7 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $buildfile = $files['yui/src/button/build.json'];
 
         $name = 'moodle-'.$recipe['component'].'-button';
-        $this->assertContains($name, $buildfile);
+        $this->assertStringContainsString($name, $buildfile);
     }
 
     /**
@@ -144,7 +144,7 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $buttonfile = $files['yui/src/button/meta/button.json'];
 
         $name = 'moodle-'.$recipe['component'].'-button';
-        $this->assertContains($name, $buttonfile);
+        $this->assertStringContainsString($name, $buttonfile);
     }
 
     /**
@@ -165,14 +165,14 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $libfile = $files['lib.php'];
 
         $stringsforjs = 'function '.$recipe['component'].'_strings_for_js()';
-        $this->assertContains($stringsforjs, $libfile);
+        $this->assertStringContainsString($stringsforjs, $libfile);
 
         $id = $recipe['atto_features']['strings_for_js'][0]['id'];
         $strings = '/\$PAGE->requires_strings_for_js\(array\(\s+\''.$id.'\',\s+\)\)/';
         $this->assertRegExp($strings, $libfile);
 
         $paramsforjs = 'function '.$recipe['component'].'_params_for_js($elementid, $options, $foptions)';
-        $this->assertContains($paramsforjs, $libfile);
+        $this->assertStringContainsString($paramsforjs, $libfile);
 
         $paramname = $recipe['atto_features']['params_for_js'][0]['name'];
         $value = $recipe['atto_features']['params_for_js'][0]['value'];
@@ -198,6 +198,6 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $langfile = $files['lang/en/'.$recipe['component'].'.php'];
 
         $langstring = $recipe['atto_features']['strings_for_js'][0];
-        $this->assertContains("\$string['".$langstring['id']."'] = '".$langstring['text']."';", $langfile);
+        $this->assertStringContainsString("\$string['".$langstring['id']."'] = '".$langstring['text']."';", $langfile);
     }
 }

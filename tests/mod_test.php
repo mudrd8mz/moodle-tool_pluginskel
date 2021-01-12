@@ -192,19 +192,19 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $libfile = $files['lib.php'];
 
         $description = 'Library of interface functions and constants.';
-        $this->assertContains($description, $libfile);
+        $this->assertStringContainsString($description, $libfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $libfile);
+        $this->assertStringContainsString($moodleinternal, $libfile);
 
         $addinstance = 'function demo_add_instance($moduleinstance, $mform = null)';
-        $this->assertContains($addinstance, $libfile);
+        $this->assertStringContainsString($addinstance, $libfile);
 
         $updateinstance = 'function demo_update_instance($moduleinstance, $mform = null)';
-        $this->assertContains($updateinstance, $libfile);
+        $this->assertStringContainsString($updateinstance, $libfile);
 
         $deleteinstance = 'function demo_delete_instance($id)';
-        $this->assertContains($deleteinstance, $libfile);
+        $this->assertStringContainsString($deleteinstance, $libfile);
     }
 
     /**
@@ -224,13 +224,13 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $modformfile = $files['mod_form.php'];
 
         $description = 'The main '.$recipe['component'].' configuration form.';
-        $this->assertContains($description, $modformfile);
+        $this->assertStringContainsString($description, $modformfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $modformfile);
+        $this->assertStringContainsString($moodleinternal, $modformfile);
 
         $formclass = 'class mod_demo_mod_form extends moodleform_mod';
-        $this->assertContains($formclass, $modformfile);
+        $this->assertStringContainsString($formclass, $modformfile);
     }
 
     /**
@@ -250,22 +250,22 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $viewfile = $files['view.php'];
 
         $description = 'Prints an instance of mod_demo.';
-        $this->assertContains($description, $viewfile);
+        $this->assertStringContainsString($description, $viewfile);
 
         $requireconfig = "require(__DIR__.'/../../config.php')";
-        $this->assertContains($requireconfig, $viewfile);
+        $this->assertStringContainsString($requireconfig, $viewfile);
 
         $requirelogin = 'require_login($course, true, $cm)';
-        $this->assertContains($requirelogin, $viewfile);
+        $this->assertStringContainsString($requirelogin, $viewfile);
 
         $seturl = "\$PAGE->set_url('/mod/demo/view.php', array('id' => \$cm->id))";
-        $this->assertContains($seturl, $viewfile);
+        $this->assertStringContainsString($seturl, $viewfile);
 
         $header = 'echo $OUTPUT->header()';
-        $this->assertContains($header, $viewfile);
+        $this->assertStringContainsString($header, $viewfile);
 
         $footer = 'echo $OUTPUT->footer()';
-        $this->assertContains($footer, $viewfile);
+        $this->assertStringContainsString($footer, $viewfile);
     }
 
     /**
@@ -285,25 +285,25 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $indexfile = $files['index.php'];
 
         $description = 'Display information about all the mod_demo modules in the requested course.';
-        $this->assertContains($description, $indexfile);
+        $this->assertStringContainsString($description, $indexfile);
 
         $requireconfig = "require(__DIR__.'/../../config.php')";
-        $this->assertContains($requireconfig, $indexfile);
+        $this->assertStringContainsString($requireconfig, $indexfile);
 
         $course = "\$DB->get_record('course', array('id' => \$id), '*', MUST_EXIST)";
-        $this->assertContains($course, $indexfile);
+        $this->assertStringContainsString($course, $indexfile);
 
         $requirecourselogin = 'require_course_login($course)';
-        $this->assertContains($requirecourselogin, $indexfile);
+        $this->assertStringContainsString($requirecourselogin, $indexfile);
 
         $seturl = "\$PAGE->set_url('/mod/demo/index.php', array('id' => \$id))";
-        $this->assertContains($seturl, $indexfile);
+        $this->assertStringContainsString($seturl, $indexfile);
 
         $header = 'echo $OUTPUT->header()';
-        $this->assertContains($header, $indexfile);
+        $this->assertStringContainsString($header, $indexfile);
 
         $footer = 'echo $OUTPUT->footer()';
-        $this->assertContains($footer, $indexfile);
+        $this->assertStringContainsString($footer, $indexfile);
     }
 
     /**
@@ -327,31 +327,31 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $modformfile = $files['mod_form.php'];
 
         $standardgradingelements = '$this->standard_grading_coursemodule_elements()';
-        $this->assertContains($standardgradingelements, $modformfile);
+        $this->assertStringContainsString($standardgradingelements, $modformfile);
 
         $libfile = $files['lib.php'];
 
         $this->assertRegExp('/case FEATURE_GRADE_HAS_GRADE:\s+return true/', $libfile);
 
         $scaleused = 'function demo_scale_used($moduleinstanceid, $scaleid)';
-        $this->assertContains($scaleused, $libfile);
+        $this->assertStringContainsString($scaleused, $libfile);
 
         $scaleusedanywhere = 'function demo_scale_used_anywhere($scaleid)';
-        $this->assertContains($scaleusedanywhere, $libfile);
+        $this->assertStringContainsString($scaleusedanywhere, $libfile);
 
         $gradeitemupdate = 'function demo_grade_item_update($moduleinstance, $reset=false)';
-        $this->assertContains($gradeitemupdate, $libfile);
+        $this->assertStringContainsString($gradeitemupdate, $libfile);
 
         $gradeitemdelete = 'function demo_grade_item_delete($moduleinstance)';
-        $this->assertContains($gradeitemdelete, $libfile);
+        $this->assertStringContainsString($gradeitemdelete, $libfile);
 
         $updategrades = 'function demo_update_grades($moduleinstance, $userid = 0)';
-        $this->assertContains($updategrades, $libfile);
+        $this->assertStringContainsString($updategrades, $libfile);
 
         $gradefile = $files['grade.php'];
 
         $description = 'Redirect the user to the appropiate submission related page.';
-        $this->assertContains($description, $gradefile);
+        $this->assertStringContainsString($description, $gradefile);
     }
 
     /**
@@ -372,15 +372,15 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $libfile = $files['lib.php'];
 
         $getfileareas = 'function demo_get_file_areas($course, $cm, $context)';
-        $this->assertContains($getfileareas, $libfile);
+        $this->assertStringContainsString($getfileareas, $libfile);
 
         $getfileinfo = 'function demo_get_file_info('.
             '$browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename)';
-        $this->assertContains($getfileinfo, $libfile);
+        $this->assertStringContainsString($getfileinfo, $libfile);
 
         $pluginfile = 'function demo_pluginfile('.
             '$course, $cm, $context, $filearea, $args, $forcedownload, $options = array())';
-        $this->assertContains($pluginfile, $libfile);
+        $this->assertStringContainsString($pluginfile, $libfile);
     }
 
     /**
@@ -402,11 +402,11 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
         $extendnavigationargs = '$demonode, $course, $module, $cm';
         $extendnavigation = 'function demo_extend_navigation('.$extendnavigationargs.')';
-        $this->assertContains($extendnavigation, $libfile);
+        $this->assertStringContainsString($extendnavigation, $libfile);
 
         $extendsettingsargs = '$settingsnav, $demonode = null';
         $extendsettings = 'function demo_extend_settings_navigation('.$extendsettingsargs.')';
-        $this->assertContains($extendsettings, $libfile);
+        $this->assertStringContainsString($extendsettings, $libfile);
     }
 
     /**
@@ -432,25 +432,25 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'The task that provides all the steps to perform a complete backup is defined here.';
-        $this->assertContains($description, $taskfile);
+        $this->assertStringContainsString($description, $taskfile);
 
         $this->assertRegExp('/\* @category\s+backup/', $taskfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $taskfile);
+        $this->assertStringContainsString($moodleinternal, $taskfile);
 
         $settingslibpath = self::$relpath.'/backup/moodle2/backup_'.$modname.'_settingslib.php';
-        $this->assertNotContains('require_once($CFG->dirroot.'.'\'/'.$settingslibpath.'\')', $taskfile);
+        $this->assertStringNotContainsString('require_once($CFG->dirroot.'.'\'/'.$settingslibpath.'\')', $taskfile);
 
         $stepslibpath = self::$relpath.'/backup/moodle2/backup_'.$modname.'_stepslib.php';
-        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $taskfile);
+        $this->assertStringContainsString('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $taskfile);
 
         $classdefinition = 'class backup_'.$modname.'_activity_task extends backup_activity_task';
-        $this->assertContains($classdefinition, $taskfile);
+        $this->assertStringContainsString($classdefinition, $taskfile);
 
         $stepdefinition = "\$this->add_step(new backup_".$modname."_activity_structure_step('"
             .$modname."_structure', '".$modname.".xml')";
-        $this->assertContains($stepdefinition, $taskfile);
+        $this->assertStringContainsString($stepdefinition, $taskfile);
     }
 
     /**
@@ -474,17 +474,17 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'Plugin custom settings are defined here.';
-        $this->assertContains($description, $settingslibfile);
+        $this->assertStringContainsString($description, $settingslibfile);
         $this->assertRegExp('/\* @category\s+backup/', $settingslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $settingslibfile);
+        $this->assertStringContainsString($moodleinternal, $settingslibfile);
 
         $filename = 'backup/moodle2/backup_'.$modname.'_activity_task.class.php';
         $taskfile = $files[$filename];
 
         $settingslibpath = self::$relpath.'/backup/moodle2/backup_'.$modname.'_settingslib.php';
-        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$settingslibpath.'\')', $taskfile);
+        $this->assertStringContainsString('require_once($CFG->dirroot.'.'\'/'.$settingslibpath.'\')', $taskfile);
     }
 
     /**
@@ -508,19 +508,19 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'Backup steps for mod_demo are defined here.';
-        $this->assertContains($description, $stepslibfile);
+        $this->assertStringContainsString($description, $stepslibfile);
 
         $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $stepslibfile);
+        $this->assertStringContainsString($moodleinternal, $stepslibfile);
 
         $classdefinition = 'class backup_'.$modname.'_activity_structure_step extends backup_activity_structure_step';
-        $this->assertContains($classdefinition, $stepslibfile);
+        $this->assertStringContainsString($classdefinition, $stepslibfile);
 
         $element = $recipe['mod_features']['backup_moodle2']['backup_elements'][0]['name'];
         $nestedelement = '$'.$element.' = new backup_nested_element(\''.$element.'\', $attributes, $final_elements)';
-        $this->assertContains($nestedelement, $stepslibfile);
+        $this->assertStringContainsString($nestedelement, $stepslibfile);
     }
 
     /**
@@ -544,22 +544,22 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'The task that provides a complete restore of mod_demo is defined here.';
-        $this->assertContains($description, $restorefile);
+        $this->assertStringContainsString($description, $restorefile);
 
         $this->assertRegExp('/\* @category\s+restore/', $restorefile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $restorefile);
+        $this->assertStringContainsString($moodleinternal, $restorefile);
 
         $stepslibpath = self::$relpath.'/backup/moodle2/restore_'.$modname.'_stepslib.php';
-        $this->assertContains('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $restorefile);
+        $this->assertStringContainsString('require_once($CFG->dirroot.'.'\'/'.$stepslibpath.'\')', $restorefile);
 
         $classdefinition = 'class restore_'.$modname.'_activity_task extends restore_activity_task';
-        $this->assertContains($classdefinition, $restorefile);
+        $this->assertStringContainsString($classdefinition, $restorefile);
 
         $stepdefinition = "\$this->add_step(new restore_".$modname."_activity_structure_step('".
             $modname."_structure', '".$modname.".xml')";
-        $this->assertContains($stepdefinition, $restorefile);
+        $this->assertStringContainsString($stepdefinition, $restorefile);
     }
 
     /**
@@ -583,23 +583,23 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'All the steps to restore mod_demo are defined here.';
-        $this->assertContains($description, $stepslibfile);
+        $this->assertStringContainsString($description, $stepslibfile);
 
         $this->assertRegExp('/\* @category\s+restore/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertContains($moodleinternal, $stepslibfile);
+        $this->assertStringContainsString($moodleinternal, $stepslibfile);
 
         $classdefinition = 'class restore_'.$modname.'_activity_structure_step extends restore_activity_structure_step';
-        $this->assertContains($classdefinition, $stepslibfile);
+        $this->assertStringContainsString($classdefinition, $stepslibfile);
 
         $element = $recipe['mod_features']['backup_moodle2']['restore_elements'][0]['name'];
         $path = $recipe['mod_features']['backup_moodle2']['restore_elements'][0]['path'];
         $elementpath = "\$paths[] = new restore_path_element('".$element."', '".$path."')";
-        $this->assertContains($elementpath, $stepslibfile);
+        $this->assertStringContainsString($elementpath, $stepslibfile);
 
         $processfunction = 'protected function process_'.$element.'($data)';
-        $this->assertContains($processfunction, $stepslibfile);
+        $this->assertStringContainsString($processfunction, $stepslibfile);
     }
 
     /**
@@ -619,13 +619,13 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $this->assertArrayHasKey($filename, $files);
         $xml = $files[$filename];
 
-        $this->assertContains('<XMLDB PATH="mod/demo/db"', $xml);
-        $this->assertContains('<TABLES>', $xml);
-        $this->assertContains('<FIELD NAME="id" TYPE="int"', $xml);
-        $this->assertContains('<FIELD NAME="course" TYPE="int"', $xml);
-        $this->assertContains('<FIELD NAME="name" TYPE="char"', $xml);
-        $this->assertContains('<FIELD NAME="timemodified" TYPE="int"', $xml);
-        $this->assertContains('<FIELD NAME="intro" TYPE="text"', $xml);
-        $this->assertContains('<FIELD NAME="introformat" TYPE="int"', $xml);
+        $this->assertStringContainsString('<XMLDB PATH="mod/demo/db"', $xml);
+        $this->assertStringContainsString('<TABLES>', $xml);
+        $this->assertStringContainsString('<FIELD NAME="id" TYPE="int"', $xml);
+        $this->assertStringContainsString('<FIELD NAME="course" TYPE="int"', $xml);
+        $this->assertStringContainsString('<FIELD NAME="name" TYPE="char"', $xml);
+        $this->assertStringContainsString('<FIELD NAME="timemodified" TYPE="int"', $xml);
+        $this->assertStringContainsString('<FIELD NAME="intro" TYPE="text"', $xml);
+        $this->assertStringContainsString('<FIELD NAME="introformat" TYPE="int"', $xml);
     }
 }

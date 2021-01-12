@@ -80,16 +80,16 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
 
         list($type, $authname) = \core_component::normalize_component($recipe['component']);
         $description = 'Authentication class for '.$authname.' is defined here.';
-        $this->assertContains($description, $authfile);
+        $this->assertStringContainsString($description, $authfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertContains($moodleinternal, $authfile);
+        $this->assertStringContainsString($moodleinternal, $authfile);
 
         $classdefinition = 'class auth_plugin_'.$authname.' extends auth_plugin_base';
-        $this->assertContains($classdefinition, $authfile);
+        $this->assertStringContainsString($classdefinition, $authfile);
 
         $userlogin = 'public function user_login($username, $password)';
-        $this->assertContains($userlogin, $authfile);
+        $this->assertStringContainsString($userlogin, $authfile);
 
         $recipefeatures = array(
             'can_edit_profile',
@@ -110,13 +110,13 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
         }
 
         $canchangepassword = 'public function can_change_password()';
-        $this->assertNotContains($canchangepassword, $authfile);
+        $this->assertStringNotContainsString($canchangepassword, $authfile);
 
         $configform = 'public function config_form($config, $err, $user_fields)';
-        $this->assertContains($configform, $authfile);
+        $this->assertStringContainsString($configform, $authfile);
 
         $processconfig = 'public function process_config($config)';
-        $this->assertContains($processconfig, $authfile);
+        $this->assertStringContainsString($processconfig, $authfile);
     }
 
     /**
@@ -137,6 +137,6 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
         $langfile = $files['lang/en/'.$recipe['component'].'.php'];
 
         $descriptionstring = "\$string['auth_description'] = '".$recipe['auth_features']['description']."';";
-        $this->assertContains($descriptionstring, $langfile);
+        $this->assertStringContainsString($descriptionstring, $langfile);
     }
 }

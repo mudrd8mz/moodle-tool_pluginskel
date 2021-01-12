@@ -102,13 +102,13 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains('Privacy API implementation for the Foo bar plugin.', $providerphp);
-        $this->assertContains('class provider implements \core_privacy\local\metadata\null_provider {', $providerphp);
-        $this->assertContains('public static function get_reason() : string {', $providerphp);
+        $this->assertStringContainsString('Privacy API implementation for the Foo bar plugin.', $providerphp);
+        $this->assertStringContainsString('class provider implements \core_privacy\local\metadata\null_provider {', $providerphp);
+        $this->assertStringContainsString('public static function get_reason() : string {', $providerphp);
 
         $langfile = $files['lang/en/local_foobar.php'];
 
-        $this->assertContains("'privacy:metadata'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata'", $langfile);
     }
 
     /**
@@ -132,10 +132,10 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains('Privacy API implementation for the Foo bar plugin.', $providerphp);
-        $this->assertContains('class provider implements \core_privacy\local\metadata\null_provider {', $providerphp);
-        $this->assertContains('use \core_privacy\local\legacy_polyfill;', $providerphp);
-        $this->assertContains('public static function _get_reason() {', $providerphp);
+        $this->assertStringContainsString('Privacy API implementation for the Foo bar plugin.', $providerphp);
+        $this->assertStringContainsString('class provider implements \core_privacy\local\metadata\null_provider {', $providerphp);
+        $this->assertStringContainsString('use \core_privacy\local\legacy_polyfill;', $providerphp);
+        $this->assertStringContainsString('public static function _get_reason() {', $providerphp);
     }
 
     /**
@@ -211,15 +211,15 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains("\$collection->add_subsystem_link('core_files', [], 'privacy:metadata:subsystem:files');",
+        $this->assertStringContainsString("\$collection->add_subsystem_link('core_files', [], 'privacy:metadata:subsystem:files');",
             $providerphp);
-        $this->assertContains("\$collection->add_subsystem_link('core_comment', [], 'privacy:metadata:subsystem:comment');",
+        $this->assertStringContainsString("\$collection->add_subsystem_link('core_comment', [], 'privacy:metadata:subsystem:comment');",
             $providerphp);
 
         $langfile = $files['lang/en/local_foobar.php'];
 
-        $this->assertContains("'privacy:metadata:subsystem:files'", $langfile);
-        $this->assertContains("'privacy:metadata:subsystem:comment'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata:subsystem:files'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata:subsystem:comment'", $langfile);
     }
 
     /**
@@ -253,17 +253,17 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains("\$collection->add_external_location_link('mahara', [", $providerphp);
-        $this->assertContains("'firstname' => 'privacy:metadata:external:mahara:firstname',", $providerphp);
-        $this->assertContains(
+        $this->assertStringContainsString("\$collection->add_external_location_link('mahara', [", $providerphp);
+        $this->assertStringContainsString("'firstname' => 'privacy:metadata:external:mahara:firstname',", $providerphp);
+        $this->assertStringContainsString(
             "\$collection->add_external_location_link('systemasval', [], 'privacy:metadata:external:systemasval');", $providerphp);
 
         $langfile = $files['lang/en/local_foobar.php'];
 
-        $this->assertContains("'privacy:metadata:external:mahara'", $langfile);
-        $this->assertContains("'privacy:metadata:external:mahara:firstname'", $langfile);
-        $this->assertContains("'privacy:metadata:external:mahara:lastname'", $langfile);
-        $this->assertContains("'privacy:metadata:external:systemasval'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata:external:mahara'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata:external:mahara:firstname'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata:external:mahara:lastname'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata:external:systemasval'", $langfile);
     }
 
     /**
@@ -291,8 +291,8 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains('use core_privacy\local\metadata\collection;', $providerphp);
-        $this->assertContains('public static function get_metadata(collection $collection) : collection {', $providerphp);
+        $this->assertStringContainsString('use core_privacy\local\metadata\collection;', $providerphp);
+        $this->assertStringContainsString('public static function get_metadata(collection $collection) : collection {', $providerphp);
     }
 
     /**
@@ -321,13 +321,13 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains('use \core_privacy\local\legacy_polyfill;', $providerphp);
-        $this->assertContains('public static function _get_metadata(collection $collection) {', $providerphp);
+        $this->assertStringContainsString('use \core_privacy\local\legacy_polyfill;', $providerphp);
+        $this->assertStringContainsString('public static function _get_metadata(collection $collection) {', $providerphp);
 
         $langfile = $files['lang/en/local_foobar.php'];
 
-        $this->assertContains("\$string['privacy:metadata:db:three'] = '", $langfile);
-        $this->assertContains("\$string['privacy:metadata:db:three:foo'] = '", $langfile);
+        $this->assertStringContainsString("\$string['privacy:metadata:db:three'] = '", $langfile);
+        $this->assertStringContainsString("\$string['privacy:metadata:db:three:foo'] = '", $langfile);
     }
 
     /**
@@ -356,20 +356,20 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains('\core_privacy\local\request\user_preference_provider', $providerphp);
-        $this->assertContains("\$collection->add_user_preference('first', 'privacy:metadata:preference:first');", $providerphp);
-        $this->assertContains("\$collection->add_user_preference('local_foobar_another', 'privacy:metadata:preference:another');",
+        $this->assertStringContainsString('\core_privacy\local\request\user_preference_provider', $providerphp);
+        $this->assertStringContainsString("\$collection->add_user_preference('first', 'privacy:metadata:preference:first');", $providerphp);
+        $this->assertStringContainsString("\$collection->add_user_preference('local_foobar_another', 'privacy:metadata:preference:another');",
             $providerphp);
-        $this->assertContains('public static function export_user_preferences(int $userid) {', $providerphp);
-        $this->assertContains("\$first = get_user_preferences('first', null, \$userid);", $providerphp);
-        $this->assertContains("writer::export_user_preference('local_foobar', 'first', \$first,", $providerphp);
-        $this->assertContains("\$another = get_user_preferences('local_foobar_another', null, \$userid);", $providerphp);
-        $this->assertContains("writer::export_user_preference('local_foobar', 'local_foobar_another', \$another,", $providerphp);
+        $this->assertStringContainsString('public static function export_user_preferences(int $userid) {', $providerphp);
+        $this->assertStringContainsString("\$first = get_user_preferences('first', null, \$userid);", $providerphp);
+        $this->assertStringContainsString("writer::export_user_preference('local_foobar', 'first', \$first,", $providerphp);
+        $this->assertStringContainsString("\$another = get_user_preferences('local_foobar_another', null, \$userid);", $providerphp);
+        $this->assertStringContainsString("writer::export_user_preference('local_foobar', 'local_foobar_another', \$another,", $providerphp);
 
         $langfile = $files['lang/en/local_foobar.php'];
 
-        $this->assertContains("'privacy:metadata:preference:first'", $langfile);
-        $this->assertContains("'privacy:metadata:preference:another'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata:preference:first'", $langfile);
+        $this->assertStringContainsString("'privacy:metadata:preference:another'", $langfile);
     }
 
     /**
@@ -398,7 +398,7 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains('public static function _export_user_preferences($userid) {', $providerphp);
+        $this->assertStringContainsString('public static function _export_user_preferences($userid) {', $providerphp);
     }
 
 
@@ -422,8 +422,8 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains('use core_privacy\local\request\contextlist;', $providerphp);
-        $this->assertContains('public static function get_contexts_for_userid(int $userid) : contextlist {', $providerphp);
+        $this->assertStringContainsString('use core_privacy\local\request\contextlist;', $providerphp);
+        $this->assertStringContainsString('public static function get_contexts_for_userid(int $userid) : contextlist {', $providerphp);
     }
 
     /**
@@ -447,8 +447,8 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertContains('use core_privacy\local\request\contextlist;', $providerphp);
-        $this->assertContains('use \core_privacy\local\legacy_polyfill;', $providerphp);
-        $this->assertContains('public static function _get_contexts_for_userid($userid) {', $providerphp);
+        $this->assertStringContainsString('use core_privacy\local\request\contextlist;', $providerphp);
+        $this->assertStringContainsString('use \core_privacy\local\legacy_polyfill;', $providerphp);
+        $this->assertStringContainsString('public static function _get_contexts_for_userid($userid) {', $providerphp);
     }
 }

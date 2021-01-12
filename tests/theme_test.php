@@ -82,10 +82,10 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $description = 'The configuration for '.$recipe['component'].' is defined here.';
-        $this->assertContains($description, $configfile);
+        $this->assertStringContainsString($description, $configfile);
 
         $doctype = "\$THEME->doctype = '".$recipe['theme_features']['doctype']."'";
-        $this->assertContains($doctype, $configfile);
+        $this->assertStringContainsString($doctype, $configfile);
 
         $basetheme = $recipe['theme_features']['parents'][0]['base_theme'];
         $parents = '/\$THEME->parents = array\(\s+\''.$basetheme.'\',\s+\)/';
@@ -96,7 +96,7 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
         $this->assertRegExp($stylesheets, $configfile);
 
         $layouts = '$THEME->layouts = array(';
-        $this->assertContains($layouts, $configfile);
+        $this->assertStringContainsString($layouts, $configfile);
     }
 
     /**
