@@ -37,12 +37,14 @@ require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/locallib.php');
 
 // Get cli options.
 [$options, $positional] = cli_get_params([
-    'recipe' => '',
-    'loglevel' => 'WARNING',
     'target-moodle' => '',
     'target-dir' => '',
+    'list-files' => false,
+    'loglevel' => 'WARNING',
     'help' => false,
+    'recipe' => '',
 ], [
+    'l' => 'list-files',
     'h' => 'help'
 ]);
 
@@ -53,14 +55,16 @@ $help = "
 Generate a Moodle plugin skeleton from the recipe file.
 
 Usage:
-    \$ php generate.php [--loglevel=<level>] [--target-moodle=<path> | --target-dir=<path>] <path-to-recipe>
+    \$ php generate.php [--loglevel=<level>] --target-moodle=<path> | --target-dir=<path> <path-to-recipe>
+    \$ php generate.php --list-files | -l <path-to-recipe>
     \$ php generate.php [--help | -h]
 
 Options:
-    --loglevel=<level>      Logging verbosity level [default: WARNING].
     --target-moodle=<path>  Full path to the root directory of the target Moodle installation.
                             [default: $CFG->dirroot].
     --target-dir=<path>     Full path to the target location of the plugin.
+    --list-files -l         Display the list of files that would be generated without actually generating them.
+    --loglevel=<level>      Logging verbosity level [default: WARNING].
     --help -h               Display this help message.
     <path-to-recipe>        Recipe file location.
 
@@ -152,6 +156,13 @@ if (!empty($options['recipe'])) {
 $manager = manager::instance($logger);
 $manager->load_recipe($recipe);
 $manager->make();
+
+if (!empty($options['list-files'])) {
+    $filenames = array_keys($manager->get_files_content());
+    sort($filenames);
+    cli_writeln(implode(PHP_EOL, $filenames));
+    exit(0);
+}
 
 if (!empty($options['target-dir']) && !empty($options['target-moodle'])) {
     cli_error("Specify either 'target-dir' or 'target-moodle'!");
