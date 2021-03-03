@@ -36,7 +36,7 @@ require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/vendor/autoload.php
 require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/locallib.php');
 
 // Get cli options.
-[$options, $unrecognized] = cli_get_params([
+[$options, $positional] = cli_get_params([
     'recipe' => '',
     'loglevel' => 'WARNING',
     'target-moodle' => '',
@@ -53,16 +53,16 @@ $help = "
 Generate a Moodle plugin skeleton from the recipe file.
 
 Usage:
-    \$php generate.php --recipe=<path> [--loglevel=<level>] [--target-moodle=<path> | --target-dir=<path>]
-    \$php generate.php [--help | -h]
+    \$ php generate.php [--loglevel=<level>] [--target-moodle=<path> | --target-dir=<path>] <path-to-recipe>
+    \$ php generate.php [--help | -h]
 
 Options:
-    --recipe=<path>         Recipe file location.
-    --loglevel=<level>      Logging verbosity level [default: WARNING]
+    --loglevel=<level>      Logging verbosity level [default: WARNING].
     --target-moodle=<path>  Full path to the root directory of the target Moodle installation.
                             [default: $CFG->dirroot].
-    --target-dir=<path>     Full path to the target location of the plugin
+    --target-dir=<path>     Full path to the target location of the plugin.
     --help -h               Display this help message.
+    <path-to-recipe>        Recipe file location.
 
 Valid log levels are: $loglevelnames.
 
@@ -72,26 +72,45 @@ argument, or explicitly define the target location via the --target-dir
 argument.
 
 Examples:
-    \$php generate.php --recipe=myplugin.yaml --loglevel=DEBUG --target-moodle=/var/www/vhost/moodle_dev
-    \$php generate.php --recipe=myplugin.yaml --target-dir=/tmp
-";
 
-if ($unrecognized) {
-    $unrecognized = implode("\n  ", $unrecognized);
-    cli_error(get_string('cliunknowoption', 'admin', $unrecognized));
-}
+* Generate skeleton of the plugin described in myplugin.yaml in this Moodle installation:
+
+    \$ php generate.php myplugin.yaml
+
+* Generate skeleton of the plugin in another Moodle installation and be verbose while doing so:
+
+    \$ php generate.php --loglevel=DEBUG --target-moodle=/var/www/vhost/moodle_dev myplugin.yaml
+
+* Generare skeleton of the plugin in the given folder:
+
+    \$ php generate.php --target-dir=/tmp myplugin.yaml
+";
 
 if ($options['help']) {
     cli_writeln($help);
     die();
 }
 
-if (empty($options['recipe'])) {
+if (!empty($options['recipe'])) {
+    // Legacy style using --recipe=<path> argument takes precedence.
+    $recipefile = $options['recipe'];
+
+    // No positional arguments are expected when --recipe=<path> is used.
+    if (!empty($positional)) {
+        cli_error(get_string('cliunknowoption', 'admin',  implode("\n  ", $positional)));
+    }
+
+} else if (empty($positional)) {
     cli_writeln($help);
     cli_error("Recipe not specified!");
+
+} else if (count($positional) > 1) {
+    cli_error(get_string('cliunknowoption', 'admin', implode(' ', $positional)));
+
+} else {
+    $recipefile = array_shift($positional);
 }
 
-$recipefile = $options['recipe'];
 $recipefile = tool_pluginskel_expand_path($recipefile);
 
 if ($recipefile === false) {
@@ -114,6 +133,25 @@ if (empty($recipe['component'])) {
 if ($plugintype === 'core') {
     cli_error("Core components not supported!");
 }
+
+// Create and configure the logger.
+
+$loglevel = $options['loglevel'];
+if (!array_key_exists($loglevel, $loglevels)) {
+    cli_error("Invalid log level!");
+}
+
+$logger = new Logger('tool_pluginskel');
+$logger->pushHandler(new StreamHandler('php://stdout', constant('\Monolog\Logger::'.$loglevel)));
+$logger->debug('Logger initialised');
+
+if (!empty($options['recipe'])) {
+    $logger->warning('YAML recipe specified via the legacy --recipe argument. See --help for usage.');
+}
+
+$manager = manager::instance($logger);
+$manager->load_recipe($recipe);
+$manager->make();
 
 if (!empty($options['target-dir']) && !empty($options['target-moodle'])) {
     cli_error("Specify either 'target-dir' or 'target-moodle'!");
@@ -163,18 +201,5 @@ if (file_exists($targetdir)) {
     cli_error("Target plugin location already exists: ".$targetdir);
 }
 
-$loglevel = $options['loglevel'];
-if (!array_key_exists($loglevel, $loglevels)) {
-    cli_error("Invalid log level!");
-}
-
-// Create and configure the logger.
-$logger = new Logger('tool_pluginskel');
-$logger->pushHandler(new StreamHandler('php://stdout', constant('\Monolog\Logger::'.$loglevel)));
-$logger->debug('Logger initialised');
-
-$manager = manager::instance($logger);
-$manager->load_recipe($recipe);
-$manager->make();
 $manager->write_files($targetdir);
 cli_writeln('Plugin skeleton files generated: '.$targetdir);
