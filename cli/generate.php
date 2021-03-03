@@ -40,6 +40,7 @@ require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/locallib.php');
     'target-moodle' => '',
     'target-dir' => '',
     'list-files' => false,
+    'file' => '',
     'loglevel' => 'WARNING',
     'help' => false,
     'recipe' => '',
@@ -57,6 +58,7 @@ Generate a Moodle plugin skeleton from the recipe file.
 Usage:
     \$ php generate.php [--loglevel=<level>] --target-moodle=<path> | --target-dir=<path> <path-to-recipe>
     \$ php generate.php --list-files | -l <path-to-recipe>
+    \$ php generate.php --file=<filename> <path-to-recipe>
     \$ php generate.php [--help | -h]
 
 Options:
@@ -64,6 +66,7 @@ Options:
                             [default: $CFG->dirroot].
     --target-dir=<path>     Full path to the target location of the plugin.
     --list-files -l         Display the list of files that would be generated without actually generating them.
+    --file=<filename>       Print the contents of generated file of the given name.
     --loglevel=<level>      Logging verbosity level [default: WARNING].
     --help -h               Display this help message.
     <path-to-recipe>        Recipe file location.
@@ -161,6 +164,17 @@ if (!empty($options['list-files'])) {
     $filenames = array_keys($manager->get_files_content());
     sort($filenames);
     cli_writeln(implode(PHP_EOL, $filenames));
+    exit(0);
+}
+
+if (!empty($options['file'])) {
+    $files = $manager->get_files_content();
+
+    if (!isset($files[$options['file']])) {
+        cli_error("No such file generated from the given recipe. Use --list-files to see the list of generated files.");
+    }
+
+    cli_writeln($files[$options['file']]);
     exit(0);
 }
 
