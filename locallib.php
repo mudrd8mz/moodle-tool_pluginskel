@@ -30,7 +30,12 @@ defined('MOODLE_INTERNAL') || die();
  * @param string $path The path to be expanded.
  * @return string | false The expanded path, false on failure.
  */
-function tool_pluginskel_expand_path($path) {
+function tool_pluginskel_expand_path(string $path) {
+
+    if ($path === '') {
+        return false;
+    }
+
     if ($path[0] === '~') {
         $homedir = getenv('HOME');
         if ($homedir === false) {
@@ -38,6 +43,16 @@ function tool_pluginskel_expand_path($path) {
         }
 
         $path = $homedir.substr($path, 1);
+    }
+
+    if ($path[0] !== DIRECTORY_SEPARATOR) {
+        // We cannot use getcwd() here because moodle's setup.php calls chdir() to the script location.
+        $cwd = getenv('PWD');
+        if ($cwd === false) {
+            return false;
+        }
+
+        $path = $cwd . DIRECTORY_SEPARATOR . $path;
     }
 
     $path = realpath($path);
