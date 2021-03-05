@@ -25,7 +25,7 @@
 
 namespace tool_pluginskel\local\util;
 
-use Spyc;
+use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -46,7 +46,7 @@ class yaml {
      * @return array
      */
     public static function decode_string($string) {
-        return Spyc::YAMLLoadString($string);
+        return SymfonyYaml::parse($string);
     }
 
     /**
@@ -61,7 +61,7 @@ class yaml {
             throw new exception('Unable to read YAML file: '.$path);
         }
 
-        return Spyc::YAMLLoad($path);
+        return SymfonyYaml::parseFile($path);
     }
 
     /**
@@ -71,6 +71,6 @@ class yaml {
      * @return string
      */
     public static function encode(array $data) {
-        return Spyc::YAMLDump($data, false, false, true);
+        return SymfonyYaml::dump($data, 10, 2);
     }
 }

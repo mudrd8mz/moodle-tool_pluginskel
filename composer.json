@@ -1,6 +1,6 @@
 {
     "require": {
         "monolog/monolog": "^1.19",
-        "mustangostang/spyc": "^0.5.1"
+        "symfony/yaml": "^5.2"
     }
 }
