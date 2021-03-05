@@ -361,6 +361,11 @@ events:
     - eventname: first_event
       extends: \core\event\first_event
     - eventname: second_event
+      ## Activity modules are supposed to have the following two events.
+    - eventname: course_module_viewed
+      extends: \core\event\course_module_viewed
+    - eventname: course_module_instance_list_viewed
+      extends: \core\event\course_module_instance_list_viewed
 
 ## Creates a list of mobile remote addons at db/mobile.php.
 mobile_addons:

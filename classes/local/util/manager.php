@@ -921,7 +921,8 @@ class manager {
       *
       * @param string[] $stringids Sequence of string ids.
       */
-    protected function verify_strings_exist($stringids) {
+    protected function verify_strings_exist(array $stringids): void {
+
         foreach ($stringids as $stringid) {
             $found = false;
             if ($this->has_common_feature('lang_strings')) {
@@ -944,7 +945,8 @@ class manager {
       *
       * @param string[] $eventnames Sequence of event names.
       */
-    protected function verify_events_exist($eventnames) {
+    protected function verify_events_exist(array $eventnames): void {
+
         foreach ($eventnames as $eventname) {
             $exist = false;
             if ($this->has_common_feature('events')) {
@@ -969,28 +971,24 @@ class manager {
 
         $componentname = $this->recipe['component_name'];
 
-        $stringids = array(
-            $componentname.'name',
-            $componentname.'name_help',
-            $componentname.'settings',
-            $componentname.'fieldset',
+        $this->verify_strings_exist([
+            $componentname . 'name',
+            $componentname . 'name_help',
+            $componentname . 'settings',
+            $componentname . 'fieldset',
             'missingidandcmid',
             'modulename',
             'modulename_help',
             'modulenameplural',
-            'no'.$componentname.'instances',
+            'no' . $componentname . 'instances',
             'pluginadministration',
             'view'
-        );
+        ]);
 
-        $this->verify_strings_exist($stringids);
-
-        $eventnames = array(
+        $this->verify_events_exist([
             'course_module_instance_list_viewed',
             'course_module_viewed'
-        );
-
-        $this->verify_events_exist($eventnames);
+        ]);
 
         $this->prepare_file_skeleton('index.php', 'php_web_file', 'mod/index');
         $this->prepare_file_skeleton('view.php', 'view_php_file', 'mod/view');

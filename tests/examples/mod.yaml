@@ -111,9 +111,10 @@ observers:
     callback: local_test_observer_two::do_something
 
 events:
-  - eventname: first_event
-    extends: \core\event\first_event
-  - eventname: second_event
+  - eventname: course_module_viewed
+    extends: \core\event\course_module_viewed
+  - eventname: course_module_instance_list_viewed
+    extends: \core\event\course_module_instance_list_viewed
 
 mobile_addons:
   - name: 'my_first_addon'
