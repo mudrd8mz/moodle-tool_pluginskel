@@ -29,19 +29,19 @@ privacy:
       - comment
       - files
       - portfolio:
-          - firstname
-          - lastname
+        - firstname
+        - lastname
     external:
       - customexternalsystem
       - mahara:
-          - firstname
-          - lastname
+        - firstname
+        - lastname
 
 phpunit_tests:
-    - classname: firstclass
-    - classname: secondclass
-    - classname: skeltest_thirdclass_testcase
-    - classname: mod_skeltest_forthclass_testcase
+  - classname: firstclass
+  - classname: secondclass
+  - classname: skeltest_thirdclass_testcase
+  - classname: mod_skeltest_forthclass_testcase
 
 mod_features:
   gradebook: true
@@ -71,7 +71,7 @@ capabilities:
         permission: CAP_ALLOW
       - role: editingteacher
         permission: CAP_ALLOW
-        clonepermissionsfrom: moodle/course:view
+    clonepermissionsfrom: moodle/course:view
   - name: edit
     title: Edit test
     captype: write
