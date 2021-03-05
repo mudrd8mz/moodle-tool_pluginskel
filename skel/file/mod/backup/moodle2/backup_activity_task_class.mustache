@@ -37,21 +37,21 @@ class backup_{{ component_name }}_activity_task extends backup_activity_task {
     /**
      * Codes the transformations to perform in the activity in order to get transportable (encoded) links.
      *
-     * @param string $content.
-     * @return string.
+     * @param string $content
+     * @return string
      */
     static public function encode_content_links($content) {
         global $CFG;
 
-        $base = preg_quote($CFG->wwwroot,"/");
+        $base = preg_quote($CFG->wwwroot, '/');
 
-        // Link to the list of choices
-        $search="/(".$base."\/{{ component_root }}\/{{ component_name }}\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@{{ self.component_name_all_caps }}INDEX*$2@$', $content);
+        // Link to the list of choices.
+        $search = "/(".$base."\/{{ component_root }}\/{{ component_name }}\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@{{ self.component_name_all_caps }}INDEX*$2@$', $content);
 
-        // Link to choice view by moduleid
-        $search="/(".$base."\/{{ component_root }}\/{{ component_name }}\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@{{ self.component_name_all_caps }}VIEWBYID*$2@$', $content);
+        // Link to choice view by moduleid.
+        $search = "/(".$base."\/{{ component_root }}\/{{ component_name }}\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@{{ self.component_name_all_caps }}VIEWBYID*$2@$', $content);
 
         return $content;
     }

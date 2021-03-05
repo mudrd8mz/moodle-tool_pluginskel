@@ -519,7 +519,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $this->assertStringContainsString($classdefinition, $stepslibfile);
 
         $element = $recipe['mod_features']['backup_moodle2']['backup_elements'][0]['name'];
-        $nestedelement = '$'.$element.' = new backup_nested_element(\''.$element.'\', $attributes, $final_elements)';
+        $nestedelement = '$'.$element.' = new backup_nested_element(\''.$element.'\', $attributes, $finalelements)';
         $this->assertStringContainsString($nestedelement, $stepslibfile);
     }
 
@@ -546,7 +546,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $description = 'The task that provides a complete restore of mod_demo is defined here.';
         $this->assertStringContainsString($description, $restorefile);
 
-        $this->assertRegExp('/\* @category\s+restore/', $restorefile);
+        $this->assertRegExp('/\* @category\s+backup/', $restorefile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $restorefile);
@@ -585,7 +585,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $description = 'All the steps to restore mod_demo are defined here.';
         $this->assertStringContainsString($description, $stepslibfile);
 
-        $this->assertRegExp('/\* @category\s+restore/', $stepslibfile);
+        $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $stepslibfile);

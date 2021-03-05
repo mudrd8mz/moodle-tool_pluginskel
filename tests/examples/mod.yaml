@@ -3,7 +3,7 @@ name: Skeleton test
 release: "0.1.0"
 requires: "3.9"
 maturity: MATURITY_BETA
-copyright: 2021 Your Name <email@example.com>
+copyright: 2021 Your Name <your@email.com>
 
 features:
   readme: true
@@ -72,11 +72,9 @@ capabilities:
       - role: editingteacher
         permission: CAP_ALLOW
     clonepermissionsfrom: moodle/course:view
-  - name: edit
-    title: Edit test
-    captype: write
-  - name: enrol
-    title: Enrol users
+  - name: addinstance
+    title: Add instance
+    riskbitmask: RISK_XSS
     captype: write
     contextlevel: CONTEXT_COURSE
     archetypes:
@@ -84,6 +82,7 @@ capabilities:
         permission: CAP_ALLOW
       - role: editingteacher
         permission: CAP_ALLOW
+    clonepermissionsfrom: moodle/course:manageactivities
 
 message_providers:
   - name: submission

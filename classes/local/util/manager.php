@@ -971,6 +971,8 @@ class manager {
 
         $componentname = $this->recipe['component_name'];
 
+        $this->verify_capability_exists('addinstance');
+
         $this->verify_strings_exist([
             $componentname . 'name',
             $componentname . 'name_help',
@@ -982,7 +984,7 @@ class manager {
             'modulenameplural',
             'no' . $componentname . 'instances',
             'pluginadministration',
-            'view'
+            'view',
         ]);
 
         $this->verify_events_exist([

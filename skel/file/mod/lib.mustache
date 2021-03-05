@@ -326,9 +326,9 @@ function {{ component_name }}_update_grades($moduleinstance, $userid = 0) {
  * @package     {{ component }}
  * @category    files
  *
- * @param stdClass $course.
- * @param stdClass $cm.
- * @param stdClass $context.
+ * @param stdClass $course
+ * @param stdClass $cm
+ * @param stdClass $context
  * @return string[].
  */
 function {{ component_name }}_get_file_areas($course, $cm, $context) {
@@ -343,15 +343,15 @@ function {{ component_name }}_get_file_areas($course, $cm, $context) {
  * @package     {{ component }}
  * @category    files
  *
- * @param file_browser $browser.
- * @param array $areas.
- * @param stdClass $course.
- * @param stdClass $cm.
- * @param stdClass $context.
- * @param string $filearea.
- * @param int $itemid.
- * @param string $filepath.
- * @param string $filename.
+ * @param file_browser $browser
+ * @param array $areas
+ * @param stdClass $course
+ * @param stdClass $cm
+ * @param stdClass $context
+ * @param string $filearea
+ * @param int $itemid
+ * @param string $filepath
+ * @param string $filename
  * @return file_info Instance or null if not found.
  */
 function {{ component_name }}_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
@@ -403,9 +403,9 @@ function {{ component_name }}_pluginfile($course, $cm, $context, $filearea, $arg
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
  * @param navigation_node ${{ component_name}}node An object representing the navigation tree node.
- * @param stdClass $course.
- * @param stdClass $module.
- * @param cm_info $cm.
+ * @param stdClass $course
+ * @param stdClass $module
+ * @param cm_info $cm
  */
 function {{ component_name }}_extend_navigation(${{ component_name }}node, $course, $module, $cm) {
 }

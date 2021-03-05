@@ -112,7 +112,7 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
         $canchangepassword = 'public function can_change_password()';
         $this->assertStringNotContainsString($canchangepassword, $authfile);
 
-        $configform = 'public function config_form($config, $err, $user_fields)';
+        $configform = 'public function config_form($config, $err, $userfields)';
         $this->assertStringContainsString($configform, $authfile);
 
         $processconfig = 'public function process_config($config)';

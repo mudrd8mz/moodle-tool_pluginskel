@@ -71,7 +71,7 @@ class provider implements{{{ privacy._implementedinterfaces }}} {
 {{/ hasfields }}
 {{# hasfields }}
         $collection->add_subsystem_link('core_{{ name }}', [
-{{# fields }}           '{{ name }}' => {{ stringid }}',
+{{# fields }}           '{{ name }}' => '{{ stringid }}',
 {{/ fields }}
         ], '{{ stringid }}');
 {{/ hasfields }}

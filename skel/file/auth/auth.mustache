@@ -43,7 +43,7 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
 
         // Validate the login by using the Moodle user table.
         // Remove if a different authentication method is desired.
-        $user = $DB->get_record('user', array('username'=>$username, 'mnethostid'=>$CFG->mnet_localhost_id));
+        $user = $DB->get_record('user', array('username' => $username, 'mnethostid' => $CFG->mnet_localhost_id));
 
         // User does not exist.
         if (!$user) {
@@ -214,11 +214,12 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
      *
      * @param object $config
      * @param object $err
-     * @param array $user_fields
+     * @param array $userfields
      */
-    public function config_form($config, $err, $user_fields) {
+    public function config_form($config, $err, $userfields) {
 
-        // A html file for the form can be included here:
+        // The form file can be included here.
+        // phpcs:ignore moodle.Commenting.InlineComment
         // include('config.html');
 
     }

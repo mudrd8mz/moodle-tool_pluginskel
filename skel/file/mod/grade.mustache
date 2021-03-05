@@ -16,6 +16,12 @@
 // Course module ID.
 $id = required_param('id', PARAM_INT);
 
+$cm = get_coursemodule_from_id('{{ component_name }}', $id, 0, false, MUST_EXIST);
+$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
+$moduleinstance = $DB->get_record('{{ component_name }}', array('id' => $cm->instance), '*', MUST_EXIST);
+
+require_login($course, true, $cm);
+
 // Item number may be != 0 for activities that allow more than one grade per user.
 $itemnumber = optional_param('itemnumber', 0, PARAM_INT);
 

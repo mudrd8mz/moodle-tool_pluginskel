@@ -3,7 +3,7 @@ name: Skeleton test
 release: "0.1.0"
 requires: "3.9"
 maturity: MATURITY_BETA
-copyright: 2021 Your Name <email@example.com>
+copyright: 2021 Your Name <your@email.com>
 
 features:
   readme: true

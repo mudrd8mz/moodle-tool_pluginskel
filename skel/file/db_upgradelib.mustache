@@ -19,9 +19,8 @@
 function {{ component }}_helper_function() {
     global $DB;
 
-    // Please note that you should always be performing any task using raw (low
-    // level) database access exclusively, avoiding any use of the Moodle APIs.
+    // Please note: you can only use raw low level database access here.
+    // Avoid Moodle API calls in upgrade steps.
     //
-    // For more information please read the available Moodle documentation:
-    // https://docs.moodle.org/dev/Upgrade_API
+    // For more information please read {@link https://docs.moodle.org/dev/Upgrade_API}.
 }

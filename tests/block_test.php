@@ -332,7 +332,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $description = 'The task that provides a complete restore of '.$recipe['component'].' is defined here.';
         $this->assertStringContainsString($description, $restorefile);
 
-        $this->assertRegExp('/\* @category\s+restore/', $restorefile);
+        $this->assertRegExp('/\* @category\s+backup/', $restorefile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $restorefile);
@@ -367,7 +367,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $description = 'All the steps to restore '.$recipe['component'].' are defined here.';
         $this->assertStringContainsString($description, $stepslibfile);
 
-        $this->assertRegExp('/\* @category\s+restore/', $stepslibfile);
+        $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $stepslibfile);
