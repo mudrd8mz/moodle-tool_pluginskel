@@ -1,16 +1,44 @@
-## Moodle plugin skeleton generator
+# Moodle plugin skeleton generator
 
-This tool allows developers to quickly generate code skeleton for a new Moodle
-plugin. Relevant code is generated according to defined list of requested
+This tool allows developers to quickly generate code skeleton for Moodle
+plugins. Relevant code is generated according to defined list of requested
 plugin features.
 
-#### Documentation
+
+## Usage ##
+
+Generate skeleton of the plugin described in myplugin.yaml:
+
+    $ php generate.php myplugin.yaml
+
+See `generate.php --help` for more options and features.
+
+
+## Documentation ##
 
 See the page [Plugin skeleton
 generator](https://docs.moodle.org/en/admin/tool/pluginskel/index) at moodle
 docs site.
 
-#### Copyright
+
+## Installing from Git ##
+
+1. Go to the folder with your Moodle development installation:
+
+       $ cd {your/moodle/dirroot}
+
+2. Clone this repository to the correct location folder:
+
+       $ git clone https://github.com/mudrd8mz/moodle-tool_pluginskel.git admin/tool/pluginskel
+
+3. Complete the installation:
+
+	   $ sudo -u www-data php admin/cli/upgrade.php
+
+or just log in to your Moodle development site as an admin.
+
+
+## License ##
 
 Copyright (C) 2016 Alexandru Elisei, David Mudrák
 
@@ -24,4 +52,4 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
+this program.  If not, see <https://www.gnu.org/licenses/>.
