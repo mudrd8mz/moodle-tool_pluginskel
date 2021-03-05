@@ -955,7 +955,7 @@ class manager {
             'modulename',
             'modulename_help',
             'modulenameplural',
-            'nonewmodules',
+            'no'.$componentname.'instances',
             'pluginadministration',
             'view'
         );

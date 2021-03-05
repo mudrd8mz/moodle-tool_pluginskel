@@ -38,7 +38,7 @@ echo $OUTPUT->heading($modulenameplural);
 ${{ component_name }}s = get_all_instances_in_course('{{ component_name }}', $course);
 
 if (empty(${{ component_name }}s)) {
-    notice(get_string('nonewmodules', '{{ component }}'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    notice(get_string('no${{ component_name }}instances', '{{ component }}'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 $table = new html_table();
