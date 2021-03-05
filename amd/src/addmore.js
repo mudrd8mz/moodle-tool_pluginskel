@@ -13,6 +13,7 @@ define(['jquery'], function($) {
 
             var variableName;
             var idPrefix;
+            var i;
 
             if (isComponentFeature) {
                 var componentFeatures = variableNames[0];
@@ -27,7 +28,7 @@ define(['jquery'], function($) {
             var variableCount = parseInt($('[name="' + countName + '"]').val());
 
             var templateVariable;
-            for (var i in templateVars) {
+            for (i in templateVars) {
                 if (templateVars[i].name == variableName) {
                     templateVariable = templateVars[i];
                     break;
@@ -96,6 +97,8 @@ define(['jquery'], function($) {
             var variableName;
             var namePrefix;
             var idPrefix;
+            var i;
+
             if (isComponentFeature) {
                 var componentFeatures = variableNames[0];
                 variableName = variableNames[1];
@@ -111,7 +114,7 @@ define(['jquery'], function($) {
             var variableCount = parseInt($('[name="' + countName + '"]').val());
 
             var templateVariable;
-            for (var i in templateVars) {
+            for (i in templateVars) {
                 if (templateVars[i].name == variableName) {
                     templateVariable = templateVars[i];
                     break;
@@ -201,6 +204,7 @@ define(['jquery'], function($) {
             var parentVariableName;
             var variableName;
             var topIndex;
+            var i;
 
             if (isPartOfAssocArray) {
                 if (isComponentFeature) {
@@ -240,7 +244,7 @@ define(['jquery'], function($) {
             var variableCount = parseInt($('[name="' + countName + '"]').val());
 
             var templateVariable;
-            for (var i in templateVars) {
+            for (i in templateVars) {
                 if (templateVars[i].name == parentVariableName) {
                     for (var j in templateVars[i].values) {
                         if (templateVars[i].values[j].name == variableName) {
@@ -295,7 +299,9 @@ define(['jquery'], function($) {
          */
         removeInputFromNode: function(templateVariable, elementIdPrefix) {
 
-            for (var i in templateVariable.values) {
+            var i;
+
+            for (i in templateVariable.values) {
 
                 var fieldVariable = templateVariable.values[i];
                 var newElementId = elementIdPrefix + '_' + fieldVariable.name;
@@ -333,6 +339,7 @@ define(['jquery'], function($) {
          * @param {String} newElementId
          * @param {String} prevIndex
          * @param {String} newIndex
+         * @returns {String}
          */
         copyElement: function(prevElementName, prevElementId, newElementName, newElementId, prevIndex, newIndex) {
 

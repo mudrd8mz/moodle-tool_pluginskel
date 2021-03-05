@@ -29,11 +29,14 @@ define(['jquery'], function($) {
     var widgettype = $('#id_componenttype');
     var widgetname = $('#id_componentname');
 
+    /**
+     * @method
+     */
     function showtypeprefix() {
         typeplaceholder.text(widgettype.val() + '_');
     }
 
-    return  {
+    return {
         init: function() {
             widgetname.before(typeplaceholder);
             showtypeprefix();

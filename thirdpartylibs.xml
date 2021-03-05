@@ -15,9 +15,9 @@
         <licenseversion></licenseversion>
     </library>
     <library>
-        <location>vendor/mustangostang/spyc/</location>
-        <name>Spyc -- A Simple PHP YAML Class</name>
-        <version>0.5.1</version>
+        <location>vendor/symfony/</location>
+        <name>Symfony YAML component and dependencies</name>
+        <version>^5.2</version>
         <license>MIT</license>
         <licenseversion></licenseversion>
     </library>

@@ -211,10 +211,14 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertStringContainsString("\$collection->add_subsystem_link('core_files', [], 'privacy:metadata:subsystem:files');",
-            $providerphp);
-        $this->assertStringContainsString("\$collection->add_subsystem_link('core_comment', [], 'privacy:metadata:subsystem:comment');",
-            $providerphp);
+        $this->assertStringContainsString(
+            "\$collection->add_subsystem_link('core_files', [], 'privacy:metadata:subsystem:files');",
+            $providerphp
+        );
+        $this->assertStringContainsString(
+            "\$collection->add_subsystem_link('core_comment', [], 'privacy:metadata:subsystem:comment');",
+            $providerphp
+        );
 
         $langfile = $files['lang/en/local_foobar.php'];
 
@@ -291,8 +295,14 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
 
         $providerphp = $files['classes/privacy/provider.php'];
 
-        $this->assertStringContainsString('use core_privacy\local\metadata\collection;', $providerphp);
-        $this->assertStringContainsString('public static function get_metadata(collection $collection) : collection {', $providerphp);
+        $this->assertStringContainsString(
+            'use core_privacy\local\metadata\collection;',
+            $providerphp
+        );
+        $this->assertStringContainsString(
+            'public static function get_metadata(collection $collection) : collection {',
+            $providerphp
+        );
     }
 
     /**
@@ -357,14 +367,24 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
         $providerphp = $files['classes/privacy/provider.php'];
 
         $this->assertStringContainsString('\core_privacy\local\request\user_preference_provider', $providerphp);
-        $this->assertStringContainsString("\$collection->add_user_preference('first', 'privacy:metadata:preference:first');", $providerphp);
-        $this->assertStringContainsString("\$collection->add_user_preference('local_foobar_another', 'privacy:metadata:preference:another');",
+        $this->assertStringContainsString(
+            "\$collection->add_user_preference('first', 'privacy:metadata:preference:first');",
+            $providerphp
+        );
+        $this->assertStringContainsString(
+            "\$collection->add_user_preference('local_foobar_another', 'privacy:metadata:preference:another');",
             $providerphp);
         $this->assertStringContainsString('public static function export_user_preferences(int $userid) {', $providerphp);
         $this->assertStringContainsString("\$first = get_user_preferences('first', null, \$userid);", $providerphp);
         $this->assertStringContainsString("writer::export_user_preference('local_foobar', 'first', \$first,", $providerphp);
-        $this->assertStringContainsString("\$another = get_user_preferences('local_foobar_another', null, \$userid);", $providerphp);
-        $this->assertStringContainsString("writer::export_user_preference('local_foobar', 'local_foobar_another', \$another,", $providerphp);
+        $this->assertStringContainsString(
+            "\$another = get_user_preferences('local_foobar_another', null, \$userid);",
+            $providerphp
+        );
+        $this->assertStringContainsString(
+            "writer::export_user_preference('local_foobar', 'local_foobar_another', \$another,",
+            $providerphp
+        );
 
         $langfile = $files['lang/en/local_foobar.php'];
 
@@ -423,7 +443,10 @@ class tool_pluginskel_privacy_testcase extends advanced_testcase {
         $providerphp = $files['classes/privacy/provider.php'];
 
         $this->assertStringContainsString('use core_privacy\local\request\contextlist;', $providerphp);
-        $this->assertStringContainsString('public static function get_contexts_for_userid(int $userid) : contextlist {', $providerphp);
+        $this->assertStringContainsString(
+            'public static function get_contexts_for_userid(int $userid) : contextlist {',
+            $providerphp
+        );
     }
 
     /**
