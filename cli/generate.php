@@ -41,11 +41,13 @@ require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/locallib.php');
     'target-dir' => '',
     'list-files' => false,
     'file' => '',
+    'decode' => false,
     'loglevel' => 'WARNING',
     'help' => false,
     'recipe' => '',
 ], [
     'l' => 'list-files',
+    'd' => 'decode',
     'h' => 'help'
 ]);
 
@@ -59,6 +61,7 @@ Usage:
     \$ php generate.php [--loglevel=<level>] --target-moodle=<path> | --target-dir=<path> <path-to-recipe>
     \$ php generate.php --list-files | -l <path-to-recipe>
     \$ php generate.php --file=<filename> <path-to-recipe>
+    \$ php generate.php --decode | -d <path-to-recipe>
     \$ php generate.php [--help | -h]
 
 Options:
@@ -67,6 +70,7 @@ Options:
     --target-dir=<path>     Full path to the target location of the plugin.
     --list-files -l         Display the list of files that would be generated without actually generating them.
     --file=<filename>       Print the contents of generated file of the given name.
+    --decode -d             Decode the YAML recipe and print it as a native PHP data structure.
     --loglevel=<level>      Logging verbosity level [default: WARNING].
     --help -h               Display this help message.
     <path-to-recipe>        Recipe file location.
@@ -130,6 +134,12 @@ if (!is_readable($recipefile)) {
 
 // Load the recipe from file.
 $recipe = yaml::decode_file($recipefile);
+
+if ($options['decode']) {
+    // phpcs:ignore moodle.PHP.ForbiddenFunctions.Found
+    print_r($recipe);
+    exit(0);
+}
 
 if (empty($recipe['component'])) {
     cli_error("The recipe does not provide the component for the plugin!");
