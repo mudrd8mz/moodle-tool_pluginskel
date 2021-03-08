@@ -8,6 +8,7 @@
     * namespace - if it is namespaced file
     * use - list of classes imported form other namespaces
     * is_moodle_internal - is this file imported from some other
+    * is_single_declaration - does the file provide a single declaration (e.g. class)
     * path_to_config - if the file is not internal, this is the path to config.php to be required
 }}
 <?php
@@ -26,6 +27,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+{{^ is_single_declaration }}
 /**
  * {{$ description }}TODO provide a short description of the file{{/ description }}
  *
@@ -39,7 +41,7 @@
 {{$ namespace }}{{/ namespace }}
 
 {{! Import classes from other namespaces. }}
-{{# use }}use {{ . }};{{/ use }}
+{{$ use }}{{/ use }}
 
 {{# is_moodle_internal }}defined('MOODLE_INTERNAL') || die();{{/ is_moodle_internal }}
 {{# is_web_file }}require({{{ self.pathtoconfig }}});{{/ is_web_file }}
@@ -49,3 +51,20 @@ define('CLI_SCRIPT', true);
 require({{{ self.pathtoconfig }}});
 require_once($CFG->libdir.'/clilib.php');
 {{/ is_cli_file }}
+{{/ is_single_declaration }}
+{{# is_single_declaration }}
+{{! If this is namespaced file, the namespace must be first. }}
+{{$ namespace }}{{/ namespace }}
+
+{{! Import classes from other namespaces. }}
+{{$ use }}{{/ use }}
+
+/**
+ * {{$ description }}TODO provide a short description of the declared item.{{/ description }}
+ *
+ * @package     {{$ package }}plugintype_pluginname{{/ package }}
+{{$ extratags }}{{/ extratags }}
+ * @copyright   {{$ copyright }}2016 Your Name <your.email@example.com>{{/ copyright}}
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+{{/ is_single_declaration }}
