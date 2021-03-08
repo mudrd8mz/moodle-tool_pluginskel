@@ -6,15 +6,16 @@
     * privacy
 }}
 {{< common/boilerplate_php }}
-{{$ description }}Defines {@see \{{ component_type }}_{{ component_name }}\privacy\provider} class.{{/ description }}
+{{$ description }}Privacy API implementation for the {{ name }} plugin.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
 {{$ extratags }}
  * @category    privacy
 {{/ extratags }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
-{{$ namespace }}namespace {{ component_type }}_{{ component_name }}\privacy;{{/ namespace }}
-{{/ common/boilerplate_php }}
-
+{{$ namespace }}
+namespace {{ component_type }}_{{ component_name }}\privacy;
+{{/ namespace }}
+{{$ use }}
 {{# privacy.haspersonaldata }}
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_contextlist;
@@ -23,13 +24,8 @@ use core_privacy\local\request\helper;
 use core_privacy\local\request\transform;
 use core_privacy\local\request\writer;
 {{/ privacy.haspersonaldata }}
-
-/**
- * Privacy API implementation for the {{ name }} plugin.
- *
- * @copyright  {{ copyright }}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+{{/ use }}
+{{/ common/boilerplate_php }}
 class provider implements{{{ privacy._implementedinterfaces }}} {
 
 {{# privacy.uselegacypolyfill }}    use \core_privacy\local\legacy_polyfill;{{/ privacy.uselegacypolyfill }}

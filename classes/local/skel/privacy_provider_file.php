@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2018 David Mudrák <david@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class privacy_provider_file extends php_internal_file {
+class privacy_provider_file extends php_single_file {
 
     /**
      * Set additional data to be available to the template.
