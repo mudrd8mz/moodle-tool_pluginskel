@@ -305,7 +305,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $this->assertStringContainsString($classdefinition, $stepslibfile);
 
         $elementname = $recipe['block_features']['backup_moodle2']['backup_elements'][0]['name'];
-        $nestedelement = '$'.$elementname.' = new backup_nested_element(\''.$elementname.'\', $attributes, $final_elements)';
+        $nestedelement = '$'.$elementname.' = new backup_nested_element(\''.$elementname.'\', $attributes, $finalelements)';
         $this->assertStringContainsString($nestedelement, $stepslibfile);
     }
 
