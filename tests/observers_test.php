@@ -144,7 +144,7 @@ class tool_pluginskel_observers_testcase extends advanced_testcase {
         $this->assertStringContainsString($namespace, $observerfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertStringContainsString($moodleinternal, $observerfile);
+        $this->assertStringNotContainsString($moodleinternal, $observerfile);
 
         $this->assertStringContainsString('class event_observer', $observerfile);
 

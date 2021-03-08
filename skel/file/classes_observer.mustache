@@ -6,7 +6,7 @@
     * observer
 }}
 {{< common/boilerplate_php }}
-{{$ description }}Plugin observer classes are defined here.{{/ description }}
+{{$ description }}Event observer class.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
 {{$ extratags }}
  * @category    event
@@ -14,14 +14,6 @@
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{$ namespace }}{{{ observer.namespace }}}{{/ namespace }}
 {{/ common/boilerplate_php }}
-
-/**
- * Event observer class.
- *
- * @package    {{ component }}
- * @copyright  {{ copyright }}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 {{# observer }}
 class {{ observer_name }} {
     {{# .callbacks }}

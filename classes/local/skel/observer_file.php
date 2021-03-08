@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class observer_file extends php_internal_file {
+class observer_file extends php_single_file {
 
     /**
      * Sets the name of the observer.
