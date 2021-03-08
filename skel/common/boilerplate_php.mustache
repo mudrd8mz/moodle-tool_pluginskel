@@ -28,14 +28,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 {{^ is_single_declaration }}
-/**
- * {{$ description }}TODO provide a short description of the file{{/ description }}
- *
- * @package     {{$ package }}plugintype_pluginname{{/ package }}
-{{$ extratags }}{{/ extratags }}
- * @copyright   {{$ copyright }}2016 Your Name <your.email@example.com>{{/ copyright}}
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+{{> common/phpdoc_block }}
 
 {{! If this is namespaced file, the namespace must be first. }}
 {{$ namespace }}{{/ namespace }}
@@ -59,12 +52,5 @@ require_once($CFG->libdir.'/clilib.php');
 {{! Import classes from other namespaces. }}
 {{$ use }}{{/ use }}
 
-/**
- * {{$ description }}TODO provide a short description of the declared item.{{/ description }}
- *
- * @package     {{$ package }}plugintype_pluginname{{/ package }}
-{{$ extratags }}{{/ extratags }}
- * @copyright   {{$ copyright }}2016 Your Name <your.email@example.com>{{/ copyright}}
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+{{> common/phpdoc_block }}
 {{/ is_single_declaration }}
