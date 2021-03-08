@@ -5,21 +5,13 @@
     * copyright
 }}
 {{< common/boilerplate_php }}
-{{$ description }}File containing tests for {{ self.classname }}.{{/ description }}
+{{$ description }} The {{ self.classname }} test class.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{$ extratags }}
  * @category    test
 {{/extratags}}
 {{/ common/boilerplate_php }}
-
-/**
- * The {{ self.classname }} test class.
- *
- * @package    {{ component }}
- * @copyright  {{ copyright }}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class {{ component }}_{{ self.classname }}_testcase extends advanced_testcase {
 
     // Write the tests here as public funcions.
