@@ -1203,7 +1203,7 @@ class manager {
             }
 
             $eventfile = 'classes/event/'.$eventrecipe['event']['eventname'].'.php';
-            $this->prepare_file_skeleton($eventfile, 'php_internal_file', 'classes_event_event', $eventrecipe);
+            $this->prepare_file_skeleton($eventfile, 'php_single_file', 'classes_event_event', $eventrecipe);
         }
     }
 

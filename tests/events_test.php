@@ -76,14 +76,14 @@ class tool_pluginskel_events_testcase extends advanced_testcase {
         $eventfile = $files['classes/event/first_event.php'];
 
         // Verify the boilerplate.
-        $description = 'Plugin event classes are defined here.';
+        $description = 'The first_event event class.';
         $this->assertStringContainsString($description, $eventfile);
 
         list($type, $pluginname) = \core_component::normalize_component($recipe['component']);
         $this->assertStringContainsString('namespace '.$type.'_'.$pluginname.'\event', $eventfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertStringContainsString($moodleinternal, $eventfile);
+        $this->assertStringNotContainsString($moodleinternal, $eventfile);
 
         $classname = 'class '.$recipe['events'][0]['eventname'].' extends '.$recipe['events'][0]['extends'];
         $this->assertStringContainsString($classname, $eventfile);
