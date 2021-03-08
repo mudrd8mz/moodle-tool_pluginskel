@@ -32,6 +32,8 @@ class restore_{{ component_name }}_block_structure_step extends restore_structur
 
     /**
      * Processes the {{ .name }} restore data.
+     *
+     * @param array $data Parsed element data.
      */
     protected function process_{{ .name }}($data) {
         global $DB;
