@@ -790,10 +790,10 @@ class manager {
             }
         }
 
-        $this->prepare_file_skeleton($this->recipe['component'].'.php', 'base', 'block/block', $blockrecipe);
+        $this->prepare_file_skeleton($this->recipe['component'].'.php', 'php_single_file', 'block/block', $blockrecipe);
 
         if ($this->has_component_feature('edit_form')) {
-            $this->prepare_file_skeleton('edit_form.php', 'base', 'block/edit_form');
+            $this->prepare_file_skeleton('edit_form.php', 'php_single_file', 'block/edit_form');
         }
 
         if ($this->has_component_feature('instance_allow_multiple')) {
