@@ -1,5 +1,5 @@
 {{!
-    grade.php
+    mod_form.php
 
     * component
     * copyright
@@ -12,13 +12,11 @@
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
-/**
- * Module instance settings form.
- *
- * @package    {{ component }}
- * @copyright  {{ copyright }}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+{{< common/phpdoc_block }}
+{{$ description }}Module instance settings form.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/phpdoc_block }}
 class mod_{{ component_name }}_mod_form extends moodleform_mod {
 
     /**
