@@ -157,7 +157,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $allowmultiple = 'function instance_allow_multiple()';
         $this->assertStringContainsString($allowmultiple, $blockfile);
 
-        $hasconfig = 'function has_config()';
+        $hasconfig = 'public function has_config()';
         $this->assertStringContainsString($hasconfig, $blockfile);
 
         $applicableformats = 'public function applicable_formats()';
