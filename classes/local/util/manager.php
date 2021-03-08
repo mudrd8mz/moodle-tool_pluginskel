@@ -1060,8 +1060,8 @@ class manager {
             $this->logger->warning('Capabilities not defined');
         }
 
-        $this->prepare_file_skeleton('classes/contenttype.php', 'base', 'contenttype/classes/contenttype');
-        $this->prepare_file_skeleton('classes/content.php', 'base', 'contenttype/classes/content');
+        $this->prepare_file_skeleton('classes/contenttype.php', 'php_single_file', 'contenttype/classes/contenttype');
+        $this->prepare_file_skeleton('classes/content.php', 'php_single_file', 'contenttype/classes/content');
 
         // Feature dependencies.
         if ($this->has_component_feature('can_edit')) {
@@ -1080,7 +1080,7 @@ class manager {
                 }
             }
 
-            $this->prepare_file_skeleton('classes/form/editor.php', 'base', 'contenttype/classes/form/editor');
+            $this->prepare_file_skeleton('classes/form/editor.php', 'php_single_file', 'contenttype/classes/form/editor');
             $this->files['classes/contenttype.php']->set_attribute('has_can_edit');
         }
         if ($this->has_component_feature('can_upload')) {

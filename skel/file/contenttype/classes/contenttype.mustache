@@ -5,23 +5,17 @@
     * copyright
 }}
 {{< common/boilerplate_php }}
-{{$ description }}Content type {{ component_name }} is defined here.{{/ description }}
+{{$ description }}{{ name }} content class.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
-{{/ common/boilerplate_php }}
-
+{{$ namespace }}
 namespace {{ component }};
-
+{{/ namespace }}
+{{$ use }}
 use core\event\contentbank_content_viewed;
 use core_contentbank\content;
-
-/**
- * {{ component_name }} content class.
- *
- * @package    {{ component }}
- * @copyright  {{ copyright }}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+{{/ use }}
+{{/ common/boilerplate_php }}
 class contenttype extends \core_contentbank\contenttype {
 
     /**

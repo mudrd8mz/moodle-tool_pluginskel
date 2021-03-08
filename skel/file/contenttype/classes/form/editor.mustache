@@ -5,30 +5,24 @@
     * copyright
 }}
 {{< common/boilerplate_php }}
-{{$ description }}Content type {{ component_name }} is defined here.{{/ description }}
+{{$ description }}Defines the form for editing an {{ component_name }} content.
+
+ * This file is the integration between a content type editor and the content
+ * bank creation form.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
-{{/ common/boilerplate_php }}
-
+{{$ namespace }}
 namespace {{ component }}\form;
-
+{{/ namespace }}
+{{$ use }}
 use {{ component }}\content;
 use {{ component }}\contenttype;
 use core_contentbank\form\edit_content;
 use context_user;
 use context;
 use stdClass;
-
-/**
- * Defines the form for editing an {{ component_name }} content.
- *
- * This file is the integration between a content type editor and the content
- * bank creation form.
- *
- * @package    {{ component }}
- * @copyright  {{ copyright }}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+{{/ use }}
+{{/ common/boilerplate_php }}
 class editor extends edit_content {
 
     /**
