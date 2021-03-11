@@ -468,6 +468,14 @@ class manager {
             $this->prepare_privacy_files();
         }
 
+        if ($this->has_common_feature('external')) {
+            $this->prepare_external_files();
+        }
+
+        if ($this->has_common_feature('external') || $this->has_common_feature('services')) {
+            $this->prepare_db_services();
+        }
+
         if ($this->has_common_feature('readme')) {
             $this->prepare_file_skeleton('README.md', 'txt_file', 'readme');
         }
@@ -539,6 +547,46 @@ class manager {
      */
     protected function prepare_privacy_files() {
         $this->prepare_file_skeleton('classes/privacy/provider.php', 'privacy_provider_file', 'classes_privacy_provider');
+    }
+
+    /**
+     * Prepare the files implementing declared external functions.
+     */
+    protected function prepare_external_files() {
+
+        foreach ($this->recipe['external'] as $externalfunction) {
+            if (empty($externalfunction['name'])) {
+                $this->logger->warning('External function name not set');
+                continue;
+            }
+
+            $filename = 'classes/external/' . $externalfunction['name'] . '.php';
+            $this->prepare_file_skeleton($filename, 'external_function_file', 'classes_external');
+            $this->files[$filename]->generate_external_function_code($externalfunction);
+        }
+    }
+
+    /**
+     * Prepare the file describing external functions and web services.
+     */
+    protected function prepare_db_services() {
+
+        $hasexternal = !empty($this->recipe['external']);
+        $hasservices = !empty($this->recipe['services']);
+
+        if (!$hasexternal && !$hasservices) {
+            return;
+        }
+
+        $skeleton = $this->prepare_file_skeleton('db/services.php', 'php_internal_file', 'db_services');
+
+        if ($hasexternal) {
+            $skeleton->set_attribute('has_external');
+        }
+
+        if ($hasservices) {
+            $skeleton->set_attribute('has_services');
+        }
     }
 
     /**
@@ -1224,8 +1272,9 @@ class manager {
      * @param string $skeltype
      * @param string $template
      * @param string[] $recipe Recipe to be used in generating the file instead of the global recipe.
+     * @return \tool_pluginskel\local\skel\base subclass instance
      */
-    protected function prepare_file_skeleton($filename, $skeltype, $template, $recipe = null) {
+    protected function prepare_file_skeleton($filename, $skeltype, $template, $recipe = null): \tool_pluginskel\local\skel\base {
 
         if (strpos($template, 'file/') !== 0) {
             $template = 'file/'.$template;
@@ -1243,6 +1292,7 @@ class manager {
         $skel = new $skelclass();
         $skel->set_template($template);
         $skel->set_manager($this);
+        $skel->set_logger($this->logger);
 
         if (is_null($recipe)) {
             // Skeleton will have access to the whole recipe.
@@ -1261,6 +1311,8 @@ class manager {
         $skel->set_data($data);
 
         $this->files[$filename] = $skel;
+
+        return $skel;
     }
 
     /**
@@ -1369,6 +1421,14 @@ class manager {
 
         if ($feature === 'privacy') {
             return isset($this->recipe['privacy']['haspersonaldata']);
+        }
+
+        if ($feature === 'external') {
+            return !empty($this->recipe['external']);
+        }
+
+        if ($feature === 'services') {
+            return !empty($this->recipe['services']);
         }
 
         // Having the upgradelib feature automatically enables the upgrade feature.

@@ -45,7 +45,7 @@ class lang_file extends php_internal_file {
     public function set_data(array $data) {
 
         parent::set_data($data);
-        $this->data['lang_strings'][] = ['id' => 'pluginname', 'text' => $this->data['name']];
+        $this->data['lang_strings'][] = ['id' => 'pluginname', 'text' => $this->data['name'] ?? $this->data['component']];
     }
 
     /**

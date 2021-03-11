@@ -1,0 +1,77 @@
+{{!
+    db/services.php
+
+    * component
+    * copyright
+    * functions
+}}
+{{< common/boilerplate_php }}
+{{$ description }}External functions and services provided by the plugin are declared here.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ extratags }}
+ * @category    external
+{{/extratags}}
+{{/ common/boilerplate_php }}
+
+{{# self.has_external }}
+$functions = [
+    {{# external }}
+
+    '{{ component }}_{{ .name }}' => [
+        'classname' => '\{{ component }}\external\{{ .name }}',
+        'methodname' => 'execute',
+        {{# desc }}
+        'description' => '{{{ . }}}',
+        {{/ desc }}
+        {{# testclientpath }}
+        'testclientpath' => '{{ . }}',
+        {{/ testclientpath }}
+        {{# type }}
+        'type' => '{{ . }}',
+        {{/ type }}
+        {{# ajax }}
+        'ajax' => {{ . }},
+        {{/ ajax }}
+        {{# loginrequired }}
+        'loginrequired' => {{ . }},
+        {{/ loginrequired }}
+        {{# readonlysession }}
+        'readonlysession' => {{ . }},
+        {{/ readonlysession }}
+    ],
+    {{/ external }}
+];
+{{/ self.has_external }}
+
+{{# self.has_services }}
+$services = [
+    {{# services }}
+    '{{ .name }}' => [
+        'functions' => [
+            {{# functions }}
+            '{{ . }}',
+            {{/ functions }}
+        ],
+        {{# shortname }}
+        'shortname' => '{{ . }}',
+        {{/ shortname }}
+        {{# requiredcapability }}
+        'requiredcapability' => '{{ . }}',
+        {{/ requiredcapability }}
+        {{# restrictedusers }}
+        'restrictedusers' => {{ . }},
+        {{/ restrictedusers }}
+        {{# enabled }}
+        'enabled' => {{ . }},
+        {{/ enabled }}
+        {{# downloadfiles }}
+        'downloadfiles' => {{ . }},
+        {{/ downloadfiles }}
+        {{# uploadfiles }}
+        'uploadfiles' => {{ . }},
+        {{/ uploadfiles }}
+    ],
+    {{/ services }}
+];
+{{/ self.has_services }}

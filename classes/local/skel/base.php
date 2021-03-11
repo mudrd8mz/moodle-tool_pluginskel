@@ -49,6 +49,9 @@ class base {
     /** @var \tool_pluginskel\local\util\manager manager used to generate the skeleton */
     protected $manager = null;
 
+    /** @var Monolog\Logger */
+    protected $logger = null;
+
     /**
      * Set the template to use.
      *
@@ -79,6 +82,16 @@ class base {
         }
 
         $this->manager = $manager;
+    }
+
+    /**
+     * Set the logger to use for, well, logging.
+     *
+     * @param \Monolog\Logger $logger
+     */
+    public function set_logger(\Monolog\Logger $logger): void {
+
+        $this->logger = $logger;
     }
 
      /**

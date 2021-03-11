@@ -428,12 +428,72 @@ lang_strings:
   - id: choosereadme
     text: Readme when selecting the theme.
 
-## Explicitly added contents, such as files not covered by the generator logic.
-##
-## Not yet implemented.
-##
-#extra:
-#  files:
-#    - path: mycustomfile.php
-#      skel: php
-#      description: Explicitly generated PHP file.
+## External functions provided by the plugin.
+external:
+  - name: list_things
+    desc: Returns a paginated list of thing records
+    type: read
+    ajax: 'true'
+    loginrequired: 'true'
+    readonlysession: 'false'
+
+    parameters:
+      - name: pagenum
+        type: PARAM_INT
+        desc: Page number to return
+      - name: perpage
+        type: PARAM_INT
+        desc: Number of things per page
+        required: false
+        ## Non-numeric literals must be quoted as in "'foo'".
+        ## Otherwise they are generated as constants.
+        default: 10
+      - name: sort
+        desc: List of fields to sort by
+        required: false
+        multiple:
+          - required: true
+            desc: Specifies the field and how to sort by it
+            single:
+            - name: field
+              type: PARAM_ALPHANUM
+              desc: Sort by this field
+            - name: asc
+              type: PARAM_BOOL
+              desc: Should be sorted ASC?
+      - name: filterids
+        desc: Filter IDs
+        multiple:
+          - type: PARAM_INT
+            desc: Thing identifier
+
+    returns:
+      - multiple:
+        - single:
+          - name: id
+            type: PARAM_INT
+            desc: Identifier of the thing.
+            required: 'true'
+          - name: title
+            type: PARAM_RAW
+            desc: Title of the thing.
+          - name: properties
+            multiple:
+              - single:
+                - name: key
+                  type: PARAM_ALPHANUMEXT
+                  desc: Property name
+                - name: value
+                  type: PARAM_RAW
+                  desc: Property value
+
+## Pre-built web services provided by the plugin.
+services:
+  - name: Things management
+    shortname: things_management
+    functions:
+      - local_wsexample_list_things
+    requiredcapability: local/wsexample:managethings
+    enabled: 'true'
+    downloadfiles: 'false'
+    uploadfiles: 'false'

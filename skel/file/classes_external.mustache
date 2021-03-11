@@ -1,0 +1,88 @@
+{{!
+    classes/external/<classname>.php
+
+    * component
+    * copyright
+    * self
+}}
+{{< common/boilerplate_php }}
+{{$ description }}Provides class {@see \{{ component_type }}_{{ component_name }}\external\{{ self.classname }}}.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ extratags }}
+ * @category    external
+{{/ extratags }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{$ namespace }}
+namespace {{ component_type }}_{{ component_name }}\external;
+{{/ namespace }}
+{{$ use }}
+use external_api;
+use external_description;
+use external_function_parameters;
+use external_multiple_structure;
+use external_single_structure;
+use external_value;
+{{/ use }}
+{{/ common/boilerplate_php }}
+
+require_once($CFG->libdir . '/externallib.php');
+
+{{< common/phpdoc_short_block }}
+{{$ description }}External function '{{ component }}_{{ self.classname }}' implementation.{{/ description }}
+{{/ common/phpdoc_short_block }}
+class {{ self.classname }} extends external_api {
+
+    /**
+     * Describes parameters of the {@see self::execute()} method.
+     *
+     * @return external_function_parameters
+     */
+    public static function execute_parameters(): external_function_parameters {
+
+        return new external_function_parameters([{{{ self.execute_parameters }}}]);
+    }
+
+    /**
+     * TODO describe what the function actually does.
+     *
+{{# self.execute_phpdoc }}
+{{ . }}
+{{/ self.execute_phpdoc }}
+     * @return mixed TODO document
+     */
+    public static function execute({{ self.execute_signature }}) {
+
+        // Re-validate parameters in rare case this method was called directly.
+        {{# self.has_execute_args }}
+        [
+        {{# self.execute_args }}
+            '{{ . }}' => ${{ . }},
+        {{/ self.execute_args }}
+        ] = self::validate_parameters(self::execute_parameters(), [
+        {{# self.execute_args }}
+            '{{ . }}' => ${{ . }},
+        {{/ self.execute_args }}
+        ]);
+        {{/ self.has_execute_args }}
+
+        // Set up and validate appropriate context.
+        // TODO Check and eventually replace system context with a different one as needed.
+        $context = \context_system::instance();
+        self::validate_context($context);
+
+        // Check capabilities.
+        require_capability('{{ component_type }}/{{ component_name }}:example', $context);
+
+        // TODO Implement the function and return the expected value.
+    }
+
+    /**
+     * Describes the return value of the {@see self::execute()} method.
+     *
+     * @return external_description
+     */
+    public static function execute_returns(): external_description {
+
+        return {{{ self.execute_returns }}};
+    }
+}
