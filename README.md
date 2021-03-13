@@ -7,11 +7,31 @@ plugin features.
 
 ## Usage ##
 
-Generate skeleton of the plugin described in myplugin.yaml:
+Plugin features and other properties are described in so called recipe files. Recipes
+use [YAML](https://yaml.org/) syntax.
 
-    $ php generate.php myplugin.yaml
+    name: Moodle demo plugin
+    component: tool_demo
+    release: "0.1.0"
+    requires: "3.9"
+    maturity: MATURITY_ALPHA
+    copyright: 2021 David Mudrák <david@moodle.com>
 
-See `generate.php --help` for more options and features.
+    features:
+      readme: true
+      license: true
+      settings: true
+
+    privacy:
+      haspersonaldata: false
+
+For full list of supported options, see [cli/example.yaml](cli/example.yaml) file.
+
+To generate skeleton of the plugin described in `./myplugin.yaml`:
+
+    $ php cli/generate.php myplugin.yaml
+
+Run `generate.php --help` for more options and features.
 
 
 ## Documentation ##
