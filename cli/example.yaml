@@ -497,3 +497,8 @@ services:
     enabled: 'true'
     downloadfiles: 'false'
     uploadfiles: 'false'
+
+## Mustache templates.
+templates:
+  - widget_name
+  - another_name

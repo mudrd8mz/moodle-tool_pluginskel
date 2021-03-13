@@ -122,3 +122,6 @@ lang_strings:
     text: You can add 'extra' strings via the recipe file.
   - id: mycustomstring2
     text: Another string with {$a->some} placeholder.
+
+templates:
+  - widget_name

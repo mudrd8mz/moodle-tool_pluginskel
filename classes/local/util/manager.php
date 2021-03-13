@@ -533,6 +533,10 @@ class manager {
             $this->prepare_phpunit_tests();
         }
 
+        if ($this->has_common_feature('templates')) {
+            $this->prepare_templates();
+        }
+
         $this->prepare_file_skeleton('version.php', 'version_php_file', 'version');
 
         if ($plugintype === 'mod') {
@@ -1266,6 +1270,19 @@ class manager {
     }
 
     /**
+     * Prepare the file skeletongs for mustache templates.
+     *
+     * @return void
+     */
+    protected function prepare_templates() {
+
+        foreach ($this->recipe['templates'] as $template) {
+            $file = $this->prepare_file_skeleton('templates/' . $template . '.mustache', 'base', 'mustache');
+            $file->set_attribute('template_name', $template);
+        }
+    }
+
+    /**
      * Registers a new file skeleton
      *
      * @param string $filename
@@ -1425,6 +1442,10 @@ class manager {
 
         if ($feature === 'external') {
             return !empty($this->recipe['external']);
+        }
+
+        if ($feature === 'templates') {
+            return !empty($this->recipe['templates']);
         }
 
         if ($feature === 'services') {

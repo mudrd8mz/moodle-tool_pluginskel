@@ -195,3 +195,6 @@ services:
     enabled: 'true'
     downloadfiles: 'false'
     uploadfiles: 'false'
+
+templates:
+  - widget_name
