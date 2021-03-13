@@ -53,7 +53,6 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
-          MUSTACHE_IGNORE_PATHS: 'skel/'
 
       - name: PHP Lint
         if: ${{ always() }}
