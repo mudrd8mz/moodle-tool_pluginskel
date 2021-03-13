@@ -95,17 +95,18 @@ class base {
     }
 
      /**
-      * Set the given attribute flag.
+      * Set the given attribute flag or value.
       *
       * @param string $attribute Attribute name
+      * @param mixed $value The value to assign to the attribute, defaults to bool true.
       */
-    public function set_attribute($attribute) {
+    public function set_attribute(string $attribute, $value = true) {
 
         if (empty($this->data)) {
             throw new \coding_exception('Skeleton data not set');
         }
 
-        $this->data['self'][$attribute] = true;
+        $this->data['self'][$attribute] = $value;
     }
 
     /**
