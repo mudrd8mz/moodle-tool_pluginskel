@@ -11,7 +11,7 @@
 ---
 component: tool_pluginskel
 name: Moodle plugin skeleton generator
-release: "DEV"
+release: "1.5.0"
 requires: "3.9"
 maturity: MATURITY_STABLE
 copyright: 2021 David Mudrák <david@moodle.com>

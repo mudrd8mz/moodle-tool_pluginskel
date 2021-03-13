@@ -1,3 +1,25 @@
+## 1.5.0 ##
+
+* New recipe section `external` can be used to describe external functions provided by
+  the plugin.
+* New recipe section `services` can be used to describe pre-built web services
+  provided by the plugin.
+* The `--recipe` argument has been deprecated. The path to the recipe file should be
+  newly provided via positional argument of the generate.php script.
+* CLI generator script now also supports relative paths to files as arguments.
+* New `--list-files` argument allows to display list of to-be generated files.
+* New `--file` argument allows to display the contents of given generated file.
+* New `--decode` argument allows to display decoded structure of given YAML file.
+* Added ability to generate single declaration files that have no side effects.
+* Travis-CI prechecks were replaced with Github Actions.
+* Github Actions are also used to precheck generated skeletons, not only the tool
+  itself. Various detected coding style issues were fixed in both places.
+* Generated README files now contain information about how and where the generated
+  plugin should be installed to. Credit goes to Jan Dageförde.
+* Generated install.xml files fixed to contain EOL at EOF. This reflects the upstream
+  fix MDL-70931.
+* Spyc library replaced with Symfony Yaml component for recipe files parsing.
+
 ## 1.4.0 ##
 
 * Fixed deprecation warnings in unit tests under Moodle 3.10. Credit goes to @ewallah.
