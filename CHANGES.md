@@ -1,3 +1,9 @@
+## 1.5.1 ##
+
+* New recipe section `templates` allowing to generate mustache templates.
+* Fixed standard boilerplate of all custom skeleton templates and re-enabled CI
+  prechecks for them.
+
 ## 1.5.0 ##
 
 * New recipe section `external` can be used to describe external functions provided by
