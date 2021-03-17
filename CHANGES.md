@@ -2,6 +2,8 @@
 
 * Single class (instance, trait) files do not need file-level phpDocs block even if
   they have side-effect and load other libraries manually.
+* Monolog logger update to the latest version 2.2 as we now require Moodle 3.9 so PHP
+  is always 7.2 or higher.
 
 ## 1.5.1 ##
 

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '4146d12f0c7de489fbbcb16deb4b31871d9d9841',
+    'reference' => 'd617cf598d4adc6c61d2d82292b9af7cf20c6230',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,16 +18,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '4146d12f0c7de489fbbcb16deb4b31871d9d9841',
+      'reference' => 'd617cf598d4adc6c61d2d82292b9af7cf20c6230',
     ),
     'monolog/monolog' => 
     array (
-      'pretty_version' => '1.23.0',
-      'version' => '1.23.0.0',
+      'pretty_version' => '2.2.0',
+      'version' => '2.2.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'fd8c787753b3a2ad11bc60c063cff1358a32a3b4',
+      'reference' => '1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
     ),
     'psr/log' => 
     array (

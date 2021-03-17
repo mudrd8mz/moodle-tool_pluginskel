@@ -1,6 +1,6 @@
 {
     "require": {
-        "monolog/monolog": "^1.19",
+        "monolog/monolog": "^2.2",
         "symfony/yaml": "^5.2"
     }
 }
