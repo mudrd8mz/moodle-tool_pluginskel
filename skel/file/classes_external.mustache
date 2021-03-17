@@ -49,7 +49,7 @@
     }
 }}
 {{< common/boilerplate_php }}
-{{$ description }}Provides class {@see \{{ component_type }}_{{ component_name }}\external\{{ self.classname }}}.{{/ description }}
+{{$ description }}External function '{{ component }}_{{ self.classname }}' implementation.{{/ description }}
 {{$ package }}{{ component }}{{/ package }}
 {{$ extratags }}
  * @category    external
@@ -66,13 +66,10 @@ use external_multiple_structure;
 use external_single_structure;
 use external_value;
 {{/ use }}
-{{/ common/boilerplate_php }}
-
+{{$ requires }}
 require_once($CFG->libdir . '/externallib.php');
-
-{{< common/phpdoc_short_block }}
-{{$ description }}External function '{{ component }}_{{ self.classname }}' implementation.{{/ description }}
-{{/ common/phpdoc_short_block }}
+{{/ requires }}
+{{/ common/boilerplate_php }}
 class {{ self.classname }} extends external_api {
 
     /**

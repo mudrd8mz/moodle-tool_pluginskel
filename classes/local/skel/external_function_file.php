@@ -24,7 +24,7 @@ namespace tool_pluginskel\local\skel;
  * @copyright   2021 David Mudrák <david@moodle.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class external_function_file extends php_internal_file {
+class external_function_file extends php_single_file {
 
     /**
      * Generate the skeleton of the external function implementation.
@@ -37,8 +37,9 @@ class external_function_file extends php_internal_file {
             throw new coding_exception('Skeleton data not set');
         }
 
-        $this->data['self']['classname'] = $external['name'];
+        $this->set_attribute('has_extra_requirements');
 
+        $this->data['self']['classname'] = $external['name'];
         $this->data['self']['execute_parameters'] = $this->generate_execute_parameters($external);
         $this->data['self']['execute_returns'] = $this->generate_execute_returns($external);
 

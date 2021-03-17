@@ -1,3 +1,8 @@
+## Not yet released ##
+
+* Single class (instance, trait) files do not need file-level phpDocs block even if
+  they have side-effect and load other libraries manually.
+
 ## 1.5.1 ##
 
 * New recipe section `templates` allowing to generate mustache templates.

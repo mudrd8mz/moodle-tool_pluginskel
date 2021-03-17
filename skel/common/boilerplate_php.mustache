@@ -77,5 +77,11 @@ require_once($CFG->libdir.'/clilib.php');
 {{! Import classes from other namespaces. }}
 {{$ use }}{{/ use }}
 
+{{# self.has_extra_requirements }}
+defined('MOODLE_INTERNAL') || die();
+
+{{$ requires }}{{/ requires }}
+{{/ self.has_extra_requirements }}
+
 {{> common/phpdoc_block }}
 {{/ is_single_declaration }}
