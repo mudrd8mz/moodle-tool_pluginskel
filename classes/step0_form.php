@@ -46,7 +46,7 @@ class tool_pluginskel_step0_form extends moodleform {
         $mform->setExpanded('manualhdr', true);
 
         $plugintypes = tool_pluginskel\local\util\manager::get_plugintype_names();
-        asort($plugintypes);
+        \core_collator::asort($plugintypes);
         $mform->addElement('select', 'componenttype', get_string('componenttype', 'tool_pluginskel'), $plugintypes);
         $mform->addHelpButton('componenttype', 'componenttype', 'tool_pluginskel');
 
