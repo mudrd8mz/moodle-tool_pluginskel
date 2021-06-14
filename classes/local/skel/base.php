@@ -164,7 +164,7 @@ class base {
      * @param string $plugintype The plugin type, optional.
      * @return string[].
      */
-    static public function get_template_variables($plugintype = null) {
+    public static function get_template_variables($plugintype = null) {
         return array();
     }
 }

@@ -37,6 +37,8 @@ class provider implements \core_privacy\local\metadata\null_provider {
 
     use \core_privacy\local\legacy_polyfill;
 
+    // phpcs:disable PSR2.Methods.MethodDeclaration.Underscore
+
     /**
      * Returns stringid of a text explaining that this plugin stores no personal data.
      *
@@ -45,4 +47,6 @@ class provider implements \core_privacy\local\metadata\null_provider {
     public static function _get_reason() {
         return 'privacy:metadata';
     }
+
+    // phpcs:enable
 }

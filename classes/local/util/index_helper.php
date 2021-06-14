@@ -46,7 +46,7 @@ class index_helper {
      * @param string $countprefix The prefix for the variable that will hold the number of values for the variables.
      * @return string[]
      */
-    static public function get_array_variable_count_from_recipe($templatevars, $recipe, $countprefix = '') {
+    public static function get_array_variable_count_from_recipe($templatevars, $recipe, $countprefix = '') {
 
         $variablecount = array();
 
@@ -123,7 +123,7 @@ class index_helper {
      * @param string $countprefix The prefix for the form count variable that has the number of values.
      * @return string[]
      */
-    static public function get_array_variable_count_from_form($templatevars, $countprefix = '') {
+    public static function get_array_variable_count_from_form($templatevars, $countprefix = '') {
 
         $variablecount = array();
 
@@ -184,7 +184,7 @@ class index_helper {
      * @param string $filename
      * @param int $contentlength
      */
-    static public function generate_download_header($filename, $contentlength) {
+    public static function generate_download_header($filename, $contentlength) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="'.$filename.'"');
@@ -199,7 +199,7 @@ class index_helper {
      *
      * @param string $recipestring The recipe is a YAML string.
      */
-    static public function download_recipe($recipestring) {
+    public static function download_recipe($recipestring) {
 
         $filename = 'recipe_'.time().'.yaml';
         $contentlength = strlen($recipestring);
@@ -213,7 +213,7 @@ class index_helper {
      *
      * @param string[] $recipe
      */
-    static public function download_plugin_skeleton($recipe) {
+    public static function download_plugin_skeleton($recipe) {
 
         $logger = new Logger('tool_pluginskel');
         $logger->pushHandler(new BrowserConsoleHandler(Logger::WARNING));
