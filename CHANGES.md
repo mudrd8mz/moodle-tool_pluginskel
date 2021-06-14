@@ -1,9 +1,14 @@
-## Not yet released ##
+## 1.5.2 ##
 
 * Single class (instance, trait) files do not need file-level phpDocs block even if
   they have side-effect and load other libraries manually.
 * Monolog logger update to the latest version 2.2 as we now require Moodle 3.9 so PHP
   is always 7.2 or higher.
+* Plugin types in the wizard form selector are now alphabetically ordered - credit
+  goes to Daniel Neis Araujo and Jonathan Champ.
+* Added tests for Moodle 3.11 and ability to set 3.11 as required Moodle version.
+* Fixed coding style issues detected by phpcs in the plugin as well as in the
+  generated code.
 
 ## 1.5.1 ##
 
