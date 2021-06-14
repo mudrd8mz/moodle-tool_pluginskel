@@ -23,7 +23,7 @@ jobs:
       matrix:
         include:
           - php: '7.4'
-            moodle-branch: 'MOODLE_310_STABLE'
+            moodle-branch: 'MOODLE_311_STABLE'
             database: pgsql
 
     steps:
