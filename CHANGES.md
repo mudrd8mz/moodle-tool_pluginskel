@@ -1,3 +1,8 @@
+## 1.5.3 ##
+
+* No actual change. I am just using this as a final test for the moodle-plugin-release
+  workflow functionality. Sorry for the noise.
+
 ## 1.5.2 ##
 
 * Single class (instance, trait) files do not need file-level phpDocs block even if
