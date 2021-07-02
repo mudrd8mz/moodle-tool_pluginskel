@@ -140,7 +140,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $this->assertStringNotContainsString($moodleinternal, $blockfile);
 
         // The block file should not include the config.php file.
-        $this->assertNotRegExp('/require.+config\.php/', $blockfile);
+        $this->assertDoesNotMatchRegularExpression('/require.+config\.php/', $blockfile);
 
         $classdefinition = 'class '.$recipe['component'].' extends block_base';
         $this->assertStringContainsString($classdefinition, $blockfile);
@@ -199,7 +199,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $this->assertStringNotContainsString($moodleinternal, $editformfile);
 
         // The edit_form file should not include the config.php file.
-        $this->assertNotRegExp('/require.+config\.php/', $editformfile);
+        $this->assertDoesNotMatchRegularExpression('/require.+config\.php/', $editformfile);
 
         $classdefinition = 'class '.$recipe['component'].'_edit_form extends block_edit_form';
         $this->assertStringContainsString($classdefinition, $editformfile);
@@ -229,7 +229,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $description = 'The task that provides all the steps to perform a complete backup is defined here.';
         $this->assertStringContainsString($description, $taskfile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $taskfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $taskfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $taskfile);
@@ -267,7 +267,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $description = 'Plugin custom settings are defined here.';
         $this->assertStringContainsString($description, $settingslibfile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $settingslibfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $settingslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $settingslibfile);
@@ -296,7 +296,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $description = 'Backup steps for '.$recipe['component'].' are defined here.';
         $this->assertStringContainsString($description, $stepslibfile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $stepslibfile);
@@ -332,7 +332,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $description = 'The task that provides a complete restore of '.$recipe['component'].' is defined here.';
         $this->assertStringContainsString($description, $restorefile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $restorefile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $restorefile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $restorefile);
@@ -367,7 +367,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $description = 'All the steps to restore '.$recipe['component'].' are defined here.';
         $this->assertStringContainsString($description, $stepslibfile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $stepslibfile);

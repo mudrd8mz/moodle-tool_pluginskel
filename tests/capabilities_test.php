@@ -91,7 +91,7 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
 
         // Verify the boilerplate.
         $this->assertStringContainsString('Plugin capabilities are defined here.', $dbaccessfile);
-        $this->assertRegExp('/\* @category\s+access/', $dbaccessfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+access/', $dbaccessfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertStringContainsString($moodleinternal, $dbaccessfile);

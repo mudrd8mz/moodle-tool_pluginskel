@@ -102,7 +102,7 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $paramname = $recipe['atto_features']['params_for_js'][0]['name'];
         $default = $recipe['atto_features']['params_for_js'][0]['default'];
         $attrs = '/ATTRS: {\s+'.$paramname.': {\s+value: \''.$default.'\'/';
-        $this->assertRegExp($attrs, $buttonjsfile);
+        $this->assertMatchesRegularExpression($attrs, $buttonjsfile);
     }
 
     /**
@@ -169,7 +169,7 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
 
         $id = $recipe['atto_features']['strings_for_js'][0]['id'];
         $strings = '/\$PAGE->requires_strings_for_js\(array\(\s+\''.$id.'\',\s+\)\)/';
-        $this->assertRegExp($strings, $libfile);
+        $this->assertMatchesRegularExpression($strings, $libfile);
 
         $paramsforjs = 'function '.$recipe['component'].'_params_for_js($elementid, $options, $foptions)';
         $this->assertStringContainsString($paramsforjs, $libfile);
@@ -177,7 +177,7 @@ class tool_pluginskel_atto_testcase extends advanced_testcase {
         $paramname = $recipe['atto_features']['params_for_js'][0]['name'];
         $value = $recipe['atto_features']['params_for_js'][0]['value'];
         $params = '/return array\(\s+\''.$paramname.'\' => \''.$value.'\',\s+\);/';
-        $this->assertRegExp($params, $libfile);
+        $this->assertMatchesRegularExpression($params, $libfile);
     }
 
     /**

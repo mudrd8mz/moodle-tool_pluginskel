@@ -67,7 +67,7 @@ class tool_pluginskel_settings_testcase extends advanced_testcase {
         $this->assertArrayHasKey('settings.php', $files);
         $settingsfile = $files['settings.php'];
         $this->assertStringContainsString('Plugin administration pages are defined here.', $settingsfile);
-        $this->assertRegExp('/\* @category\s+admin/', $settingsfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+admin/', $settingsfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertStringContainsString($moodleinternal, $settingsfile);

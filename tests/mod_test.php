@@ -331,7 +331,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
 
         $libfile = $files['lib.php'];
 
-        $this->assertRegExp('/case FEATURE_GRADE_HAS_GRADE:\s+return true/', $libfile);
+        $this->assertMatchesRegularExpression('/case FEATURE_GRADE_HAS_GRADE:\s+return true/', $libfile);
 
         $scaleused = 'function demo_scale_used($moduleinstanceid, $scaleid)';
         $this->assertStringContainsString($scaleused, $libfile);
@@ -434,7 +434,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $description = 'The task that provides all the steps to perform a complete backup is defined here.';
         $this->assertStringContainsString($description, $taskfile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $taskfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $taskfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $taskfile);
@@ -475,7 +475,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         // Verify the boilerplate.
         $description = 'Plugin custom settings are defined here.';
         $this->assertStringContainsString($description, $settingslibfile);
-        $this->assertRegExp('/\* @category\s+backup/', $settingslibfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $settingslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $settingslibfile);
@@ -510,7 +510,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $description = 'Backup steps for mod_demo are defined here.';
         $this->assertStringContainsString($description, $stepslibfile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $stepslibfile);
@@ -546,7 +546,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $description = 'The task that provides a complete restore of mod_demo is defined here.';
         $this->assertStringContainsString($description, $restorefile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $restorefile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $restorefile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $restorefile);
@@ -585,7 +585,7 @@ class tool_pluginskel_mod_testcase extends advanced_testcase {
         $description = 'All the steps to restore mod_demo are defined here.';
         $this->assertStringContainsString($description, $stepslibfile);
 
-        $this->assertRegExp('/\* @category\s+backup/', $stepslibfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
         $this->assertStringContainsString($moodleinternal, $stepslibfile);
