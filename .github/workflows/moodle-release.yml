@@ -25,27 +25,11 @@ jobs:
     env:
       PLUGIN: tool_pluginskel
       CURL: curl -s
-      ENDPOINT_TOKEN: https://moodle.org/login/token.php
-      ENDPOINT_REST: https://moodle.org/webservice/rest/server.php
-      USERNAME: ${{ secrets.MOODLE_ORG_USERNAME }}
-      PASSWORD: ${{ secrets.MOODLE_ORG_PASSWORD }}
-      SERVICE: plugins_maintenance
+      ENDPOINT: https://moodle.org/webservice/rest/server.php
+      TOKEN: ${{ secrets.MOODLE_ORG_TOKEN }}
       FUNCTION: local_plugins_add_version
 
     steps:
-      - name: Authenticate and obtain service token
-        id: get-token
-        run: |
-          RESPONSE=$(${CURL} ${ENDPOINT_TOKEN} --data "username=${USERNAME}&password=${PASSWORD}&service=${SERVICE}")
-          TOKEN=$(jq --raw-output ".token" <<< ${RESPONSE})
-          if [[ $? > 0 ]]; then
-            echo "Error parsing JSON response:"
-            echo "${RESPONSE}"
-            exit 1
-          fi
-          echo "::add-mask::$TOKEN"
-          echo "TOKEN=${TOKEN}" >> $GITHUB_ENV
-
       - name: Call the service function
         id: add-version
         run: |
@@ -59,7 +43,7 @@ jobs:
             exit 1
           fi
           ZIPURL="https://api.github.com/repos/${{ github.repository }}/zipball/${TAGNAME}"
-          RESPONSE=$(${CURL} ${ENDPOINT_REST} --data "wstoken=${TOKEN}&wsfunction=${FUNCTION}&moodlewsrestformat=json&frankenstyle=${PLUGIN}&zipurl=${ZIPURL}")
+          RESPONSE=$(${CURL} ${ENDPOINT} --data "wstoken=${TOKEN}&wsfunction=${FUNCTION}&moodlewsrestformat=json&frankenstyle=${PLUGIN}&zipurl=${ZIPURL}&vcssystem=git&vcsrepositoryurl=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}&vcstag=${TAGNAME}&changelogurl=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commits/${TAGNAME}&altdownloadurl=${ZIPURL}")
           echo "::set-output name=response::${RESPONSE}"
 
       - name: Evaluate the response
