@@ -464,6 +464,10 @@ class manager {
             $this->prepare_enrol_files();
         }
 
+        if ($plugintype === 'format') {
+            $this->prepare_format_files();
+        }
+
         if ($this->has_common_feature('privacy')) {
             $this->prepare_privacy_files();
         }
@@ -1142,6 +1146,66 @@ class manager {
                 $this->logger->warning('Missing file extensions to upload');
             }
             $this->files['classes/contenttype.php']->set_attribute('has_can_upload');
+        }
+    }
+
+    /**
+     * Prepares the files for a course format plugin.
+     */
+    protected function prepare_format_files() {
+        $recipe = $this->recipe;
+        $formatname = str_replace('format_', '', $recipe['component_name'] ?? '');
+
+        // All formats below Moodle 4.0 are considered legacy formats as the way formats are build
+        // is not the same as in Moodle 3.x.
+        $requiredversion = $recipe['requires'] ?? '0';
+        if (version_compare($requiredversion, '4.0', '<')) {
+            $this->logger->warning('Course format require Moodle 4.0. All extra course format features will be ignored.');
+            $this->prepare_file_skeleton('format.php', 'php_single_file', 'format/legacy_format');
+            $this->files['format.php']->set_attribute('formatname', $formatname);
+            $this->prepare_file_skeleton('lib.php', 'php_single_file', 'format/legacy_lib');
+            $this->files['lib.php']->set_attribute('formatname', $formatname);
+            $this->prepare_file_skeleton('renderer.php', 'php_single_file', 'format/legacy_renderer');
+            $this->files['renderer.php']->set_attribute('formatname', $formatname);
+            return;
+        }
+
+        $this->prepare_file_skeleton('format.php', 'php_single_file', 'format/format');
+        $this->prepare_file_skeleton('lib.php', 'php_single_file', 'format/lib');
+        $this->files['lib.php']->set_attribute('formatname', $formatname);
+        $this->prepare_file_skeleton('classes/output/renderer.php', 'php_single_file', 'format/classes/output/renderer');
+
+        // Feature dependencies.
+        if ($this->has_component_feature('basic_outputs')) {
+            $this->prepare_file_skeleton(
+                'templates/local/content.mustache',
+                'base',
+                'format/templates/local/content'
+            );
+            $this->prepare_file_skeleton(
+                'templates/local/content/section.mustache',
+                'base',
+                'format/templates/local/content/section');
+            $this->prepare_file_skeleton(
+                'templates/local/content/section/cmitem.mustache',
+                'base',
+                'format/templates/local/content/section/cmitem'
+            );
+            $this->prepare_file_skeleton(
+                'classes/output/courseformat/content.php',
+                'php_single_file',
+                'format/classes/output/courseformat/content'
+            );
+            $this->prepare_file_skeleton(
+                'classes/output/courseformat/content/section.php',
+                'php_single_file',
+                'format/classes/output/courseformat/content/section'
+            );
+            $this->prepare_file_skeleton(
+                'classes/output/courseformat/content/section/cmitem.php',
+                'php_single_file',
+                'format/classes/output/courseformat/content/section/cmitem'
+            );
         }
     }
 

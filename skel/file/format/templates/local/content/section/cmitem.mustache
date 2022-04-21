@@ -1,0 +1,86 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template file/format/templates/local/content
+
+    Contenttype content class.
+
+    Context variables required for this template:
+    * component
+    * copyright
+
+    Example context (json):
+    {
+        "component": "format_test",
+        "copyright": "2022 Ferran Recio <ferran@moodle.com>"
+    }
+}}
+{{=<% %>=}}
+{{!
+    This file is part of Moodle - https://moodle.org/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template <% component %>/local/content/section/cmitem
+    Template purpose and description.
+    Classes required for JS:
+    * none
+    Data attributes required for JS:
+    * none
+    Context variables required for this template:
+    * attributes Array of name / value pairs.
+    Example context (json):
+    {
+    }
+}}
+{{!
+  Include the core content/section/cmitem template.
+}}
+{{< core_courseformat/local/content/section/cmitem }}
+    {{!
+        Add any cm item blocks override here.
+    }}
+    {{! Example of replacing the full course module card. }}
+    {{!$ core_courseformat/local/content/cm}}
+        {{!> <% component %>/local/content/cm }}
+    {{!/ core_courseformat/local/content/cm}}
+
+    {{! Example of adding HTML to the module activity info section. }}
+    {{$ core_courseformat/local/content/cm/badges}}
+        <div class="badge badge-pill badge-warning">
+            Some extra content
+        </div>
+        {{> core_courseformat/local/content/cm/badges }}
+    {{/ core_courseformat/local/content/cm/badges}}
+
+    {{! Example of replacing the HTML to the module availability. }}
+    {{!$ core_courseformat/local/content/cm/availability}}
+        {{! <div class="Extra HTML element"> }}
+        {{! The new content. }}
+        {{! </div>}}
+    {{!/ core_courseformat/local/content/cm/availability}}
+{{/ core_courseformat/local/content/section/cmitem }}
+<%={{ }}=%>
