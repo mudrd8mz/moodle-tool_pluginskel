@@ -1,0 +1,66 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template format/format
+
+    Format view file for formats below Moodle 4.0.
+
+    Context variables required for this template:
+    * component
+    * copyright
+
+    Example context (json):
+    {
+        "component": "local_test",
+        "copyright": "2021 David Mudrák <david@moodle.com>"
+    }
+}}
+{{< common/boilerplate_php }}
+{{$ description }} Display the whole course.{{/ description }}
+{{$ package }}{{ component }}{{/ package }}
+{{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_php }}
+
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->libdir . '/filelib.php');
+require_once($CFG->libdir . '/completionlib.php');
+
+// Retrieve course format option fields and add them to the $course object.
+$format = course_get_format($course);
+$course = $format->get_course();
+$context = context_course::instance($course->id);
+
+// Add any extra logic here.
+
+{{# format_features.uses_sections }}
+// Make sure section 0 is created.
+course_create_sections_if_missing($course, 0);
+{{/ format_features.uses_sections }}
+
+$renderer = $PAGE->get_renderer('{{ component }}');
+
+// Output course content.
+{{# format_features.uses_sections }}
+if (!empty($displaysection)) {
+    $renderer->print_single_section_page($course, null, null, null, null, $displaysection);
+} else {
+    $renderer->print_multiple_section_page($course, null, null, null, null);
+}
+{{/ format_features.uses_sections }}
+
+// Include any format js module here using $PAGE->requires->js.

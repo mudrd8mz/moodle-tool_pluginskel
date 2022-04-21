@@ -25,7 +25,7 @@ release: "0.1.0"
 #version: 2016121200
 
 ## Required Moodle version, e.g. 2015051100 or "2.9".
-requires: "2.9"
+requires: "4.0"
 
 ## Plugin maturity level. Possible options are MATURIY_ALPHA, MATURITY_BETA,
 ## MATURITY_RC or MATURIY_STABLE.
@@ -159,6 +159,18 @@ block_features:
     restore_elements:
       - name: elt
         path: /path/to/file
+
+format_features:
+  # Create the Moodle 4.0+ basic template structure.
+  basic_outputs: true
+
+  # General format features.
+  uses_sections: true
+  uses_course_index: true
+  uses_indentation: false
+  uses_inplace_editor: true
+  uses_reactive_components: true
+  uses_news: true
 
 enrol_features:
   ## Allows manual enrolment. Requires enrol/<enrolname>:enrol capability.
@@ -427,6 +439,26 @@ lang_strings:
     ## Needed for theme plugins.
   - id: choosereadme
     text: Readme when selecting the theme.
+
+    ## Needed for course format plugins.
+  - id: addsections
+    text: Add section
+  - id: currentsection
+    text: This section
+  - id: editsection
+    text: Edit section
+  - id: editsectionname
+    text: Edit section name
+  - id: deletesection
+    text: Delete section
+  - id: newsectionname
+    text: New name for section {$a}
+  - id: sectionname
+    text: Section
+  - id: hidefromothers
+    text: Hide section
+  - id: showfromothers
+    text: Show section
 
 ## External functions provided by the plugin.
 external:
