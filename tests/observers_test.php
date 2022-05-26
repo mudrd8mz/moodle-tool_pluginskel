@@ -114,7 +114,7 @@ class tool_pluginskel_observers_testcase extends advanced_testcase {
             }
 
             $observer .= '\),/';
-            $this->assertRegExp($observer, $eventsfile);
+            $this->assertMatchesRegularExpression($observer, $eventsfile);
         }
     }
 
