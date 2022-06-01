@@ -635,6 +635,9 @@ class manager {
         }
 
         foreach ($this->recipe['capabilities'] as $capability) {
+            if (empty($capability['contextlevel'])) {
+                throw new exception('Capability context level not set');
+            }
 
             if (empty($capability['name'])) {
                 $this->logger->warning('Capability name not set');

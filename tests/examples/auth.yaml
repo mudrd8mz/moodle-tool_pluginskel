@@ -79,6 +79,7 @@ capabilities:
   - name: edit
     title: Edit test
     captype: write
+    contextlevel: CONTEXT_MODULE
 
 message_providers:
   - name: submission
