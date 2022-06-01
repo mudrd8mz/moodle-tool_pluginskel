@@ -41,9 +41,23 @@
 {{$ extratags }}
  * @category    test
 {{/extratags}}
+{{$ namespace }}
+namespace {{ component }};
+{{/ namespace }}
 {{/ common/boilerplate_php }}
-class {{ component }}_{{ self.classname }}_testcase extends advanced_testcase {
+class {{ self.classname }}_test extends \advanced_testcase {
 
     // Write the tests here as public funcions.
     // Please refer to {@link https://docs.moodle.org/dev/PHPUnit} for more details on PHPUnit tests in Moodle.
+
+    /**
+     * Dummy test.
+     *
+     * This is to be replaced by some actually usefule test.
+     *
+     * @coversNothing
+     */
+    public function test_dummy() {
+        $this->assertTrue(false);
+    }
 }
