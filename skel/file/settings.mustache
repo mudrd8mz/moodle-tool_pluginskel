@@ -39,8 +39,10 @@
 {{/ common/boilerplate_php }}
 
 if ($hassiteconfig) {
+    $settings = new admin_settingpage('{{ component }}_settings', new lang_string('pluginname', '{{ component }}'));
+
     // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
     if ($ADMIN->fulltree) {
-        // TODO: Define the plugin settings page - {@link https://docs.moodle.org/dev/Admin_settings}.
+        // TODO: Define actual plugin settings page and add it to the tree - {@link https://docs.moodle.org/dev/Admin_settings}.
     }
 }
