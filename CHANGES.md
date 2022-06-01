@@ -1,3 +1,9 @@
+## 1.6.0 ##
+
+* Moodle 3.11 set as the required Moodle version.
+* Replaced `assertRegExp()` and `assertNotRegExp()` calls in PHPUnit. Credit gooes to
+  @ewallah.
+
 ## 1.5.3 ##
 
 * No actual change. I am just using this as a final test for the moodle-plugin-release
