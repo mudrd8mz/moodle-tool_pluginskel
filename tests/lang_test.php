@@ -71,7 +71,7 @@ class tool_pluginskel_lang_testcase extends advanced_testcase {
         $langfile = $files['lang/en/'.$recipe['component'].'.php'];
 
         $this->assertStringContainsString('Plugin strings are defined here.', $langfile);
-        $this->assertRegExp('/\* @category\s+string/', $langfile);
+        $this->assertMatchesRegularExpression('/\* @category\s+string/', $langfile);
         $this->assertStringContainsString("\$string['pluginname'] = '".$recipe['name'], $langfile);
 
         $id = $recipe['lang_strings'][0]['id'];

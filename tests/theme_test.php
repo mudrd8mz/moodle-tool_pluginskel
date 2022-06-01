@@ -89,11 +89,11 @@ class tool_pluginskel_theme_testcase extends advanced_testcase {
 
         $basetheme = $recipe['theme_features']['parents'][0]['base_theme'];
         $parents = '/\$THEME->parents = array\(\s+\''.$basetheme.'\',\s+\)/';
-        $this->assertRegExp($parents, $configfile);
+        $this->assertMatchesRegularExpression($parents, $configfile);
 
         $stylesheetname = $recipe['theme_features']['stylesheets'][0]['name'];
         $stylesheets = '/\$THEME->sheets = array\(\s*\''.$stylesheetname.'\',\s*\);/';
-        $this->assertRegExp($stylesheets, $configfile);
+        $this->assertMatchesRegularExpression($stylesheets, $configfile);
 
         $layouts = '$THEME->layouts = array(';
         $this->assertStringContainsString($layouts, $configfile);

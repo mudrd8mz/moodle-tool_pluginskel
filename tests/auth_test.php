@@ -106,7 +106,7 @@ class tool_pluginskel_auth_testcase extends advanced_testcase {
             $function = '/public function '.$functionname.'\(\) {';
             $returnvalue = $recipe['auth_features'][$functionname] == true ? 'true' : 'false';
             $function .= '\s+return '.$returnvalue.';/';
-            $this->assertRegExp($function, $authfile);
+            $this->assertMatchesRegularExpression($function, $authfile);
         }
 
         $canchangepassword = 'public function can_change_password()';

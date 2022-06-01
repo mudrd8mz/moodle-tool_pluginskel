@@ -136,18 +136,18 @@ class tool_pluginskel_enrol_testcase extends advanced_testcase {
 
         $returnvalue = $recipe['enrol_features']['allow_enrol'] == true ? 'true' : 'false';
         $allowenrol = '/public function allow_enrol\(\$instance\) {\s+return '.$returnvalue.';/';
-        $this->assertRegExp($allowenrol, $libfile);
+        $this->assertMatchesRegularExpression($allowenrol, $libfile);
 
         $returnvalue = $recipe['enrol_features']['allow_unenrol'] == true ? 'true' : 'false';
         $allowunenrol = '/public function allow_unenrol\(\$instance\) {\s+return '.$returnvalue.';/';
-        $this->assertRegExp($allowunenrol, $libfile);
+        $this->assertMatchesRegularExpression($allowunenrol, $libfile);
 
         $returnvalue = $recipe['enrol_features']['allow_manage'] == true ? 'true' : 'false';
         $allowmanage = '/public function allow_manage\(\$instance\) {\s+return '.$returnvalue.';/';
-        $this->assertRegExp($allowmanage, $libfile);
+        $this->assertMatchesRegularExpression($allowmanage, $libfile);
 
         $returnvalue = $recipe['enrol_features']['allow_unenrol_user'] == true ? 'true' : 'false';
         $allowunenroluser = '/public function allow_unenrol_user\(\$instance\, \$ue\) {\s+return '.$returnvalue.';/';
-        $this->assertRegExp($allowunenroluser, $libfile);
+        $this->assertMatchesRegularExpression($allowunenroluser, $libfile);
     }
 }
