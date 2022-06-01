@@ -16,7 +16,7 @@
 /**
  * Provides the tool_pluginskel/showtypeprefix AMD module.
  *
- * @package     tool_pluginskel
+ * @module      tool_pluginskel/showtypeprefix
  * @copyright   2018 David Mudrák <david@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
