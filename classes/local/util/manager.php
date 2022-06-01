@@ -28,8 +28,6 @@ namespace tool_pluginskel\local\util;
 use moodle_exception;
 use core_component;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Main controller class for the plugin skeleton generation.
  *
@@ -493,17 +491,17 @@ class manager {
         }
 
         if ($this->has_common_feature('install')) {
-            $this->prepare_file_skeleton('db/install.php', 'php_internal_file', 'db_install');
+            $this->prepare_file_skeleton('db/install.php', 'php_library_file', 'db_install');
         }
 
         if ($this->has_common_feature('uninstall')) {
-            $this->prepare_file_skeleton('db/uninstall.php', 'php_internal_file', 'db_uninstall');
+            $this->prepare_file_skeleton('db/uninstall.php', 'php_library_file', 'db_uninstall');
         }
 
         if ($this->has_common_feature('upgrade')) {
             $this->prepare_file_skeleton('db/upgrade.php', 'php_internal_file', 'db_upgrade');
             if ($this->has_common_feature('upgradelib')) {
-                $this->prepare_file_skeleton('db/upgradelib.php', 'php_internal_file', 'db_upgradelib');
+                $this->prepare_file_skeleton('db/upgradelib.php', 'php_library_file', 'db_upgradelib');
                 $this->files['db/upgrade.php']->set_attribute('has_upgradelib');
             }
         }

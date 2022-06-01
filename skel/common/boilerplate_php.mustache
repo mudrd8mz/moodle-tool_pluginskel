@@ -26,7 +26,7 @@
     * copyright - copyright holder(s)
     * namespace - if it is namespaced file
     * use - list of classes imported form other namespaces
-    * is_moodle_internal - is this file imported from some other
+    * check_moodle_internal - assert that MOODLE_INTERNAL is defined
     * is_single_declaration - does the file provide a single declaration (e.g. class)
     * path_to_config - if the file is not internal, this is the path to config.php to be required
 
@@ -61,7 +61,7 @@
 {{! Import classes from other namespaces. }}
 {{$ use }}{{/ use }}
 
-{{# is_moodle_internal }}defined('MOODLE_INTERNAL') || die();{{/ is_moodle_internal }}
+{{# check_moodle_internal }}defined('MOODLE_INTERNAL') || die();{{/ check_moodle_internal }}
 {{# is_web_file }}require({{{ self.pathtoconfig }}});{{/ is_web_file }}
 {{# is_cli_file }}
 define('CLI_SCRIPT', true);

@@ -36,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class locallib_php_file extends php_internal_file {
+class locallib_php_file extends php_library_file {
 
     /**
      * Adds an event callback functionm to generate code for.
