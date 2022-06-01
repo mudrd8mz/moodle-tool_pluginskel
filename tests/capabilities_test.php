@@ -120,7 +120,7 @@ class tool_pluginskel_capabilities_testcase extends advanced_testcase {
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
-        $recipe['capabilities'][] = array('name' => 'edit', 'captype' => 'write');
+        $recipe['capabilities'][] = array('name' => 'edit', 'captype' => 'write', 'contextlevel' => 'CONTEXT_SYSTEM');
         $manager->load_recipe($recipe);
         $manager->make();
 

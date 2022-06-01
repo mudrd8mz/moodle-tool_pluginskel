@@ -873,27 +873,29 @@ class manager {
         $hasrestorestepslib = $this->has_component_feature('restore_stepslib');
 
         $backuptaskfile = 'backup/moodle2/backup_'.$componentname.'_block_task.class.php';
-        $this->prepare_file_skeleton($backuptaskfile, 'php_internal_file', 'block/backup/moodle2/backup_block_task_class');
+        $this->prepare_file_skeleton($backuptaskfile, 'php_single_file', 'block/backup/moodle2/backup_block_task_class')
+            ->set_attribute('has_extra_requirements');
 
         if ($hassettingslib) {
             $settingslibfile = 'backup/moodle2/backup_'.$componentname.'_settingslib.php';
-            $this->prepare_file_skeleton($settingslibfile, 'php_internal_file', 'block/backup/moodle2/backup_settingslib');
+            $this->prepare_file_skeleton($settingslibfile, 'php_single_file', 'block/backup/moodle2/backup_settingslib');
             $this->files[$backuptaskfile]->set_attribute('has_settingslib');
         }
 
         if ($hasbackupstepslib) {
             $stepslibfile = 'backup/moodle2/backup_'.$componentname.'_stepslib.php';
-            $this->prepare_file_skeleton($stepslibfile, 'php_internal_file', 'block/backup/moodle2/backup_stepslib');
+            $this->prepare_file_skeleton($stepslibfile, 'php_single_file', 'block/backup/moodle2/backup_stepslib');
             $this->files[$backuptaskfile]->set_attribute('has_stepslib');
         }
 
         if ($this->has_component_feature('restore_task')) {
             $restoretaskfile = 'backup/moodle2/restore_'.$componentname.'_block_task.class.php';
-            $this->prepare_file_skeleton($restoretaskfile, 'php_internal_file', 'block/backup/moodle2/restore_block_task_class');
+            $this->prepare_file_skeleton($restoretaskfile, 'php_single_file', 'block/backup/moodle2/restore_block_task_class')
+                ->set_attribute('has_extra_requirements');
 
             if ($hasrestorestepslib) {
                 $stepslibfile = 'backup/moodle2/restore_'.$componentname.'_stepslib.php';
-                $this->prepare_file_skeleton($stepslibfile, 'php_internal_file', 'block/backup/moodle2/restore_stepslib');
+                $this->prepare_file_skeleton($stepslibfile, 'php_single_file', 'block/backup/moodle2/restore_stepslib');
                 $this->files[$restoretaskfile]->set_attribute('has_stepslib');
             }
         }
@@ -1160,18 +1162,18 @@ class manager {
             $this->files['backup/moodle2/backup_'.$componentname.'_activity_task.class.php']->set_attribute('has_settingslib');
         }
 
-        $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_stepslib.php', 'php_internal_file',
+        $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_stepslib.php', 'php_single_file',
                                      'mod/backup/moodle2/backup_stepslib');
 
         if ($hassettingslib) {
-            $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_settingslib.php', 'php_internal_file',
+            $this->prepare_file_skeleton('backup/moodle2/backup_'.$componentname.'_settingslib.php', 'php_single_file',
                                          'mod/backup/moodle2/backup_settingslib');
         }
 
-        $this->prepare_file_skeleton('backup/moodle2/restore_'.$componentname.'_activity_task.class.php', 'php_internal_file',
-                                     'mod/backup/moodle2/restore_activity_task_class');
+        $this->prepare_file_skeleton('backup/moodle2/restore_'.$componentname.'_activity_task.class.php', 'php_single_file',
+            'mod/backup/moodle2/restore_activity_task_class')->set_attribute('has_extra_requirements');
 
-        $this->prepare_file_skeleton('backup/moodle2/restore_'.$componentname.'_stepslib.php', 'php_internal_file',
+        $this->prepare_file_skeleton('backup/moodle2/restore_'.$componentname.'_stepslib.php', 'php_single_file',
                                      'mod/backup/moodle2/restore_stepslib');
     }
 
