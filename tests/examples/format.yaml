@@ -1,0 +1,122 @@
+component: format_skeltest
+name: Skeleton test
+release: "0.1.0"
+requires: "4.0"
+maturity: MATURITY_BETA
+copyright: 2022 Your Name <your@email.com>
+
+features:
+  readme: true
+  license: true
+  settings: true
+  upgrade: true
+  upgradelib: true
+  install: true
+  uninstall: true
+
+privacy:
+  haspersonaldata: true
+  uselegacypolyfill: true
+  meta:
+    dbfields:
+      format_skeltest_sometable:
+        - username
+        - timecreated
+        - timemodified
+      format_skeltest_another:
+        - email
+    userpreferences:
+      - preferencename
+      - format_skeltest_anotherpreference
+    subsystems:
+      - comment
+      - files
+      - portfolio:
+        - firstname
+        - lastname
+    external:
+      - customexternalsystem
+      - mahara:
+        - firstname
+        - lastname
+
+format_features:
+  # Create the Moodle 4.0+ basic template structure.
+  basic_outputs: true
+
+  # General format features.
+  uses_sections: true
+  uses_course_index: true
+  uses_indentation: false
+  uses_inplace_editor: true
+  uses_reactive_components: true
+  uses_news: true
+
+dependencies:
+  - plugin: mod_forum
+    version: ANY_VERSION
+  - plugin: tool_another
+    version: 2022060200
+
+capabilities:
+  - name: view
+    title: View test
+    captype: view
+    contextlevel: CONTEXT_MODULE
+    archetypes:
+      - role: student
+        permission: CAP_ALLOW
+      - role: editingteacher
+        permission: CAP_ALLOW
+        clonepermissionsfrom: moodle/course:view
+
+  - name: edit
+    title: Edit test
+    captype: write
+    contextlevel: CONTEXT_MODULE
+
+message_providers:
+  - name: submission
+    title: Submission message
+    capability: mod/quiz:emailnotifysubmission
+  - name: expiry
+    title: Expiry message
+
+cli_scripts:
+  - filename: firstfilename
+  - filename: secondfilename
+
+observers:
+  - eventname: \core\event\something_happened
+    callback: \local_test\another\observer_one::something_happened
+    includefile: "/path/to/file/relative/to/moodle/dir/root"
+    priority: 200
+    internal: true
+
+  - eventname: \core\event\something_else_happened
+    callback: local_test_locallib_function
+    internal: false
+
+  - eventname: \core\event\something_else_happened
+    callback: local_test_observer_two::do_something
+
+events:
+  - eventname: first_event
+    extends: \core\event\first_event
+  - eventname: second_event
+
+mobile_addons:
+  - name: 'my_first_addon'
+    dependencies:
+      - name: dependency_one
+      - name: dependency_two
+  - name: 'my_second_addon'
+
+lang_strings:
+  - id: mycustomstring
+    text: You can add 'extra' strings via the recipe file.
+  - id: mycustomstring2
+    text: Another string with {$a->some} placeholder.
+
+templates:
+  - widget_name

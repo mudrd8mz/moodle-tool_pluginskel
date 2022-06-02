@@ -55,7 +55,7 @@ jobs:
 
       - name: Generate example skeletons
         env:
-          FILES: auth block mod
+          FILES: auth block mod format
         run: for file in $FILES; do php moodle/admin/tool/pluginskel/cli/generate.php $(realpath moodle/admin/tool/pluginskel/tests/examples/${file}.yaml); done
 
       - name: PHP Lint
@@ -64,6 +64,7 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci phplint
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci phplint
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci phplint
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci phplint
 
       - name: PHP Copy/Paste Detector
         if: ${{ always() }}
@@ -71,6 +72,7 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci phpcpd
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci phpcpd
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci phpcpd
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci phpcpd
 
       - name: PHP Mess Detector
         if: ${{ always() }}
@@ -78,6 +80,7 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci phpmd
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci phpmd
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci phpmd
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci phpmd
 
       - name: Moodle Code Checker
         if: ${{ always() }}
@@ -85,6 +88,7 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci codechecker --max-warnings 0
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci codechecker --max-warnings 0
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci codechecker --max-warnings 0
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci codechecker --max-warnings 0
 
       - name: Moodle PHPDoc Checker
         if: ${{ always() }}
@@ -92,6 +96,7 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci phpdoc
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci phpdoc
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci phpdoc
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci phpdoc
 
       - name: Validating
         if: ${{ always() }}
@@ -99,6 +104,7 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci validate
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci validate
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci validate
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci validate
 
       - name: Check upgrade savepoints
         if: ${{ always() }}
@@ -106,6 +112,7 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci savepoints
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci savepoints
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci savepoints
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci savepoints
 
       - name: Mustache Lint
         if: ${{ always() }}
@@ -113,6 +120,7 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci mustache
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci mustache
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci mustache
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci mustache
 
       - name: Grunt
         if: ${{ always() }}
@@ -120,3 +128,4 @@ jobs:
           PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci grunt --max-lint-warnings 0
           PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci grunt --max-lint-warnings 0
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci mustache
+          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci mustache
