@@ -62,7 +62,7 @@ class cmitem extends cmitem_base {
     public function export_for_template(renderer_base $output): stdClass {
         $format = $this->format;
         $data = parent::export_for_template($output);
-        // Add any data attribute here. For example:
+        // Add any data attribute here. Consider following as an example.
         $data->sampledata = $format->get_format();
         // Use $format->get_output_classname('relative\\output\\path'); to get the
         // any core output class name with namespace.
