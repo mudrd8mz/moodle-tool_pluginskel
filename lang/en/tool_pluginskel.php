@@ -74,6 +74,20 @@ $string['atto_features_strings_for_js_text'] = 'Text';
 $string['atto_features_strings_for_js_text_help'] = 'The value of the string id.';
 $string['atto_features_strings_for_js_text_link'] = 'https://docs.moodle.org/dev/Atto#Atto_subplugin_Php_API';
 
+$string['tiny_features_buttons'] = 'Has buttons';
+$string['tiny_features_buttons_help'] = 'This plugin will have buttons in the toolbar';
+$string['tiny_features_menuitems'] = 'Has Menu items';
+$string['tiny_features_menuitems_help'] = 'This plugin will have items in the menu';
+$string['tiny_features_options'] = 'Options to pass from PHP to the TinyMCE Plugin';
+$string['tiny_features_options_name'] = 'The name of the option';
+$string['tiny_features_options_name_help'] = 'A string representing the name of the option.';
+$string['tiny_features_options_type'] = 'The name of option';
+$string['tiny_features_options_type_help'] = 'The option type. See https://www.tiny.cloud/docs/tinymce/6/apis/tinymce.editoroptions/ for more information on valid options.';
+$string['addmore_options'] = 'Add another option';
+$string['delete_options'] = 'Delete option';
+
+$string['tool_options'] = 'Options that the JS tool will used from PHP';
+
 $string['auth_features_can_be_manually_set'] = 'can_be_manually_set';
 $string['auth_features_can_be_manually_set_help'] = 'True if the authentication plugin will be able to be manually set for users.';
 $string['auth_features_can_be_manually_set_link'] = 'https://docs.moodle.org/dev/Authentication_plugins';

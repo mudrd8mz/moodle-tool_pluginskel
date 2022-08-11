@@ -98,6 +98,13 @@ atto_features:
       ## The default value for the ATTRS property.
       default: ''
 
+tiny_features:
+  buttons: true
+  menuitems: true
+  options:
+    - name: fileId
+      type: number
+
 auth_features:
   ## The plugin can be configured through the Moodle UI.
   config_ui: true
