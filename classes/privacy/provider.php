@@ -25,8 +25,6 @@
 
 namespace tool_pluginskel\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy API implementation for the Moodle plugin skeleton generator plugin.
  *

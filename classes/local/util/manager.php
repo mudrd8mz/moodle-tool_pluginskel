@@ -805,7 +805,11 @@ class manager {
         }
     }
 
+    /**
+     * Prepare the files for a tiny plugin.
+     */
     protected function prepare_tiny_files() {
+
         $pluginjsfile = 'amd/src/plugin.js';
         $this->prepare_file_skeleton($pluginjsfile, 'base', 'tiny/plugin_js');
 
@@ -1788,11 +1792,11 @@ class manager {
             throw new exception('Core subsystems components not supported');
         }
 
-        if (!empty($this->recipe['component_type']) and $this->recipe['component_type'] !== $type) {
+        if (!empty($this->recipe['component_type']) && $this->recipe['component_type'] !== $type) {
             throw new exception('Component type mismatch');
         }
 
-        if (!empty($this->recipe['component_name']) and $this->recipe['component_name'] !== $name) {
+        if (!empty($this->recipe['component_name']) && $this->recipe['component_name'] !== $name) {
             throw new exception('Component name mismatch');
         }
 
@@ -1804,7 +1808,7 @@ class manager {
 
         $root = substr($plugintypes[$type], strlen($CFG->dirroot));
 
-        if (!empty($this->recipe['component_root']) and $this->recipe['component_root'] !== $root) {
+        if (!empty($this->recipe['component_root']) && $this->recipe['component_root'] !== $root) {
             throw new exception('Component type root location mismatch');
         }
 

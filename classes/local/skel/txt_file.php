@@ -25,8 +25,6 @@
 
 namespace tool_pluginskel\local\skel;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class representing a plain text file.
  *

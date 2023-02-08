@@ -43,6 +43,12 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  */
 class tiny_testcase extends \advanced_testcase {
 
+    /**
+     * Get test based on settings.
+     *
+     * @param array $settings
+     * @return array
+     */
     protected function get_test(array $settings = []): array {
         $settings = array_merge([
             'general' => true,
@@ -127,6 +133,12 @@ class tiny_testcase extends \advanced_testcase {
         return $result;
     }
 
+    /**
+     * Get recipe based on settings.
+     *
+     * @param array $settings
+     * @return array
+     */
     protected function get_recipe(array $settings = []) {
         $settings = array_merge([
             'options' => [],
@@ -169,6 +181,12 @@ class tiny_testcase extends \advanced_testcase {
         return $recipe;
     }
 
+    /**
+     * Get list of expected files.
+     *
+     * @param array $include
+     * @return array
+     */
     protected function get_expected_files(array $include = []): array {
         $include = array_merge([
             'general' => true,
@@ -209,6 +227,11 @@ class tiny_testcase extends \advanced_testcase {
         return $files;
     }
 
+    /**
+     * Recipes data provider.
+     *
+     * @return array
+     */
     public function recipe_provider(): array {
         return [
             'base' => [

@@ -29,8 +29,6 @@ use Mustache_Autoloader;
 use Mustache_Engine;
 use Mustache_Loader_FilesystemLoader;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Provides access to the mustache engine instance
  *

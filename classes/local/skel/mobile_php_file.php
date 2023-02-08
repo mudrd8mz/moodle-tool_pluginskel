@@ -27,8 +27,6 @@ namespace tool_pluginskel\local\skel;
 
 use tool_pluginskel\local\util\exception;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class representing the plugin's lang strings file.
  *
