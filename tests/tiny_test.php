@@ -287,6 +287,7 @@ class tiny_test extends \advanced_testcase {
      * @dataProvider recipe_provider
      * @param array $recipe The recipe to test
      * @param array $files A list of files and whether they should be generated
+     * @param array $contentchecks A list of regular expressions expected in given files
      */
     public function test_recipes(array $recipe, array $files, array $contentchecks): void {
         $logger = new Logger(get_class($this));
