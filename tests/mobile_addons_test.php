@@ -37,6 +37,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
 /**
  * Mobile_addons test class.
  *
+ * @coversNothing
  * @package     tool_pluginskel
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

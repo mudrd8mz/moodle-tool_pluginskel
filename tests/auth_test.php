@@ -38,6 +38,7 @@ require_once(__DIR__.'/../locallib.php');
 /**
  * Auth test class.
  *
+ * @covers      \tool_pluginskel\local\util\manager::prepare_auth_files
  * @package     tool_pluginskel
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

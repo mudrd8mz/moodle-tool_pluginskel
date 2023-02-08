@@ -37,6 +37,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
 /**
  * Observers test class.
  *
+ * @covers      \tool_pluginskel\local\util\manager::prepare_observers
  * @package     tool_pluginskel
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

@@ -36,6 +36,8 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
 
 /**
  * Templates test class.
+ *
+ * @covers \tool_pluginskel\local\util\manager::prepare_templates
  */
 class templates_test extends \advanced_testcase {
 

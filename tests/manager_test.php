@@ -57,6 +57,8 @@ class manager_test extends \advanced_testcase {
 
     /**
      * Test adding strings to the language file.
+     *
+     * @covers \tool_pluginskel\local\util\manager::add_lang_string
      */
     public function test_add_lang_string() {
 

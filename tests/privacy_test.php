@@ -37,6 +37,7 @@ require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/vendor/autoload.php
 /**
  * Test case for generating the classes/privacy/provider.php file.
  *
+ * @covers    \tool_pluginskel\local\util\manager::prepare_privacy_files
  * @copyright 2018 David Mudrák <david@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

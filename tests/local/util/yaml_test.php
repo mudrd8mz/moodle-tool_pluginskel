@@ -17,13 +17,14 @@
 namespace tool_pluginskel\local\util;
 
 /**
- * The YAML utility testcasd.
+ * The YAML utility testcase.
  *
+ * @coversNothing
  * @package    tool_pluginskel
  * @copyright  2021 David Mudrák <david@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_yaml_testcase extends \basic_testcase {
+class yaml_test extends \basic_testcase {
 
     public function test_yaml_processing() {
 

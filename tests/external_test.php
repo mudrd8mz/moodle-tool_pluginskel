@@ -37,6 +37,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
 /**
  * Test case for generating the external function classes.
  *
+ * @covers      \tool_pluginskel\local\util\manager::prepare_external_files
  * @package     tool_pluginskel
  * @copyright   2021 David Mudrák <david@moodle.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

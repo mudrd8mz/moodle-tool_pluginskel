@@ -37,6 +37,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
 /**
  * Tiny test class.
  *
+ * @covers      \tool_pluginskel\local\util\manager::prepare_tiny_files
  * @package     tool_pluginskel
  * @copyright   2022 Andrew Lyons <andrew@nicols.co.uk>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
