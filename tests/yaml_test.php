@@ -53,4 +53,3 @@ privacy:
         $this->assertStringContainsString('- firstname', $encoded);
     }
 }
-

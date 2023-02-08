@@ -22,6 +22,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_pluginskel;
+
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use tool_pluginskel\local\util\manager;
@@ -39,7 +41,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_install_testcase extends advanced_testcase {
+class install_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(

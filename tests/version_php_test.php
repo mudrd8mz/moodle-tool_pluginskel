@@ -22,6 +22,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_pluginskel;
+
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use tool_pluginskel\local\util\manager;
@@ -39,7 +41,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_version_php_testcase extends advanced_testcase {
+class version_php_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
     protected static $recipe = array(
@@ -80,7 +82,7 @@ class tool_pluginskel_version_php_testcase extends advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertStringContainsString($moodleinternal, $versionfile);
 
-        list($type, $name) = core_component::normalize_component($recipe['component']);
+        list($type, $name) = \core_component::normalize_component($recipe['component']);
         $fullcomponent = $type.'_'.$name;
         $this->assertStringContainsString("\$plugin->component = '".$fullcomponent."'", $versionfile);
 

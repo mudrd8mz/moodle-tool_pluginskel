@@ -23,6 +23,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_pluginskel;
+
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
 use tool_pluginskel\local\util\manager;
@@ -35,7 +37,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
 /**
  * Templates test class.
  */
-class tool_pluginskel_templates_testcase extends advanced_testcase {
+class templates_test extends \advanced_testcase {
 
     /**
      * Tests creating a mustache template file.

@@ -23,6 +23,8 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_pluginskel;
+
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
 use tool_pluginskel\local\util\manager;
@@ -39,7 +41,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2021 David Mudrák <david@moodle.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_external_testcase extends advanced_testcase {
+class external_test extends \advanced_testcase {
 
     /**
      * Returns a new instance of the manager utility class suitable for testing.
@@ -197,7 +199,7 @@ class tool_pluginskel_external_testcase extends advanced_testcase {
     public function test_generate_external_description_item(string $result, array $yaml, int $indent = 0,
             string $warning = null, string $error = null) {
 
-        $method = new ReflectionMethod(\tool_pluginskel\local\skel\external_function_file::class,
+        $method = new \ReflectionMethod(\tool_pluginskel\local\skel\external_function_file::class,
             'generate_external_description_item');
         $method->setAccessible(true);
 
@@ -458,7 +460,7 @@ class tool_pluginskel_external_testcase extends advanced_testcase {
      */
     public function test_generate_external_description_required_default(string $result, array $yaml) {
 
-        $method = new ReflectionMethod(\tool_pluginskel\local\skel\external_function_file::class,
+        $method = new \ReflectionMethod(\tool_pluginskel\local\skel\external_function_file::class,
             'generate_external_description_required_default');
         $method->setAccessible(true);
 
