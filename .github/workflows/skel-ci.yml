@@ -22,8 +22,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php: '7.4'
-            moodle-branch: 'MOODLE_400_STABLE'
+          - php: '8.0'
+            moodle-branch: 'MOODLE_401_STABLE'
             database: pgsql
 
     steps:
