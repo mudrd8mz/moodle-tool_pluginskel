@@ -270,7 +270,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $this->assertMatchesRegularExpression('/\* @category\s+backup/', $settingslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertStringContainsString($moodleinternal, $settingslibfile);
+        $this->assertStringNotContainsString($moodleinternal, $settingslibfile);
     }
 
     /**
@@ -299,7 +299,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $this->assertMatchesRegularExpression('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertStringContainsString($moodleinternal, $stepslibfile);
+        $this->assertStringNotContainsString($moodleinternal, $stepslibfile);
 
         $classdefinition = 'class backup_'.$blockname.'_block_structure_step extends backup_block_structure_step';
         $this->assertStringContainsString($classdefinition, $stepslibfile);
@@ -370,7 +370,7 @@ class tool_pluginskel_block_testcase extends advanced_testcase {
         $this->assertMatchesRegularExpression('/\* @category\s+backup/', $stepslibfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die();";
-        $this->assertStringContainsString($moodleinternal, $stepslibfile);
+        $this->assertStringNotContainsString($moodleinternal, $stepslibfile);
 
         $classdefinition = 'class restore_'.$blockname.'_block_structure_step extends restore_structure_step';
         $this->assertStringContainsString($classdefinition, $stepslibfile);

@@ -129,7 +129,7 @@ class tool_pluginskel_enrol_testcase extends advanced_testcase {
         $this->assertStringContainsString($description, $libfile);
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertStringContainsString($moodleinternal, $libfile);
+        $this->assertStringNotContainsString($moodleinternal, $libfile);
 
         $classdefinition = 'class '.$recipe['component'].'_plugin extends enrol_plugin';
         $this->assertStringContainsString($classdefinition, $libfile);

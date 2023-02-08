@@ -128,7 +128,7 @@ class tool_pluginskel_upgrade_testcase extends advanced_testcase {
         $upgradelibfile = $files['db/upgradelib.php'];
 
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
-        $this->assertStringContainsString($moodleinternal, $upgradelibfile);
+        $this->assertStringNotContainsString($moodleinternal, $upgradelibfile);
 
         $this->assertStringContainsString("require_once(__DIR__.'/upgradelib.php')", $upgradefile);
 
