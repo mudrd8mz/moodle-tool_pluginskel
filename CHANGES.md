@@ -1,8 +1,10 @@
 ## 1.6.0 ##
 
 * Moodle 3.11 set as the required Moodle version.
-* Replaced `assertRegExp()` and `assertNotRegExp()` calls in PHPUnit. Credit gooes to
+* Replaced `assertRegExp()` and `assertNotRegExp()` calls in PHPUnit. Credit goes to
   @ewallah.
+* Added generator for course format plugintype. Credit goes to @ferranrecio.
+* Added generator for Tiny plugintype. Credit goes to @andrewnicols.
 
 ## 1.5.3 ##
 
