@@ -41,7 +41,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2022 Andrew Lyons <andrew@nicols.co.uk>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tiny_testcase extends \advanced_testcase {
+class tiny_test extends \advanced_testcase {
 
     /**
      * Get test based on settings.
