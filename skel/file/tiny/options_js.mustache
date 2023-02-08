@@ -1,0 +1,72 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template file/tiny/options_js
+
+    AMD amd/src/options.js file.
+
+    Context variables required for this template:
+    * component
+    * copyright
+
+    Example context (json):
+    {
+        "component": "tiny_example",
+        "copyright": "2022 Andrew Lyons <andrew@nicols.co.uk>"
+    }
+}}
+{{< common/boilerplate_amd_js }}
+    {{$ description }}Options helper for the Moodle {{ component }} plugin.{{/ description }}
+    {{$ modulename }}options{{/ modulename }}
+    {{$ copyright }}{{ copyright }}{{/ copyright }}
+{{/ common/boilerplate_amd_js  }}
+
+import {getPluginOptionName} from 'editor_tiny/options';
+import {pluginName} from './common';
+
+// Helper variables for the option names.
+{{# self.options }}
+const {{ name }}Name = getPluginOptionName(pluginName, '{{ name }}');
+{{/ self.options }}
+
+/**
+ * Options registration function.
+ *
+ * @param {tinyMCE} editor
+ */
+export const register = (editor) => {
+    const registerOption = editor.options.register;
+
+    // For each option, register it with the editor.
+    // Valid type are defined in https://www.tiny.cloud/docs/tinymce/6/apis/tinymce.editoroptions/
+{{# self.options }}
+    registerOption({{ name }}Name, {
+        processor: '{{ type }}',
+    });
+{{/ self.options }}
+};
+
+{{# self.options }}
+
+/**
+ * Fetch the {{ name }} value for this editor instance.
+ *
+ * @param {tinyMCE} editor The editor instance to fetch the value for
+ * @returns {object} The value of the {{ name }} option
+ */
+export const get{{ ucname }} = (editor) => editor.options.get({{ name }}Name);
+{{/ self.options }}

@@ -133,6 +133,44 @@ class manager {
             );
         }
 
+        if ($type === 'tiny') {
+            $componentvars = [
+                [
+                    'name' => 'buttons',
+                    'type' => 'boolean',
+                ],
+                [
+                    'name' => 'menuitems',
+                    'type' => 'boolean',
+                ],
+                [
+                    'name' => 'options',
+                    'type' => 'numeric-array',
+                    'values' => [
+                        [
+                            'name' => 'name',
+                            'type' => 'text',
+                        ],
+                        [
+                            'name' => 'type',
+                            'type' => 'multiple-options',
+                            'values' => [
+                                'string' => 'string',
+                                'number' => 'number',
+                                'boolean' => 'boolean',
+                                'array' => 'array',
+                                'function' => 'function',
+                                'object' => 'object',
+                                'string[]' => 'string[]',
+                                'object[]' => 'object[]',
+                                'regexp' => 'regexp',
+                            ],
+                        ],
+                    ],
+                ],
+            ];
+        }
+
         if ($type === 'auth') {
             $componentvars = array(
                 array('name' => 'config_ui', 'type' => 'boolean', 'required' => true),
@@ -458,6 +496,10 @@ class manager {
             $this->prepare_atto_files();
         }
 
+        if ($plugintype === 'tiny') {
+            $this->prepare_tiny_files();
+        }
+
         if ($plugintype === 'enrol') {
             $this->prepare_enrol_files();
         }
@@ -760,6 +802,189 @@ class manager {
 
             $this->files['lib.php']->set_attribute('has_params_for_js');
             $this->files[$buttonjsfile]->set_attribute('has_params_for_js');
+        }
+    }
+
+    protected function prepare_tiny_files() {
+        $pluginjsfile = 'amd/src/plugin.js';
+        $this->prepare_file_skeleton($pluginjsfile, 'base', 'tiny/plugin_js');
+
+        $commonjsfile = 'amd/src/common.js';
+        $this->prepare_file_skeleton($commonjsfile, 'base', 'tiny/common_js');
+
+        $pluginfofile = 'classes/plugininfo.php';
+        $this->prepare_file_skeleton($pluginfofile, 'base', 'tiny/plugininfo_php');
+
+        $commandsjsfile = 'amd/src/commands.js';
+        $addcommandsfile = function() use ($commandsjsfile) {
+            $this->prepare_file_skeleton($commandsjsfile, 'base', 'tiny/commands_js');
+        };
+        $configjsfile = 'amd/src/configuration.js';
+        $addconfigfile = function() use ($configjsfile) {
+            $this->prepare_file_skeleton($configjsfile, 'base', 'tiny/configuration_js');
+        };
+
+        $interfaces = [];
+
+        if ($this->has_component_feature('options')) {
+            $optionsjsfile = 'amd/src/options.js';
+            $this->prepare_file_skeleton($optionsjsfile, 'base', 'tiny/options_js');
+
+            $options = array_map(function($value) {
+                $value['ucname'] = ucfirst($value['name']);
+
+                return $value;
+            }, $this->recipe['tiny_features']['options']);
+
+            $options = array_filter($options, function($value): bool {
+                return !empty($value['ucname']);
+            });
+
+            $this->files[$pluginfofile]->set_attribute('defines_options');
+            $this->files[$pluginfofile]->set_attribute('options', $options);
+            $this->files[$pluginjsfile]->set_attribute('defines_options');
+            $this->files[$optionsjsfile]->set_attribute('defines_options');
+            $this->files[$optionsjsfile]->set_attribute('options', $options);
+
+            $interfaces[] = 'plugin_with_configuration';
+        }
+
+        $commandnames = [];
+        if ($this->has_component_feature('buttons')) {
+            if (empty($this->files[$commandsjsfile])) {
+                $addcommandsfile();
+                $addconfigfile();
+            }
+            $this->files[$pluginfofile]->set_attribute('defines_buttons');
+            $this->files[$commandsjsfile]->set_attribute('defines_buttons');
+            $this->files[$commonjsfile]->set_attribute('defines_buttons');
+            $this->files[$configjsfile]->set_attribute('defines_buttons');
+
+            $interfaces[] = 'plugin_with_buttons';
+
+            // Determine the button configuration.
+            $buttons = [];
+            $buttonsbycategory = [];
+
+            foreach ($this->recipe['tiny_features']['buttons'] as $button) {
+                if (empty($button['name'])) {
+                    $this->logger->warning('Button name not set');
+                    continue;
+                }
+
+                if (empty($button['text'])) {
+                    $this->logger->warning("Text for button '{$button['name']}' not set");
+                    continue;
+                }
+
+                if (empty($button['category'])) {
+                    $this->logger->warning("category  for button '{$button['name']}' not set");
+                    continue;
+                }
+
+                $button['buttonName'] = "{$button['name']}ButtonName";
+                $this->add_lang_string("button_{$button['name']}", $button['text']);
+                $buttons[] = $button;
+
+                if (empty($buttonsbycategory[$button['category']])) {
+                    $buttonsbycategory[$button['category']] = [];
+                }
+                $buttonsbycategory[$button['category']][] = $button;
+                $commandnames[] = [
+                    'commandName' => $button['buttonName'],
+                    'name' => $button['name'],
+                ];
+
+            }
+
+            $this->files[$commandsjsfile]->set_attribute('buttons', $buttons);
+            $this->files[$configjsfile]->set_attribute('buttons', $buttons);
+
+            $buttoncategories = [];
+            foreach ($buttonsbycategory as $category => $buttonlist) {
+                $buttoncategories = [
+                    'category' => $category,
+                    'buttons' => array_map(function($button): string {
+                        return $button['buttonName'];
+                    }, $buttonlist),
+                ];
+            }
+            $this->files[$configjsfile]->set_attribute('buttonsbycategory', $buttoncategories);
+        }
+
+        if ($this->has_component_feature('menuitems')) {
+            if (empty($this->files[$commandsjsfile])) {
+                $addcommandsfile();
+                $addconfigfile();
+            }
+            $this->files[$commandsjsfile]->set_attribute('defines_menuitems');
+            $this->files[$commonjsfile]->set_attribute('defines_menuitems');
+            $this->files[$pluginfofile]->set_attribute('defines_menuitems');
+            $this->files[$configjsfile]->set_attribute('defines_menuitems');
+
+            $interfaces[] = 'plugin_with_menuitems';
+
+            // Determine the menu configuration.
+            $menuitems = [];
+            $menuitemsbycategory = [];
+
+            foreach ($this->recipe['tiny_features']['menuitems'] as $menuitem) {
+                if (empty($menuitem['name'])) {
+                    $this->logger->warning('Menu item name not set');
+                    continue;
+                }
+
+                if (empty($menuitem['text'])) {
+                    $this->logger->warning("Text for Menu item '{$menuitem['name']}' not set");
+                    continue;
+                }
+
+                if (empty($menuitem['category'])) {
+                    $this->logger->warning("category  for Menu item '{$menuitem['name']}' not set");
+                    continue;
+                }
+
+                $menuitem['menuItemName'] = "{$menuitem['name']}MenuItemName";
+                $this->add_lang_string('pluginname', $menuitem['text']);
+                $this->add_lang_string("menuitem_{$menuitem['name']}", $menuitem['text']);
+                $menuitems[] = $menuitem;
+
+                if (empty($buttonsbycategory[$menuitem['category']])) {
+                    $menuitemsbycategory[$menuitem['category']] = [];
+                }
+                $menuitemsbycategory[$menuitem['category']][] = $menuitem;
+                $commandnames[] = [
+                    'commandName' => $menuitem['menuItemName'],
+                    'name' => $menuitem['name'],
+                ];
+            }
+
+            $this->files[$commandsjsfile]->set_attribute('menuitems', $menuitems);
+            $this->files[$configjsfile]->set_attribute('menuitems', $menuitems);
+
+            $menuitemcategories = [];
+            foreach ($menuitemsbycategory as $category => $menuitemlist) {
+                $menuitemcategories = [
+                    'category' => $category,
+                    'menuitems' => array_map(function($menuitem): string {
+                        return $menuitem['menuItemName'];
+                    }, $menuitemlist),
+                ];
+            }
+            $this->files[$configjsfile]->set_attribute('menuitemsbycategory', $menuitemcategories);
+        }
+
+        if ($this->has_component_feature('menuitems') || $this->has_component_feature('buttons')) {
+            $this->files[$pluginjsfile]->set_attribute('defines_commands');
+            $this->files[$commonjsfile]->set_attribute('defines_commands');
+            $this->files[$configjsfile]->set_attribute('commandnames', $commandnames);
+            $this->files[$commonjsfile]->set_attribute('commandnames', $commandnames);
+            $this->files[$commandsjsfile]->set_attribute('commandnames', $commandnames);
+        }
+
+        if (!empty($interfaces)) {
+            $this->files[$pluginfofile]->set_attribute('interfaces', implode(', ', $interfaces));
+            $this->files[$pluginfofile]->set_attribute('defines_any_interfaces');
         }
     }
 
