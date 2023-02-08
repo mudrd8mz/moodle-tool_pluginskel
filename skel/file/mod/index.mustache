@@ -92,7 +92,7 @@ foreach (${{ component_name }}s as ${{ component_name }}) {
             format_string(${{ component_name }}->name, true));
     }
 
-    if ($course->format == 'weeks' or $course->format == 'topics') {
+    if ($course->format == 'weeks' || $course->format == 'topics') {
         $table->data[] = array(${{ component_name }}->section, $link);
     } else {
         $table->data[] = array($link);

@@ -252,7 +252,7 @@ function {{ component_name }}_scale_used($moduleinstanceid, $scaleid) {
 function {{ component_name }}_scale_used_anywhere($scaleid) {
     global $DB;
 
-    if ($scaleid and $DB->record_exists('{{ component_name }}', array('grade' => -$scaleid))) {
+    if ($scaleid && $DB->record_exists('{{ component_name }}', array('grade' => -$scaleid))) {
         return true;
     } else {
         return false;
