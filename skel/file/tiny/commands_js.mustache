@@ -30,9 +30,10 @@
     }
 }}
 {{< common/boilerplate_amd_js }}
-{{$ description }}Commands helper for the Moodle {{ component }} plugin.{{/ description }}
-{{$ modulename }}commands{{/ modulename }}
-{{$ copyright }}{{ copyright }}{{/ copyright }}
+    {{$ description }}Commands helper for the Moodle {{ component }} plugin.{{/ description }}
+    {{$ modulename }}commands{{/ modulename }}
+    {{$ package }}{{ component }}{{/ package }}
+    {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_amd_js }}
 
 {{# self.defines_buttons }}
