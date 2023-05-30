@@ -949,7 +949,6 @@ class manager {
                 }
 
                 $menuitem['menuItemName'] = "{$menuitem['name']}MenuItemName";
-                $this->add_lang_string('pluginname', $menuitem['text']);
                 $this->add_lang_string("menuitem_{$menuitem['name']}", $menuitem['text']);
                 $menuitems[] = $menuitem;
 
