@@ -32,8 +32,9 @@
 {{< common/boilerplate_amd_js }}
     {{$ description }}Tiny {{ component }} for Moodle.{{/ description }}
     {{$ modulename }}plugin{{/ modulename }}
+    {{$ package }}{{ component }}{{/ package }}
     {{$ copyright }}{{ copyright }}{{/ copyright }}
-{{/ common/boilerplate_amd_js  }}
+{{/ common/boilerplate_amd_js }}
 
 import {getTinyMCE} from 'editor_tiny/loader';
 import {getPluginMetadata} from 'editor_tiny/utils';
