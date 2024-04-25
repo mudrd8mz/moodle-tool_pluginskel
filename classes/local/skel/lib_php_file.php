@@ -25,7 +25,7 @@
 
 namespace tool_pluginskel\local\skel;
 
-use tool_pluginskel\local\util\exception;
+use coding_exception;
 
 /**
  * Class representing the lib.php file.

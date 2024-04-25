@@ -34,7 +34,7 @@ class external_function_file extends php_single_file {
     public function generate_external_function_code(array $external): void {
 
         if (empty($this->data)) {
-            throw new coding_exception('Skeleton data not set');
+            throw new \coding_exception('Skeleton data not set');
         }
 
         $this->set_attribute('has_extra_requirements');

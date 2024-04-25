@@ -25,6 +25,8 @@
 
 namespace tool_pluginskel\local\skel;
 
+use coding_exception;
+
 /**
  * Class representing the locallib.php file.
  *
@@ -45,7 +47,7 @@ class locallib_php_file extends php_library_file {
     public function add_event_callback($callback, $event) {
 
         if (empty($this->data)) {
-            throw new exception('Skeleton data not set');
+            throw new coding_exception('Skeleton data not set');
         }
 
         if (empty($this->data['self'])) {

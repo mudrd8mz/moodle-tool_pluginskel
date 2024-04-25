@@ -111,7 +111,6 @@ class base {
      * Render the file contents.
      *
      * @param renderer_base $renderer
-     * @return The file source code contents.
      */
     public function render($renderer) {
         $this->content = $this->normalize($renderer->render($this->get_template_name(), $this->get_template_data()));
