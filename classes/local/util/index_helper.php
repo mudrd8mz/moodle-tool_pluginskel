@@ -120,6 +120,7 @@ class index_helper {
      * @param string[] $templatevars The template variables.
      * @param string $countprefix The prefix for the form count variable that has the number of values.
      * @return string[]
+     * @throws \coding_exception
      */
     public static function get_array_variable_count_from_form($templatevars, $countprefix = '') {
 

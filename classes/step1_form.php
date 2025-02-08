@@ -324,6 +324,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param string $index Optional index for the element in an array variable.
+     * @throws coding_exception
      */
     protected function add_advcheckbox_element($elementname, $templatevar, $recipe, $index = null) {
 
@@ -361,6 +362,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param string $index Optional index for the element in an array variable.
+     * @throws coding_exception
      */
     protected function add_text_element($elementname, $templatevar, $recipe, $index = null) {
 
@@ -402,6 +404,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param string $parentname The parent name inside the recipe.
+     * @throws coding_exception
      */
     protected function add_numeric_fieldset($templatevar, $recipe, $parentname = '') {
 
@@ -459,6 +462,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param string $parentname The parent name inside the recipe.
+     * @throws coding_exception
      */
     protected function add_associative_fieldset($templatevar, $recipe, $parentname = '') {
 
@@ -558,6 +562,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string $variable The template variable the element represents.
      * @param string[] $fieldsetvalues The values for all the fieldset elements.
      * @param int|string|null $indexprefix The index of the element in the array.
+     * @throws coding_exception
      */
     protected function add_fieldset_element($elementname, $variable, $fieldsetvalues, $indexprefix = null) {
 
@@ -648,6 +653,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $nestedvariable The variable.
      * @param string[] $nestedrecipe The recipe for the nested variable.
      * @param int $parentindex The index of the parent numeric array variable.
+     * @throws coding_exception
      */
     protected function add_nested_array_variable($parentname, $nestedvariable, $nestedrecipe, $parentindex = null) {
 
@@ -691,6 +697,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * Constructs the recipe from the form data.
      *
      * @return string[] The recipe.
+     * @throws dml_exception
      */
     public function get_recipe() {
 

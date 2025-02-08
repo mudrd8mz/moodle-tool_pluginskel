@@ -25,7 +25,7 @@
 
 namespace tool_pluginskel\local\skel;
 
-use coding_exception;
+use tool_pluginskel\local\util\exception;
 
 /**
  * Class representing the lib.php file.
@@ -51,11 +51,12 @@ class lib_php_file extends php_library_file {
      * Adds a feature supported by the plugin.
      *
      * @param string $feature The feature name.
+     * @throws \coding_exception
      */
     public function add_supported_feature($feature) {
 
         if (empty($this->data)) {
-            throw new coding_exception('Skeleton data not set');
+            throw new \coding_exception('Skeleton data not set');
         }
 
         if (empty($this->data['self']['supports'])) {

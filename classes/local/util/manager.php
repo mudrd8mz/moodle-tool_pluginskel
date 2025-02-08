@@ -70,6 +70,7 @@ class manager {
      * Returns a list of (component => name) values.
      *
      * @return string[].
+     * @throws \coding_exception
      */
     public static function get_plugintype_names() {
 
@@ -88,6 +89,7 @@ class manager {
      * Returns a list of general variables needed by the plugin templates.
      *
      * @return string[].
+     * @throws \dml_exception
      */
     public static function get_general_variables() {
 
@@ -364,6 +366,7 @@ class manager {
      * Validate and initialize the plugin generation recipe.
      *
      * @param array $recipe
+     * @throws exception
      */
     public function load_recipe(array $recipe) {
         $this->init_recipe($recipe);
@@ -408,6 +411,7 @@ class manager {
      * Create the plugin files at $targetdir.
      *
      * @param string $targetdir The target directory for the files.
+     * @throws exception
      */
     public function write_files($targetdir) {
 
@@ -599,6 +603,7 @@ class manager {
 
     /**
      * Prepare the files implementing declared external functions.
+     * @throws exception
      */
     protected function prepare_external_files() {
 
@@ -616,6 +621,8 @@ class manager {
 
     /**
      * Prepare the file describing external functions and web services.
+     * @throws exception
+     * @throws \coding_exception
      */
     protected function prepare_db_services() {
 
@@ -639,6 +646,7 @@ class manager {
 
     /**
      * Prepares the message providers.
+     * @throws exception
      */
     protected function prepare_message_providers() {
 
@@ -668,6 +676,7 @@ class manager {
 
     /**
      * Prepares the capabilities.
+     * @throws exception
      */
     protected function prepare_capabilities() {
 
@@ -724,6 +733,7 @@ class manager {
 
     /**
      * Prepares the files for an authentication plugin.
+     * @throws exception
      */
     protected function prepare_auth_files() {
 
@@ -761,6 +771,7 @@ class manager {
 
     /**
      * Prepares the files for an atto plugin.
+     * @throws exception
      */
     protected function prepare_atto_files() {
 
@@ -807,6 +818,7 @@ class manager {
 
     /**
      * Prepare the files for a tiny plugin.
+     * @throws exception
      */
     protected function prepare_tiny_files() {
 
@@ -949,6 +961,7 @@ class manager {
                 }
 
                 $menuitem['menuItemName'] = "{$menuitem['name']}MenuItemName";
+                $this->add_lang_string('pluginname', $menuitem['text']);
                 $this->add_lang_string("menuitem_{$menuitem['name']}", $menuitem['text']);
                 $menuitems[] = $menuitem;
 
@@ -993,6 +1006,7 @@ class manager {
 
     /**
      * Prepares the files for an enrolment plugin.
+     * @throws exception
      */
     protected function prepare_enrol_files() {
 
@@ -1051,6 +1065,7 @@ class manager {
 
     /**
      * Prepares the files for a block plugin.
+     * @throws exception
      */
     protected function prepare_block_files() {
 
@@ -1096,6 +1111,7 @@ class manager {
 
     /**
      * Prepares the backup files for a block plugin.
+     * @throws exception
      */
     protected function prepare_block_backup_moodle2() {
 
@@ -1135,6 +1151,7 @@ class manager {
 
     /**
      * Prepares the files for a theme.
+     * @throws exception
      */
     protected function prepare_theme_files() {
 
@@ -1183,6 +1200,7 @@ class manager {
 
     /**
      * Prepares the files for a question types plugin.
+     * @throws exception
      */
     protected function prepare_qtype_files() {
 
@@ -1253,6 +1271,7 @@ class manager {
 
     /**
      * Prepares the files for an activity module plugin.
+     * @throws exception
      */
     protected function prepare_mod_files() {
 
@@ -1335,6 +1354,7 @@ class manager {
 
     /**
      * Prepares the files for a content bank contenttype plugin.
+     * @throws exception
      */
     protected function prepare_contenttype_files() {
         $recipe = $this->recipe;
@@ -1382,6 +1402,7 @@ class manager {
 
     /**
      * Prepares the files for a course format plugin.
+     * @throws exception
      */
     protected function prepare_format_files() {
         $recipe = $this->recipe;
@@ -1442,6 +1463,7 @@ class manager {
 
     /**
      * Prepares the skeleton files for the 'backup_moodle2' feature for an activity module.
+     * @throws exception
      */
     protected function prepare_mod_backup_moodle2() {
 
@@ -1471,6 +1493,7 @@ class manager {
 
     /**
      * Prepares the observer class files.
+     * @throws exception
      */
     protected function prepare_observers() {
 
@@ -1534,6 +1557,7 @@ class manager {
 
     /**
      * Prepare the event class files.
+     * @throws exception
      */
     protected function prepare_events() {
 
@@ -1556,6 +1580,7 @@ class manager {
 
     /**
      * Prepare the file skeletons for the cli_scripts feature.
+     * @throws exception
      */
     protected function prepare_cli_files() {
 
@@ -1568,6 +1593,7 @@ class manager {
      * Prepare the file skeletongs for mustache templates.
      *
      * @return void
+     * @throws exception
      */
     protected function prepare_templates() {
 
@@ -1768,6 +1794,7 @@ class manager {
      * Validate and set a recipe for the plugin generation.
      *
      * @param array $recipe
+     * @throws exception
      */
     protected function init_recipe($recipe) {
         global $CFG;

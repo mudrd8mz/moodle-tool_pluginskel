@@ -25,8 +25,6 @@
 
 namespace tool_pluginskel\local\skel;
 
-use coding_exception;
-
 /**
  * Class representing a Moodle observer class file.
  *
@@ -39,15 +37,16 @@ class observer_file extends php_single_file {
      * Sets the name of the observer.
      *
      * @param string $name The observer's name.
+     * @throws \exception
      */
     public function set_observer_name($name) {
 
         if (empty($this->data)) {
-            throw new coding_exception('Skeleton data not set');
+            throw new \exception('Skeleton data not set');
         }
 
         if (!empty($this->data['observer']['observer_name'])) {
-            throw new coding_exception("Observer: '$name' already set");
+            throw new \exception("Observer: '$name' already set");
         }
 
         $this->data['observer']['observer_name'] = $name;
@@ -58,11 +57,12 @@ class observer_file extends php_single_file {
      *
      * @param string $callback The function name.
      * @param string $event The event that triggers the callback.
+     * @throws \exception
      */
     public function add_event_callback($callback, $event) {
 
         if (empty($this->data)) {
-            throw new coding_exception('Skeleton data not set');
+            throw new \exception('Skeleton data not set');
         }
 
         if (empty($this->data['observer']['callbacks'])) {
@@ -76,11 +76,12 @@ class observer_file extends php_single_file {
      * Sets the namespace for the observer class file.
      *
      * @param string $namespace
+     * @throws \coding_exception
      */
     public function set_file_namespace($namespace) {
 
         if (empty($this->data)) {
-            throw new coding_exception('Skeleton data not set');
+            throw new \coding_exception('Skeleton data not set');
         }
 
         $this->data['observer']['namespace'] = 'namespace '.$namespace.';';
