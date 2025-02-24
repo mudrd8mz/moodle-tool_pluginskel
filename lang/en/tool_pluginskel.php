@@ -419,3 +419,6 @@ $string['undefined'] = 'Undefined';
 $string['version'] = 'Version';
 $string['version_help'] = 'The version number of the plugin. The format is partially date based with the form YYYYMMDDXX where XX is an incremental counter for the given year (YYYY), month (MM) and date (DD) of the plugin version\'s release.';
 $string['version_link'] = 'https://docs.moodle.org/dev/version.php';
+
+$string['examples_recipe'] = 'Examples the recipe';
+$string['none'] = "None";

@@ -34,12 +34,16 @@ require_once($CFG->libdir . '/formslib.php');
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_step0_form extends moodleform {
+class tool_pluginskel_step0_form extends moodleform
+{
+    var $examples_text = [];
 
     /**
      * The standard form definiton.
      */
-    public function definition () {
+    public function definition()
+    {
+        global $PAGE;
         $mform = $this->_form;
 
         $mform->addElement('header', 'manualhdr', get_string('manualhdr', 'tool_pluginskel'));
@@ -59,19 +63,26 @@ class tool_pluginskel_step0_form extends moodleform {
         $mform->addElement('header', 'recipefilehdr', get_string('recipefilehdr', 'tool_pluginskel'));
         $mform->setExpanded('recipefilehdr', true);
         $mform->addElement('filepicker', 'recipefile', get_string('recipefile', 'tool_pluginskel'),
-                           null, array('maxbytes' => 50000, 'accepted_types' => '*'));
+            null, array('maxbytes' => 50000, 'accepted_types' => '*'));
         $mform->addHelpButton('recipefile', 'recipefile', 'tool_pluginskel');
         $mform->addElement('submit', 'proceedrecipefile', get_string('proceedrecipefile', 'tool_pluginskel'));
 
         $mform->addElement('header', 'recipehdr', get_string('recipehdr', 'tool_pluginskel'));
         $mform->setExpanded('recipehdr', true);
+
+        $examples = $this->get_examples($plugintypes);
+        $mform->addElement('select', 'example_options', get_string('examples_recipe', 'tool_pluginskel'),
+            $examples);
+
         $mform->addElement('textarea', 'recipe', get_string('recipe', 'tool_pluginskel'),
-                           array('wrap' => 'virtual',  'rows' => '20', 'cols' => '50'));
+            array('wrap' => 'virtual', 'rows' => '20', 'cols' => '50'));
         $mform->addHelpButton('recipe', 'recipe', 'tool_pluginskel');
         $mform->addElement('submit', 'proceedrecipe', get_string('proceedrecipe', 'tool_pluginskel'));
 
         $mform->addElement('hidden', 'step', 0);
         $mform->setType('step', PARAM_INT);
+
+        $PAGE->requires->js_call_amd("tool_pluginskel/example_recipe", "init", [$this->examples_text]);
     }
 
     /**
@@ -81,7 +92,8 @@ class tool_pluginskel_step0_form extends moodleform {
      * @param array $files Uploaded files (string) element name => (string) temporary file path
      * @return array Validation errors (string) element name => (string) validation error
      */
-    public function validation($data, $files) {
+    public function validation($data, $files)
+    {
 
         $errors = [];
 
@@ -93,5 +105,34 @@ class tool_pluginskel_step0_form extends moodleform {
         }
 
         return $errors;
+    }
+
+    /**
+     * Get examples
+     * 
+     * @param array $plugintypes
+     * @return array
+     * @throws coding_exception
+     */
+    private function get_examples(array $plugintypes)
+    {
+        $path = __DIR__ . '/../recipes/';
+
+        $recipe_names = get_directory_list($path, '', false, true);
+        $recipe_names = array_map(function ($file) {
+            return pathinfo($file, PATHINFO_FILENAME);
+        }, $recipe_names);
+
+        $elemnts = [];
+        $elemnts[''] = get_string('none', 'tool_pluginskel');
+        foreach ($plugintypes as $key => $name) {
+            if (in_array($key, $recipe_names)) {
+                $file_path = __DIR__ . "/../recipes/" . $key . ".yaml";
+                $elemnts[$key] = $name;
+                $this->examples_text[$key] = file_get_contents($file_path);
+            }
+        }
+
+        return $elemnts;
     }
 }
