@@ -109,7 +109,7 @@ class tool_pluginskel_step0_form extends moodleform
 
     /**
      * Get examples
-     * 
+     *
      * @param array $plugintypes
      * @return array
      * @throws coding_exception

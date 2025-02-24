@@ -1,0 +1,15 @@
+component: theme_test
+name: "Theme test"
+copyright: "2016 Alexandru Elisei <alexandru.elisei@gmail.com>"
+theme_features:
+  all_layouts: true
+  doctype: "html5"
+  parents:
+    - base_theme: "boost"
+  stylesheets:
+    - name: "stylesheet"
+  custom_layouts:
+    - name: "layout"
+lang_strings:
+  - id: "choosereadme"
+    text: "Theme test"
