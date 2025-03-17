@@ -21,6 +21,7 @@
 
     Context variables required for this template:
     * component
+    * component_name
     * copyright
 
     Example context (json):
@@ -29,11 +30,11 @@
         "copyright": "2021 David Mudrák <david@moodle.com>"
     }
 }}
-{{< common/boilerplate_php }}
+{{< common/boilerplate_amd_js }}
 {{$ description }}The Atto plugin {{ component_name }} is defined here.{{/ description }}
-{{$ package }}{{ component }}{{/ package }}
+{{$ modulename }}button{{/ modulename }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
-{{/ common/boilerplate_php }}
+{{/ common/boilerplate_amd_js }}
 
 /**
  * Atto {{ component_name }} plugin.
