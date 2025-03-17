@@ -1,0 +1,14 @@
+component: qtype_test
+name: Qtype test
+copyright: 2016 Alexandru Elisei <alexandru.elisei@gmail.com>
+qtype_features:
+  base_class: question_graded_automatically
+lang_strings:
+  - id: pluginnamesummary
+    text: Plugin name summary
+  - id: pluginnameadding
+    text: Plugin name when adding
+  - id: pluginnameediting
+    text: Plugin name when editing
+  - id: pluginname_help
+    text: Help text
