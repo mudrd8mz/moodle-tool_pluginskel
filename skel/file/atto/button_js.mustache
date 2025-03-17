@@ -21,6 +21,7 @@
 
     Context variables required for this template:
     * component
+    * component_name
     * copyright
 
     Example context (json):
@@ -30,13 +31,13 @@
     }
 }}
 {{< common/boilerplate_amd_js }}
-{{$ description }}The Atto plugin {{ component }} is defined here.{{/ description }}
+{{$ description }}The Atto plugin {{ component_name }} is defined here.{{/ description }}
 {{$ modulename }}button{{/ modulename }}
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_amd_js }}
 
 /**
- * Atto {{ component }} plugin.
+ * Atto {{ component_name }} plugin.
  *
  * @namespace M.{{ component }}.
  * @class button.
