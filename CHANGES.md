@@ -1,3 +1,6 @@
+* Fixed duplicate string generated in the Tiny editor plugins. Credit goes to
+  @jboulen.
+
 ## 1.6.0 ##
 
 * Moodle 4.1 set as the required Moodle version.
