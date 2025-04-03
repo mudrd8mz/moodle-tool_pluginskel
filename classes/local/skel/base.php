@@ -162,6 +162,6 @@ class base {
      * @return string[].
      */
     public static function get_template_variables($plugintype = null) {
-        return array();
+        return [];
     }
 }

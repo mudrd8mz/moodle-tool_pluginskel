@@ -60,8 +60,8 @@ if ($step == 0) {
 
     if (!empty($formdata)) {
 
-        $data = array();
-        $recipe = array();
+        $data = [];
+        $recipe = [];
         $componenttype = '';
 
         if (!empty($formdata->proceedmanually)) {
@@ -96,7 +96,7 @@ if ($step == 0) {
             $rootvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_recipe($rootvars, $recipe);
 
             $componentfeatures = $componenttype.'_features';
-            $componentvarscount = array();
+            $componentvarscount = [];
             if (!empty($recipe[$componentfeatures])) {
                 $componentvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_recipe(
                     $componentvars,
@@ -141,7 +141,7 @@ if ($step == 0) {
                                                                                                       $componentfeatures);
 
     $data = array_merge($rootvarscount, $componentvarscount);
-    $data['recipe'] = array('component' => $component);
+    $data['recipe'] = ['component' => $component];
 
     $mform1 = new tool_pluginskel_step1_form(null, $data);
     $formdata = (array) $mform1->get_data();
@@ -159,7 +159,7 @@ if ($step == 0) {
 
     } else if (!empty($formdata['buttonshowrecipe'])) {
 
-        $data = array('recipe' => $recipe);
+        $data = ['recipe' => $recipe];
         $mform2 = new tool_pluginskel_step2_form(null, $data);
 
         echo $OUTPUT->header();
@@ -171,8 +171,8 @@ if ($step == 0) {
 } else if ($step == 2) {
 
     // Reconstruct the form.
-    $recipestub = array('component' => $component);
-    $data = array('recipe' => $recipestub);
+    $recipestub = ['component' => $component];
+    $data = ['recipe' => $recipestub];
     $mform2 = new tool_pluginskel_step2_form(null, $data);
     $formdata = (array) $mform2->get_data();
 
@@ -200,7 +200,7 @@ if ($step == 0) {
 
         list($componenttype, $componentname) = core_component::normalize_component($component);
         $componentfeatures = $componenttype.'_features';
-        $componentvarscount = array();
+        $componentvarscount = [];
         if (!empty($recipe[$componentfeatures])) {
             $componentvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_recipe(
                 $componentvars,

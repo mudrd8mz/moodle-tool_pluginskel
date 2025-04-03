@@ -42,25 +42,25 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class lang_test extends \advanced_testcase {
+final class lang_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_langtest',
         'release'   => '0.1.0',
         'version'   => '2016062300',
         'name'      => 'Lang test',
         'requires'  => '2015051100',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'lang_strings'   => array(
-            array('id' => 'somestring', 'text' => 'Test string')
-        )
-    );
+        'lang_strings'   => [
+            ['id' => 'somestring', 'text' => 'Test string'],
+        ],
+    ];
 
     /**
      * Test creating the lang file.
      */
-    public function test_lang() {
+    public function test_lang(): void {
         $logger = new Logger('langtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

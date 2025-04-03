@@ -66,10 +66,10 @@ class observer_file extends php_single_file {
         }
 
         if (empty($this->data['observer']['callbacks'])) {
-            $this->data['observer']['callbacks'] = array();
+            $this->data['observer']['callbacks'] = [];
         }
 
-        $this->data['observer']['callbacks'][] = array('callback' => $callback, 'event' => $event);
+        $this->data['observer']['callbacks'][] = ['callback' => $callback, 'event' => $event];
     }
 
     /**

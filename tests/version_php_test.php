@@ -42,10 +42,10 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class version_php_test extends \advanced_testcase {
+final class version_php_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_versionphptest',
         'release'   => '0.1.0',
         'version'   => '2016062300',
@@ -53,16 +53,16 @@ class version_php_test extends \advanced_testcase {
         'maturity'  => 'MATURITY_ALPHA',
         'requires'  => '2015051100',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'dependencies'  => array(
-            array('plugin' => 'mod_forum', 'version' => 'ANY_VERSION'),
-            array('plugin' => 'tool_another', 'version' => '2015121200')
-        ),
-    );
+        'dependencies'  => [
+            ['plugin' => 'mod_forum', 'version' => 'ANY_VERSION'],
+            ['plugin' => 'tool_another', 'version' => '2015121200'],
+        ],
+    ];
 
     /**
      * Test creating the version.php file.
      */
-    public function test_version_php() {
+    public function test_version_php(): void {
         global $CFG;
 
         $logger = new Logger('versionphptest');

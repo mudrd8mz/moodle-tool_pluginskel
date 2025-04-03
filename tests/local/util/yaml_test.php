@@ -24,9 +24,9 @@ namespace tool_pluginskel\local\util;
  * @copyright  2021 David Mudrák <david@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class yaml_test extends \basic_testcase {
+final class yaml_test extends \basic_testcase {
 
-    public function test_yaml_processing() {
+    public function test_yaml_processing(): void {
 
         $input = "---
 privacy:

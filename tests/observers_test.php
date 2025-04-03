@@ -42,37 +42,37 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class observers_test extends \advanced_testcase {
+final class observers_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_observerstest',
         'name'      => 'Observers test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'observers' => array(
-            array(
+        'observers' => [
+            [
                 'eventname' => '\core\event\something_happened',
                 'callback' => '\local_observerstest\event_observer::something_happened',
                 'includefile' => '/path/to/file/relative/to/moodle/dir/root',
                 'priority' => 200,
-                'internal' => true
-            ),
-            array(
+                'internal' => true,
+            ],
+            [
                 'eventname' => '\core\event\something_else_happened',
                 'callback' => 'local_observerstest_another_event_observer::something_else_happened',
-                'internal' => false
-            ),
-            array(
+                'internal' => false,
+            ],
+            [
                 'eventname' => '\core\event\another_eventname',
-                'callback' => 'locallib_function'
-            )
-        )
-    );
+                'callback' => 'locallib_function',
+            ],
+        ],
+    ];
 
     /**
      * Tests creating the db/events.php file.
      */
-    public function test_db_events_php() {
+    public function test_db_events_php(): void {
         $logger = new Logger('observerstest');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);
@@ -124,7 +124,7 @@ class observers_test extends \advanced_testcase {
     /**
      * Tests creating the callback functions.
      */
-    public function test_event_callback() {
+    public function test_event_callback(): void {
         $logger = new Logger('observerstest');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);

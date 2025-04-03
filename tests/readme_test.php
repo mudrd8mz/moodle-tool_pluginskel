@@ -42,22 +42,22 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class readme_test extends \advanced_testcase {
+final class readme_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_readmetest',
         'name'      => 'Readme test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'readme' => true
-        )
-    );
+        'features'  => [
+            'readme' => true,
+        ],
+    ];
 
     /**
      * Test creating the README.md file.
      */
-    public function test_readme() {
+    public function test_readme(): void {
         $logger = new Logger('demo');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);

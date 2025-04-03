@@ -40,7 +40,7 @@ require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/vendor/autoload.php
  * @copyright 2018 David Mudrák <david@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class manager_test extends \advanced_testcase {
+final class manager_test extends \advanced_testcase {
 
     /**
      * Return a base recipe for a plugin.
@@ -60,7 +60,7 @@ class manager_test extends \advanced_testcase {
      *
      * @covers \tool_pluginskel\local\util\manager::add_lang_string
      */
-    public function test_add_lang_string() {
+    public function test_add_lang_string(): void {
 
         $logger = new Logger('privacyprovidertest');
         $logger->pushHandler(new NullHandler());

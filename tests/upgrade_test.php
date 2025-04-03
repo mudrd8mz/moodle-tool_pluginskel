@@ -42,34 +42,34 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class upgrade_test extends \advanced_testcase {
+final class upgrade_test extends \advanced_testcase {
 
     /** @var string[] The test recipe for a local plugin type. */
-    protected static $recipelocal = array(
+    protected static $recipelocal = [
         'component' => 'local_upgradetest',
         'name'      => 'Upgrade test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
+        'features'  => [
             'upgrade' => true,
-            'upgradelib' => true
-        )
-    );
+            'upgradelib' => true,
+        ],
+    ];
 
     /** @var string[] The test recipe for an activity module type. */
-    protected static $recipemod = array(
+    protected static $recipemod = [
         'component' => 'mod_upgradetest',
         'name'      => 'Upgrade test',
         'copyright' => '2019 David Mudrak <david@moodle.com>',
-        'features'  => array(
+        'features'  => [
             'upgrade' => true,
-            'upgradelib' => true
-        )
-    );
+            'upgradelib' => true,
+        ],
+    ];
 
     /**
      * Test creating the db/upgrade.php file for a local_upgradetest plugin.
      */
-    public function test_local_db_upgrade_php() {
+    public function test_local_db_upgrade_php(): void {
         $logger = new Logger('upgradetest');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);
@@ -91,7 +91,7 @@ class upgrade_test extends \advanced_testcase {
     /**
      * Test creating the db/upgrade.php file for a mod_upgradetest plugin.
      */
-    public function test_mod_db_upgrade_php() {
+    public function test_mod_db_upgrade_php(): void {
         $logger = new Logger('upgradetest');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);
@@ -113,7 +113,7 @@ class upgrade_test extends \advanced_testcase {
     /**
      * Test creating the db/upgradelib.php file.
      */
-    public function test_db_upgradelib_php() {
+    public function test_db_upgradelib_php(): void {
         $logger = new Logger('upgradetest');
         $logger->pushHandler(new NullHandler);
         $manager = manager::instance($logger);

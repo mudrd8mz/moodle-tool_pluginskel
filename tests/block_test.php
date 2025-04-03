@@ -42,58 +42,58 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class block_test extends \advanced_testcase {
+final class block_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'block_test',
         'name'      => 'Block test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
+        'features'  => [
             'settings' => true,
-        ),
-        'block_features' => array(
+        ],
+        'block_features' => [
             'instance_allow_multiple' => true,
             'edit_form' => true,
-            'applicable_formats' => array(
-                array('page' => 'all', 'allowed' => false),
-                array('page' => 'course-view', 'allowed' => true),
-                array('page' => 'course-view-social', 'allowed' => false)
-            ),
-            'backup_moodle2' => array(
+            'applicable_formats' => [
+                ['page' => 'all', 'allowed' => false],
+                ['page' => 'course-view', 'allowed' => true],
+                ['page' => 'course-view-social', 'allowed' => false],
+            ],
+            'backup_moodle2' => [
                 'restore_task' => true,
                 'restore_stepslib' => true,
                 'backup_stepslib' => true,
                 'settingslib' => true,
-                'backup_elements' => array(
-                    array('name' => 'elt'),
-                ),
-                'restore_elements' => array(
-                    array('name' => 'node', 'path' => '/path/to/file')
-                )
-            ),
-        ),
-         'capabilities' => array(
-            array(
+                'backup_elements' => [
+                    ['name' => 'elt'],
+                ],
+                'restore_elements' => [
+                    ['name' => 'node', 'path' => '/path/to/file'],
+                ],
+            ],
+        ],
+         'capabilities' => [
+            [
                 'name' => 'addinstance',
                 'title' => 'Add new block instance',
                 'riskbitmask' => 'RISK_XSS | RISK_XSS',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_BLOCK',
-                'archetypes' => array(
-                    array(
+                'archetypes' => [
+                    [
                         'role' => 'student',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                    array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                    [
                         'role' => 'editingteacher',
-                        'permission' => 'CAP_ALLOW'
-                    )
-                ),
-                'clonepermissionsfrom' => 'moodle/site:manageblocks'
-            )
-        ),
-    );
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                ],
+                'clonepermissionsfrom' => 'moodle/site:manageblocks',
+            ],
+        ],
+    ];
 
     /** @var string The plugin files path relative the Moodle root. */
     static protected $relpath;
@@ -106,6 +106,7 @@ class block_test extends \advanced_testcase {
      */
     public static function setUpBeforeClass(): void {
         global $CFG;
+        parent::setUpBeforeClass();
 
         list($type, $blockname) = \core_component::normalize_component(self::$recipe['component']);
 
@@ -119,7 +120,7 @@ class block_test extends \advanced_testcase {
     /**
      * Tests creating the block_<blockname>.php file.
      */
-    public function test_block_block_file() {
+    public function test_block_block_file(): void {
         $logger = new Logger('blocktest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -179,7 +180,7 @@ class block_test extends \advanced_testcase {
     /**
      * Tests creating the edit_form.php file.
      */
-    public function test_block_edit_form_feature() {
+    public function test_block_edit_form_feature(): void {
         $logger = new Logger('blocktest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -211,7 +212,7 @@ class block_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/backup_<blockname>_block_task.class.php file.
      */
-    public function test_backup_feature_backup_task() {
+    public function test_backup_feature_backup_task(): void {
         $logger = new Logger('blocktest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -250,7 +251,7 @@ class block_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/backup_<blockname>_settingslib.php file.
      */
-    public function test_backup_feature_settingslib() {
+    public function test_backup_feature_settingslib(): void {
         $logger = new Logger('blocktest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -279,7 +280,7 @@ class block_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/backup_<blockname>_stepslib.php file.
      */
-    public function test_backup_feature_stepslib() {
+    public function test_backup_feature_stepslib(): void {
         $logger = new Logger('blocktest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -315,7 +316,7 @@ class block_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/restore_<blockname>_restore_task.class.php file.
      */
-    public function test_backup_feature_restore_task() {
+    public function test_backup_feature_restore_task(): void {
         $logger = new Logger('blocktest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -350,7 +351,7 @@ class block_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/restore_<blockname>_stepslib.php file.
      */
-    public function test_backup_feature_restore_stepslib() {
+    public function test_backup_feature_restore_stepslib(): void {
         $logger = new Logger('blocktest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

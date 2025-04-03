@@ -51,13 +51,13 @@ class locallib_php_file extends php_library_file {
         }
 
         if (empty($this->data['self'])) {
-            $this->data['self'] = array();
+            $this->data['self'] = [];
         }
 
         if (empty($this->data['self']['events'])) {
-            $this->data['self']['events'] = array();
+            $this->data['self']['events'] = [];
         }
 
-        $this->data['self']['events'][] = array('event' => $event, 'callback' => $callback);
+        $this->data['self']['events'][] = ['event' => $event, 'callback' => $callback];
     }
 }

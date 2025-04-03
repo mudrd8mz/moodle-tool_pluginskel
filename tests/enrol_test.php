@@ -42,78 +42,78 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class enrol_test extends \advanced_testcase {
+final class enrol_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'enrol_test',
         'name'      => 'Enrol test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
+        'features'  => [
             'settings' => true,
-        ),
-        'enrol_features' => array(
+        ],
+        'enrol_features' => [
             'allow_enrol' => false,
             'allow_unenrol' => false,
             'allow_unenrol_user' => true,
             'allow_manage' => true,
-        ),
-        'capabilities' => array(
-            array(
+        ],
+        'capabilities' => [
+            [
                 'name' => 'enrol',
                 'title' => 'Enrol user',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_COURSE',
-                'archetypes' => array(
-                    array(
+                'archetypes' => [
+                    [
                         'role' => 'manager',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                    array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                    [
                         'role' => 'editingteacher',
-                        'permission' => 'CAP_ALLOW'
-                    )
-                )
-            ),
-            array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                ],
+            ],
+            [
                 'name' => 'unenrol',
                 'title' => 'Unenrol user',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_COURSE',
-                'archetypes' => array(
-                    array(
+                'archetypes' => [
+                    [
                         'role' => 'manager',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                    array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                    [
                         'role' => 'editingteacher',
-                        'permission' => 'CAP_ALLOW'
-                    )
-                )
-            ),
-            array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                ],
+            ],
+            [
                 'name' => 'manage',
                 'title' => 'Manage users',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_COURSE',
-                'archetypes' => array(
-                    array(
+                'archetypes' => [
+                    [
                         'role' => 'manager',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                    array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                    [
                         'role' => 'editingteacher',
-                        'permission' => 'CAP_ALLOW'
-                    )
-                )
-            )
-        )
-    );
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                ],
+            ],
+        ],
+    ];
 
     /**
      * Tests creating the lib.php file.
      */
-    public function test_enrol_lib_php() {
+    public function test_enrol_lib_php(): void {
         $logger = new Logger('enroltest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

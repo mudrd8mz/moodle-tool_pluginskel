@@ -42,23 +42,23 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_test extends \advanced_testcase {
+final class qtype_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'qtype_test',
         'name'      => 'Qtype test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'qtype_features' => array(
+        'qtype_features' => [
             'base_class' => 'question_graded_automatically',
-        ),
-        'lang_strings'   => array(
-            array('id' => 'pluginnamesummary', 'text' => 'Plugin name summary'),
-            array('id' => 'pluginnameadding', 'text' => 'Plugin name when adding'),
-            array('id' => 'pluginnameediting', 'text' => 'Plugin name when editing'),
-            array('id' => 'pluginname_help', 'text' => 'Help text')
-        )
-    );
+        ],
+        'lang_strings'   => [
+            ['id' => 'pluginnamesummary', 'text' => 'Plugin name summary'],
+            ['id' => 'pluginnameadding', 'text' => 'Plugin name when adding'],
+            ['id' => 'pluginnameediting', 'text' => 'Plugin name when editing'],
+            ['id' => 'pluginname_help', 'text' => 'Help text'],
+        ],
+    ];
 
     /** @var string The plugin name, without the frankenstyle prefix. */
     static protected $qtypename;
@@ -68,6 +68,7 @@ class qtype_test extends \advanced_testcase {
      */
     public static function setUpBeforeClass(): void {
         global $CFG;
+        parent::setUpBeforeClass();
 
         list($type, $qtypename) = \core_component::normalize_component(self::$recipe['component']);
 
@@ -77,7 +78,7 @@ class qtype_test extends \advanced_testcase {
     /**
      * Tests creating the basic files.
      */
-    public function test_qtype_files() {
+    public function test_qtype_files(): void {
         $logger = new Logger('qtypetest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -99,7 +100,7 @@ class qtype_test extends \advanced_testcase {
     /**
      * Tests the file question.php.
      */
-    public function test_qtype_question_php() {
+    public function test_qtype_question_php(): void {
         $logger = new Logger('qtypetest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -126,7 +127,7 @@ class qtype_test extends \advanced_testcase {
     /**
      * Tests the file questiontype.php.
      */
-    public function test_qtype_questiontype_php() {
+    public function test_qtype_questiontype_php(): void {
         $logger = new Logger('qtypetest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -152,7 +153,7 @@ class qtype_test extends \advanced_testcase {
     /**
      * Tests the file renderer.php.
      */
-    public function test_qtype_renderer_php() {
+    public function test_qtype_renderer_php(): void {
         $logger = new Logger('qtypetest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -178,7 +179,7 @@ class qtype_test extends \advanced_testcase {
     /**
      * Tests the file edit_<qtypename>_form.php.
      */
-    public function test_qtype_edit_form_php() {
+    public function test_qtype_edit_form_php(): void {
         $logger = new Logger('qtypetest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

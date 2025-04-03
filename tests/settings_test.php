@@ -42,22 +42,22 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class settings_test extends \advanced_testcase {
+final class settings_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_settingstest',
         'name'      => 'Settings test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'settings' => true
-        )
-    );
+        'features'  => [
+            'settings' => true,
+        ],
+    ];
 
     /**
      * Test creating the settings.php file.
      */
-    public function test_settings() {
+    public function test_settings(): void {
         $logger = new Logger('settingstest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

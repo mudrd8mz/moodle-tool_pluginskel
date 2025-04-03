@@ -42,100 +42,100 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_test extends \advanced_testcase {
+final class mod_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'mod_demo',
         'name'      => 'Activity module demo',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
+        'features'  => [
             'settings' => true,
             'upgrade' => true,
             'uninstall' => true,
             'install' => true,
-        ),
-        'mod_features' => array(
+        ],
+        'mod_features' => [
             'gradebook' => true,
             'file_area' => true,
             'navigation' => true,
-            'backup_moodle2' => array(
+            'backup_moodle2' => [
                 'settingslib' => true,
-                'backup_elements' => array(
-                    array('name' => 'node'),
-                ),
-                'restore_elements' => array(
-                    array('name' => 'node', 'path' => '/path/to/file')
-                )
-            )
-        ),
-        'events' => array(
-            array(
+                'backup_elements' => [
+                    ['name' => 'node'],
+                ],
+                'restore_elements' => [
+                    ['name' => 'node', 'path' => '/path/to/file'],
+                ],
+            ],
+        ],
+        'events' => [
+            [
                 'eventname' => 'course_module_instance_list_viewed',
-                'extends' => '\core\event\course_module_instance_list_viewed'
-            ),
-            array(
+                'extends' => '\core\event\course_module_instance_list_viewed',
+            ],
+            [
                 'eventname' => 'course_module_viewed',
-                'extends' => '\core\event\course_module_viewed'
-            ),
-        ),
-        'observers' => array(
-            array(
+                'extends' => '\core\event\course_module_viewed',
+            ],
+        ],
+        'observers' => [
+            [
                 'eventname' => '\mod_demo\event\course_module_instance_list_viewed',
-                'callback' => '\mod_demo\observer::course_module_instance_list_viewed'
-            ),
-            array(
+                'callback' => '\mod_demo\observer::course_module_instance_list_viewed',
+            ],
+            [
                 'eventname' => '\mod_demo\event\course_module_viewed',
-                'callback' => '\mod_demo\observer::course_module_viewed'
-            )
-        ),
-        'capabilities' => array(
-            array(
+                'callback' => '\mod_demo\observer::course_module_viewed',
+            ],
+        ],
+        'capabilities' => [
+            [
                 'name' => 'addinstance',
                 'title' => 'Add new test instance',
                 'riskbitmask' => 'RISK_XSS',
                 'captype' => 'write',
                 'contextlevel' => 'CONTEXT_COURSE',
-                'archetypes' => array(
-                    array(
+                'archetypes' => [
+                    [
                         'role' => 'manager',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                    array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                    [
                         'role' => 'editingteacher',
-                        'permission' => 'CAP_ALLOW'
-                    )
-                ),
-                'clonepermissionsfrom' => 'moodle/course:manageactivities'
-            ),
-            array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                ],
+                'clonepermissionsfrom' => 'moodle/course:manageactivities',
+            ],
+            [
                 'name' => 'view',
                 'title' => 'View test',
                 'captype' => 'read',
                 'contextlevel' => 'CONTEXT_MODULE',
-                'archetypes' => array(
-                    array(
+                'archetypes' => [
+                    [
                         'role' => 'guest',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                    array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                    [
                         'role' => 'student',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                    array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                    [
                         'role' => 'teacher',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                    array(
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                    [
                         'role' => 'editingteacher',
-                        'permission' => 'CAP_ALLOW'
-                    ),
-                ),
-                'clonepermissionsfrom' => 'moodle/course:manageactivities'
-            )
-        ),
+                        'permission' => 'CAP_ALLOW',
+                    ],
+                ],
+                'clonepermissionsfrom' => 'moodle/course:manageactivities',
+            ],
+        ],
 
-    );
+    ];
 
     /** @var string The plugin files path relative the Moodle root. */
     static protected $relpath;
@@ -148,6 +148,7 @@ class mod_test extends \advanced_testcase {
      */
     public static function setUpBeforeClass(): void {
         global $CFG;
+        parent::setUpBeforeClass();
 
         list($type, $modname) = \core_component::normalize_component(self::$recipe['component']);
 
@@ -161,7 +162,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the basic files.
      */
-    public function test_mod_files() {
+    public function test_mod_files(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -181,7 +182,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests the file lib.php.
      */
-    public function test_lib_php() {
+    public function test_lib_php(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -213,7 +214,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests the file mod_form.php.
      */
-    public function test_mod_form_php() {
+    public function test_mod_form_php(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -239,7 +240,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests the file view.php.
      */
-    public function test_view_php() {
+    public function test_view_php(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -274,7 +275,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests the file index.php.
      */
-    public function test_index_php() {
+    public function test_index_php(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -312,7 +313,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the 'gradebook' feature.
      */
-    public function test_gradebook_feature() {
+    public function test_gradebook_feature(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -360,7 +361,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the 'file_area' feature.
      */
-    public function test_file_area_feature() {
+    public function test_file_area_feature(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -389,7 +390,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the 'navigation' feature.
      */
-    public function test_navigation_feature() {
+    public function test_navigation_feature(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -415,7 +416,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/backup_<modname>_activity_task.class.php file.
      */
-    public function test_backup_feature_activity_task_class() {
+    public function test_backup_feature_activity_task_class(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -459,7 +460,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/backup_<modname>_settingslib.php file.
      */
-    public function test_backup_feature_settingslib() {
+    public function test_backup_feature_settingslib(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -493,7 +494,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/backup_<modname>_stepslib.php file.
      */
-    public function test_backup_feature_stepslib() {
+    public function test_backup_feature_stepslib(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -529,7 +530,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/restore_<modname>_activity_task.class.php file.
      */
-    public function test_backup_feature_restore_activity_task() {
+    public function test_backup_feature_restore_activity_task(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -568,7 +569,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Tests creating the backup/moodle2/restore_stepslib.php file.
      */
-    public function test_restore_stepslib() {
+    public function test_restore_stepslib(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -608,7 +609,7 @@ class mod_test extends \advanced_testcase {
     /**
      * Test that the db/install.xml was correctly generated.
      */
-    public function test_install_xml() {
+    public function test_install_xml(): void {
         $logger = new Logger('modtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

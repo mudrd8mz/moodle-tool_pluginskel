@@ -42,23 +42,23 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class phpunit_tests_test extends \advanced_testcase {
+final class phpunit_tests_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_test',
         'name'      => 'PHPUnit tests test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'phpunit_tests' => array(
-            array('classname' => 'first'),
-            array('classname' => 'local_test_second_testcase'),
-        )
-    );
+        'phpunit_tests' => [
+            ['classname' => 'first'],
+            ['classname' => 'local_test_second_testcase'],
+        ],
+    ];
 
     /**
      * Tests creating the test files.
      */
-    public function test_phpunit_test_files() {
+    public function test_phpunit_test_files(): void {
         $logger = new Logger('phpunitteststest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

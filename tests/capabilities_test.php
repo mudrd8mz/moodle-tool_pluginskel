@@ -42,28 +42,28 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class capabilities_test extends \advanced_testcase {
+final class capabilities_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_capabilitiestest',
         'name'      => 'Capabilities test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'capabilities' => array(
-            array(
+        'capabilities' => [
+            [
                 'name' => 'view',
                 'title' => 'View capabilitiestest',
                 'riskbitmask' => 'RISK_XSS',
                 'captype' => 'view',
                 'contextlevel' => 'CONTEXT_MODULE',
-                'archetypes' => array(
-                    array('role' => 'student', 'permission' => 'CAP_ALLOW'),
-                    array('role' => 'editingteacher', 'permission' => 'CAP_ALLOW')
-                ),
-                'clonepermissionsfrom' => 'moodle/course:view'
-            ),
-        )
-    );
+                'archetypes' => [
+                    ['role' => 'student', 'permission' => 'CAP_ALLOW'],
+                    ['role' => 'editingteacher', 'permission' => 'CAP_ALLOW'],
+                ],
+                'clonepermissionsfrom' => 'moodle/course:view',
+            ],
+        ],
+    ];
 
     /** @var string The plugin type. */
     protected static $plugintype;
@@ -72,6 +72,7 @@ class capabilities_test extends \advanced_testcase {
      * Sets the the $plugintype.
      */
     public static function setUpBeforeClass(): void {
+        parent::setUpBeforeClass();
         list($type, $name) = \core_component::normalize_component(self::$recipe['component']);
         self::$plugintype = $type;
     }
@@ -79,7 +80,7 @@ class capabilities_test extends \advanced_testcase {
     /**
      * Test creating the db/access.php file with one capability.
      */
-    public function test_one_capability() {
+    public function test_one_capability(): void {
         $logger = new Logger('capabilitiestest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -117,13 +118,13 @@ class capabilities_test extends \advanced_testcase {
         $this->assertStringContainsString("'clonepermissionsfrom' => 'moodle/course:view'", $dbaccessfile);
     }
 
-    public function test_capabilities() {
+    public function test_capabilities(): void {
         $logger = new Logger('capabilitiestest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
 
         $recipe = self::$recipe;
-        $recipe['capabilities'][] = array('name' => 'edit', 'captype' => 'write', 'contextlevel' => 'CONTEXT_SYSTEM');
+        $recipe['capabilities'][] = ['name' => 'edit', 'captype' => 'write', 'contextlevel' => 'CONTEXT_SYSTEM'];
         $manager->load_recipe($recipe);
         $manager->make();
 

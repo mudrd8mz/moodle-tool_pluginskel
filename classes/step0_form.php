@@ -39,7 +39,7 @@ class tool_pluginskel_step0_form extends moodleform {
     /**
      * The standard form definiton.
      */
-    public function definition () {
+    public function definition() {
         $mform = $this->_form;
 
         $mform->addElement('header', 'manualhdr', get_string('manualhdr', 'tool_pluginskel'));
@@ -59,14 +59,14 @@ class tool_pluginskel_step0_form extends moodleform {
         $mform->addElement('header', 'recipefilehdr', get_string('recipefilehdr', 'tool_pluginskel'));
         $mform->setExpanded('recipefilehdr', true);
         $mform->addElement('filepicker', 'recipefile', get_string('recipefile', 'tool_pluginskel'),
-                           null, array('maxbytes' => 50000, 'accepted_types' => '*'));
+                           null, ['maxbytes' => 50000, 'accepted_types' => '*']);
         $mform->addHelpButton('recipefile', 'recipefile', 'tool_pluginskel');
         $mform->addElement('submit', 'proceedrecipefile', get_string('proceedrecipefile', 'tool_pluginskel'));
 
         $mform->addElement('header', 'recipehdr', get_string('recipehdr', 'tool_pluginskel'));
         $mform->setExpanded('recipehdr', true);
         $mform->addElement('textarea', 'recipe', get_string('recipe', 'tool_pluginskel'),
-                           array('wrap' => 'virtual',  'rows' => '20', 'cols' => '50'));
+                           ['wrap' => 'virtual',  'rows' => '20', 'cols' => '50']);
         $mform->addHelpButton('recipe', 'recipe', 'tool_pluginskel');
         $mform->addElement('submit', 'proceedrecipe', get_string('proceedrecipe', 'tool_pluginskel'));
 

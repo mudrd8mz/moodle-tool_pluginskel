@@ -39,12 +39,12 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  *
  * @covers \tool_pluginskel\local\util\manager::prepare_templates
  */
-class templates_test extends \advanced_testcase {
+final class templates_test extends \advanced_testcase {
 
     /**
      * Tests creating a mustache template file.
      */
-    public function test_templates() {
+    public function test_templates(): void {
 
         $logger = new Logger('templatestest');
         $log = new TestHandler();

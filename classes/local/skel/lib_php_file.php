@@ -59,7 +59,7 @@ class lib_php_file extends php_library_file {
         }
 
         if (empty($this->data['self']['supports'])) {
-            $this->data['self']['supports'] = array();
+            $this->data['self']['supports'] = [];
         }
 
         $this->data['self']['supports'][] = $feature;

@@ -39,7 +39,7 @@ class tool_pluginskel_step2_form extends moodleform {
     /**
      * The standard form definiton.
      */
-    public function definition () {
+    public function definition() {
         $mform = $this->_form;
 
         $recipe = $this->_customdata['recipe'];
@@ -49,18 +49,18 @@ class tool_pluginskel_step2_form extends moodleform {
         $mform->setExpanded('showrecipehdr', true);
 
         $mform->addElement('textarea', 'recipe', get_string('recipe', 'tool_pluginskel'),
-                           array('wrap' => 'virtual',  'rows' => '25', 'cols' => '60'));
+                           ['wrap' => 'virtual',  'rows' => '25', 'cols' => '60']);
         if (!empty($recipe)) {
             $mform->getElement('recipe')->setValue($recipestring);
         }
 
         $mform->addElement('html', '<br/>');
 
-        $buttonarr = array();
+        $buttonarr = [];
         $buttonarr[] = $mform->createElement('submit', 'buttonback', get_string('back', 'tool_pluginskel'));
         $buttonarr[] = $mform->createElement('submit', 'buttondownloadskel', get_string('downloadskel', 'tool_pluginskel'));
         $buttonarr[] = $mform->createElement('submit', 'buttondownloadrecipe', get_string('downloadrecipe', 'tool_pluginskel'));
-        $mform->addGroup($buttonarr, 'buttonarr', '', array(' '), false);
+        $mform->addGroup($buttonarr, 'buttonarr', '', [' '], false);
         $mform->closeHeaderBefore('buttonarr');
 
         $mform->addElement('hidden', 'step', 2);

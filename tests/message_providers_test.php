@@ -42,26 +42,26 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class message_providers_test extends \advanced_testcase {
+final class message_providers_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_messageproviderstest',
         'name'      => 'Message_providers test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'message_providers' => array(
-            array(
+        'message_providers' => [
+            [
                 'name' => 'submission',
                 'title' => 'Submission title',
-                'capability' => 'mod/quiz:emailnotifysubmission'
-            ),
-        )
-    );
+                'capability' => 'mod/quiz:emailnotifysubmission',
+            ],
+        ],
+    ];
 
     /**
      * Test creating the message providers.
      */
-    public function test_message_providers() {
+    public function test_message_providers(): void {
         $logger = new Logger('messageproviderstest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

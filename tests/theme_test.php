@@ -42,35 +42,35 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_test extends \advanced_testcase {
+final class theme_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'theme_test',
         'name'      => 'Theme test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'theme_features'  => array(
+        'theme_features'  => [
             'all_layouts' => true,
             'doctype' => 'html5',
-            'parents' => array(
-                array('base_theme' => 'base'),
-            ),
-            'stylesheets' => array(
-                array('name' => 'stylesheet'),
-            ),
-            'custom_layouts' => array(
-                array('name' => 'layout'),
-            ),
-        ),
-        'lang_strings' => array(
-            array('id' => 'choosereadme', 'text' => 'Theme test')
-        )
-    );
+            'parents' => [
+                ['base_theme' => 'base'],
+            ],
+            'stylesheets' => [
+                ['name' => 'stylesheet'],
+            ],
+            'custom_layouts' => [
+                ['name' => 'layout'],
+            ],
+        ],
+        'lang_strings' => [
+            ['id' => 'choosereadme', 'text' => 'Theme test'],
+        ],
+    ];
 
     /**
      * Test creating the config.php file.
      */
-    public function test_theme_config_php() {
+    public function test_theme_config_php(): void {
         $logger = new Logger('themetest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -105,7 +105,7 @@ class theme_test extends \advanced_testcase {
     /**
      * Test creating the feature files.
      */
-    public function test_theme_feature_files() {
+    public function test_theme_feature_files(): void {
         $logger = new Logger('themetest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

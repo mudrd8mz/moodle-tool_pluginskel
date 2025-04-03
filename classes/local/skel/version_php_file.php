@@ -102,29 +102,29 @@ class version_php_file extends php_internal_file {
      */
     public static function get_template_variables($plugintype = null) {
 
-        $templatevars = array(
-            array('name' => 'component', 'type' => 'text', 'required' => true),
-            array('name' => 'release', 'type' => 'text', 'default' => '0.1.0'),
-            array('name' => 'version', 'type' => 'int', 'default' => date('Ymd').'00'),
-            array('name' => 'requires', 'type' => 'multiple-options', 'required' => true, 'values' => self::$moodleversions),
-            array('name' => 'dependencies', 'type' => 'numeric-array', 'values' => array(
-                  array('name' => 'plugin', 'type' => 'text'),
-                  array('name' => 'version', 'type' => 'text'))),
-        );
+        $templatevars = [
+            ['name' => 'component', 'type' => 'text', 'required' => true],
+            ['name' => 'release', 'type' => 'text', 'default' => '0.1.0'],
+            ['name' => 'version', 'type' => 'int', 'default' => date('Ymd').'00'],
+            ['name' => 'requires', 'type' => 'multiple-options', 'required' => true, 'values' => self::$moodleversions],
+            ['name' => 'dependencies', 'type' => 'numeric-array', 'values' => [
+                  ['name' => 'plugin', 'type' => 'text'],
+                  ['name' => 'version', 'type' => 'text']]],
+        ];
 
-        $maturities = array(
+        $maturities = [
             'MATURITY_ALPHA' => 'MATURITY_ALPHA',
             'MATURITY_BETA' => 'MATURITY_BETA',
             'MATURITY_RC' => 'MATURITY_RC',
-            'MATURITY_STABLE' => 'MATURITY_STABLE'
-        );
+            'MATURITY_STABLE' => 'MATURITY_STABLE',
+        ];
 
-        $templatevars[] = array(
+        $templatevars[] = [
             'name' => 'maturity',
             'type' => 'multiple-options',
             'values' => $maturities,
             'default' => 'MATURITY_ALPHA',
-        );
+        ];
 
         return $templatevars;
     }

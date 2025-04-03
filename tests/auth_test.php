@@ -43,14 +43,14 @@ require_once(__DIR__.'/../locallib.php');
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class auth_test extends \advanced_testcase {
+final class auth_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'auth_test',
         'name'      => 'Auth test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'auth_features' => array(
+        'auth_features' => [
             'config_ui' => true,
             'description' => 'Auth plugin description',
             'can_edit_profile' => false,
@@ -61,13 +61,13 @@ class auth_test extends \advanced_testcase {
             'can_signup' => false,
             'can_confirm' => true,
             'can_be_manually_set' => false,
-        )
-    );
+        ],
+    ];
 
     /**
      * Tests creating the auth.php file.
      */
-    public function test_auth_auth_php() {
+    public function test_auth_auth_php(): void {
         $logger = new Logger('authtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -94,7 +94,7 @@ class auth_test extends \advanced_testcase {
         $userlogin = 'public function user_login($username, $password)';
         $this->assertStringContainsString($userlogin, $authfile);
 
-        $recipefeatures = array(
+        $recipefeatures = [
             'can_edit_profile',
             'prevent_local_passwords',
             'is_synchronised_with_external',
@@ -102,8 +102,8 @@ class auth_test extends \advanced_testcase {
             'can_signup',
             'can_confirm',
             'can_be_manually_set',
-            'is_internal'
-        );
+            'is_internal',
+        ];
 
         foreach ($recipefeatures as $functionname) {
             $function = '/public function '.$functionname.'\(\) {';
@@ -125,7 +125,7 @@ class auth_test extends \advanced_testcase {
     /**
      * Tests creating the 'auth_description' lang string.
      */
-    public function test_auth_lang_strings() {
+    public function test_auth_lang_strings(): void {
         $logger = new Logger('authtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

@@ -48,7 +48,7 @@ require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/locallib.php');
 ], [
     'l' => 'list-files',
     'd' => 'decode',
-    'h' => 'help'
+    'h' => 'help',
 ]);
 
 $loglevels = Logger::getLevels();

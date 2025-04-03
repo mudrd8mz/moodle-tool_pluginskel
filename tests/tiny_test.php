@@ -42,7 +42,7 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2022 Andrew Lyons <andrew@nicols.co.uk>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tiny_test extends \advanced_testcase {
+final class tiny_test extends \advanced_testcase {
 
     /**
      * Get test based on settings.
@@ -50,7 +50,8 @@ class tiny_test extends \advanced_testcase {
      * @param array $settings
      * @return array
      */
-    protected function get_test(array $settings = []): array {
+    protected static function get_test(array $settings = []): array {
+
         $settings = array_merge([
             'general' => true,
             'options' => false,
@@ -140,7 +141,7 @@ class tiny_test extends \advanced_testcase {
      * @param array $settings
      * @return array
      */
-    protected function get_recipe(array $settings = []) {
+    protected function get_recipe(array $settings = []): array {
         $settings = array_merge([
             'options' => [],
             'buttons' => false,
@@ -188,7 +189,8 @@ class tiny_test extends \advanced_testcase {
      * @param array $include
      * @return array
      */
-    protected function get_expected_files(array $include = []): array {
+    protected static function get_expected_files(array $include = []): array {
+
         $include = array_merge([
             'general' => true,
             'options' => false,
@@ -233,48 +235,48 @@ class tiny_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function recipe_provider(): array {
+    public static function recipe_provider(): array {
         return [
             'base' => [
-                'recipe' => $this->get_recipe(),
-                'files' => $this->get_expected_files(),
-                'contentchecks' => $this->get_test(),
+                'recipe' => self::get_recipe(),
+                'files' => self::get_expected_files(),
+                'contentchecks' => self::get_test(),
             ],
             'buttons' => [
-                'recipe' => $this->get_recipe([
+                'recipe' => self::get_recipe([
                     'buttons' => true,
                 ]),
-                'files' => $this->get_expected_files([
+                'files' => self::get_expected_files([
                     'buttons' => true,
                 ]),
-                'contentchecks' => $this->get_test([
+                'contentchecks' => self::get_test([
                     'buttons' => true,
                 ]),
             ],
             'menuitems' => [
-                'recipe' => $this->get_recipe([
+                'recipe' => self::get_recipe([
                     'menuitems' => true,
                 ]),
-                'files' => $this->get_expected_files([
+                'files' => self::get_expected_files([
                     'menuitems' => true,
 
                 ]),
-                'contentchecks' => $this->get_test([
+                'contentchecks' => self::get_test([
                     'menuitems' => true,
 
                 ]),
             ],
             'options' => [
-                'recipe' => $this->get_recipe([
+                'recipe' => self::get_recipe([
                     'options' => [[
                         'name' => 'draftItemId',
                         'type' => 'string',
                     ]],
                 ]),
-                'files' => $this->get_expected_files([
+                'files' => self::get_expected_files([
                     'options' => true,
                 ]),
-                'contentchecks' => $this->get_test([
+                'contentchecks' => self::get_test([
                     'options' => true,
                 ]),
             ],

@@ -42,31 +42,31 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mobile_addons_test extends \advanced_testcase {
+final class mobile_addons_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_mobileaddonstest',
         'name'      => 'Mobile_addons test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'mobile_addons' => array(
-            array(
+        'mobile_addons' => [
+            [
                 'name' => 'my_addon',
-                'dependencies' => array(
-                    array('name' => 'dependency1'),
-                    array('name' => 'dependency2'),
-                ),
-            ),
-            array(
-                'name' => 'another_addon'
-            )
-        )
-    );
+                'dependencies' => [
+                    ['name' => 'dependency1'],
+                    ['name' => 'dependency2'],
+                ],
+            ],
+            [
+                'name' => 'another_addon',
+            ],
+        ],
+    ];
 
     /**
      * Tests creating the db/mobile.php file.
      */
-    public function test_db_mobile_php() {
+    public function test_db_mobile_php(): void {
         $logger = new Logger('mobileaddonstest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

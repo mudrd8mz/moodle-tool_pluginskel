@@ -42,26 +42,25 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class atto_test extends \advanced_testcase {
+final class atto_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'atto_test',
         'name'      => 'Atto test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
+        'features'  => [
             'settings' => true,
-            'settings' => true,
-        ),
-        'atto_features' => array(
-            'strings_for_js' => array(
-                array('id' => 'stringone', 'text' => 'String one text'),
-            ),
-            'params_for_js' => array(
-                array('name' => 'paramone', 'value' => 'val', 'default' => '')
-            ),
-        ),
-    );
+        ],
+        'atto_features' => [
+            'strings_for_js' => [
+                ['id' => 'stringone', 'text' => 'String one text'],
+            ],
+            'params_for_js' => [
+                ['name' => 'paramone', 'value' => 'val', 'default' => ''],
+            ],
+        ],
+    ];
 
     /** @var string The plugin type. */
     protected static $plugintype;
@@ -73,6 +72,7 @@ class atto_test extends \advanced_testcase {
      * Sets the the $plugintype.
      */
     public static function setUpBeforeClass(): void {
+        parent::setUpBeforeClass();
         list($type, $name) = \core_component::normalize_component(self::$recipe['component']);
         self::$plugintype = $type;
         self::$pluginname = $name;
@@ -82,7 +82,7 @@ class atto_test extends \advanced_testcase {
     /**
      * Tests creating the button.js file.
      */
-    public function test_atto_button_js() {
+    public function test_atto_button_js(): void {
         $logger = new Logger('attotest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -111,7 +111,7 @@ class atto_test extends \advanced_testcase {
     /**
      * Tests creating the button.js file.
      */
-    public function test_atto_build_json() {
+    public function test_atto_build_json(): void {
         $logger = new Logger('attotest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -132,7 +132,7 @@ class atto_test extends \advanced_testcase {
     /**
      * Tests creating the button.json file.
      */
-    public function test_atto_button_json() {
+    public function test_atto_button_json(): void {
         $logger = new Logger('attotest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -153,7 +153,7 @@ class atto_test extends \advanced_testcase {
     /**
      * Tests creating the lib.php file.
      */
-    public function test_atto_lib_php() {
+    public function test_atto_lib_php(): void {
         $logger = new Logger('attotest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -186,7 +186,7 @@ class atto_test extends \advanced_testcase {
     /**
      * Tests creating the lang strings.
      */
-    public function test_atto_lang_strings() {
+    public function test_atto_lang_strings(): void {
         $logger = new Logger('attotest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

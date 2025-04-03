@@ -41,23 +41,23 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class cli_scripts_test extends \advanced_testcase {
+final class cli_scripts_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component'     => 'local_cliscriptstest',
         'name'          => 'Cli_scripts test',
         'copyright'     => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'cli_scripts'   => array(
-            array('filename' => 'first'),
-            array('filename' => 'second'),
-        )
-    );
+        'cli_scripts'   => [
+            ['filename' => 'first'],
+            ['filename' => 'second'],
+        ],
+    ];
 
     /**
      * Tests creating the cli script files.
      */
-    public function test_cli_scripts() {
+    public function test_cli_scripts(): void {
         $logger = new Logger('cliscriptstest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

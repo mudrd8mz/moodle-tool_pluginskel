@@ -46,7 +46,7 @@ class index_helper {
      */
     public static function get_array_variable_count_from_recipe($templatevars, $recipe, $countprefix = '') {
 
-        $variablecount = array();
+        $variablecount = [];
 
         foreach ($templatevars as $variable) {
             if ($variable['type'] == 'numeric-array') {
@@ -54,7 +54,7 @@ class index_helper {
                 $variablename = $variable['name'];
 
                 if (empty($recipe[$variablename])) {
-                    $recipevalues = array();
+                    $recipevalues = [];
                     $count = 1;
                 } else {
                     $recipevalues = $recipe[$variablename];
@@ -123,7 +123,7 @@ class index_helper {
      */
     public static function get_array_variable_count_from_form($templatevars, $countprefix = '') {
 
-        $variablecount = array();
+        $variablecount = [];
 
         foreach ($templatevars as $variable) {
             if ($variable['type'] === 'numeric-array') {
@@ -228,7 +228,7 @@ class index_helper {
 
         $component = $recipe['component'];
         list($componenttype, $componentname) = \core_component::normalize_component($component);
-        $zipfiles = array();
+        $zipfiles = [];
         foreach ($generatedfiles as $filename => $notused) {
             $zipfiles[$componentname.'/'.$filename] = $targetdir.'/'.$filename;
         }

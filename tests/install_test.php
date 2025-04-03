@@ -42,22 +42,22 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class install_test extends \advanced_testcase {
+final class install_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_installtest',
         'name'      => 'Install test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'install' => true
-        )
-    );
+        'features'  => [
+            'install' => true,
+        ],
+    ];
 
     /**
      * Test creating the db/install.php file.
      */
-    public function test_install() {
+    public function test_install(): void {
         $logger = new Logger('installtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -78,7 +78,7 @@ class install_test extends \advanced_testcase {
     /**
      * Test that activity modules get the install function with the correct name.
      */
-    public function test_mod_naming_exception() {
+    public function test_mod_naming_exception(): void {
         $logger = new Logger('installtest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
@@ -87,7 +87,7 @@ class install_test extends \advanced_testcase {
             'component' => 'mod_test',
             'name' => 'Install test',
             'features' => [
-                'install' => true
+                'install' => true,
             ],
         ];
         $manager->load_recipe($recipe);

@@ -42,22 +42,22 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class license_test extends \advanced_testcase {
+final class license_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_licensetest',
         'name'      => 'License test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'features'  => array(
-            'license' => true
-        )
-    );
+        'features'  => [
+            'license' => true,
+        ],
+    ];
 
     /**
      * Test creating the LICENSE.md file.
      */
-    public function test_license() {
+    public function test_license(): void {
         $logger = new Logger('licensetest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);

@@ -42,28 +42,28 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autolo
  * @copyright   2016 Alexandru Elisei alexandru.elisei@gmail.com
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class events_test extends \advanced_testcase {
+final class events_test extends \advanced_testcase {
 
     /** @var string[] The test recipe. */
-    protected static $recipe = array(
+    protected static $recipe = [
         'component' => 'local_eventstest',
         'name'      => 'Events test',
         'copyright' => '2016 Alexandru Elisei <alexandru.elisei@gmail.com>',
-        'events' => array(
-            array(
+        'events' => [
+            [
                 'eventname' => 'first_event',
                 'extends' => '\core\event\first_event',
-            ),
-            array(
-                'eventname' => 'second_event'
-            )
-        )
-    );
+            ],
+            [
+                'eventname' => 'second_event',
+            ],
+        ],
+    ];
 
     /**
      * Test creating the events class files.
      */
-    public function test_events() {
+    public function test_events(): void {
         $logger = new Logger('eventstest');
         $logger->pushHandler(new NullHandler());
         $manager = manager::instance($logger);
