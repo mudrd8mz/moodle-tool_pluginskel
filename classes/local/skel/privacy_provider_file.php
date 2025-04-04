@@ -37,6 +37,7 @@ class privacy_provider_file extends php_single_file {
      * Set additional data to be available to the template.
      *
      * @param array $data
+     * @throws \coding_exception
      */
     public function set_data(array $data) {
 
@@ -118,6 +119,7 @@ class privacy_provider_file extends php_single_file {
      * Populates the helper recipe value /privacy/_metasubsystems
      *
      * @param array $data
+     * @throws \coding_exception
      */
     protected function set_data_metasubsystems(array $data) {
 

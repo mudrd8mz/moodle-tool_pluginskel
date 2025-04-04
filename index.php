@@ -22,8 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use Monolog\Logger;
-use Monolog\Handler\BrowserConsoleHandler;
 
 // @codingStandardsIgnoreStart
 if (!empty($_REQUEST['buttondownloadskel'])) {
@@ -35,10 +33,10 @@ if (!empty($_REQUEST['buttondownloadskel'])) {
 }
 // @codingStandardsIgnoreEnd
 
-require(__DIR__.'/../../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
-require_once($CFG->libdir.'/moodlelib.php');
-require_once(__DIR__.'/vendor/autoload.php');
+require(__DIR__ . '/../../../config.php');
+require_once($CFG->libdir . '/adminlib.php');
+require_once($CFG->libdir . '/moodlelib.php');
+require_once(__DIR__ . '/vendor/autoload.php');
 
 admin_externalpage_setup('tool_pluginskel');
 
@@ -53,8 +51,7 @@ $component = optional_param('component1', '', PARAM_TEXT);
 $returnurl = new moodle_url('/admin/tool/pluginskel/index.php');
 
 if ($step == 0) {
-
-    $mform0 = new tool_pluginskel_step0_form();
+    $mform0 = new \tool_pluginskel\form\step0_form();
     $formdata = $mform0->get_data();
     $PAGE->requires->js_call_amd('tool_pluginskel/showtypeprefix', 'init');
 
@@ -70,7 +67,7 @@ if ($step == 0) {
                 throw new moodle_exception('emptypluginname', 'tool_pluginskel', $returnurl);
             }
 
-            $recipe['component'] = $formdata->componenttype.'_'.$formdata->componentname;
+            $recipe['component'] = $formdata->componenttype . '_' . $formdata->componentname;
             $componenttype = $formdata->componenttype;
 
         } else {
@@ -95,7 +92,7 @@ if ($step == 0) {
             $rootvars = array_merge($generalvars, $featuresvars);
             $rootvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_recipe($rootvars, $recipe);
 
-            $componentfeatures = $componenttype.'_features';
+            $componentfeatures = $componenttype . '_features';
             $componentvarscount = array();
             if (!empty($recipe[$componentfeatures])) {
                 $componentvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_recipe(
@@ -110,7 +107,7 @@ if ($step == 0) {
 
         $data['recipe'] = $recipe;
 
-        $mform1 = new tool_pluginskel_step1_form(null, $data);
+        $mform1 = new \tool_pluginskel\form\step1_form(null, $data);
         $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore');
 
         echo $OUTPUT->header();
@@ -136,15 +133,15 @@ if ($step == 0) {
     $rootvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_form($rootvars);
 
     list($componenttype, $componentname) = core_component::normalize_component($component);
-    $componentfeatures = $componenttype.'_features';
+    $componentfeatures = $componenttype . '_features';
     $componentvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_form($componentvars,
-                                                                                                      $componentfeatures);
+        $componentfeatures);
 
     $data = array_merge($rootvarscount, $componentvarscount);
     $data['recipe'] = array('component' => $component);
 
-    $mform1 = new tool_pluginskel_step1_form(null, $data);
-    $formdata = (array) $mform1->get_data();
+    $mform1 = new \tool_pluginskel\form\step1_form(null, $data);
+    $formdata = (array)$mform1->get_data();
 
     $recipe = $mform1->get_recipe();
 
@@ -160,7 +157,7 @@ if ($step == 0) {
     } else if (!empty($formdata['buttonshowrecipe'])) {
 
         $data = array('recipe' => $recipe);
-        $mform2 = new tool_pluginskel_step2_form(null, $data);
+        $mform2 = new \tool_pluginskel\form\step2_form(null, $data);
 
         echo $OUTPUT->header();
         $mform2->display();
@@ -173,8 +170,8 @@ if ($step == 0) {
     // Reconstruct the form.
     $recipestub = array('component' => $component);
     $data = array('recipe' => $recipestub);
-    $mform2 = new tool_pluginskel_step2_form(null, $data);
-    $formdata = (array) $mform2->get_data();
+    $mform2 = new \tool_pluginskel\form\step2_form(null, $data);
+    $formdata = (array)$mform2->get_data();
 
     $recipestring = $formdata['recipe'];
 
@@ -199,7 +196,7 @@ if ($step == 0) {
         $rootvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_recipe($rootvars, $recipe);
 
         list($componenttype, $componentname) = core_component::normalize_component($component);
-        $componentfeatures = $componenttype.'_features';
+        $componentfeatures = $componenttype . '_features';
         $componentvarscount = array();
         if (!empty($recipe[$componentfeatures])) {
             $componentvarscount = tool_pluginskel\local\util\index_helper::get_array_variable_count_from_recipe(
@@ -212,7 +209,7 @@ if ($step == 0) {
         $data = array_merge($rootvarscount, $componentvarscount);
         $data['recipe'] = $recipe;
 
-        $mform1 = new tool_pluginskel_step1_form(null, $data);
+        $mform1 = new \tool_pluginskel\form\step1_form(null, $data);
         $PAGE->requires->js_call_amd('tool_pluginskel/addmore', 'addMore');
 
         echo $OUTPUT->header();

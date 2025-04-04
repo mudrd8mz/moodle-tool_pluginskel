@@ -30,6 +30,7 @@ class external_function_file extends php_single_file {
      * Generate the skeleton of the external function implementation.
      *
      * @param array $external Decode recipe data describing one particular external function.
+     * @throws \coding_exception
      */
     public function generate_external_function_code(array $external): void {
 

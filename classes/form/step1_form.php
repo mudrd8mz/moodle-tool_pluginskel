@@ -23,7 +23,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace tool_pluginskel\form;
+
+
+use coding_exception;
+use dml_exception;
+use moodleform;
+
 
 require_once($CFG->libdir.'/formslib.php');
 
@@ -34,7 +40,7 @@ require_once($CFG->libdir.'/formslib.php');
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_step1_form extends moodleform {
+class step1_form extends moodleform {
 
     /** @var string The component type. */
     protected $componenttype;
@@ -56,11 +62,11 @@ class tool_pluginskel_step1_form extends moodleform {
 
         $recipe = $this->_customdata['recipe'];
         $component = $recipe['component'];
-        list($this->componenttype, $componentname) = core_component::normalize_component($component);
+        list($this->componenttype, $componentname) = \core_component::normalize_component($component);
 
-        $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
-        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
-        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
+        $generalvars = \tool_pluginskel\local\util\manager::get_general_variables();
+        $componentvars = \tool_pluginskel\local\util\manager::get_component_variables($component);
+        $featuresvars = \tool_pluginskel\local\util\manager::get_features_variables();
 
         $mform->addElement('header', 'generalhdr', get_string('generalhdr', 'tool_pluginskel'));
         $mform->setExpanded('generalhdr', true);
@@ -273,6 +279,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $recipe The recipe.
      * @param bool $replaceboolean If the select element replaces a boolean non-required variable.
      * @param string $index Optional index for the element in an array variable.
+     * @throws \coding_exception
      */
     protected function add_select_element($elementname, $templatevar, $recipe, $replaceboolean = false, $index = null) {
 
@@ -324,6 +331,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param string $index Optional index for the element in an array variable.
+     * @throws coding_exception|\coding_exception
      */
     protected function add_advcheckbox_element($elementname, $templatevar, $recipe, $index = null) {
 
@@ -361,6 +369,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param string $index Optional index for the element in an array variable.
+     * @throws coding_exception
      */
     protected function add_text_element($elementname, $templatevar, $recipe, $index = null) {
 
@@ -402,6 +411,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param string $parentname The parent name inside the recipe.
+     * @throws coding_exception
      */
     protected function add_numeric_fieldset($templatevar, $recipe, $parentname = '') {
 
@@ -459,6 +469,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $templatevar The template variable
      * @param string[] $recipe The recipe.
      * @param string $parentname The parent name inside the recipe.
+     * @throws coding_exception
      */
     protected function add_associative_fieldset($templatevar, $recipe, $parentname = '') {
 
@@ -558,6 +569,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string $variable The template variable the element represents.
      * @param string[] $fieldsetvalues The values for all the fieldset elements.
      * @param int|string|null $indexprefix The index of the element in the array.
+     * @throws coding_exception
      */
     protected function add_fieldset_element($elementname, $variable, $fieldsetvalues, $indexprefix = null) {
 
@@ -589,6 +601,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $recipevalues The values for the elements taken from recipe.
      * @param int $count The number of elements to add.
      * @param int $parentindex The index of the parent variable in case of nested array variables.
+     * @throws coding_exception
      */
     protected function add_numeric_fieldset_elements($fieldsetname, $templatevars, $recipevalues, $count, $parentindex = null) {
 
@@ -648,6 +661,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * @param string[] $nestedvariable The variable.
      * @param string[] $nestedrecipe The recipe for the nested variable.
      * @param int $parentindex The index of the parent numeric array variable.
+     * @throws coding_exception
      */
     protected function add_nested_array_variable($parentname, $nestedvariable, $nestedrecipe, $parentindex = null) {
 
@@ -691,6 +705,7 @@ class tool_pluginskel_step1_form extends moodleform {
      * Constructs the recipe from the form data.
      *
      * @return string[] The recipe.
+     * @throws dml_exception
      */
     public function get_recipe() {
 
@@ -699,9 +714,9 @@ class tool_pluginskel_step1_form extends moodleform {
         $formdata = (array) $this->get_data();
         $component = $this->_customdata['recipe']['component'];
 
-        $generalvars = tool_pluginskel\local\util\manager::get_general_variables();
-        $componentvars = tool_pluginskel\local\util\manager::get_component_variables($component);
-        $featuresvars = tool_pluginskel\local\util\manager::get_features_variables();
+        $generalvars = \tool_pluginskel\local\util\manager::get_general_variables();
+        $componentvars = \tool_pluginskel\local\util\manager::get_component_variables($component);
+        $featuresvars = \tool_pluginskel\local\util\manager::get_features_variables();
 
         foreach ($generalvars as $variable) {
 

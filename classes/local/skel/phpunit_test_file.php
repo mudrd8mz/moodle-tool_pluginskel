@@ -26,6 +26,7 @@
 namespace tool_pluginskel\local\skel;
 
 use coding_exception;
+use tool_pluginskel\local\util\exception;
 
 /**
  * Class representing the phpunit test file.
@@ -34,12 +35,15 @@ use coding_exception;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class phpunit_test_file extends php_single_file {
+
     /**
      * Adds the classname of the class.
      *
      * @param string $classname
+     * @throws coding_exception
      */
     public function set_classname($classname) {
+
         if (empty($this->data)) {
             throw new coding_exception('Skeleton data not set');
         }

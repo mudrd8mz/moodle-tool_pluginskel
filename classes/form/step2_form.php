@@ -23,7 +23,11 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace tool_pluginskel\form;
+
+
+use moodleform;
+
 
 require_once($CFG->libdir . '/formslib.php');
 
@@ -34,7 +38,7 @@ require_once($CFG->libdir . '/formslib.php');
  * @copyright   2016 Alexandru Elisei <alexandru.elisei@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tool_pluginskel_step2_form extends moodleform {
+class step2_form extends moodleform {
 
     /**
      * The standard form definiton.
