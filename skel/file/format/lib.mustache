@@ -37,6 +37,9 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/course/format/lib.php');
 
+/**
+ * Defines the course format properties and behaviour.
+ */
 class {{ component }} extends core_courseformat\base {
 
     {{# format_features.uses_sections }}
@@ -45,19 +48,29 @@ class {{ component }} extends core_courseformat\base {
      *
      * @return bool
      */
-    public function uses_sections() {
+    public function uses_sections(): bool {
         return true;
     }
     {{/ format_features.uses_sections }}
 
     {{^ format_features.uses_indentation }}
+    /**
+     * Returns true if the format uses the legacy activity indentation.
+     *
+     * @return bool
+     */
     public function uses_indentation(): bool {
         return false;
     }
     {{/ format_features.uses_indentation }}
 
     {{# format_features.uses_course_index }}
-    public function uses_course_index() {
+    /**
+     * Returns true if the course format is compatible with the course index drawer.
+     *
+     * @return bool
+     */
+    public function uses_course_index(): bool {
         return true;
     }
     {{/ format_features.uses_course_index }}
@@ -70,14 +83,21 @@ class {{ component }} extends core_courseformat\base {
      *
      * @return stdClass
      */
-    public function supports_ajax() {
+    public function supports_ajax(): bool {
+
         $ajaxsupport = new stdClass();
         $ajaxsupport->capable = true;
+
         return $ajaxsupport;
     }
 
     {{# format_features.uses_reactive_components }}
-    public function supports_components() {
+    /**
+     * Returns true if the course is rendered using reactive UI components.
+     *
+     * @return bool
+     */
+    public function supports_components(): bool {
         return true;
     }
     {{/ format_features.uses_reactive_components }}
