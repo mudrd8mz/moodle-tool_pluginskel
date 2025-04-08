@@ -68,7 +68,7 @@ class auth_plugin_{{ component_name }} extends auth_plugin_base {
 
         // Validate the login by using the Moodle user table.
         // Remove if a different authentication method is desired.
-        $user = $DB->get_record('user', array('username' => $username, 'mnethostid' => $CFG->mnet_localhost_id));
+        $user = $DB->get_record('user', ['username' => $username, 'mnethostid' => $CFG->mnet_localhost_id]);
 
         // User does not exist.
         if (!$user) {
