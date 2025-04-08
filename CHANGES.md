@@ -1,3 +1,5 @@
+## 1.7.0 ##
+
 * Massive fix of all the reported coding style violations in the plugin itself as well
   as in the generated skeletons.
 * Fixed duplicate string generated in the Tiny editor plugins. Credit goes to
