@@ -45,7 +45,7 @@
 namespace {{ component }};
 {{/ namespace }}
 {{/ common/boilerplate_php }}
-class {{ self.classname }}_test extends \advanced_testcase {
+final class {{ self.classname }}_test extends \advanced_testcase {
 
     // Write the tests here as public funcions.
     // Please refer to {@link https://docs.moodle.org/dev/PHPUnit} for more details on PHPUnit tests in Moodle.
@@ -53,11 +53,11 @@ class {{ self.classname }}_test extends \advanced_testcase {
     /**
      * Dummy test.
      *
-     * This is to be replaced by some actually usefule test.
+     * This is to be replaced by some actually useful test.
      *
      * @coversNothing
      */
-    public function test_dummy() {
+    public function test_dummy(): void {
         $this->assertTrue(false);
     }
 }

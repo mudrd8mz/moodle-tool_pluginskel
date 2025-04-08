@@ -44,7 +44,7 @@ $messageproviders = [
     {{# message_providers }}
 
     '{{ .name }}' => [{{# capability }}
-        'capability' => '{{ . }}'{{/ capability }},
+        'capability' => '{{ . }}',{{/ capability }}
     ],
     {{/ message_providers }}
 ];
