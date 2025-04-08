@@ -63,6 +63,11 @@ class plugininfo extends plugin{{!
 }} {
 {{# self.defines_buttons }}
 
+    /**
+     * Get a list of the buttons provided by this plugin.
+     *
+     * @return array
+     */
     public static function get_available_buttons(): array {
         return [
             '{{ component }}/plugin',
@@ -71,6 +76,11 @@ class plugininfo extends plugin{{!
 {{/ self.defines_buttons }}
 {{# self.defines_menuitems }}
 
+    /**
+     * Get a list of the menu items provided by this plugin.
+     *
+     * @return array
+     */
     public static function get_available_menuitems(): array {
         return [
             '{{ component }}/plugin',
@@ -79,6 +89,11 @@ class plugininfo extends plugin{{!
 {{/ self.defines_menuitems }}
 {{# self.defines_options }}
 
+    /**
+     * Allows to pass to pass options from the PHP to the JavaScript API of the plugin.
+     *
+     * @return array
+     */
     public static function get_plugin_configuration_for_context(
         context $context,
         array $options,

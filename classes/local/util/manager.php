@@ -835,7 +835,7 @@ class manager {
         $this->prepare_file_skeleton($commonjsfile, 'base', 'tiny/common_js');
 
         $pluginfofile = 'classes/plugininfo.php';
-        $this->prepare_file_skeleton($pluginfofile, 'base', 'tiny/plugininfo_php');
+        $this->prepare_file_skeleton($pluginfofile, 'php_single_file', 'tiny/plugininfo_php');
 
         $commandsjsfile = 'amd/src/commands.js';
         $addcommandsfile = function() use ($commandsjsfile) {
