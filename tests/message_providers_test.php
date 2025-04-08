@@ -83,7 +83,7 @@ final class message_providers_test extends \advanced_testcase {
 
         // Verify if the message provider has been generated correctly.
         $messageprovider = $recipe['message_providers'][0]['name'];
-        $this->assertStringContainsString("'".$messageprovider."' => array(", $messagesfile);
+        $this->assertStringContainsString("'".$messageprovider."' => [", $messagesfile);
 
         $capability = $recipe['message_providers'][0]['capability'];
         $this->assertStringContainsString("'capability' => '".$capability."'", $messagesfile);

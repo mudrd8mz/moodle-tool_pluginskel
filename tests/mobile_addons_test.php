@@ -86,17 +86,15 @@ final class mobile_addons_test extends \advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertStringContainsString($moodleinternal, $dbmobilefile);
 
-        $addon = "'".$recipe['mobile_addons'][0]['name']."' => array(";
+        $addon = "'".$recipe['mobile_addons'][0]['name']."' => [";
         $this->assertStringContainsString($addon, $dbmobilefile);
 
         $dependencieslist = $recipe['mobile_addons'][0]['dependencies'];
-        foreach ($dependencieslist as $key => $dependency) {
-            $dependencieslist[$key] = "'".$dependency['name']."'";
+        foreach ($dependencieslist as $dependency) {
+            $this->assertStringContainsString("'".$dependency['name']."'", $dbmobilefile);
         }
-        $dependencies = "'dependencies' => array(".implode(', ', $dependencieslist).", )";
-        $this->assertStringContainsString($dependencies, $dbmobilefile);
 
-        $addon = "'".$recipe['mobile_addons'][1]['name']."' => array(";
+        $addon = "'".$recipe['mobile_addons'][1]['name']."' => [";
         $this->assertStringContainsString($addon, $dbmobilefile);
     }
 }

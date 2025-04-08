@@ -262,7 +262,7 @@ final class mod_test extends \advanced_testcase {
         $requirelogin = 'require_login($course, true, $cm)';
         $this->assertStringContainsString($requirelogin, $viewfile);
 
-        $seturl = "\$PAGE->set_url('/mod/demo/view.php', array('id' => \$cm->id))";
+        $seturl = "\$PAGE->set_url('/mod/demo/view.php', ['id' => \$cm->id])";
         $this->assertStringContainsString($seturl, $viewfile);
 
         $header = 'echo $OUTPUT->header()';
@@ -294,13 +294,13 @@ final class mod_test extends \advanced_testcase {
         $requireconfig = "require(__DIR__.'/../../config.php')";
         $this->assertStringContainsString($requireconfig, $indexfile);
 
-        $course = "\$DB->get_record('course', array('id' => \$id), '*', MUST_EXIST)";
+        $course = "\$DB->get_record('course', ['id' => \$id], '*', MUST_EXIST)";
         $this->assertStringContainsString($course, $indexfile);
 
         $requirecourselogin = 'require_course_login($course)';
         $this->assertStringContainsString($requirecourselogin, $indexfile);
 
-        $seturl = "\$PAGE->set_url('/mod/demo/index.php', array('id' => \$id))";
+        $seturl = "\$PAGE->set_url('/mod/demo/index.php', ['id' => \$id])";
         $this->assertStringContainsString($seturl, $indexfile);
 
         $header = 'echo $OUTPUT->header()';
@@ -383,7 +383,7 @@ final class mod_test extends \advanced_testcase {
         $this->assertStringContainsString($getfileinfo, $libfile);
 
         $pluginfile = 'function demo_pluginfile('.
-            '$course, $cm, $context, $filearea, $args, $forcedownload, $options = array())';
+            '$course, $cm, $context, $filearea, $args, $forcedownload, $options = [])';
         $this->assertStringContainsString($pluginfile, $libfile);
     }
 

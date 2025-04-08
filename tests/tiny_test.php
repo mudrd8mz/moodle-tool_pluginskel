@@ -141,7 +141,7 @@ final class tiny_test extends \advanced_testcase {
      * @param array $settings
      * @return array
      */
-    protected function get_recipe(array $settings = []): array {
+    protected static function get_recipe(array $settings = []): array {
         $settings = array_merge([
             'options' => [],
             'buttons' => false,

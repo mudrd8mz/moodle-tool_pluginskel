@@ -107,7 +107,7 @@ final class privacy_test extends \advanced_testcase {
 
         $this->assertStringContainsString('Privacy API implementation for the Foo bar plugin.', $providerphp);
         $this->assertStringContainsString('class provider implements \core_privacy\local\metadata\null_provider {', $providerphp);
-        $this->assertStringContainsString('public static function get_reason() : string {', $providerphp);
+        $this->assertStringContainsString('public static function get_reason(): string {', $providerphp);
 
         $langfile = $files['lang/en/local_foobar.php'];
 
@@ -303,7 +303,7 @@ final class privacy_test extends \advanced_testcase {
             $providerphp
         );
         $this->assertStringContainsString(
-            'public static function get_metadata(collection $collection) : collection {',
+            'public static function get_metadata(collection $collection): collection {',
             $providerphp
         );
     }
@@ -447,7 +447,7 @@ final class privacy_test extends \advanced_testcase {
 
         $this->assertStringContainsString('use core_privacy\local\request\contextlist;', $providerphp);
         $this->assertStringContainsString(
-            'public static function get_contexts_for_userid(int $userid) : contextlist {',
+            'public static function get_contexts_for_userid(int $userid): contextlist {',
             $providerphp
         );
     }
