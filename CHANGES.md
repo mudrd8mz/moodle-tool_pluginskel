@@ -3,6 +3,8 @@
 * Fixed duplicate string generated in the Tiny editor plugins. Credit goes to
   @jboulen.
 * Fixed invalid file type (PHP) for Atto button JS modules. Credit goes to @jrchamp.
+* Fixed the component name in @module tag in the Tiny editor plugins. Credit goes to
+  @jboulen.
 
 ## 1.6.0 ##
 
