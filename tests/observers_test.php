@@ -91,7 +91,7 @@ final class observers_test extends \advanced_testcase {
         $moodleinternal = "defined('MOODLE_INTERNAL') || die()";
         $this->assertStringContainsString($moodleinternal, $eventsfile);
 
-        $observers = '$observers = array(';
+        $observers = '$observers = [';
         $this->assertStringContainsString($observers, $eventsfile);
 
         foreach ($recipe['observers'] as $obs) {
@@ -116,7 +116,7 @@ final class observers_test extends \advanced_testcase {
                 $observer .= "'internal' => ".$internal.",\s+";
             }
 
-            $observer .= '\),/';
+            $observer .= '\],/';
             $this->assertMatchesRegularExpression($observer, $eventsfile);
         }
     }
@@ -135,7 +135,7 @@ final class observers_test extends \advanced_testcase {
 
         $files = $manager->get_files_content();
         $this->assertArrayHasKey('classes/event_observer.php', $files);
-        $this->assertArrayHasKey('classes/another_event_observer.php', $files);
+        $this->assertArrayHasKey('classes/local_observerstest_another_event_observer.php', $files);
         $this->assertArrayHasKey('locallib.php', $files);
 
         $observerfile = $files['classes/event_observer.php'];
@@ -157,7 +157,7 @@ final class observers_test extends \advanced_testcase {
         $function = 'public static function something_happened($event)';
         $this->assertStringContainsString($function, $observerfile);
 
-        $secondobserverfile = $files['classes/another_event_observer.php'];
+        $secondobserverfile = $files['classes/local_observerstest_another_event_observer.php'];
         $this->assertStringNotContainsString($namespace, $secondobserverfile);
 
         $locallibfile = $files['locallib.php'];

@@ -1523,12 +1523,10 @@ class manager {
                 }
 
                 if ($isinsidenamespace !== false && (strpos($observername, $this->recipe['component']) !== false)) {
-                    $observerfilename = substr($observername, strlen($this->recipe['component'].'_'));
-                } else {
-                    $observerfilename = $observername;
+                    $observername = substr($observername, strlen($this->recipe['component'].'_'));
                 }
 
-                $observerfile = 'classes/'.$observerfilename.'.php';
+                $observerfile = 'classes/'.$observername.'.php';
 
                 if (empty($this->files[$observerfile])) {
                     $this->prepare_file_skeleton($observerfile, 'observer_file', 'classes_observer', $observerrecipe);
