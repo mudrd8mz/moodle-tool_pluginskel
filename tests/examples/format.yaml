@@ -88,17 +88,17 @@ cli_scripts:
 
 observers:
   - eventname: \core\event\something_happened
-    callback: \local_test\another\observer_one::something_happened
+    callback: \format_skeltest\another\observer_one::something_happened
     includefile: "/path/to/file/relative/to/moodle/dir/root"
     priority: 200
     internal: true
 
   - eventname: \core\event\something_else_happened
-    callback: local_test_locallib_function
+    callback: format_skeltest_locallib_function
     internal: false
 
   - eventname: \core\event\something_else_happened
-    callback: local_test_observer_two::do_something
+    callback: format_skeltest_observer_two::do_something
 
 events:
   - eventname: first_event

@@ -1522,11 +1522,13 @@ class manager {
                     list($observername, $callback) = explode('::', $observer['callback']);
                 }
 
-                if (strpos($observername, $this->recipe['component']) !== false) {
-                    $observername = substr($observername, strlen($this->recipe['component'].'_'));
+                if ($isinsidenamespace !== false && (strpos($observername, $this->recipe['component']) !== false)) {
+                    $observerfilename = substr($observername, strlen($this->recipe['component'].'_'));
+                } else {
+                    $observerfilename = $observername;
                 }
 
-                $observerfile = 'classes/'.$observername.'.php';
+                $observerfile = 'classes/'.$observerfilename.'.php';
 
                 if (empty($this->files[$observerfile])) {
                     $this->prepare_file_skeleton($observerfile, 'observer_file', 'classes_observer', $observerrecipe);
