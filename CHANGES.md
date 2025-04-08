@@ -2,6 +2,7 @@
   as in the generated skeletons.
 * Fixed duplicate string generated in the Tiny editor plugins. Credit goes to
   @jboulen.
+* Fixed invalid file type (PHP) for Atto button JS modules. Credit goes to @jrchamp.
 
 ## 1.6.0 ##
 
