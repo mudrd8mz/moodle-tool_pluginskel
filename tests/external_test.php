@@ -194,8 +194,8 @@ final class external_test extends \advanced_testcase {
      * @param string $result Expected output
      * @param array $yaml Input
      * @param int $indent Code indent
-     * @param string $warning Expected warning
-     * @param string $error Expected error
+     * @param string|null $warning Expected warning
+     * @param string|null $error Expected error
      */
     public function test_generate_external_description_item(string $result, array $yaml, int $indent = 0,
             string|null $warning = null, string|null $error = null): void {
