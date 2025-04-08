@@ -45,7 +45,7 @@ class restore_{{ component_name }}_block_structure_step extends restore_structur
      */
     protected function define_structure() {
 
-        $paths = array();
+        $paths = [];
 
         {{# block_features.backup_moodle2.restore_elements }}
         $paths[] = new restore_path_element('{{ .name }}', '{{ .path }}');

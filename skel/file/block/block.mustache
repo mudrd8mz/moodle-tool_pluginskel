@@ -61,8 +61,8 @@ class {{ component }} extends block_base {
         }
 
         $this->content = new stdClass();
-        $this->content->items = array();
-        $this->content->icons = array();
+        $this->content->items = [];
+        $this->content->icons = [];
         $this->content->footer = '';
 
         if (!empty($this->config->text)) {
@@ -118,10 +118,10 @@ class {{ component }} extends block_base {
      * @return string[] Array of pages and permissions.
      */
     public function applicable_formats() {
-        return array(
+        return [
             {{# block_features.applicable_formats }}
             '{{ .page }}' => {{ .allowed }},
             {{/ block_features.applicable_formats }}
-        );
+        ];
     }
 }
