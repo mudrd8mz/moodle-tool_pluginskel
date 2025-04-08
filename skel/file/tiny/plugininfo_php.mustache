@@ -92,6 +92,10 @@ class plugininfo extends plugin{{!
     /**
      * Allows to pass to pass options from the PHP to the JavaScript API of the plugin.
      *
+     * @param context $context
+     * @param array $options
+     * @param array $fpoptions
+     * @param ?\editor_tiny\editor $editor = null
      * @return array
      */
     public static function get_plugin_configuration_for_context(
