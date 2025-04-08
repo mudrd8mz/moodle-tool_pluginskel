@@ -67,7 +67,7 @@ class provider implements{{{ privacy._implementedinterfaces }}} {
      *
      * @return string
      */
-    public static function {{# privacy.uselegacypolyfill }}_{{/ privacy.uselegacypolyfill }}get_reason(){{^ privacy.uselegacypolyfill }} : string{{/ privacy.uselegacypolyfill }} {
+    public static function {{# privacy.uselegacypolyfill }}_{{/ privacy.uselegacypolyfill }}get_reason(){{^ privacy.uselegacypolyfill }}: string{{/ privacy.uselegacypolyfill }} {
         return 'privacy:metadata';
     }
 {{/ privacy.haspersonaldata }}
@@ -78,7 +78,7 @@ class provider implements{{{ privacy._implementedinterfaces }}} {
      * @param collection $collection Collection of items to add metadata to.
      * @return collection Collection with our added items.
      */
-    public static function {{# privacy.uselegacypolyfill }}_{{/ privacy.uselegacypolyfill }}get_metadata(collection $collection){{^ privacy.uselegacypolyfill }} : collection{{/ privacy.uselegacypolyfill }} {
+    public static function {{# privacy.uselegacypolyfill }}_{{/ privacy.uselegacypolyfill }}get_metadata(collection $collection){{^ privacy.uselegacypolyfill }}: collection{{/ privacy.uselegacypolyfill }} {
 
 {{# privacy._metadbfields }}
         $collection->add_database_table('{{ name }}', [
@@ -125,7 +125,7 @@ class provider implements{{{ privacy._implementedinterfaces }}} {
      * @param int $userid ID of the user.
      * @return contextlist List of contexts containing the user's personal data.
      */
-    public static function {{# privacy.uselegacypolyfill }}_{{/ privacy.uselegacypolyfill }}get_contexts_for_userid({{^ privacy.uselegacypolyfill }}int {{/ privacy.uselegacypolyfill }}$userid){{^ privacy.uselegacypolyfill }} : contextlist{{/ privacy.uselegacypolyfill }} {
+    public static function {{# privacy.uselegacypolyfill }}_{{/ privacy.uselegacypolyfill }}get_contexts_for_userid({{^ privacy.uselegacypolyfill }}int {{/ privacy.uselegacypolyfill }}$userid){{^ privacy.uselegacypolyfill }}: contextlist{{/ privacy.uselegacypolyfill }} {
 
         $contextlist = new contextlist();
 

@@ -39,18 +39,18 @@ require_once(__DIR__.'/lib.php');
 
 $id = required_param('id', PARAM_INT);
 
-$course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
 require_course_login($course);
 
 $coursecontext = context_course::instance($course->id);
 
-$event = \{{component_type}}_{{ component_name }}\event\course_module_instance_list_viewed::create(array(
-    'context' => $modulecontext
-));
+$event = \{{component_type}}_{{ component_name }}\event\course_module_instance_list_viewed::create([
+    'context' => $modulecontext,
+]);
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$PAGE->set_url('/mod/{{ component_name }}/index.php', array('id' => $id));
+$PAGE->set_url('/mod/{{ component_name }}/index.php', ['id' => $id]);
 $PAGE->set_title(format_string($course->fullname));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($coursecontext);
@@ -63,39 +63,39 @@ echo $OUTPUT->heading($modulenameplural);
 ${{ component_name }}s = get_all_instances_in_course('{{ component_name }}', $course);
 
 if (empty(${{ component_name }}s)) {
-    notice(get_string('no${{ component_name }}instances', '{{ component }}'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    notice(get_string('no${{ component_name }}instances', '{{ component }}'), new moodle_url('/course/view.php', ['id' => $course->id]));
 }
 
 $table = new html_table();
 $table->attributes['class'] = 'generaltable mod_index';
 
 if ($course->format == 'weeks') {
-    $table->head  = array(get_string('week'), get_string('name'));
-    $table->align = array('center', 'left');
+    $table->head  = [get_string('week'), get_string('name')];
+    $table->align = ['center', 'left'];
 } else if ($course->format == 'topics') {
-    $table->head  = array(get_string('topic'), get_string('name'));
-    $table->align = array('center', 'left', 'left', 'left');
+    $table->head  = [get_string('topic'), get_string('name')];
+    $table->align = ['center', 'left', 'left', 'left'];
 } else {
-    $table->head  = array(get_string('name'));
-    $table->align = array('left', 'left', 'left');
+    $table->head  = [get_string('name')];
+    $table->align = ['left', 'left', 'left'];
 }
 
 foreach (${{ component_name }}s as ${{ component_name }}) {
     if (!${{ component_name }}->visible) {
         $link = html_writer::link(
-            new moodle_url('/mod/{{ component_name }}/view.php', array('id' => ${{ component_name }}->coursemodule)),
+            new moodle_url('/mod/{{ component_name }}/view.php', ['id' => ${{ component_name }}->coursemodule]),
             format_string(${{ component_name }}->name, true),
-            array('class' => 'dimmed'));
+            ['class' => 'dimmed']);
     } else {
         $link = html_writer::link(
-            new moodle_url('/mod/{{ component_name }}/view.php', array('id' => ${{ component_name }}->coursemodule)),
+            new moodle_url('/mod/{{ component_name }}/view.php', ['id' => ${{ component_name }}->coursemodule]),
             format_string(${{ component_name }}->name, true));
     }
 
     if ($course->format == 'weeks' || $course->format == 'topics') {
-        $table->data[] = array(${{ component_name }}->section, $link);
+        $table->data[] = [${{ component_name }}->section, $link];
     } else {
-        $table->data[] = array($link);
+        $table->data[] = [$link];
     }
 }
 

@@ -83,12 +83,12 @@ class {{ self.classname }} extends external_api {
     }
 
     /**
-     * TODO describe what the function actually does.
+     * TO-DO describe what the function actually does.
      *
 {{# self.execute_phpdoc }}
 {{ . }}
 {{/ self.execute_phpdoc }}
-     * @return mixed TODO document
+     * @return mixed TO-DO document
      */
     public static function execute({{ self.execute_signature }}) {
 
@@ -106,14 +106,14 @@ class {{ self.classname }} extends external_api {
         {{/ self.has_execute_args }}
 
         // Set up and validate appropriate context.
-        // TODO Check and eventually replace system context with a different one as needed.
+        // TO-DO Check and eventually replace system context with a different one as needed.
         $context = \context_system::instance();
         self::validate_context($context);
 
         // Check capabilities.
         require_capability('{{ component_type }}/{{ component_name }}:example', $context);
 
-        // TODO Implement the function and return the expected value.
+        // TO-DO Implement the function and return the expected value.
     }
 
     /**

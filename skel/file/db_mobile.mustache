@@ -37,11 +37,15 @@
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
 
-$addons = array(
+$addons = [
     {{# mobile_addons }}
 
-    '{{ .name }}' => array({{# .addon_has_dependencies }}
-        'dependencies' => array({{# dependencies }}'{{ .name }}', {{/ dependencies }})
-    {{/ .addon_has_dependencies }}),
+    '{{ .name }}' => [{{# .addon_has_dependencies }}
+        'dependencies' => [
+            {{# dependencies }}
+            '{{ .name }}',
+            {{/ dependencies }}
+        ],
+    {{/ .addon_has_dependencies }}],
     {{/ mobile_addons }}
-);
+];

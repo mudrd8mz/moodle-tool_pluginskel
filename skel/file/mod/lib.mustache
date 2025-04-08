@@ -98,12 +98,12 @@ function {{ component_name }}_update_instance($moduleinstance, $mform = null) {
 function {{ component_name }}_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('{{ component_name }}', array('id' => $id));
+    $exists = $DB->get_record('{{ component_name }}', ['id' => $id]);
     if (!$exists) {
         return false;
     }
 
-    $DB->delete_records('{{ component_name }}', array('id' => $id));
+    $DB->delete_records('{{ component_name }}', ['id' => $id]);
 
     return true;
 }
@@ -203,13 +203,13 @@ function {{ component_name }}_print_recent_mod_activity($activity, $courseid, $d
 /**
  * Returns all other capabilities used in the module.
  *
- * For example, this could be array('moodle/site:accessallgroups') if the
+ * For example, this could be ['moodle/site:accessallgroups'] if the
  * module uses that capability.
  *
  * @return string[].
  */
 function {{ component_name }}_get_extra_capabilities() {
-    return array();
+    return [];
 }
 {{/ self.has_get_extra_capabilities }}
 {{!
@@ -232,7 +232,7 @@ function {{ component_name }}_get_extra_capabilities() {
 function {{ component_name }}_scale_used($moduleinstanceid, $scaleid) {
     global $DB;
 
-    if ($scaleid && $DB->record_exists('{{ component_name }}', array('id' => $moduleinstanceid, 'grade' => -$scaleid))) {
+    if ($scaleid && $DB->record_exists('{{ component_name }}', ['id' => $moduleinstanceid, 'grade' => -$scaleid])) {
         return true;
     } else {
         return false;
@@ -252,7 +252,7 @@ function {{ component_name }}_scale_used($moduleinstanceid, $scaleid) {
 function {{ component_name }}_scale_used_anywhere($scaleid) {
     global $DB;
 
-    if ($scaleid && $DB->record_exists('{{ component_name }}', array('grade' => -$scaleid))) {
+    if ($scaleid && $DB->record_exists('{{ component_name }}', ['grade' => -$scaleid])) {
         return true;
     } else {
         return false;
@@ -274,7 +274,7 @@ function {{ component_name }}_grade_item_update($moduleinstance, $reset=false) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
-    $item = array();
+    $item = [];
     $item['itemname'] = clean_param($moduleinstance->name, PARAM_NOTAGS);
     $item['gradetype'] = GRADE_TYPE_VALUE;
 
@@ -308,7 +308,7 @@ function {{ component_name }}_grade_item_delete($moduleinstance) {
     require_once($CFG->libdir.'/gradelib.php');
 
     return grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component_name }}',
-                        $moduleinstance->id, 0, null, array('deleted' => 1));
+                        $moduleinstance->id, 0, null, ['deleted' => 1]);
 }
 {{/ self.has_grade_item_delete }}
 {{# self.has_update_grades }}
@@ -326,7 +326,7 @@ function {{ component_name }}_update_grades($moduleinstance, $userid = 0) {
     require_once($CFG->libdir.'/gradelib.php');
 
     // Populate array of grade objects indexed by userid.
-    $grades = array();
+    $grades = [];
     grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component }}', $moduleinstance->id, 0, $grades);
 }
 {{/ self.has_update_grades }}
@@ -357,7 +357,7 @@ function {{ component_name }}_update_grades($moduleinstance, $userid = 0) {
  * @return string[].
  */
 function {{ component_name }}_get_file_areas($course, $cm, $context) {
-    return array();
+    return [];
 }
 {{/ self.has_get_file_areas }}
 {{# self.has_get_file_info }}
@@ -399,7 +399,7 @@ function {{ component_name }}_get_file_info($browser, $areas, $course, $cm, $con
  * @param bool $forcedownload Whether or not force download.
  * @param array $options Additional options affecting the file serving.
  */
-function {{ component_name }}_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = array()) {
+function {{ component_name }}_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = []) {
     global $DB, $CFG;
 
     if ($context->contextlevel != CONTEXT_MODULE) {

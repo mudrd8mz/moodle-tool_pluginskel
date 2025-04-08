@@ -44,11 +44,11 @@ ${{ self.component_name_first_character }} = optional_param('{{ self.component_n
 
 if ($id) {
     $cm = get_coursemodule_from_id('{{ component_name }}', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('{{ component_name }}', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('{{ component_name }}', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $moduleinstance = $DB->get_record('{{ component_name }}', array('id' => ${{ self.component_name_first_character }}), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('{{ component_name }}', ['id' => ${{ self.component_name_first_character }}], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $moduleinstance->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('{{ component_name }}', $moduleinstance->id, $course->id, false, MUST_EXIST);
 }
 
@@ -56,15 +56,15 @@ require_login($course, true, $cm);
 
 $modulecontext = context_module::instance($cm->id);
 
-$event = \{{component_type}}_{{ component_name }}\event\course_module_viewed::create(array(
+$event = \{{component_type}}_{{ component_name }}\event\course_module_viewed::create([
     'objectid' => $moduleinstance->id,
-    'context' => $modulecontext
-));
+    'context' => $modulecontext,
+]);
 $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('{{ component_name }}', $moduleinstance);
 $event->trigger();
 
-$PAGE->set_url('/mod/{{ component_name }}/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/{{ component_name }}/view.php', ['id' => $cm->id]);
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);

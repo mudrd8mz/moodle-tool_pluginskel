@@ -40,10 +40,10 @@
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
 
-$observers = array(
+$observers = [
     {{# observers }}
 
-    array(
+    [
         'eventname' => '{{{ .eventname }}}',
         'callback' => '{{{ .callback }}}',
         {{# .includefile }}
@@ -60,6 +60,6 @@ $observers = array(
         'internal' => false,
         {{/ internal }}
         {{/ .has_internal }}
-    ),
+    ],
     {{/ observers }}
-);
+];
