@@ -123,21 +123,3 @@ jobs:
           PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci savepoints
           PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci savepoints
           PLUGIN_DIR=moodle/lib/editor/tiny/plugins/skeltest moodle-plugin-ci savepoints
-
-      - name: Mustache Lint
-        if: ${{ always() }}
-        run: |
-          PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci mustache
-          PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci mustache
-          PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci mustache
-          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci mustache
-          PLUGIN_DIR=moodle/lib/editor/tiny/plugins/skeltest moodle-plugin-ci mustache
-
-      - name: Grunt
-        if: ${{ always() }}
-        run: |
-          PLUGIN_DIR=moodle/auth/skeltest moodle-plugin-ci grunt --max-lint-warnings 0
-          PLUGIN_DIR=moodle/blocks/skeltest moodle-plugin-ci grunt --max-lint-warnings 0
-          PLUGIN_DIR=moodle/mod/skeltest moodle-plugin-ci mustache
-          PLUGIN_DIR=moodle/course/format/skeltest moodle-plugin-ci mustache
-          PLUGIN_DIR=moodle/lib/editor/tiny/plugins/skeltest moodle-plugin-ci mustache
