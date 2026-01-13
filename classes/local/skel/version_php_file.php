@@ -37,6 +37,9 @@ class version_php_file extends php_internal_file {
 
     /** @var string[] Moodle versions - see https://moodledev.io/general/releases */
     protected static $moodleversions = [
+        '2025100601' => '5.1',
+        '2025041404' => '5.0',
+        '2024100708' => '4.5',
         '2022112800' => '4.1',
         '2022041900' => '4.0',
         '2021051700' => '3.11',
