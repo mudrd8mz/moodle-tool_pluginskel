@@ -56,8 +56,7 @@ use core_privacy\local\request\writer;
 {{/ use }}
 {{/ common/boilerplate_php }}
 class provider implements{{{ privacy._implementedinterfaces }}} {
-
-{{# privacy.uselegacypolyfill }}    use \core_privacy\local\legacy_polyfill;
+    {{# privacy.uselegacypolyfill }}    use \core_privacy\local\legacy_polyfill;
 
     // phpcs:disable PSR2.Methods.MethodDeclaration.Underscore{{/ privacy.uselegacypolyfill }}
 

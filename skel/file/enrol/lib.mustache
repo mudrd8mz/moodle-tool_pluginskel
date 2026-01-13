@@ -157,7 +157,7 @@ class {{ component }}_plugin extends enrol_plugin {
     public function edit_instance_validation($data, $files, $instance, $context) {
         // No errors by default.
         debugging('enrol_plugin::edit_instance_validation() is missing. This plugin has no validation!', DEBUG_DEVELOPER);
-        return array();
+        return [];
     }
 
     /**
