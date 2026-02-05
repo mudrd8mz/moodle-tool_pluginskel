@@ -72,7 +72,7 @@ class privacy_provider_file extends php_single_file {
         }
 
         array_walk($implementedinterfaces, function(&$line) {
-            $line = str_repeat(' ', 8).$line;
+            $line = str_repeat(' ', 4).$line;
         });
 
         $implementedinterfaces[0] = "\n".$implementedinterfaces[0];
