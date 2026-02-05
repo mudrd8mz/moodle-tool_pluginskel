@@ -39,12 +39,14 @@
 {{/ common/boilerplate_php }}
 
 // Get the cli options.
-[$options, $unrecognized] = cli_get_params([
-    'help' => false,
-],
-[
-    'h' => 'help',
-]);
+[$options, $unrecognized] = cli_get_params(
+    [
+        'help' => false,
+    ],
+    [
+        'h' => 'help',
+    ]
+);
 
 $help =
 "

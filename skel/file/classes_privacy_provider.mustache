@@ -203,8 +203,12 @@ class provider implements{{{ privacy._implementedinterfaces }}}{{# privacy.usele
         ${{ shortname }} = get_user_preferences('{{ name }}', null, $userid);
 
         if (${{ shortname }} !== null) {
-            writer::export_user_preference('{{ component }}', '{{ name }}', ${{ shortname }},
-                get_string('{{ stringid }}', '{{ component }}'));
+            writer::export_user_preference(
+                '{{ component }}',
+                '{{ name }}',
+                ${{ shortname }},
+                get_string('{{ stringid }}', '{{ component }}')
+            );
         }
 {{/ privacy._metauserpreferences }}
     }

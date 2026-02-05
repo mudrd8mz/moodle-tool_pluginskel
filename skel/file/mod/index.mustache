@@ -85,11 +85,13 @@ foreach (${{ component_name }}s as ${{ component_name }}) {
         $link = html_writer::link(
             new moodle_url('/mod/{{ component_name }}/view.php', ['id' => ${{ component_name }}->coursemodule]),
             format_string(${{ component_name }}->name, true),
-            ['class' => 'dimmed']);
+            ['class' => 'dimmed']
+        );
     } else {
         $link = html_writer::link(
             new moodle_url('/mod/{{ component_name }}/view.php', ['id' => ${{ component_name }}->coursemodule]),
-            format_string(${{ component_name }}->name, true));
+            format_string(${{ component_name }}->name, true)
+        );
     }
 
     if ($course->format == 'weeks' || $course->format == 'topics') {

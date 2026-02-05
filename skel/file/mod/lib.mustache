@@ -307,8 +307,16 @@ function {{ component_name }}_grade_item_delete($moduleinstance) {
     global $CFG;
     require_once($CFG->libdir . '/gradelib.php');
 
-    return grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component_name }}',
-                        $moduleinstance->id, 0, null, ['deleted' => 1]);
+    return grade_update(
+        '{{ component_root }}/{{ component_name }}',
+        $moduleinstance->course,
+        'mod',
+        '{{ component_name }}',
+        $moduleinstance->id,
+        0,
+        null,
+        ['deleted' => 1]
+    );
 }
 {{/ self.has_grade_item_delete }}
 {{# self.has_update_grades }}
