@@ -1,8 +1,9 @@
-## To be released ##
+## 1.8.0 ##
 
 * Added support for Moodle 4.5, 5.0, 5.1. Credit goes to @hribeir0.
 * Fixed output coding style - use short array syntax (square brackets). Credit goes to
   @hribeir0.
+* Improve the generated code to pass the current coding style (mostly PSR-12).
 
 ## 1.7.0 ##
 
