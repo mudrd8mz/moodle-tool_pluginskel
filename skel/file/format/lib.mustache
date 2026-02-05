@@ -41,7 +41,6 @@ require_once($CFG->dirroot . '/course/format/lib.php');
  * Defines the course format properties and behaviour.
  */
 class {{ component }} extends core_courseformat\base {
-
     {{# format_features.uses_sections }}
     /**
      * Returns true if this course format uses sections.
@@ -51,8 +50,8 @@ class {{ component }} extends core_courseformat\base {
     public function uses_sections(): bool {
         return true;
     }
-    {{/ format_features.uses_sections }}
 
+    {{/ format_features.uses_sections }}
     {{^ format_features.uses_indentation }}
     /**
      * Returns true if the format uses the legacy activity indentation.
@@ -62,8 +61,8 @@ class {{ component }} extends core_courseformat\base {
     public function uses_indentation(): bool {
         return false;
     }
-    {{/ format_features.uses_indentation }}
 
+    {{/ format_features.uses_indentation }}
     {{# format_features.uses_course_index }}
     /**
      * Returns true if the course format is compatible with the course index drawer.
@@ -73,8 +72,8 @@ class {{ component }} extends core_courseformat\base {
     public function uses_course_index(): bool {
         return true;
     }
-    {{/ format_features.uses_course_index }}
 
+    {{/ format_features.uses_course_index }}
     /**
      * Returns the information about the ajax support in the given source format.
      *

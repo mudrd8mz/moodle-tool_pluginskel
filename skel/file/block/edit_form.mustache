@@ -35,7 +35,6 @@
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/boilerplate_php }}
 class {{ component }}_edit_form extends block_edit_form {
-
     /**
      * Extends the configuration form for {{ component }}.
      *
@@ -47,6 +46,5 @@ class {{ component }}_edit_form extends block_edit_form {
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
         // Please keep in mind that all elements defined here must start with 'config_'.
-
     }
 }

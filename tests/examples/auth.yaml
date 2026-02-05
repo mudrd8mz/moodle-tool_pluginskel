@@ -99,6 +99,9 @@ observers:
     priority: 200
     internal: true
 
+  - eventname: \core\event\something_another_happened
+    callback: \auth_skeltest\another\observer_one::something_another_happened
+
   - eventname: \core\event\something_else_happened
     callback: auth_skeltest_locallib_function
     internal: false

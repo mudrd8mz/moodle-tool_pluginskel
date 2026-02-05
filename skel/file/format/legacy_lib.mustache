@@ -39,7 +39,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/course/format/lib.php');
 
 class {{ component }} extends format_base {
-
     {{# format_features.uses_sections }}
     /**
      * Returns true if this course format uses sections.
@@ -49,8 +48,8 @@ class {{ component }} extends format_base {
     public function uses_sections() {
         return true;
     }
-    {{/ format_features.uses_sections }}
 
+    {{/ format_features.uses_sections }}
     /**
      * Returns the information about the ajax support in the given source format.
      *

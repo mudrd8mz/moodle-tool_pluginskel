@@ -55,11 +55,12 @@ use core_privacy\local\request\writer;
 {{/ privacy.haspersonaldata }}
 {{/ use }}
 {{/ common/boilerplate_php }}
-class provider implements{{{ privacy._implementedinterfaces }}} {
-{{# privacy.uselegacypolyfill }}    use \core_privacy\local\legacy_polyfill;
+class provider implements{{{ privacy._implementedinterfaces }}}{{# privacy.uselegacypolyfill }} {
+    use \core_privacy\local\legacy_polyfill;
 
-    // phpcs:disable PSR2.Methods.MethodDeclaration.Underscore{{/ privacy.uselegacypolyfill }}
-
+    // phpcs:disable PSR2.Methods.MethodDeclaration.Underscore
+{{/ privacy.uselegacypolyfill }}{{^ privacy.uselegacypolyfill }} {
+{{/ privacy.uselegacypolyfill }}
 {{^ privacy.haspersonaldata }}
     /**
      * Returns stringid of a text explaining that this plugin stores no personal data.
