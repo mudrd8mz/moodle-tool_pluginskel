@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->libdir . '/setuplib.php');
 require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autoload.php');
-require_once(__DIR__.'/../locallib.php');
+require_once(__DIR__ . '/../locallib.php');
 
 /**
  * Auth test class.

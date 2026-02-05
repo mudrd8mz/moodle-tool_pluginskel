@@ -78,10 +78,10 @@ final class cli_scripts_test extends \advanced_testcase {
         $cliscript = "define('CLI_SCRIPT', true)";
         $this->assertStringContainsString($cliscript, $clifile);
 
-        $configphp = "require(__DIR__.'/../../../config.php')";
+        $configphp = "require(__DIR__ . '/../../../config.php')";
         $this->assertStringContainsString($configphp, $clifile);
 
-        $clilib = "require_once(\$CFG->libdir.'/clilib.php')";
+        $clilib = "require_once(\$CFG->libdir . '/clilib.php')";
         $this->assertStringContainsString($clilib, $clifile);
 
         $filename = 'cli/'.$recipe['cli_scripts'][1]['filename'].'.php';

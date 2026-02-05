@@ -35,9 +35,9 @@
 {{$ copyright }}{{ copyright }}{{/ copyright }}
 {{/ common/backup_php }}
 
-require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_stepslib.php');
+require_once($CFG->dirroot . '/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_stepslib.php');
 {{# self.has_settingslib }}
-require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_settingslib.php');
+require_once($CFG->dirroot . '/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_settingslib.php');
 {{/ self.has_settingslib }}
 
 /**
@@ -70,11 +70,11 @@ class backup_{{ component_name }}_activity_task extends backup_activity_task {
         $base = preg_quote($CFG->wwwroot, '/');
 
         // Link to the list of choices.
-        $search = "/(".$base."\/{{ component_root }}\/{{ component_name }}\/index.php\?id\=)([0-9]+)/";
+        $search = "/(" . $base . "\/{{ component_root }}\/{{ component_name }}\/index.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@{{ self.component_name_all_caps }}INDEX*$2@$', $content);
 
         // Link to choice view by moduleid.
-        $search = "/(".$base."\/{{ component_root }}\/{{ component_name }}\/view.php\?id\=)([0-9]+)/";
+        $search = "/(" . $base . "\/{{ component_root }}\/{{ component_name }}\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@{{ self.component_name_all_caps }}VIEWBYID*$2@$', $content);
 
         return $content;

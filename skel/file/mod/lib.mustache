@@ -272,7 +272,7 @@ function {{ component_name }}_scale_used_anywhere($scaleid) {
  */
 function {{ component_name }}_grade_item_update($moduleinstance, $reset=false) {
     global $CFG;
-    require_once($CFG->libdir.'/gradelib.php');
+    require_once($CFG->libdir . '/gradelib.php');
 
     $item = [];
     $item['itemname'] = clean_param($moduleinstance->name, PARAM_NOTAGS);
@@ -305,7 +305,7 @@ function {{ component_name }}_grade_item_update($moduleinstance, $reset=false) {
  */
 function {{ component_name }}_grade_item_delete($moduleinstance) {
     global $CFG;
-    require_once($CFG->libdir.'/gradelib.php');
+    require_once($CFG->libdir . '/gradelib.php');
 
     return grade_update('{{ component_root }}/{{ component_name }}', $moduleinstance->course, 'mod', '{{ component_name }}',
                         $moduleinstance->id, 0, null, ['deleted' => 1]);
@@ -323,7 +323,7 @@ function {{ component_name }}_grade_item_delete($moduleinstance) {
  */
 function {{ component_name }}_update_grades($moduleinstance, $userid = 0) {
     global $CFG, $DB;
-    require_once($CFG->libdir.'/gradelib.php');
+    require_once($CFG->libdir . '/gradelib.php');
 
     // Populate array of grade objects indexed by userid.
     $grades = [];

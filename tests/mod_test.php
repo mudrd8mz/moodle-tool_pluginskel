@@ -256,7 +256,7 @@ final class mod_test extends \advanced_testcase {
         $description = 'Prints an instance of mod_demo.';
         $this->assertStringContainsString($description, $viewfile);
 
-        $requireconfig = "require(__DIR__.'/../../config.php')";
+        $requireconfig = "require(__DIR__ . '/../../config.php')";
         $this->assertStringContainsString($requireconfig, $viewfile);
 
         $requirelogin = 'require_login($course, true, $cm)';
@@ -291,7 +291,7 @@ final class mod_test extends \advanced_testcase {
         $description = 'Display information about all the mod_demo modules in the requested course.';
         $this->assertStringContainsString($description, $indexfile);
 
-        $requireconfig = "require(__DIR__.'/../../config.php')";
+        $requireconfig = "require(__DIR__ . '/../../config.php')";
         $this->assertStringContainsString($requireconfig, $indexfile);
 
         $course = "\$DB->get_record('course', ['id' => \$id], '*', MUST_EXIST)";

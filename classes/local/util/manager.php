@@ -1635,7 +1635,7 @@ class manager {
         $data['self']['filename'] = $filename;
         $data['self']['relpath'] = $data['component_root'].'/'.$data['component_name'].'/'.$filename;
         $depth = substr_count($data['self']['relpath'], '/');
-        $data['self']['pathtoconfig'] = "__DIR__.'/".str_repeat('../', $depth - 1)."config.php'";
+        $data['self']['pathtoconfig'] = "__DIR__ . '/".str_repeat('../', $depth - 1)."config.php'";
         $data['component_type_is_'.$data['component_type']] = true;
 
         $skel->set_data($data);

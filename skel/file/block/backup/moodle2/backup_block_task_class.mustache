@@ -36,10 +36,10 @@
 {{/ common/backup_php }}
 
 {{# self.has_stepslib }}
-require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_stepslib.php');
+require_once($CFG->dirroot . '/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_stepslib.php');
 {{/ self.has_stepslib }}
 {{# self.has_settingslib }}
-require_once($CFG->dirroot.'/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_settingslib.php');
+require_once($CFG->dirroot . '/{{ component_root }}/{{ component_name }}/backup/moodle2/backup_{{ component_name }}_settingslib.php');
 {{/ self.has_settingslib }}
 
 /**

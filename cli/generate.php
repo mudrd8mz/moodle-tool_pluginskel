@@ -30,10 +30,10 @@ use Monolog\Handler\StreamHandler;
 
 define('CLI_SCRIPT', true);
 
-require(__DIR__.'/../../../../config.php');
-require_once($CFG->libdir.'/clilib.php');
-require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/vendor/autoload.php');
-require_once($CFG->dirroot.'/'.$CFG->admin.'/tool/pluginskel/locallib.php');
+require(__DIR__ . '/../../../../config.php');
+require_once($CFG->libdir . '/clilib.php');
+require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/vendor/autoload.php');
+require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/pluginskel/locallib.php');
 
 // Get cli options.
 [$options, $positional] = cli_get_params([

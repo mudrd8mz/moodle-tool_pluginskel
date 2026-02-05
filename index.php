@@ -35,10 +35,10 @@ if (!empty($_REQUEST['buttondownloadskel'])) {
 }
 // @codingStandardsIgnoreEnd
 
-require(__DIR__.'/../../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
-require_once($CFG->libdir.'/moodlelib.php');
-require_once(__DIR__.'/vendor/autoload.php');
+require(__DIR__ . '/../../../config.php');
+require_once($CFG->libdir . '/adminlib.php');
+require_once($CFG->libdir . '/moodlelib.php');
+require_once(__DIR__ . '/vendor/autoload.php');
 
 admin_externalpage_setup('tool_pluginskel');
 
