@@ -343,7 +343,7 @@ final class mod_test extends \advanced_testcase {
         $scaleusedanywhere = 'function demo_scale_used_anywhere($scaleid)';
         $this->assertStringContainsString($scaleusedanywhere, $libfile);
 
-        $gradeitemupdate = 'function demo_grade_item_update($moduleinstance, $reset=false)';
+        $gradeitemupdate = 'function demo_grade_item_update($moduleinstance, $reset = false)';
         $this->assertStringContainsString($gradeitemupdate, $libfile);
 
         $gradeitemdelete = 'function demo_grade_item_delete($moduleinstance)';
