@@ -423,7 +423,7 @@ final class external_test extends \advanced_testcase {
                         ],
                     ],
                 ],
-                'ident' => 0,
+                'indent' => 0,
                 'warning' => 'External multiple structure should not contain named sub-structures',
             ],
 
