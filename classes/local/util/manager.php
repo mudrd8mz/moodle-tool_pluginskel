@@ -1004,6 +1004,7 @@ class manager {
         }
 
         if (!empty($interfaces)) {
+            sort($interfaces);
             $this->files[$pluginfofile]->set_attribute('interfaces', implode(', ', $interfaces));
             $this->files[$pluginfofile]->set_attribute('defines_any_interfaces');
         }
