@@ -1,3 +1,9 @@
+## To be released ##
+
+* Added support for Moodle 4.5, 5.0, 5.1. Credit goes to @hribeir0.
+* Fixed output coding style - use short array syntax (square brackets). Credit goes to
+  @hribeir0.
+
 ## 1.7.0 ##
 
 * Massive fix of all the reported coding style violations in the plugin itself as well
