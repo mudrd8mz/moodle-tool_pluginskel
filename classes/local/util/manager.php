@@ -1820,7 +1820,12 @@ class manager {
         $plugintypes = core_component::get_plugin_types();
 
         if (empty($plugintypes[$type])) {
-            throw new exception('Unknown plugin type: '.$type);
+            if ($type === 'atto') {
+                // Removed in Moodle 5.0. Needs to be manually installed as an add-on.
+                $plugintypes['atto'] = $CFG->dirroot . '/lib/editor/atto/plugins';
+            } else {
+                throw new exception('Unknown plugin type: '.$type);
+            }
         }
 
         $root = substr($plugintypes[$type], strlen($CFG->dirroot));
