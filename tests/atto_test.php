@@ -171,7 +171,7 @@ final class atto_test extends \advanced_testcase {
         $this->assertStringContainsString($stringsforjs, $libfile);
 
         $id = $recipe['atto_features']['strings_for_js'][0]['id'];
-        $strings = '/\$PAGE->requires_strings_for_js\(array\(\s+\''.$id.'\',\s+\)\)/';
+        $strings = '/\$PAGE->requires_strings_for_js\(\[\s+\''.$id.'\',\s+\]\)/';
         $this->assertMatchesRegularExpression($strings, $libfile);
 
         $paramsforjs = 'function '.$recipe['component'].'_params_for_js($elementid, $options, $foptions)';
@@ -179,7 +179,7 @@ final class atto_test extends \advanced_testcase {
 
         $paramname = $recipe['atto_features']['params_for_js'][0]['name'];
         $value = $recipe['atto_features']['params_for_js'][0]['value'];
-        $params = '/return array\(\s+\''.$paramname.'\' => \''.$value.'\',\s+\);/';
+        $params = '/return \[\s+\''.$paramname.'\' => \''.$value.'\',\s+\];/';
         $this->assertMatchesRegularExpression($params, $libfile);
     }
 

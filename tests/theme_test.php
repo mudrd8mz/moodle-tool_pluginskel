@@ -91,14 +91,14 @@ final class theme_test extends \advanced_testcase {
         $this->assertStringContainsString($doctype, $configfile);
 
         $basetheme = $recipe['theme_features']['parents'][0]['base_theme'];
-        $parents = '/\$THEME->parents = array\(\s+\''.$basetheme.'\',\s+\)/';
+        $parents = '/\$THEME->parents = \[\s+\''.$basetheme.'\',\s+\]/';
         $this->assertMatchesRegularExpression($parents, $configfile);
 
         $stylesheetname = $recipe['theme_features']['stylesheets'][0]['name'];
-        $stylesheets = '/\$THEME->sheets = array\(\s*\''.$stylesheetname.'\',\s*\);/';
+        $stylesheets = '/\$THEME->sheets = \[\s*\''.$stylesheetname.'\',\s*\];/';
         $this->assertMatchesRegularExpression($stylesheets, $configfile);
 
-        $layouts = '$THEME->layouts = array(';
+        $layouts = '$THEME->layouts = [';
         $this->assertStringContainsString($layouts, $configfile);
     }
 
