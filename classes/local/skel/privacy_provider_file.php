@@ -132,7 +132,7 @@ class privacy_provider_file extends php_single_file {
                     $subsystem = substr($subsystem, 5);
                 }
 
-                list($type, $name) = \core_component::normalize_component($subsystem);
+                [$type, $name] = \core_component::normalize_component($subsystem);
 
                 if ($type !== 'core') {
                     throw new \coding_exception('Unknown core subsystem: '.$input);
